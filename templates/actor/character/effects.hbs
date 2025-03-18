@@ -1,0 +1,24 @@
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="effects">
+    <h2>Conditions</h2>
+    <ul class="conditions">
+    {{#each conditions}}
+      <li>
+        <label>
+        <input type="checkbox" {{#if active}}checked{{/if}}/>
+        <img src="{{img}}" class="icon-img" />
+        <span>{{ name }}</span>
+        </label>
+      </li>
+    {{/each}}
+    </ul>
+    <h2>Active Effects <button class="inline-control icon fa-regular fa-square-plus" data-action="addEffect"></button></h2>
+    <ul class="conditions effects">
+    {{#each effects}}
+      <li data-effect-id="{{ id }}">
+        <span>{{ name }} {{ source }}</span>
+        <button class="inline-control icon fa-regular fa-pen-to-square" data-action="editEffect"></button>
+        <button class="inline-control icon fa-regular fa-trash" data-action="removeEffect"></button>
+      </li>
+    {{/each}}
+    </ul>
+</section>
