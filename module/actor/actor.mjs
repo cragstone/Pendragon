@@ -406,6 +406,7 @@ export class PendragonActor extends Actor {
         //Get horse damage from an equipped horse,
         systemData.horseDam = i.system.damage;
         systemData.horseChgDam = i.system.chargeDmg;
+        this.addStatus(PendragonStatusEffects.MOUNTED);
       }
     }
     //Calculate current HP then check for Near Death
@@ -658,6 +659,44 @@ export class PendragonActor extends Actor {
     return actor;
   }
 
+  //get the current horse, if any
+  currentHorse() {
+    const currentHorse = this.getFlag("Pendragon", "currentHorse");
+    if (currentHorse) {
+      return this.items.find((i) => i.id === currentHorse);
+    }
+    return null;
+  }
+
+  //get the current weapon, if any
+  currentWeapon() {
+    const currentWeapon = this.getFlag("Pendragon", "currentWeapon");
+    if (currentWeapon) {
+      return this.items.find((i) => i.id === currentWeapon);
+    }
+    return null;
+  }
+
+  isMounted() {
+    return this.statuses.has(PendragonStatusEffects.MOUNTED);
+  }
+
+  async mountCurrentHorse() {
+    if (this.isMounted()) return;
+    const horse = this.currentHorse();
+    if (horse) {
+      await horse.update({ "system.equipped": true });
+    }
+  }
+
+  async dismountCurrentHorse() {
+    if (!this.isMounted()) return;
+    const horse = this.currentHorse();
+    if (horse) {
+      await horse.update({ "system.equipped": false });
+    }
+  }
+
   async addStatus(statusId) {
     // if we already have the status, nothing to do
     if (this.statuses.has(statusId)) return;
@@ -727,6 +766,15 @@ export class PendragonActor extends Actor {
     }
   }
 
+  getSkillTotal(pid) {
+    const skill = this.items.find((citm) => citm.flags?.Pendragon?.pidFlag?.id === pid);
+    if (skill && skill.type == "skill") {
+      return skill.system.total;
+    }
+  }
+  getItemByPid(pid) {
+    return this.items.find((citm) => citm.flags?.Pendragon?.pidFlag?.id === pid);
+  }
   //Used for Rolling NPCs when token dropped
   get hasRollableCharacteristics() {
     for (const [, value] of Object.entries(this.system.stats)) {
