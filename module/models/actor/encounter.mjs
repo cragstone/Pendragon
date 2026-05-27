@@ -29,11 +29,13 @@ export class EncounterData extends foundry.abstract.TypeDataModel {
 
   static migrateData(source) {
     // we are only storing UUIDs after migration
-    source.npcs = source.npcs.map((m) => {
-      if (foundry.utils.getType(m) !== "Object") return m;
-      if (m.uuid) return m.uuid;
-      return m;
-    });
+    if (source.npcs) {
+      source.npcs = source.npcs.map((m) => {
+        if (foundry.utils.getType(m) !== "Object") return m;
+        if (m.uuid) return m.uuid;
+        return m;
+      });
+    }
     return source;
   }
 
@@ -41,16 +43,23 @@ export class EncounterData extends foundry.abstract.TypeDataModel {
     // Batch compendium lookups when retrieving members.
     const collections = new Map();
     const members = new Map();
+    const worldMembers = [];
 
     for (const uuid of this.npcs) {
       const { collection, id } = foundry.utils.parseUuid(uuid);
-      let ids = collections.get(collection);
-      if (!ids) {
-        ids = [];
-        collections.set(collection, ids);
+      if (
+        collection instanceof foundry.documents.collections.CompendiumCollection
+      ) {
+        let ids = collections.get(collection);
+        if (!ids) {
+          ids = [];
+          collections.set(collection, ids);
+        }
+        ids.push(id);
+        members.set(id, collection);
+      } else {
+        worldMembers.push({ actor: await fromUuid(uuid) });
       }
-      ids.push(id);
-      members.set(id, collection);
     }
 
     for (const [collection, ids] of collections.entries()) {
@@ -61,13 +70,33 @@ export class EncounterData extends foundry.abstract.TypeDataModel {
       }
     }
 
-    return Array.from(
+    const actors = Array.from(
       members
         .entries()
         .map(([id, collection]) => {
-          return { actor: collection.get(id) };
+          if (
+            collection instanceof
+            foundry.documents.collections.CompendiumCollection
+          ) {
+            return { actor: collection.get(id) };
+          }
         })
         .filter((d) => d.actor),
     );
+    return actors.concat(worldMembers);
+  }
+
+  async addMember(actor) {
+    const membersCollection = this.toObject().npcs;
+    membersCollection.push(actor.uuid);
+    return this.parent.update({ "system.npcs": membersCollection });
+  }
+
+  async removeMember(actor) {
+    const membersCollection = this.toObject().npcs;
+    let actorId = actor;
+    if (actor instanceof Actor) actorId = actor.uuid;
+    membersCollection.findSplice((u) => u == actorId);
+    return this.parent.update({ "system.npcs": membersCollection });
   }
 }

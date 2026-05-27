@@ -7,7 +7,7 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
 ) {
   constructor(options = {}) {
     super(options);
-    this._dragDrop = this._createDragDropHandlers();
+    this.#dragDrop = this._createDragDropHandlers();
   }
 
   static DEFAULT_OPTIONS = {
@@ -212,16 +212,7 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
       event.preventDefault();
       event.stopImmediatePropagation();
       const itemId = target.closest(".partic-cell").dataset.property;
-      const npcsIndex = this.actor.system.npcs.findIndex(
-        (i) => itemId && i.uuid === itemId,
-      );
-      if (npcsIndex > -1) {
-        const npcs = this.actor.system.npcs
-          ? foundry.utils.duplicate(this.actor.system.npcs)
-          : [];
-        npcs.splice(npcsIndex, 1);
-        await this.actor.update({ "system.npcs": npcs });
-      }
+      this.actor.system.npcs.removeMember(itemId);
     }
   }
 
@@ -410,10 +401,10 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
 
   //Returns an array of DragDrop instances
   get dragDrop() {
-    return this._dragDrop;
+    return this.#dragDrop;
   }
 
-  _dragDrop;
+  #dragDrop;
 
   //Create drag-and-drop workflow handlers for this Application
   _createDragDropHandlers() {
@@ -457,11 +448,7 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
         ui.notifications.warn(game.i18n.localize("PEN.dupNPC"));
         return;
       }
-      npcs.push({
-        uuid: newActor.uuid,
-        pid: newActor.flags.Pendragon.pidFlag.id,
-      });
-      await this.actor.update({ "system.npcs": npcs });
+      this.actor.system.addMember(newActor);
     } else {
       ui.notifications.warn(game.i18n.format("PEN.cantDropActor"));
       return;
