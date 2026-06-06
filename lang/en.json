@@ -1120,7 +1120,7 @@
       "Permission": {
         "Always": "Always",
         "Document": "See Document",
-        "GM": "Keeper",
+        "GM": "Gamsemaster",
         "SeeTile": "See Tile"
       },
       "PlaySound": {

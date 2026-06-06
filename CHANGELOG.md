@@ -1,8 +1,9 @@
 # CHANGELOG
 
 ## 14.1
-- Moved to Foundry V14 and Data Models
+- Moved to Foundry V14 and Data Models (thanks to JohnnyB)
 - PLEASE BACK UP YOUR WORLDS BEFORE MIGRATING
+- CCI updated for V14 (thanks to James B)
 
 
 ## 13.64
