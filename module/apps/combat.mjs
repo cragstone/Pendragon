@@ -45,9 +45,7 @@ export class PENCombat {
   //Natural Healing
   //
   static async naturalHealing(event) {
-    let confirm = await PENUtilities.confirmation(
-      game.i18n.localize("PEN.naturalHeal"),
-    );
+    let confirm = await PENUtilities.confirmation(game.i18n.localize("PEN.naturalHeal"));
     if (!confirm) {
       return;
     }
@@ -166,9 +164,7 @@ export class PENCombat {
         createNew = true;
         break;
       case "cold":
-        let coldItem = this.actor.items.filter(
-          (itm) => itm.type === "wound" && itm.system.source === "cold",
-        )[0];
+        let coldItem = this.actor.items.filter((itm) => itm.type === "wound" && itm.system.source === "cold")[0];
         if (!coldItem) {
           createNew = true;
           created = true;
@@ -193,9 +189,7 @@ export class PENCombat {
         break;
       case "fire":
       case "suffocate":
-        let wound = this.actor.items.filter(
-          (itm) => itm.type === "wound" && itm.system.source === damType,
-        )[0];
+        let wound = this.actor.items.filter((itm) => itm.type === "wound" && itm.system.source === damType)[0];
         if (!wound) {
           createNew = true;
           created = true;
@@ -209,15 +203,12 @@ export class PENCombat {
         break;
       case "poison":
         await this.actor.update({
-          "system.stats.con.poison":
-            this.actor.system.stats.con.poison - damAmount,
+          "system.stats.con.poison": this.actor.system.stats.con.poison - damAmount,
         });
         await actor.addStatus(PendragonStatusEffects.DEBILITATED);
         break;
       default:
-        ui.notifications.warn(
-          damType + ": " + game.i18n.localize("PEN.noDamType"),
-        );
+        ui.notifications.warn(damType + ": " + game.i18n.localize("PEN.noDamType"));
         return;
     }
 

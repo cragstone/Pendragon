@@ -2,9 +2,7 @@ import { PIDEditor } from "../../pid/pid-editor.mjs";
 import { PENactorItemDrop } from "../actor-itemDrop.mjs";
 const { api, sheets } = foundry.applications;
 
-export class PendragonPartySheet extends api.HandlebarsApplicationMixin(
-  sheets.ActorSheetV2,
-) {
+export class PendragonPartySheet extends api.HandlebarsApplicationMixin(sheets.ActorSheetV2) {
   constructor(options = {}) {
     super(options);
     this.#dragDrop = this._createDragDropHandlers();
@@ -83,11 +81,8 @@ export class PendragonPartySheet extends api.HandlebarsApplicationMixin(
         });
       } else {
         let hpLabel = member.system.hp.value + "/" + member.system.hp.max;
-        let hpPerc =
-          Number((100 * member.system.hp.value) / member.system.hp.max) + "%";
-        let bigScores = await member.items.filter((i) =>
-          ["skill", "passion", "trait"].includes(i.type),
-        );
+        let hpPerc = Number((100 * member.system.hp.value) / member.system.hp.max) + "%";
+        let bigScores = await member.items.filter((i) => ["skill", "passion", "trait"].includes(i.type));
 
         let tempList = [];
         for (let bScore of bigScores) {
@@ -167,19 +162,13 @@ export class PendragonPartySheet extends api.HandlebarsApplicationMixin(
   //Activate event listeners using the prepared sheet HTML
   _onRender(context, _options) {
     this.#dragDrop.forEach((d) => d.bind(this.element));
-    this.element
-      .querySelectorAll(".item-edit")
-      .forEach((n) => n.addEventListener("click", this.#viewItem.bind(this)));
+    this.element.querySelectorAll(".item-edit").forEach((n) => n.addEventListener("click", this.#viewItem.bind(this)));
     this.element
       .querySelectorAll(".viewFromUuid")
-      .forEach((n) =>
-        n.addEventListener("click", this.#viewFromUuid.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("click", this.#viewFromUuid.bind(this)));
     this.element
       .querySelectorAll(".deleteMember")
-      .forEach((n) =>
-        n.addEventListener("dblclick", this.#deleteMember.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("dblclick", this.#deleteMember.bind(this)));
   }
 
   async #viewItem(event) {
@@ -212,10 +201,7 @@ export class PendragonPartySheet extends api.HandlebarsApplicationMixin(
 
   // Change default on Drop Item Create routine for requirements (single items and folder drop)-----------------------------------------------------------------
   async _onDropItemCreate(itemData) {
-    const newItemData = await PENactorItemDrop._PENonDropItemCreate(
-      this.actor,
-      itemData,
-    );
+    const newItemData = await PENactorItemDrop._PENonDropItemCreate(this.actor, itemData);
     return this.actor.createEmbeddedDocuments("Item", newItemData);
   }
 
@@ -266,8 +252,7 @@ export class PendragonPartySheet extends api.HandlebarsApplicationMixin(
 
   //Callback actions which occur when a dragged element is dropped on a target.
   async _onDrop(event) {
-    const data =
-      foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     const actor = this.actor;
     const allowed = Hooks.call("dropActorSheetData", actor, this, data);
     if (allowed === false) return;

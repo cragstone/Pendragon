@@ -14,15 +14,8 @@ import { migrateWorld } from "./setup/migrations.mjs";
 import { PendragonCombatTracker } from "./apps/combat-tracker.mjs";
 import { PendragonStatusEffects } from "./apps/status-effects.mjs";
 import { PIDEditor } from "./pid/pid-editor.mjs";
+import { CharacterData, NpcData, FollowerData, PartyData, EncounterData, BattleData } from "./models/actor/index.mjs";
 import {
-  CharacterData,
-  NpcData,
-  FollowerData,
-  PartyData,
-  EncounterData,
-  BattleData,
-} from "./models/actor/index.mjs";
-import { 
   WoundData,
   GearData,
   SkillData,
@@ -74,18 +67,10 @@ Hooks.once("init", async function () {
     MapPinToggle: PENClickableEvents.MapPinToggle,
     openDocument: PENClickableEvents.openDocument,
     toggleTileJournalPages: PENClickableEvents.toggleTileJournalPages,
-    toScene: PENClickableEvents.toScene
+    toScene: PENClickableEvents.toScene,
   };
   //Add skill categories
-  game.Pendragon.skillCategories = [
-    "combat",
-    "courtly",
-    "minsterly",
-    "knightly",
-    "nonknightly",
-    "ladies",
-    "woodcraft",
-  ];
+  game.Pendragon.skillCategories = ["combat", "courtly", "minsterly", "knightly", "nonknightly", "ladies", "woodcraft"];
 
   // Add custom constants for configuration.
   CONFIG.PENDRAGON = PENDRAGON;
@@ -104,19 +89,19 @@ Hooks.once("init", async function () {
   // item data models
   CONFIG.Item.dataModels.wound = WoundData;
   CONFIG.Item.dataModels.gear = GearData;
-  CONFIG.Item.dataModels.skill = SkillData;  
+  CONFIG.Item.dataModels.skill = SkillData;
   CONFIG.Item.dataModels.gear = GearData;
-  CONFIG.Item.dataModels.trait = TraitData;  
+  CONFIG.Item.dataModels.trait = TraitData;
   CONFIG.Item.dataModels.history = HistoryData;
   CONFIG.Item.dataModels.passion = PassionData;
   CONFIG.Item.dataModels.horse = HorseData;
-  CONFIG.Item.dataModels.squire = SquireData;  
-  CONFIG.Item.dataModels.armour = ArmourData;  
+  CONFIG.Item.dataModels.squire = SquireData;
+  CONFIG.Item.dataModels.armour = ArmourData;
   CONFIG.Item.dataModels.weapon = WeaponData;
-  CONFIG.Item.dataModels.family = FamilyData; 
-  CONFIG.Item.dataModels.culture = CultureData;  
+  CONFIG.Item.dataModels.family = FamilyData;
+  CONFIG.Item.dataModels.culture = CultureData;
   CONFIG.Item.dataModels.religion = ReligionData;
-  CONFIG.Item.dataModels.class = ClassData; 
+  CONFIG.Item.dataModels.class = ClassData;
   CONFIG.Item.dataModels.homeland = HomelandData;
   CONFIG.Item.dataModels.ideal = IdealData;
   CONFIG.Item.dataModels.relationship = RelationshipData;
@@ -162,29 +147,17 @@ Hooks.on("renderSettingsConfig", (app, html, options) => {
   systemTab
     .find("input[name=Pendragon\\.autoXP]")
     .closest("div.form-group")
-    .before(
-      '<h3 class="setting-header">' +
-        game.i18n.localize("PEN.Settings.xpCheck") +
-        "</h3>",
-    );
+    .before('<h3 class="setting-header">' + game.i18n.localize("PEN.Settings.xpCheck") + "</h3>");
 
   systemTab
     .find("input[name=Pendragon\\.switchShift]")
     .closest("div.form-group")
-    .before(
-      '<h3 class="setting-header">' +
-        game.i18n.localize("PEN.Settings.diceRolls") +
-        "</h3>",
-    );
+    .before('<h3 class="setting-header">' + game.i18n.localize("PEN.Settings.diceRolls") + "</h3>");
 
   systemTab
     .find("input[name=Pendragon\\.tokenVision]")
     .closest("div.form-group")
-    .before(
-      '<h3 class="setting-header">' +
-        game.i18n.localize("PEN.Settings.other") +
-        "</h3>",
-    );
+    .before('<h3 class="setting-header">' + game.i18n.localize("PEN.Settings.other") + "</h3>");
 });
 
 Hooks.on("renderRegionConfig", RenderRegionConfig);
@@ -196,9 +169,7 @@ Hooks.on("createToken", createToken);
 PendragonHooks.listen();
 
 // Add PID to roll tables (for v13)
-Hooks.on("renderRollTableSheet", (application, element) =>
-  PIDEditor.addPIDSheetHeaderButton(application, element),
-);
+Hooks.on("renderRollTableSheet", (application, element) => PIDEditor.addPIDSheetHeaderButton(application, element));
 
 // Customize combat tracker
 Hooks.on("renderCombatTracker", async (combatTracker, html, combatData) =>
@@ -239,13 +210,8 @@ Hooks.once("ready", async function () {
 
   if (!game.user.isGM) return;
   // Determine if a system update has occured
-  const currentVersion = game.settings.get(
-    "Pendragon",
-    "systemMigrationVersion",
-  );
-  const needsMigration =
-    !currentVersion ||
-    foundry.utils.isNewerVersion(game.system.version, currentVersion);
+  const currentVersion = game.settings.get("Pendragon", "systemMigrationVersion");
+  const needsMigration = !currentVersion || foundry.utils.isNewerVersion(game.system.version, currentVersion);
   if (needsMigration) {
     migrateWorld();
   }
@@ -259,18 +225,14 @@ async function createItemMacro(data, slot) {
     case "Item":
       // First, determine if this is a valid owned item.
       if (!data.uuid.includes("Actor.") && !data.uuid.includes("Token.")) {
-        return ui.notifications.warn(
-          game.i18n.localize("PEN.noMacroItemOwner"),
-        );
+        return ui.notifications.warn(game.i18n.localize("PEN.noMacroItemOwner"));
       }
       // If it is, retrieve it based on the uuid.
       const item = await Item.fromDropData(data);
 
       // Create the macro command using the uuid.
       command = `game.Pendragon.rollItemMacro("${data.uuid}");`;
-      macro = game.macros.find(
-        (m) => m.name === item.name && m.command === command,
-      );
+      macro = game.macros.find((m) => m.name === item.name && m.command === command);
       if (!macro) {
         macro = await Macro.create({
           name: item.name,
@@ -288,9 +250,7 @@ async function createItemMacro(data, slot) {
     case "JournalEntryPage":
       command = `await Hotbar.toggleDocumentSheet("${data.uuid}");`;
       const journal = await fromUuid(data.uuid);
-      macro = game.macros.find(
-        (m) => m.name === journal.name && m.command === command,
-      );
+      macro = game.macros.find((m) => m.name === journal.name && m.command === command);
       if (!macro) {
         macro = await Macro.create({
           name: journal.name,
@@ -305,9 +265,7 @@ async function createItemMacro(data, slot) {
 
     case "Macro":
       let tempMacro = await fromUuid(data.uuid);
-      macro = game.macros.find(
-        (m) => m.name === tempMacro.name && m.command === command,
-      );
+      macro = game.macros.find((m) => m.name === tempMacro.name && m.command === command);
       if (!macro) {
         macro = await Macro.create({
           name: tempMacro.name,
@@ -338,9 +296,7 @@ function rollItemMacro(itemUuid) {
     // Determine if the item loaded and if it's an owned item.
     if (!item || !item.parent) {
       const itemName = item?.name ?? itemUuid;
-      return ui.notifications.warn(
-        game.i18n.format("PEN.noMacroItemFound", { itemName }),
-      );
+      return ui.notifications.warn(game.i18n.format("PEN.noMacroItemFound", { itemName }));
     }
 
     // Trigger the item roll

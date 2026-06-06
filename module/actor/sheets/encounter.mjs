@@ -2,9 +2,7 @@ const { api, sheets } = foundry.applications;
 import { PIDEditor } from "../../pid/pid-editor.mjs";
 import { PendragonActor } from "../actor.mjs";
 
-export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
-  sheets.ActorSheetV2,
-) {
+export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(sheets.ActorSheetV2) {
   constructor(options = {}) {
     super(options);
     this.#dragDrop = this._createDragDropHandlers();
@@ -77,26 +75,24 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
       context.showHPVal = true;
     }
 
-    context.enrichedDescription =
-      await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-        this.actor.system.description,
-        {
-          async: true,
-          secrets: this.document.isOwner,
-          rollData: this.actor.getRollData(),
-          relativeTo: this.actor,
-        },
-      );
-    context.enrichedNotes =
-      await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-        this.actor.system.notes,
-        {
-          async: true,
-          secrets: this.document.isOwner,
-          rollData: this.actor.getRollData(),
-          relativeTo: this.actor,
-        },
-      );
+    context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+      this.actor.system.description,
+      {
+        async: true,
+        secrets: this.document.isOwner,
+        rollData: this.actor.getRollData(),
+        relativeTo: this.actor,
+      },
+    );
+    context.enrichedNotes = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+      this.actor.system.notes,
+      {
+        async: true,
+        secrets: this.document.isOwner,
+        rollData: this.actor.getRollData(),
+        relativeTo: this.actor,
+      },
+    );
 
     let npcs = [];
     //for (let npcPid of this.actor.system.npcs) {
@@ -156,10 +152,7 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
     const frame = await super._renderFrame(options);
     //define button
     const sheetPID = this.actor.flags?.Pendragon?.pidFlag;
-    const noId =
-      typeof sheetPID === "undefined" ||
-      typeof sheetPID.id === "undefined" ||
-      sheetPID.id === "";
+    const noId = typeof sheetPID === "undefined" || typeof sheetPID.id === "undefined" || sheetPID.id === "";
     //add button
     const label = game.i18n.localize("PEN.PIDFlag.id");
     const pidEditor = `<button type="button" class="header-control fa-solid fa-fingerprint icon ${noId ? "edit-pid-warning" : "edit-pid-exisiting"}"
@@ -237,7 +230,7 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
     const itemId = target.closest(".partic-cell").dataset.property;
     let encActor = await fromUuid(itemId);
     //const pid = target.closest(".partic-cell").dataset.pid;
-    let pid = encActor.flags.Pendragon?.pidFlag?.id
+    let pid = encActor.flags.Pendragon?.pidFlag?.id;
     let count = target.dataset.count;
     //Check Scene is present
     if (!canvas.scene) {
@@ -251,19 +244,15 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
     let actor = (await game.system.api.pid.fromPIDBest({ pid: pid }))[0];
     if (!actor) {
       //ui.notifications.error(game.i18n.format('PEN.actorNotFound',{ type: itemId }));
-      ui.notifications.error(
-        game.i18n.format("PEN.actorNotFound", { type: pid }),
-      );
+      ui.notifications.error(game.i18n.format("PEN.actorNotFound", { type: pid }));
       return;
     }
 
     // Check actor exists in the game world and if not create it
     let tempActor = await game.actors.filter(
       (actr) =>
-        actr.flags?.Pendragon?.pidFlag?.id ===
-          actor.flags?.Pendragon?.pidFlag?.id &&
-        actr.flags?.Pendragon?.pidFlag?.priority ===
-          actor.flags?.Pendragon?.pidFlag?.priority,
+        actr.flags?.Pendragon?.pidFlag?.id === actor.flags?.Pendragon?.pidFlag?.id &&
+        actr.flags?.Pendragon?.pidFlag?.priority === actor.flags?.Pendragon?.pidFlag?.priority,
     )[0];
     if (tempActor) {
       actor = tempActor;
@@ -273,13 +262,10 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
     }
 
     let newTokens = [];
-    let current = (
-      await game.canvas.scene.tokens.filter((t) => t.actorId === actor.id)
-    ).length;
+    let current = (await game.canvas.scene.tokens.filter((t) => t.actorId === actor.id)).length;
     let placeY = 800;
     for (let yc = 800; yc <= 2000; yc = yc + 200) {
-      let occupied = (await game.canvas.scene.tokens.filter((t) => t.y === yc))
-        .length;
+      let occupied = (await game.canvas.scene.tokens.filter((t) => t.y === yc)).length;
       if (occupied === 0) {
         placeY = yc;
         yc = 3000;
@@ -360,8 +346,7 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
 
   //Callback actions which occur when a dragged element is dropped on a target.
   async _onDrop(event) {
-    const data =
-      foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     const actor = this.actor;
     const allowed = Hooks.call("dropActorSheetData", actor, this, data);
     if (allowed === false) return;
@@ -431,15 +416,11 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
     }
     let npid = newActor.flags.Pendragon?.pidFlag?.id;
     if (!npid) {
-      ui.notifications.warn(
-        game.i18n.format("PEN.PIDFlag.noPIDFlag", { itemName: newActor.name }),
-      );
+      ui.notifications.warn(game.i18n.format("PEN.PIDFlag.noPIDFlag", { itemName: newActor.name }));
       return;
     }
     if (["npc"].includes(newActor.type)) {
-      const npcs = this.actor.system.npcs
-        ? foundry.utils.duplicate(this.actor.system.npcs)
-        : [];
+      const npcs = this.actor.system.npcs ? foundry.utils.duplicate(this.actor.system.npcs) : [];
       // is this limitation really necessary?
       if (npcs.length > 3) {
         ui.notifications.warn(game.i18n.localize("PEN.encounterMax"));

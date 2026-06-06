@@ -1,7 +1,6 @@
 export class RollCard {
-    constructor () {
-      this.rolls = []
-      this.initiator = null
-    }
-
-}    
+  constructor() {
+    this.rolls = [];
+    this.initiator = null;
+  }
+}

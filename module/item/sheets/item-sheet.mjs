@@ -1,11 +1,8 @@
 import { yearToPeriodName } from "../../apps/chronology.mjs";
-import { PIDEditor } from '../../pid/pid-editor.mjs'
+import { PIDEditor } from "../../pid/pid-editor.mjs";
 const { api, sheets } = foundry.applications;
 
-
-export class PendragonItemSheet extends api.HandlebarsApplicationMixin(
-  sheets.ItemSheetV2
-) {
+export class PendragonItemSheet extends api.HandlebarsApplicationMixin(sheets.ItemSheetV2) {
   constructor(options = {}) {
     super(options);
   }
@@ -14,13 +11,13 @@ export class PendragonItemSheet extends api.HandlebarsApplicationMixin(
     const frame = await super._renderFrame(options);
     //define button
     const sheetPID = this.item.flags?.Pendragon?.pidFlag;
-    const noId = (typeof sheetPID === 'undefined' || typeof sheetPID.id === 'undefined' || sheetPID.id === '');
+    const noId = typeof sheetPID === "undefined" || typeof sheetPID.id === "undefined" || sheetPID.id === "";
     //add button
     const label = game.i18n.localize("PEN.PIDFlag.id");
-    const pidEditor = `<button type="button" class="header-control fa-solid fa-fingerprint icon ${noId ? 'edit-pid-warning' : 'edit-pid-exisiting'}"
+    const pidEditor = `<button type="button" class="header-control fa-solid fa-fingerprint icon ${noId ? "edit-pid-warning" : "edit-pid-exisiting"}"
         data-action="editPid" data-tooltip="${label}" aria-label="${label}"></button>`;
     let el = this.window.close;
-    while (el.previousElementSibling.localName === 'button') {
+    while (el.previousElementSibling.localName === "button") {
       el = el.previousElementSibling;
     }
     el.insertAdjacentHTML("beforebegin", pidEditor);
@@ -37,7 +34,7 @@ export class PendragonItemSheet extends api.HandlebarsApplicationMixin(
       hasOwner: this.item.isEmbedded === true,
       isGM: game.user.isGM,
       fields: this.document.schema.fields,
-      period: yearToPeriodName(this.item.system.yearAvailable)
+      period: yearToPeriodName(this.item.system.yearAvailable),
     };
   }
 
@@ -53,11 +50,10 @@ export class PendragonItemSheet extends api.HandlebarsApplicationMixin(
   static async _onEditImage(event, target) {
     const attr = target.dataset.edit;
     const current = foundry.utils.getProperty(this.document, attr);
-    const { img } = this.document.constructor.getDefaultArtwork?.(this.document.toObject()) ??
-      {};
+    const { img } = this.document.constructor.getDefaultArtwork?.(this.document.toObject()) ?? {};
     const fp = new FilePicker({
       current,
-      type: 'image',
+      type: "image",
       redirectToRoot: img ? [img] : [],
       callback: (path) => {
         this.document.update({ [attr]: path });
@@ -71,45 +67,45 @@ export class PendragonItemSheet extends api.HandlebarsApplicationMixin(
   // handle editPid action
   static _onEditPid(event) {
     event.stopPropagation(); // Don't trigger other events
-    if ( event.detail > 1 ) return; // Ignore repeated clicks
-        new PIDEditor({document: this.document }, {}).render(true, { focus: true })
+    if (event.detail > 1) return; // Ignore repeated clicks
+    new PIDEditor({ document: this.document }, {}).render(true, { focus: true });
   }
 
   _initTabs(group, tabNames) {
     const tabs = {};
-    tabNames.forEach(name => {
+    tabNames.forEach((name) => {
       tabs[name] = {
-        cssClass:  this.tabGroups[group] === name ? 'active' : '',
+        cssClass: this.tabGroups[group] === name ? "active" : "",
         group,
         id: name,
-        label: `PEN.${name}`
-      }
+        label: `PEN.${name}`,
+      };
     });
     return tabs;
   }
 
   //Update Skill/Passion Name
   static async skillChangeName(skill) {
-    let newName = ""
-    let specialName = skill.system.specName
+    let newName = "";
+    let specialName = skill.system.specName;
     if (skill.system.mainName === "") {
       await skill.update({
-      'system.mainName': skill.name
-    })
+        "system.mainName": skill.name,
+      });
     }
     if (skill.system.specialisation) {
       if (specialName === "") {
-        specialName = game.i18n.localize('PEN.specify')
+        specialName = game.i18n.localize("PEN.specify");
       }
-      newName = skill.system.mainName + " (" + specialName + ")"
+      newName = skill.system.mainName + " (" + specialName + ")";
     } else {
-      newName = skill.system.mainName
+      newName = skill.system.mainName;
     }
     if (skill.name != newName || skill.system.specName != specialName) {
       await skill.update({
-        'name': newName,
-        'system.specName': specialName
-      })
+        name: newName,
+        "system.specName": specialName,
+      });
     }
   }
 }

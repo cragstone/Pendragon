@@ -1,15 +1,15 @@
 import { PendragonItemSheet } from "./item-sheet.mjs";
 
 export class PendragonWoundSheet extends PendragonItemSheet {
-  constructor (options = {}) {
-    super(options)
+  constructor(options = {}) {
+    super(options);
   }
 
   static DEFAULT_OPTIONS = {
-    classes: ['Pendragon', 'sheet', 'item'],
+    classes: ["Pendragon", "sheet", "item"],
     position: {
       width: 310,
-      height: 240
+      height: 240,
     },
     tag: "form",
     // automatically updates the item
@@ -21,30 +21,27 @@ export class PendragonWoundSheet extends PendragonItemSheet {
     },
     actions: {
       onEditImage: this._onEditImage,
-      editPid: this._onEditPid
-    }
-
-  }
+      editPid: this._onEditPid,
+    },
+  };
 
   static PARTS = {
     header: {
       //TODO: static header, no image
-      template: "systems/Pendragon/templates/item/header.hbs"
+      template: "systems/Pendragon/templates/item/header.hbs",
     },
     // each tab gets its own template
     attributes: {
-      template: 'systems/Pendragon/templates/item/wound.hbs'
+      template: "systems/Pendragon/templates/item/wound.hbs",
     },
-  }
+  };
 
-  async _prepareContext (options) {
-
+  async _prepareContext(options) {
     let sheetData = {
-      ...await super._prepareContext(options),
-    }
-    sheetData.source = game.i18n.localize('PEN.'+this.item.system.source);
+      ...(await super._prepareContext(options)),
+    };
+    sheetData.source = game.i18n.localize("PEN." + this.item.system.source);
 
     return sheetData;
   }
-
 }

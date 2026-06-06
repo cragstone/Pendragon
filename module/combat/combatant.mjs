@@ -24,5 +24,4 @@ export class PendragonCombatant extends Combatant {
     const curr = this.getFlag("Pendragon", "geniality") || 0;
     this.setFlag("Pendragon", "geniality", curr + val);
   }
-
 }

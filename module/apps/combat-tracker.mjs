@@ -1,18 +1,17 @@
 import { RollResult } from "./checks.mjs";
 
 export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs?.CombatTracker ?? CombatTracker) {
-
   /** @override */
   static PARTS = {
     header: {
-      template: "templates/sidebar/tabs/combat/header.hbs"
+      template: "templates/sidebar/tabs/combat/header.hbs",
     },
     tracker: {
-      template: "templates/sidebar/tabs/combat/tracker.hbs"
+      template: "templates/sidebar/tabs/combat/tracker.hbs",
     },
     footer: {
-      template: "systems/Pendragon/templates/sidebar/combat/footer.hbs"
-    }
+      template: "systems/Pendragon/templates/sidebar/combat/footer.hbs",
+    },
   };
 
   // override the render for customization
@@ -29,7 +28,7 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
       this.#addSeating(list, game.i18n.localize("PEN.feast.farSalt"), combatants, RollResult.FAIL);
       this.#addSeating(list, game.i18n.localize("PEN.feast.closeSalt"), combatants, RollResult.SUCCESS);
       this.#addSeating(list, game.i18n.localize("PEN.feast.aboveSalt"), combatants, RollResult.CRITICAL);
-      
+
       const combatantRows = html.querySelectorAll("li.combatant[data-combatant-id]");
       for (const row of combatantRows) {
         const combatantId = row.dataset.combatantId ?? "";
@@ -41,7 +40,6 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
         }
         // Adjust controls with system extensions
         for (const controlIcon of row.querySelectorAll(".combatant-control.icon")) {
-
           controlIcon.classList.add("fa-fw");
 
           if (controlIcon.dataset.action === "pingCombatant") {
@@ -55,7 +53,7 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
   }
   _onChangeInput(event) {
     const input = event.target;
-    if ( input.classList.contains("geniality-input") ) {
+    if (input.classList.contains("geniality-input")) {
       return this.#onUpdateGeniality(event);
     }
     return super._onChangeInput(event);
@@ -71,20 +69,26 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
   #onUpdateGeniality(event) {
     const { combatantId } = event.target.closest("[data-combatant-id]")?.dataset ?? {};
     const combatant = this.viewed.combatants.get(combatantId);
-    if ( !combatant ) return;
+    if (!combatant) return;
     const raw = event.target.value;
     const isDelta = /^[+-]/.test(raw);
-    if ( !isDelta || (raw[0] === "=") ) {
+    if (!isDelta || raw[0] === "=") {
       return combatant.update({ "flags.Pendragon.geniality": raw ? Number(raw.replace(/^=/, "")) : null });
     }
     const delta = parseInt(raw);
-    if ( !isNaN(delta) ) return combatant.addGeniality(delta);
+    if (!isNaN(delta)) return combatant.addGeniality(delta);
   }
 
   #addSeating(list, label, combatants, rollNeeded) {
     const seatingArea = document.createElement("li");
-    const above = combatants.filter(c => Math.floor(c.initiative) == rollNeeded);
-    const children = above.length ? list.querySelectorAll(Array.from(above).map(c => `[data-combatant-id="${c.id}"]`).join(", ")) : [];
+    const above = combatants.filter((c) => Math.floor(c.initiative) == rollNeeded);
+    const children = above.length
+      ? list.querySelectorAll(
+          Array.from(above)
+            .map((c) => `[data-combatant-id="${c.id}"]`)
+            .join(", "),
+        )
+      : [];
     seatingArea.classList.add("seating");
     seatingArea.innerHTML = `<h3 class="combat-tracker-header">${label}</h3><ol class="seating-list"></ol>`;
     list.prepend(seatingArea);
@@ -92,29 +96,32 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
   }
 
   _getEntryContextOptions() {
-    const getCombatant = li => this.viewed.combatants.get(li.dataset.combatantId);
+    const getCombatant = (li) => this.viewed.combatants.get(li.dataset.combatantId);
     let options = [...super._getEntryContextOptions()];
     if (this.viewed?.isFeast()) {
-      options.push({
-        name: "PEN.feast.moveCloser",
-        icon: '<i class="fa-solid fa-chevron-up"></i>',
-        condition: li => game.user.isGM && this.viewed.isFeast() && getCombatant(li)?.initiative < RollResult.CRITICAL,
-        callback: li => {
-          const combatant = getCombatant(li);
-          if ( !combatant ) return;
-          combatant.update({ initiative: combatant.initiative + 1 })
-        }
-      },
-      {
-        name: "PEN.feast.moveFurther",
-        icon: '<i class="fa-solid fa-chevron-down"></i>',
-        condition: li => game.user.isGM && this.viewed.isFeast() && getCombatant(li)?.initiative >= RollResult.FAIL,
-        callback: li => {
-          const combatant = getCombatant(li);
-          if ( !combatant ) return;
-          combatant.update({ initiative: combatant.initiative - 1 })
-        }
-      });
+      options.push(
+        {
+          name: "PEN.feast.moveCloser",
+          icon: '<i class="fa-solid fa-chevron-up"></i>',
+          condition: (li) =>
+            game.user.isGM && this.viewed.isFeast() && getCombatant(li)?.initiative < RollResult.CRITICAL,
+          callback: (li) => {
+            const combatant = getCombatant(li);
+            if (!combatant) return;
+            combatant.update({ initiative: combatant.initiative + 1 });
+          },
+        },
+        {
+          name: "PEN.feast.moveFurther",
+          icon: '<i class="fa-solid fa-chevron-down"></i>',
+          condition: (li) => game.user.isGM && this.viewed.isFeast() && getCombatant(li)?.initiative >= RollResult.FAIL,
+          callback: (li) => {
+            const combatant = getCombatant(li);
+            if (!combatant) return;
+            combatant.update({ initiative: combatant.initiative - 1 });
+          },
+        },
+      );
     }
     return options;
   }

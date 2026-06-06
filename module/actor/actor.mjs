@@ -40,8 +40,7 @@ export class PendragonActor extends Actor {
     systemData.civilitas = 0;
     systemData.honor = 0;
     systemData.winter = 0;
-    systemData.age =
-      game.settings.get("Pendragon", "gameYear") - systemData.born;
+    systemData.age = game.settings.get("Pendragon", "gameYear") - systemData.born;
     if (systemData.died > 0) {
       systemData.age = systemData.died - systemData.born;
     }
@@ -120,10 +119,7 @@ export class PendragonActor extends Actor {
 
     for (let i of actorData.items) {
       if (i.type === "trait") {
-        let tempTotal =
-          Number(i.system.value) +
-          Number(i.system.religious) +
-          Number(i.system.winter);
+        let tempTotal = Number(i.system.value) + Number(i.system.religious) + Number(i.system.winter);
         if (tempTotal > 20) {
           i.system.total = tempTotal;
           i.system.oppvalue = 0;
@@ -147,8 +143,7 @@ export class PendragonActor extends Actor {
           Number(i.system.sol) +
           Number(i.system.homeland) +
           Number(i.system.winter);
-        systemData[i.system.court] =
-          systemData[i.system.court] + Math.min(20, Number(i.system.total));
+        systemData[i.system.court] = systemData[i.system.court] + Math.min(20, Number(i.system.total));
         if (i.system.total > 19) {
           systemData.passion = systemData.passion + 25;
         } else if (i.system.total > 15) {
@@ -194,9 +189,7 @@ export class PendragonActor extends Actor {
       if (i.type === "ideal") {
         i.system.active = true;
         for (let rItm of i.system.require) {
-          let actItm = actorData.items.filter(
-            (itm) => itm.flags.Pendragon?.pidFlag?.id === rItm.pid,
-          )[0];
+          let actItm = actorData.items.filter((itm) => itm.flags.Pendragon?.pidFlag?.id === rItm.pid)[0];
           if (rItm.score < 0) {
             if (actItm.system.total > 20 + rItm.score) {
               i.system.active = false;
@@ -208,13 +201,11 @@ export class PendragonActor extends Actor {
           }
         }
         if (i.system.active) {
-          systemData.passglory.ideals =
-            systemData.passglory.ideals + i.system.glory;
+          systemData.passglory.ideals = systemData.passglory.ideals + i.system.glory;
           systemData.armour = systemData.armour + i.system.armour;
           let damAdj = i.system.dam.toUpperCase();
           if (damAdj.split("D").length > 1) {
-            systemData.damage =
-              systemData.damage + Number(damAdj.split("D")[0]);
+            systemData.damage = systemData.damage + Number(damAdj.split("D")[0]);
           } else {
             systemData.damageMod = systemData.damageMod + i.system.dam;
           }
@@ -253,8 +244,7 @@ export class PendragonActor extends Actor {
           //If damage source is horse use the horse's charge damage
           damageFormula = systemData.horseChgDam;
           if (Number(i.system.damageMod) != 0) {
-            damageFormula =
-              damageFormula + "+" + Number(i.system.damageMod) + "D6";
+            damageFormula = damageFormula + "+" + Number(i.system.damageMod) + "D6";
           }
         } else {
           if (i.system.damageChar === "c") {
@@ -265,29 +255,18 @@ export class PendragonActor extends Actor {
             damageFlatMod = systemData.damage;
           }
 
-          damageFlatMod =
-            Number(damageFlatMod) +
-            Number(i.system.damageBonus) +
-            Number(systemData.damageMod);
+          damageFlatMod = Number(damageFlatMod) + Number(i.system.damageBonus) + Number(systemData.damageMod);
 
-          damageDice = Math.min(
-            Number(damageDice) + Number(i.system.damageMod),
-            Number(i.system.damageMax),
-          );
+          damageDice = Math.min(Number(damageDice) + Number(i.system.damageMod), Number(i.system.damageMax));
           damageFormula = damageDice + "D6+" + damageFlatMod;
         }
         i.system.damage = damageFormula;
       }
     }
 
-    systemData.hp.value =
-      systemData.hp.max -
-      systemData.totalWounds -
-      systemData.aggravDam -
-      systemData.deterDam;
+    systemData.hp.value = systemData.hp.max - systemData.totalWounds - systemData.aggravDam - systemData.deterDam;
     systemData.hp.unconscious = Math.round(systemData.hp.max / 4);
-    systemData.tap =
-      Math.min(100, systemData.passion) + Math.min(100, systemData.trait);
+    systemData.tap = Math.min(100, systemData.passion) + Math.min(100, systemData.trait);
     systemData.passive =
       Number(systemData.tap) +
       Number(systemData.appeal) +
@@ -346,8 +325,7 @@ export class PendragonActor extends Actor {
     // Handle stats scores, adding labels to stats
     for (let [key, stat] of Object.entries(actorData.system.stats)) {
       stat.label = game.i18n.localize(CONFIG.PENDRAGON.stats[key]) ?? key;
-      stat.labelShort =
-        game.i18n.localize(CONFIG.PENDRAGON.statsAbbreviations[key]) ?? key;
+      stat.labelShort = game.i18n.localize(CONFIG.PENDRAGON.statsAbbreviations[key]) ?? key;
       stat.total =
         Number(stat.value) +
         Number(stat.culture) +
@@ -366,8 +344,7 @@ export class PendragonActor extends Actor {
       if (pid) {
         let position = pid.search("spriggan");
         if (position > -1) {
-          actorData.system.stats.siz.total =
-            actorData.system.stats.siz.total - actorData.system.woundTotal;
+          actorData.system.stats.siz.total = actorData.system.stats.siz.total - actorData.system.woundTotal;
         }
       }
     }
@@ -381,10 +358,7 @@ export class PendragonActor extends Actor {
       if (systemData.manMaxHP != 0) {
         systemData.hp.max = systemData.manMaxHP;
       } else {
-        systemData.hp.max =
-          systemData.stats.siz.total +
-          systemData.stats.con.total +
-          systemData.hp.adj;
+        systemData.hp.max = systemData.stats.siz.total + systemData.stats.con.total + systemData.hp.adj;
       }
       if (systemData.manKnockdown != 0) {
         systemData.hp.knockdown = systemData.manKnockdown;
@@ -397,24 +371,16 @@ export class PendragonActor extends Actor {
         systemData.hp.unconscious = Math.round(systemData.hp.max / 4);
       }
     } else {
-      systemData.hp.max =
-        systemData.stats.siz.total +
-        systemData.stats.con.total +
-        systemData.hp.adj;
+      systemData.hp.max = systemData.stats.siz.total + systemData.stats.con.total + systemData.hp.adj;
       systemData.hp.unconscious = Math.round(systemData.hp.max / 4);
       systemData.hp.knockdown = systemData.stats.siz.total;
     }
 
-    systemData.damage = Math.round(
-      (systemData.stats.str.total + systemData.stats.siz.total) / 6,
-    );
+    systemData.damage = Math.round((systemData.stats.str.total + systemData.stats.siz.total) / 6);
     systemData.horseDam = "";
     systemData.horseChgDam = "";
     systemData.healRate = Math.round(systemData.stats.con.total / 5);
-    systemData.move =
-      Math.round(
-        (systemData.stats.str.total + systemData.stats.dex.total) / 2,
-      ) + 5;
+    systemData.move = Math.round((systemData.stats.str.total + systemData.stats.dex.total) / 2) + 5;
     systemData.reputation = "";
 
     //Loop through all items to see if they have impact
@@ -425,8 +391,7 @@ export class PendragonActor extends Actor {
     for (let i of actorData.items) {
       if (i.type === "wound") {
         //Ignore wounds with a negative value
-        systemData.totalWounds =
-          systemData.totalWounds + Math.max(i.system.value, 0);
+        systemData.totalWounds = systemData.totalWounds + Math.max(i.system.value, 0);
       } else if (i.type === "history") {
         glory = Number(glory) + Number(i.system.glory);
       } else if (i.type === "armour" && i.system.equipped) {
@@ -445,8 +410,7 @@ export class PendragonActor extends Actor {
       }
     }
     //Calculate current HP then check for Near Death
-    systemData.hp.value =
-      systemData.hp.max - (systemData.woundTotal ? systemData.woundTotal : 0);
+    systemData.hp.value = systemData.hp.max - (systemData.woundTotal ? systemData.woundTotal : 0);
     if (glory < 3000) {
       systemData.reputation = game.i18n.localize("PEN.unproven");
     } else if (glory < 4000) {
@@ -515,9 +479,7 @@ export class PendragonActor extends Actor {
     //If dropping from compendium check to see if the actor already exists in game.actors and if it does then get the game.actors details rather than create a copy
     if (options.fromCompendium) {
       let tempActor = await game.actors.filter(
-        (actr) =>
-          actr.flags?.Pendragon?.pidFlag?.id ===
-          data.flags?.Pendragon?.pidFlag?.id,
+        (actr) => actr.flags?.Pendragon?.pidFlag?.id === data.flags?.Pendragon?.pidFlag?.id,
       )[0];
       if (tempActor) {
         return tempActor;
@@ -645,9 +607,7 @@ export class PendragonActor extends Actor {
       let knightSkillList = await skillList.filter((itm) => itm.system.starter);
       for (let itm of knightSkillList) {
         let existing = actor.items.filter(
-          (citm) =>
-            citm.flags?.Pendragon?.pidFlag?.id ===
-            itm.flags?.Pendragon?.pidFlag?.id,
+          (citm) => citm.flags?.Pendragon?.pidFlag?.id === itm.flags?.Pendragon?.pidFlag?.id,
         );
         if (existing.length < 1) {
           newItems.push(itm);
@@ -661,9 +621,7 @@ export class PendragonActor extends Actor {
       });
       for (let itm of traitList) {
         let existing = actor.items.filter(
-          (citm) =>
-            citm.flags?.Pendragon?.pidFlag?.id ===
-            itm.flags?.Pendragon?.pidFlag?.id,
+          (citm) => citm.flags?.Pendragon?.pidFlag?.id === itm.flags?.Pendragon?.pidFlag?.id,
         );
         if (existing.length < 1) {
           newItems.push(itm);
@@ -677,9 +635,7 @@ export class PendragonActor extends Actor {
       });
       for (let itm of passionList) {
         let existing = actor.items.filter(
-          (citm) =>
-            citm.flags?.Pendragon?.pidFlag?.id ===
-            itm.flags?.Pendragon?.pidFlag?.id,
+          (citm) => citm.flags?.Pendragon?.pidFlag?.id === itm.flags?.Pendragon?.pidFlag?.id,
         );
         if (existing.length < 1) {
           newItems.push(itm);
@@ -740,7 +696,7 @@ export class PendragonActor extends Actor {
         if (member === actorData._id) {
           update = true;
         }
-      }        
+      }
       if (update) {
         await party.render();
       }
@@ -750,15 +706,15 @@ export class PendragonActor extends Actor {
   //Rerender Battle Sheet if actor is in it
   async _updateBattle(actorData) {
     let parties = await game.actors.filter((actr) => actr.type === "battle");
-    if (parties.length === 0) return;   
+    if (parties.length === 0) return;
     for (let party of parties) {
       if (!party.sheet.rendered) continue;
       let update = false;
       for (let member of party.system.encounters) {
         if (member === actorData.uuid) {
-          update = true
+          update = true;
         }
-      }      
+      }
       const membersCollection = party.toObject().system.knights;
       for (let member of membersCollection) {
         if (member === actorData._id) {
@@ -774,12 +730,16 @@ export class PendragonActor extends Actor {
   //Used for Rolling NPCs when token dropped
   get hasRollableCharacteristics() {
     for (const [, value] of Object.entries(this.system.stats)) {
-      if (value.formula === "") {continue};
+      if (value.formula === "") {
+        continue;
+      }
       if (isNaN(Number(value.formula))) return true;
     }
     if (this.system.random) {
       for (let itm of this.system.random) {
-        if (itm.value === "") {continue};        
+        if (itm.value === "") {
+          continue;
+        }
         if (isNaN(Number(itm.value))) return true;
       }
     }
