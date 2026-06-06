@@ -22,7 +22,25 @@ import {
   EncounterData,
   BattleData,
 } from "./models/actor/index.mjs";
-import { WoundData } from "./models/items/index.mjs";
+import { 
+  WoundData,
+  GearData,
+  SkillData,
+  TraitData,
+  HistoryData,
+  PassionData,
+  HorseData,
+  SquireData,
+  ArmourData,
+  WeaponData,
+  FamilyData,
+  CultureData,
+  ReligionData,
+  ClassData,
+  HomelandData,
+  IdealData,
+  RelationshipData,
+} from "./models/items/index.mjs";
 import drawNote from "./hooks/draw-note.mjs";
 import RenderNoteConfig from "./hooks/render-note-config.mjs";
 import ChaosiumCanvasInterfaceInit from "./apps/chaosium-canvas-interface-init.mjs";
@@ -78,6 +96,23 @@ Hooks.once("init", async function () {
   CONFIG.Actor.dataModels.battle = BattleData;
   // item data models
   CONFIG.Item.dataModels.wound = WoundData;
+  CONFIG.Item.dataModels.gear = GearData;
+  CONFIG.Item.dataModels.skill = SkillData;  
+  CONFIG.Item.dataModels.gear = GearData;
+  CONFIG.Item.dataModels.trait = TraitData;  
+  CONFIG.Item.dataModels.history = HistoryData;
+  CONFIG.Item.dataModels.passion = PassionData;
+  CONFIG.Item.dataModels.horse = HorseData;
+  CONFIG.Item.dataModels.squire = SquireData;  
+  CONFIG.Item.dataModels.armour = ArmourData;  
+  CONFIG.Item.dataModels.weapon = WeaponData;
+  CONFIG.Item.dataModels.family = FamilyData; 
+  CONFIG.Item.dataModels.culture = CultureData;  
+  CONFIG.Item.dataModels.religion = ReligionData;
+  CONFIG.Item.dataModels.class = ClassData; 
+  CONFIG.Item.dataModels.homeland = HomelandData;
+  CONFIG.Item.dataModels.ideal = IdealData;
+  CONFIG.Item.dataModels.relationship = RelationshipData;
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = PendragonActor;

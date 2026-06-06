@@ -11,7 +11,7 @@
     <div class="item-trait-grid">
       <div class="stat-name left bold">{{localize 'PEN.skill'}}</div>
         <div class="stat-name centre">
-          <select data-handle-change name="system.skill">
+          <select class="centre" data-handle-change name="system.skill">
             {{selectOptions skillType selected=item.system.skill}}
           </select>
         </div>
@@ -20,7 +20,7 @@
 
         <div class="stat-name left bold">{{localize 'PEN.mounted'}}</div>
         <div class="stat-name centre">
-          <select data-handle-change name="system.mounted">
+          <select class="centre" data-handle-change name="system.mounted">
             {{selectOptions usageType selected=item.system.mounted}}
           </select>
         </div>
@@ -29,26 +29,26 @@
 
         <div class="stat-name left bold">{{localize 'PEN.source'}}</div>
         <div class="stat-name centre">
-          <select data-handle-change name="system.damageChar">
+          <select class="centre" data-handle-change name="system.damageChar">
             {{selectOptions damageType selected=item.system.damageChar}}
           </select>
         </div>
         <br>
         <div></div>
         <div class="stat-name left bold">{{localize 'PEN.damageMod'}}</div>
-        <div class="stat-name-input  {{#if (eq item.system.damageMod '')}} input-border {{/if}} centre"><input name="system.damageMod" type="text" value="{{item.system.damageMod}}" data-dtype="Number"/></div>
+        <div class="stat-name-input  {{#if (eq item.system.damageMod '')}} input-border {{/if}} centre"><input name="system.damageMod" type="number" value="{{item.system.damageMod}}"/></div>
         <div class="stat-name left bold">{{localize 'PEN.unarmouredMod'}}</div>
-        <div class="stat-name-input  {{#if (eq item.system.unarmoured '')}} input-border {{/if}} centre"><input name="system.unarmoured" type="text" value="{{item.system.unarmoured}}" data-dtype="Number"/></div>
+        <div class="stat-name-input  {{#if (eq item.system.unarmoured '')}} input-border {{/if}} centre"><input name="system.unarmoured" type="number" value="{{item.system.unarmoured}}"/></div>
         <div class="stat-name left bold">{{localize 'PEN.mailMod'}}</div>
-        <div class="stat-name-input  {{#if (eq item.system.mail '')}} input-border {{/if}} centre"><input name="system.mail" type="text" value="{{item.system.mail}}" data-dtype="Number"/></div>
+        <div class="stat-name-input  {{#if (eq item.system.mail '')}} input-border {{/if}} centre"><input name="system.mail" type="number" value="{{item.system.mail}}"/></div>
         <div class="stat-name left bold">{{localize 'PEN.plateMod'}}</div>
-        <div class="stat-name-input  {{#if (eq item.system.plate '')}} input-border {{/if}} centre"><input name="system.plate" type="text" value="{{item.system.plate}}" data-dtype="Number"/></div>
+        <div class="stat-name-input  {{#if (eq item.system.plate '')}} input-border {{/if}} centre"><input name="system.plate" type="number" value="{{item.system.plate}}"/></div>
         <div class="stat-name left bold">{{localize 'PEN.damageBonus'}}</div>
-        <div class="stat-name-input  {{#if (eq item.system.damageBonus '')}} input-border {{/if}} centre"><input name="system.damageBonus" type="text" value="{{item.system.damageBonus}}" data-dtype="Number"/></div>
+        <div class="stat-name-input  {{#if (eq item.system.damageBonus '')}} input-border {{/if}} centre"><input name="system.damageBonus" type="number" value="{{item.system.damageBonus}}"/></div>
         <div class="stat-name left bold">{{localize 'PEN.damageMax'}}</div>
-        <div class="stat-name-input  {{#if (eq item.system.damageMax '')}} input-border {{/if}} centre"><input name="system.damageMax" type="text" value="{{item.system.damageMax}}" data-dtype="Number"/></div>
+        <div class="stat-name-input  {{#if (eq item.system.damageMax '')}} input-border {{/if}} centre"><input name="system.damageMax" type="number" value="{{item.system.damageMax}}"/></div>
         <div class="stat-name left bold">{{localize 'PEN.parry'}}</div>
-        <div class="stat-name-input  {{#if (eq item.system.parry '')}} input-border {{/if}} centre"><input name="system.parry" type="text" value="{{item.system.parry}}" data-dtype="Number"/></div>
+        <div class="stat-name-input  {{#if (eq item.system.parry '')}} input-border {{/if}} centre"><input name="system.parry" type="number" value="{{item.system.parry}}"/></div>
       </div>
       <br>
       {{#if item.system.melee}}
@@ -62,7 +62,7 @@
       <div class="item-trait-grid">
           <div class="stat-name left bold">{{localize 'PEN.range'}}</div>
           <div class="stat-name centre">
-            <select data-handle-change name="system.range">
+            <select class="centre" data-handle-change name="system.range">
               {{selectOptions rangeType selected=item.system.range}}
             </select>
           </div>
@@ -118,7 +118,7 @@
         <br>
         <div class="item-trait-grid">
           <div class="stat-name left bold">{{localize 'PEN.quantity'}}</div>
-          <div class="stat-name-input {{#if (eq item.system.quantity '')}} input-border {{/if}} centre"><input name="system.quantity" type="text" value="{{item.system.quantity}}" data-dtype="Number"/></div>
+          <div class="stat-name-input {{#if (eq item.system.quantity '')}} input-border {{/if}} centre"><input name="system.quantity" type="number" value="{{item.system.quantity}}"/></div>
         </div>
       {{/if}}
 

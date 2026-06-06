@@ -295,19 +295,20 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     context.knightly = await PendragonCharacterSheet.testKnightly(this.actor);
     // Use a safe clone of the actor data for further operations.
     const actorData = this.actor.toObject(false);
-    if (actorData.system.cultureID != "") {
+    if (this.actor.system.cultureID != "") {
       context.hasCulture = true;
     }
-    if (actorData.system.homelandID != "") {
+
+    if (this.actor.system.homelandID != "") {
       context.hasHomeland = true;
     }
-    if (actorData.system.classID != "") {
+    if (this.actor.system.classID != "") {
       context.hasClass = true;
       //let tempClass = await this.actor.items.get(actorData.system.classID);
       //if (!tempClass.system.starter) {context.hasKnightClass = true}
       context.hasKnightClass = true;
     }
-    if (actorData.system.religionID != "") {
+    if (this.actor.system.religionID != "") {
       context.hasReligion = true;
     }
     if (

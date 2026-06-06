@@ -735,13 +735,14 @@ export class PendragonActor extends Actor {
     for (let party of parties) {
       if (!party.sheet?.rendered) continue;
       let update = false;
-      for (let member of party.system.members) {
-        if (member.uuid === actorData.uuid) {
+      const membersCollection = party.toObject().system.members;
+      for (let member of membersCollection) {
+        if (member === actorData._id) {
           update = true;
         }
-        if (update) {
-          await party.render();
-        }
+      }        
+      if (update) {
+        await party.render();
       }
     }
   }
@@ -749,17 +750,18 @@ export class PendragonActor extends Actor {
   //Rerender Battle Sheet if actor is in it
   async _updateBattle(actorData) {
     let parties = await game.actors.filter((actr) => actr.type === "battle");
-    if (parties.length === 0) return;
+    if (parties.length === 0) return;   
     for (let party of parties) {
       if (!party.sheet.rendered) continue;
       let update = false;
       for (let member of party.system.encounters) {
-        if (member.pid === actorData.flags.Pendragon?.pidFlag?.id) {
-          update = true;
+        if (member === actorData.uuid) {
+          update = true
         }
-      }
-      for (let member of party.system.knights) {
-        if (member.pid === actorData.flags.Pendragon?.pidFlag?.id) {
+      }      
+      const membersCollection = party.toObject().system.knights;
+      for (let member of membersCollection) {
+        if (member === actorData._id) {
           update = true;
         }
       }
@@ -772,10 +774,12 @@ export class PendragonActor extends Actor {
   //Used for Rolling NPCs when token dropped
   get hasRollableCharacteristics() {
     for (const [, value] of Object.entries(this.system.stats)) {
+      if (value.formula === "") {continue};
       if (isNaN(Number(value.formula))) return true;
     }
     if (this.system.random) {
       for (let itm of this.system.random) {
+        if (itm.value === "") {continue};        
         if (isNaN(Number(itm.value))) return true;
       }
     }

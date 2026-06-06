@@ -64,9 +64,9 @@
           <a data-tooltip="{{localize 'PEN.naturalHealHint'}}"><i class="item-control large-icon fas fa-sunrise"></i></a>
         </div>
         <div class="stat-name left bold">{{localize 'PEN.agro'}}</div>
-        <div class="stat-name stat-name-input centre"><input name="system.aggravDam" type="text" value="{{actor.system.aggravDam}}" data-dtype="Number"/></div>
+        <div class="stat-name stat-name-input centre"><input name="system.aggravDam" type="number" value="{{actor.system.aggravDam}}"/></div>
         <div class="stat-name left bold">{{localize 'PEN.deterior'}}</div>
-        <div class="stat-name stat-name-input centre"><input name="system.deterDam" type="text" value="{{actor.system.deterDam}}" data-dtype="Number"/></div>
+        <div class="stat-name stat-name-input centre"><input name="system.deterDam" type="number" value="{{actor.system.deterDam}}" /></div>
         <div></div>
         {{#if statuses.debilitated}}
           <div class="stat-name left bold new-row">{{localize 'PEN.chirurgery'}}</div>

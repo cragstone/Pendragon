@@ -20,29 +20,29 @@
       {{#each system.stats as |stat key|}}
         <div class="stat-name centre grid-item-left new-row">{{stat.labelShort}}</div>    
         {{#isOr ../isGM ../isCreation}}
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.value" type="text" value="{{stat.value}}" data-dtype="Number"/></div>
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.culture" type="text" value="{{stat.culture}}" data-dtype="Number"/></div>
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.create" type="text" value="{{stat.create}}" data-dtype="Number"/></div>
+          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.value" type="number" value="{{stat.value}}"/></div>
+          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.culture" type="number" value="{{stat.culture}}"/></div>
+          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.create" type="number" value="{{stat.create}}"/></div>
           {{#if (eq key 'con')}}
-            <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.poison" type="text" value="{{stat.poison}}" data-dtype="Number"/></div>
+            <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.poison" type="number" value="{{stat.poison}}"/></div>
           {{else}}
             <div class="stat-item centre grid-item-bottom grey"></div>
           {{/if}}
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.disease" type="text" value="{{stat.disease}}" data-dtype="Number"/></div>
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.sol" type="text" value="{{stat.sol}}" data-dtype="Number"/></div>
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.major" type="text" value="{{stat.major}}" data-dtype="Number"/></div>
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.age" type="text" value="{{stat.age}}" data-dtype="Number"/></div>
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.winter" type="text" value="{{stat.winter}}" data-dtype="Number"/></div>
+          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.disease" type="number" value="{{stat.disease}}"/></div>
+          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.sol" type="number" value="{{stat.sol}}"/></div>
+          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.major" type="number" value="{{stat.major}}"/></div>
+          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.age" type="number" value="{{stat.age}}"/></div>
+          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.winter" type="number" value="{{stat.winter}}"/></div>
         {{else}}
           <div class="stat-item centre grid-item-bottom">{{stat.value}}</div>
           <div class="stat-item centre grid-item-bottom">{{stat.culture}}</div>
           <div class="stat-item centre grid-item-bottom">{{stat.create}}</div>
           {{#if (eq key 'con')}}
-            <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.poison" type="text" value="{{stat.poison}}" data-dtype="Number"/></div>
+            <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.poison" type="number" value="{{stat.poison}}"/></div>
           {{else}}
             <div class="stat-item centre grid-item-bottom grey"></div>
           {{/if}}
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.disease" type="text" value="{{stat.disease}}" data-dtype="Number"/></div>
+          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.disease" type="number" value="{{stat.disease}}"/></div>
           <div class="stat-item centre grid-item-bottom">{{stat.sol}}</div>   
           <div class="stat-item centre grid-item-bottom">{{stat.major}}</div>   
           <div class="stat-item centre grid-item-bottom">{{stat.age}}</div>        
@@ -59,15 +59,15 @@
     <div class="hp-grid">
       {{#if isGM}}
         <div class="stat-item">{{localize 'PEN.hpAdj'}}</div>
-        <div class="stat-item centre {{#if (eq actor.system.hp.adj null)}} input-border {{/if}}"><input name="system.hp.adj" type="text" value="{{system.hp.adj}}" data-dtype="Number"/></div>
+        <div class="stat-item centre {{#if (eq actor.system.hp.adj null)}} input-border {{/if}}"><input name="system.hp.adj" type="number" value="{{system.hp.adj}}"/></div>
         <div class="stat-item">{{localize 'PEN.damAdj'}}</div>
-        <div class="stat-item centre {{#if (eq actor.system.damAdj null)}} input-border {{/if}}"><input name="system.damAdj" type="text" value="{{system.damAdj}}" data-dtype="Number"/></div>
+        <div class="stat-item centre {{#if (eq actor.system.damAdj null)}} input-border {{/if}}"><input name="system.damAdj" type="number" value="{{system.damAdj}}"/></div>
         <div class="stat-item">{{localize 'PEN.moveAdj'}}</div>
-        <div class="stat-item centre {{#if (eq actor.system.moveAdj null)}} input-border {{/if}}"><input name="system.moveAdj" type="text" value="{{system.moveAdj}}" data-dtype="Number"/></div>
+        <div class="stat-item centre {{#if (eq actor.system.moveAdj null)}} input-border {{/if}}"><input name="system.moveAdj" type="number" value="{{system.moveAdj}}"/></div>
         <div class="stat-item">{{localize 'PEN.armourAdj'}}</div>
-        <div class="stat-item centre {{#if (eq actor.system.armourAdj null)}} input-border {{/if}}"><input name="system.armourAdj" type="text" value="{{system.armourAdj}}" data-dtype="Number"/></div>
+        <div class="stat-item centre {{#if (eq actor.system.armourAdj null)}} input-border {{/if}}"><input name="system.armourAdj" type="number" value="{{system.armourAdj}}"/></div>
         <div class="stat-item">{{localize 'PEN.sizIncLabel'}}</div>
-        <div class="stat-item centre {{#if (eq actor.system.armourAdj null)}} input-border {{/if}}"><input name="system.stats.siz.growth" type="text" value="{{system.stats.siz.growth}}" data-dtype="Number"/></div>
+        <div class="stat-item centre {{#if (eq actor.system.armourAdj null)}} input-border {{/if}}"><input name="system.stats.siz.growth" type="number" value="{{system.stats.siz.growth}}"/></div>
       {{else}}
         <div class="stat-item">{{localize 'PEN.hpAdj'}}</div>
         <div class="stat-item">{{system.hp.adj}}</div>

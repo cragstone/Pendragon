@@ -11,25 +11,27 @@ const {
 
 export class BattleData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
+    const requiredInteger = { required: true, nullable: false, integer: true };
     return {
       encounters: new ArrayField(new StringField()),
       knights: new ArrayField(
         new ForeignDocumentField(foundry.documents.BaseActor),
       ),
-      shortDesc: new StringField(),
-      fieldPos: new StringField(),
-      description: new HTMLField(),
-      notes: new HTMLField(),
-      maxTurns: new NumberField({ integer: true, default: 8 }),
-      currTurn: new NumberField({ integer: true, default: 1 }),
-      battleScore: new NumberField({ integer: true, default: 0 }),
-      intensity: new NumberField({ integer: true, default: 0 }),
-      maxMorale: new NumberField({ integer: true, default: 0 }),
-      currMorale: new NumberField({ integer: true, default: 0 }),
-      lock: new BooleanField(),
-      noteView: new BooleanField(),
-      descripView: new BooleanField(),
-      encView: new BooleanField(),
+      shortDesc: new StringField({ required: true, blank: true, initial: ""}),
+      fieldPos: new StringField({ required: true, blank: true, initial: ""}),
+      description: new HTMLField({ required: true, blank: true, initial: ""}),
+      notes: new HTMLField({ required: true, blank: true, initial: ""}),
+      maxTurns: new NumberField({ ...requiredInteger, initial: 8 }),
+      currTurn: new NumberField({ ...requiredInteger, initial: 1 }),
+      battleScore: new NumberField({ ...requiredInteger, initial: 0 }),
+      intensity: new NumberField({ ...requiredInteger, initial: 0 }),
+      maxMorale: new NumberField({ ...requiredInteger, initial: 0 }),
+      currMorale: new NumberField({ ...requiredInteger, initial: 0 }),
+      lock: new BooleanField({ initial: false}),
+      noteView: new BooleanField({initial: false}),
+      resultsView: new BooleanField({initial: false}),      
+      descripView: new BooleanField({initial: false}),
+      encView: new BooleanField({initial: false}),
     };
   }
   static migrateData(source) {
@@ -118,6 +120,7 @@ export class BattleData extends foundry.abstract.TypeDataModel {
     return this.knights.map((a) => ({ actor: a() }));
   }
   async addKnight(actor) {
+    console.log(actor.id, actor._id)
     const membersCollection = this.toObject().knights;
     membersCollection.push(actor.id);
     return this.parent.update({ "system.knights": membersCollection });

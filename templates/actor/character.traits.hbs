@@ -37,9 +37,9 @@
       {{#each traits as |trait key|}}
         <li class="item skill-dev-listitem" data-item-id="{{trait._id}}">
           <div class="stat-name truncate new-row grid-item-left {{#if (gt trait.system.religious 0)}} underlined {{/if}}" data-tooltip="{{trait.name}}">{{trait.name}}</div>
-          <div class="stat-name-input item centre grid-item-bottom" data-field="trait" data-att="value" data-itemid ="{{trait._id}}"><input class="inline-edit" name="trait.system.value" type="text" value="{{trait.system.value}}" data-dtype="Number"/></div>
-          <div class="stat-name-input item centre grid-item-bottom" data-field="trait" data-att="religious" data-itemid ="{{trait._id}}"><input class="inline-edit" name="trait.system.religious" type="text" value="{{trait.system.religious}}" data-dtype="Number"/></div>
-          <div class="stat-name-input item centre grid-item-bottom" data-field="trait" data-att="winter" data-itemid ="{{trait._id}}"><input class="inline-edit" name="trait.system.winter" type="text" value="{{trait.system.winter}}" data-dtype="Number"/></div>
+          <div class="stat-name-input item centre grid-item-bottom" data-field="trait" data-att="value" data-itemid ="{{trait._id}}"><input class="inline-edit" name="trait.system.value" type="number" value="{{trait.system.value}}"/></div>
+          <div class="stat-name-input item centre grid-item-bottom" data-field="trait" data-att="religious" data-itemid ="{{trait._id}}"><input class="inline-edit" name="trait.system.religious" type="number" value="{{trait.system.religious}}"/></div>
+          <div class="stat-name-input item centre grid-item-bottom" data-field="trait" data-att="winter" data-itemid ="{{trait._id}}"><input class="inline-edit" name="trait.system.winter" type="number" value="{{trait.system.winter}}"/></div>
           <div class="stat-name centre grid-item-bottom {{#if (gt trait.system.total 20)}}purple {{/if}}{{#if (gt trait.system.total 15)}}bold italics {{/if}}">{{trait.system.total}}</div>
           <div class="stat-name centre grid-item-bottom {{#if (gt trait.system.oppvalue 20)}}purple {{/if}}{{#if (gt trait.system.oppvalue 15)}}bold italics {{/if}}">{{trait.system.oppvalue}}</div>
         </li>

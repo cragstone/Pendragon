@@ -7,7 +7,7 @@
       <div class="bold">{{ localize "PEN.traitGroup"}}</div>
       <div class="bold">{{ localize "PEN.required"}}</div>
       {{#if isGM}}
-        <div class="stat-name-input {{#if (eq item.system.traitGroupScore '')}} input-border {{/if}} centre"><input name="system.traitGroupScore" type="text" value="{{item.system.traitGroupScore}}" data-dtype="Number"/></div>
+        <div class="stat-name-input {{#if (eq item.system.traitGroupScore '')}} input-border {{/if}} centre"><input name="system.traitGroupScore" type="number" value="{{item.system.traitGroupScore}}"/></div>
       {{else}}
       <div class="stat-name centre">{{item.system.traitGroupScore}}</div>
       {{/if}}
@@ -63,17 +63,17 @@
   <div class="item-trait-grid">
     {{#if isGM}}
       <div class="stat-name left bold">{{localize 'PEN.passive'}}</div>
-      <div class="stat-name-input "><input name="system.glory" type="text" value="{{item.system.glory}}" data-dtype="Number"/></div>
+      <div class="stat-name-input "><input name="system.glory" type="number" value="{{item.system.glory}}"/></div>
       <div class="stat-name left bold" data-tooltip="{{localize 'PEN.armourVirtue'}}">{{localize 'PEN.armourPoints'}}</div>
-      <div class="stat-name-input "><input name="system.armour" type="text" value="{{item.system.armour}}" data-dtype="Number"/></div>
+      <div class="stat-name-input "><input name="system.armour" type="number" value="{{item.system.armour}}"/></div>
       <div class="stat-name left bold">{{localize 'PEN.hp'}}</div>
-      <div class="stat-name-input "><input name="system.hp" type="text" value="{{item.system.hp}}" data-dtype="Number"/></div>
+      <div class="stat-name-input "><input name="system.hp" type="number" value="{{item.system.hp}}"/></div>
       <div class="stat-name left bold">{{localize 'PEN.healRate'}}</div>
-      <div class="stat-name-input "><input name="system.hr" type="text" value="{{item.system.hr}}" data-dtype="Number"/></div>
+      <div class="stat-name-input "><input name="system.hr" type="number" value="{{item.system.hr}}"/></div>
       <div class="stat-name left bold">{{localize 'PEN.damageBonus'}}</div>
       <div class="stat-name-input "><input name="system.dam" type="text" value="{{item.system.dam}}"/></div>
       <div class="stat-name left bold">{{localize 'PEN.move'}}</div>
-      <div class="stat-name-input "><input name="system.move" type="text" value="{{item.system.move}}" data-dtype="Number"/></div>
+      <div class="stat-name-input "><input name="system.move" type="number" value="{{item.system.move}}"/></div>
       <div class="stat-name left bold" data-tooltip="{{localize 'PEN.magicProt'}}">{{localize 'PEN.magicProtShort'}}</div>
       <div class="stat-name"><a class="item-control item-toggle large-icon" data-property = "protect" title="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if item.system.protect}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>  
     {{else}}

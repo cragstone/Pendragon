@@ -11,19 +11,20 @@ const {
 
 export class EncounterData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
+    const requiredInteger = { required: true, nullable: false, integer: true };
     return {
       npcs: new ArrayField(new DocumentUUIDField({ type: "Actor" })),
-      shortDesc: new StringField(),
-      moraleLoss: new StringField(),
-      description: new HTMLField(),
-      notes: new HTMLField(),
-      moraleMin: new NumberField({ integer: true, default: 0 }),
-      numOpp: new NumberField({ integer: true, default: 1 }),
-      npcView: new NumberField({ integer: true, default: 99 }),
-      opportunity: new BooleanField(),
-      lock: new BooleanField(),
-      noteView: new BooleanField(),
-      used: new BooleanField(),
+      shortDesc: new StringField({ required: true, blank: true, initial: ""}),
+      moraleLoss: new StringField({ required: true, blank: true, initial: ""}),
+      description: new HTMLField({ required: true, blank: true, initial: ""}),
+      notes: new HTMLField({ required: true, blank: true, initial: ""}),
+      moraleMin: new NumberField({ ...requiredInteger, initial: 0 }),
+      numOpp: new NumberField({ ...requiredInteger, initial: 1 }),
+      npcView: new NumberField({ ...requiredInteger, initial: 99 }),
+      opportunity: new BooleanField({initial: false}),
+      lock: new BooleanField({initial: false}),
+      noteView: new BooleanField({initial: false}),
+      used: new BooleanField({initial: false}),
     };
   }
 

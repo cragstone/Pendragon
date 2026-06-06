@@ -184,7 +184,7 @@ export class PENCharCreate {
     if (step === "addClass") {
       let result = await PENCharCreate.stepAddClass(actor)
       if (!result) {return}
-      ui.notifications.warn(actor.name + ": " + game.i18n.localize('PEN.create.stepaddClass'))
+      ui.notifications.warn(actor.name + ": " + game.i18n.localize('PEN.create.addClass'))
     }
 
     //STEP 2:  Add family
@@ -2055,7 +2055,7 @@ export class PENCharCreate {
     let chatData={};
       chatData = {
         user: game.user.id,
-        type: CONST.CHAT_MESSAGE_STYLES.OTHER,
+        //type: CONST.CHAT_MESSAGE_STYLES.OTHER,
         content: html,
         speaker: {
           actor: actor._id,

@@ -1,7 +1,7 @@
 <section class="tab attributes {{tab.cssClass}}" data-group="primary" data-tab="attributes">
   <div class="item-trait-grid">
     <div class="stat-name left bold">{{localize 'PEN.age'}}</div>
-    <div class="stat-name-input centre"><input name="system.age" type="text" value="{{item.system.age}}" placeholder=10 data-dtype="Number"/></div>
+    <div class="stat-name-input centre"><input name="system.age" type="number" value="{{item.system.age}}" placeholder=10/></div>
     <div class="stat-name left bold">{{localize 'PEN.type'}}</div>
     <div class="stat-name">
       <select class="centre" data-handle-change name="system.category">
@@ -10,11 +10,11 @@
     </div>
     {{#if (eq item.system.category 'squire')}}
       <div class="stat-name left bold">{{localize 'PEN.skill'}}</div>
-      <div class="stat-name-input centre"><input name="system.skill" type="text" value="{{item.system.skill}}" placeholder=15 data-dtype="Number"/></div>
+      <div class="stat-name-input centre"><input name="system.skill" type="number" value="{{item.system.skill}}" placeholder=15/></div>
       <div class="stat-name left bold">{{localize 'PEN.knightlyMod'}}</div>
-      <div class="stat-name-input centre"><input name="system.knightMod" type="text" value="{{item.system.knightMod}}" placeholder=0 data-dtype="Number"/></div>
+      <div class="stat-name-input centre"><input name="system.knightMod" type="number" value="{{item.system.knightMod}}" placeholder=0/></div>
       <div class="stat-name left bold">{{localize 'PEN.glory'}}</div>
-      <div class="stat-name-input centre"><input name="system.glory" type="text" value="{{item.system.glory}}" placeholder=0 data-dtype="Number"/></div>
+      <div class="stat-name-input centre"><input name="system.glory" type="number" value="{{item.system.glory}}" placeholder=0/></div>
     {{/if}}
   </div>
 </section>

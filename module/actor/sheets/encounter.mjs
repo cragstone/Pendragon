@@ -212,7 +212,7 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
       event.preventDefault();
       event.stopImmediatePropagation();
       const itemId = target.closest(".partic-cell").dataset.property;
-      await this.actor.system.npcs.removeMember(itemId);
+      await this.actor.system.removeMember(itemId);
     }
   }
 
@@ -235,9 +235,10 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(
     event.preventDefault();
     event.stopImmediatePropagation();
     const itemId = target.closest(".partic-cell").dataset.property;
-    const pid = target.closest(".partic-cell").dataset.pid;
+    let encActor = await fromUuid(itemId);
+    //const pid = target.closest(".partic-cell").dataset.pid;
+    let pid = encActor.flags.Pendragon?.pidFlag?.id
     let count = target.dataset.count;
-
     //Check Scene is present
     if (!canvas.scene) {
       ui.notifications.error(game.i18n.localize("PEN.noScene"));

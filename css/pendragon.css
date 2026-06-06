@@ -534,7 +534,7 @@ body.theme-dark .application.Pendragon.sheet,
 
 .Pendragon .warhorse-grid {
   display: grid;
-  grid-template-columns: 70px 50px 30px 100px 50px;
+  grid-template-columns: 70px 50px 30px 120px 70px;
   gap: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -1002,7 +1002,7 @@ body.theme-dark .application.Pendragon.sheet,
   display: grid;
   width: 402px;
   border-bottom: 1px gray solid;
-  grid-template-columns: 232px 50px 80px 40px;
+  grid-template-columns: 228px 50px 80px 44px;
   gap: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -1012,7 +1012,7 @@ body.theme-dark .application.Pendragon.sheet,
   display: grid;
   width: 402px;
   border-bottom: 1px gray solid;
-  grid-template-columns: 131px 30px 40px 131px 30px 40px;
+  grid-template-columns: 127px 30px 44px 127px 30px 44px;
   gap: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -1034,6 +1034,7 @@ body.theme-dark .application.Pendragon.sheet,
   gap: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
+  font-family: APGaramond;
 }
 
 .Pendragon .npc-notes-doc {
@@ -1760,6 +1761,14 @@ body.theme-dark .application.Pendragon.sheet,
 }
 
 .Pendragon.item {
+  nav.tabs {
+      --color-text-primary: #000;
+      --color-text-emphatic: #000;
+      --color-text-secondary: #333;
+  }
+}
+
+.Pendragon.actor {
   nav.tabs {
       --color-text-primary: #000;
       --color-text-emphatic: #000;

@@ -2,10 +2,10 @@
   "id": "Pendragon",
   "title": "Pendragon",
   "description": "Pendragon system for FoundryVTT!",
-  "version": "13.64",
+  "version": "14.1",
   "compatibility": {
-    "minimum": 13,
-    "verified": "13.351",
+    "minimum": 14,
+    "verified": "14.363",
     "maximum": 14
   },
   "authors": [
@@ -94,11 +94,11 @@
         "filePathFields": { "coatOfArms": ["IMAGE"] }
       },
       "npc": {
-        "htmlFields": ["notes"],
+        "htmlFields": ["description"],
         "filePathFields": { "coatOfArms": ["IMAGE"] }
       },
       "follower": {
-        "htmlFields": ["notes"]
+        "htmlFields": ["description"]
       },
       "party": {},
       "encounter": {
@@ -109,23 +109,55 @@
       }
     },
     "Item": {
-      "gear": {},
-      "skill": {},
-      "trait": {},
+      "gear": {
+        "htmlFields": ["description", "GMdescription"]        
+      },
+      "skill": {
+        "htmlFields": ["description", "GMdescription"]            
+      },
+      "trait": {
+        "htmlFields": ["description", "GMdescription"]               
+      },
       "wound": {},
-      "history": {},
-      "passion": {},
-      "horse": {},
-      "squire": {},
-      "armour": {},
-      "weapon": {},
-      "family": {},
-      "culture": {},
-      "religion": {},
-      "class": {},
-      "homeland": {},
-      "ideal": {},
-      "relationship": {}
+      "history": {
+        "htmlFields": ["description", "GMdescription"]               
+      },
+      "passion": {
+        "htmlFields": ["description", "GMdescription"]        
+      },
+      "horse": {
+        "htmlFields": ["description", "GMdescription"]
+      },
+      "squire": {
+        "htmlFields": ["description", "GMdescription"]
+      },
+      "armour": {
+        "htmlFields": ["description", "GMdescription"]
+      },
+      "weapon": {
+        "htmlFields": ["description", "GMdescription"]
+      },
+      "family": {
+        "htmlFields": ["description", "GMdescription"]
+      },
+      "culture": {
+        "htmlFields": ["description", "GMdescription"]
+      },
+      "religion": {
+        "htmlFields": ["description", "GMdescription"]
+      },
+      "class": {
+        "htmlFields": ["description", "GMdescription"]
+      },
+      "homeland": {
+        "htmlFields": ["description", "GMdescription"]
+      },
+      "ideal": {
+        "htmlFields": ["description", "GMdescription"]
+      },
+      "relationship": {
+        "htmlFields": ["description", "GMdescription"]
+      }
     },
     "RegionBehavior": {
       "ChaosiumCanvasInterfaceAmbientLightToggle": {},
@@ -140,7 +172,7 @@
 
   "url": "https://github.com/cragstone/Pendragon",
   "manifest": "https://github.com/cragstone/Pendragon/releases/latest/download/system.json",
-  "download": "https://github.com/cragstone/Pendragon/releases/download/13.64/Pendragon.zip",
+  "download": "https://github.com/cragstone/Pendragon/releases/download/14.1/Pendragon.zip",
   "socket": true,
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md"

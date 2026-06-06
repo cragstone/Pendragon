@@ -2,7 +2,7 @@
     <div class="item-armour-grid">
       {{#if isGM}}
         <div class="stat-name left bold">{{localize 'PEN.armourPoints'}}</div>
-        <div class="stat-name-input "><input name="system.ap" type="text" value="{{item.system.ap}}" data-dtype="Number"/></div>
+        <div class="stat-name-input "><input name="system.ap" type="number" value="{{item.system.ap}}"/></div>
 
         <div class="stat-name left bold">{{localize 'PEN.armour'}}</div>
         <div class=""><a class="item-control item-toggle large-icon" data-property = "armour" title="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if item.system.type}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
@@ -31,7 +31,7 @@
         {{#if item.system.type}}
           <div class="stat-name">{{item.system.ap}}</div>
         {{else}}
-          <div class="stat-name-input "><input name="system.ap" type="text" value="{{item.system.ap}}" data-dtype="Number"/></div>
+          <div class="stat-name-input "><input name="system.ap" type="number" value="{{item.system.ap}}"/></div>
         {{/if}}
         <div class="stat-name left bold">{{localize 'PEN.armour'}}</div>
         <div class=""><a class="item-control large-icon"><i class="{{#if item.system.type}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>

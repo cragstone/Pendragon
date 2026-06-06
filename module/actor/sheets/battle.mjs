@@ -359,8 +359,10 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
       //Only perform on double click
       event.preventDefault();
       event.stopImmediatePropagation();
-      for (let actr of this.actor.system.knights) {
-        let knight = await fromUuid(actr.uuid);
+      const membersCollection = this.actor.toObject().system.knights;
+      for (let actr of membersCollection) {
+        console.log(actr)
+        let knight = await game.actors.get(actr);
         if (knight) {
           await knight.update({ "system.battlePos": 0 });
         }

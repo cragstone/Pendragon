@@ -22,7 +22,7 @@
             {{#if ../system.lock}}
               <div class="npc-name centre">{{stat.value}}</div>
             {{else}}
-              <div class="npc-name-input centre"><input name="system.stats.{{key}}.value" type="text" value="{{stat.value}}" placeholder=10 data-dtype="Number"/></div>
+              <div class="npc-name-input centre"><input name="system.stats.{{key}}.value" type="number" value="{{stat.value}}" placeholder=10/></div>
             {{/if}}
           {{/each}}
         </div>
@@ -35,7 +35,6 @@
 
       {{!-- Icons Section --}}      
       <section class="bottom sheet-header">      
-        <div class="right middle-icon"><a class="close-sheet" title="{{ localize 'PEN.close' }}"> <i class="fas fa-circle-xmark"></i></a></div>
         {{#if system.lock}}
           <div><a class=""><i class="fas"></i></a></div>
         {{else}}  
@@ -53,7 +52,7 @@
         <div class="npc-name centre">{{system.hp.value}} / {{system.hp.max}}</div>
         <div></div>
         <div class="npc-name left bold">{{localize 'PEN.wounds'}}</div>
-        <div class="npc-name-input centre"><input name="system.woundTotal" type="number" min="0" oninput="validity.valid||(value='');" value="{{system.woundTotal}}" data-dtype="Number"/></div>
+        <div class="npc-name-input centre"><input name="system.woundTotal" type="number" min="0" oninput="validity.valid||(value='');" value="{{system.woundTotal}}"/></div>
 
        <div class="npc-name left bold">{{localize 'PEN.knockdown'}}</div>
         <div class="npc-name centre">{{system.manKnockdown}}</div>
@@ -82,31 +81,31 @@
       {{else}}
   
         <div class="npc-name left bold" title="{{ localize 'PEN.maxHPHint' }}">{{localize 'PEN.maxHP'}}</div>
-        <div class="npc-name-input centre"><input name="system.manMaxHP" type="text" value="{{system.manMaxHP}}" data-dtype="Number"/></div>
+        <div class="npc-name-input centre"><input name="system.manMaxHP" type="number" value="{{system.manMaxHP}}"/></div>
         <div></div>
         <div class="npc-name left bold">{{localize 'PEN.wounds'}}</div>
-        <div class="npc-name-input centre"><input name="system.woundTotal" type="number" min="0" oninput="validity.valid||(value='');" value="{{system.woundTotal}}" data-dtype="Number"/></div>
+        <div class="npc-name-input centre"><input name="system.woundTotal" type="number" min="0" oninput="validity.valid||(value='');" value="{{system.woundTotal}}"/></div>
 
         <div class="npc-name left bold">{{localize 'PEN.knockdown'}}</div>
-        <div class="npc-name-input centre"><input name="system.manKnockdown" type="text" value="{{system.manKnockdown}}" data-dtype="Number"/></div>
+        <div class="npc-name-input centre"><input name="system.manKnockdown" type="number" value="{{system.manKnockdown}}"/></div>
         <div></div>
         <div class="npc-name left bold">{{localize 'PEN.armour'}}</div>
-        <div class="npc-name-input npc-armour centre" title = "{{localize 'PEN.armourShield'}}"><input name="system.manArm" type="text" value="{{system.manArm}}" data-dtype="Number"/> / <input name="system.manShd" type="text" value="{{system.manShd}}" data-dtype="Number"/></div>
+        <div class="npc-name-input npc-armour centre" title = "{{localize 'PEN.armourShield'}}"><input name="system.manArm" type="number" value="{{system.manArm}}"/> / <input name="system.manShd" type="number" value="{{system.manShd}}"/></div>
       
         <div class="npc-name left bold">{{localize 'PEN.mjrWnd'}}</div>
-        <div class="npc-name-input centre"><input name="system.manMjrWnd" type="text" value="{{system.manMjrWnd}}" data-dtype="Number"/></div>
+        <div class="npc-name-input centre"><input name="system.manMjrWnd" type="number" value="{{system.manMjrWnd}}"/></div>
         <div></div>
         <div class="npc-name left bold">{{localize 'PEN.healRate'}}</div>
-        <div class="npc-name-input centre"><input name="system.manHealRate" type="text" value="{{system.manHealRate}}" data-dtype="Number"/></div>
+        <div class="npc-name-input centre"><input name="system.manHealRate" type="number" value="{{system.manHealRate}}"/></div>
 
         <div class="npc-name left bold" title="{{ localize 'PEN.unconsciousHint' }}">{{localize 'PEN.unconscious'}}</div>
-        <div class="npc-name-input centre"><input name="system.manUnconscious" type="text" value="{{system.manUnconscious}}" data-dtype="Number"/></div>
+        <div class="npc-name-input centre"><input name="system.manUnconscious" type="number" value="{{system.manUnconscious}}"/></div>
         <div></div>
         <div class="npc-name left bold">{{localize 'PEN.damage'}}</div>
-        <div class="npc-name-input centre"><input name="system.manDmg" type="text" value="{{system.manDmg}}" data-dtype="Number"/></div>
+        <div class="npc-name-input centre"><input name="system.manDmg" type="number" value="{{system.manDmg}}"/></div>
 
         <div class="npc-name left bold rollable move">{{localize 'PEN.move'}}</div>
-        <div class="npc-name-input centre"><input name="system.manMove" type="text" value="{{system.manMove}}" data-dtype="Number"/></div>
+        <div class="npc-name-input centre"><input name="system.manMove" type="number" value="{{system.manMove}}"/></div>
         <div></div>
         <div></div>
         <div class="right middle-icon"><a class="actor-toggle" title="{{ localize 'PEN.viewBackground' }}" data-property="view"> <i class="{{#if system.view}}fas fa-book-open-cover{{else}}fas fa-book{{/if}}"></i></a></div>
@@ -120,7 +119,7 @@
         <div class="npc-name left bold" style = "grid-column: 1 / span 2;">{{localize 'PEN.personal'}}:</div>
         {{#unless system.lock}}
           <div class="npc-name left bold new-row">{{localize 'PEN.born'}}</div>
-          <div class="npc-name-input centre"><input name="system.born" type="text" value="{{system.born}}" data-dtype="Number"/></div> 
+          <div class="npc-name-input centre"><input name="system.born" type="number" value="{{system.born}}"/></div> 
           <div class="npc-name left bold new-row">{{localize 'PEN.culture'}}</div>
           <div class="npc-name-input centre {{#if (eq system.culture '')}} input-border {{/if}}"><input name="system.culture" type="text" value="{{system.culture}}"/></div> 
           <div class="npc-name left bold new-row">{{localize 'PEN.homeland'}}</div>
@@ -133,13 +132,13 @@
           <div class="npc-name-input centre {{#if (eq system.features '')}}  input-border {{/if}}"><input name="system.features" type="text" value="{{system.features}}"/></div> 
           <div class="npc-name left bold" style="margin-top: 2px;" title="{{localize 'PEN.sol'}}">{{localize 'PEN.solShort'}}</div>
           <div class="npc-name centre">
-            <select style="height:22px;" data-handle-change name="system.sol">
+            <select class="centre" style="height:22px;" data-handle-change name="system.sol">
               {{selectOptions solType selected=actor.system.sol}}
             </select>
           </div>
           {{#if (eq system.subtype 'squire')}}
             <div class="npc-name left bold new-row">{{localize 'PEN.squireVal'}}</div>
-            <div class="npc-name-input centre"><input name="system.squire" type="text" value="{{system.squire}}" data-dtype="Number"/></div> 
+            <div class="npc-name-input centre"><input name="system.squire" type="number" value="{{system.squire}}"/></div> 
           {{/if}}
         {{else}}  
           <div class="npc-name left bold new-row">{{localize 'PEN.born'}}</div>
@@ -201,7 +200,7 @@
             <div></div>      
             {{else}}
               <div class="npc-name-input item" data-field ="name" data-itemid="{{weapon._id}}"><input class="inline-edit" name="item.weapon.{{key}}.name" type="text" value="{{weapon.name}}"/></div>
-              <div class="npc-name-input centre item" data-field ="score" data-itemid="{{weapon._id}}"><input class="inline-edit" name="item.system.weapon.{{key}}.value" type="text" value="{{weapon.system.value}}" data-dtype="Number"/></div>
+              <div class="npc-name-input centre item" data-field ="score" data-itemid="{{weapon._id}}"><input class="inline-edit" name="item.system.weapon.{{key}}.value" type="number" value="{{weapon.system.value}}"/></div>
               <div class="npc-name-input centre item" data-field ="damage" data-itemid="{{weapon._id}}"><input class="inline-edit" name="item.system.weapon.{{key}}.dmgForm" type="text" value="{{weapon.system.dmgForm}}"/></div>
               <div class="npc-name centre item" data-document-class='Item' data-itemid ="{{weapon._id}}">
                 <a class="item-control fade" data-action="viewDoc"><i title="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
@@ -236,7 +235,7 @@
             {{else}}
               <div class="npc-name-input item" data-field ="name" data-itemid="{{armour._id}}"><input class="inline-edit" name="item.armour.{{key}}.name" type="text" value="{{armour.name}}"/></div>
               <div class="npc-name centre"><a class="item-control item-toggle" data-itemid ="{{armour._id}}" data-property="armour" title="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if armour.system.type}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
-              <div class="npc-name-input centre item" data-field ="ap" data-itemid="{{armour._id}}"><input class="inline-edit" name="item.system.armour.{{key}}.ap" type="text" value="{{armour.system.ap}}" data-dtype="Number"/></div>
+              <div class="npc-name-input centre item" data-field ="ap" data-itemid="{{armour._id}}"><input class="inline-edit" name="item.system.armour.{{key}}.ap" type="number" value="{{armour.system.ap}}"/></div>
               <div class="npc-name centre item" data-document-class='Item' data-itemid ="{{armour._id}}">
                 <a class="item-control fade" data-action="viewDoc"><i title="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
                 <a class="item-control fade" data-action="deleteDoc"><i title="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
@@ -270,7 +269,7 @@
               <div></div>      
             {{else}}
               <div class="npc-name-input item" data-field ="name" data-itemid="{{skill._id}}"><input class="inline-edit" name="item.skill.{{key}}.name" type="text" value="{{skill.name}}"/></div>
-              <div class="npc-name-input centre item" data-field ="value" data-itemid="{{skill._id}}"><input class="inline-edit" name="item.system.skill.{{key}}.value" type="text" value="{{skill.system.value}}" data-dtype="Number"/></div>
+              <div class="npc-name-input centre item" data-field ="value" data-itemid="{{skill._id}}"><input class="inline-edit" name="item.system.skill.{{key}}.value" type="number" value="{{skill.system.value}}"/></div>
               <div class="npc-name centre item" data-document-class='Item' data-itemid ="{{skill._id}}">
                 <a class="item-control fade" data-action="viewDoc"><i title="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
                 <a class="item-control fade" data-action="deleteDoc"><i title="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
@@ -304,7 +303,7 @@
               <div></div>      
             {{else}}
               <div class="npc-name-input item" data-field ="name" data-itemid="{{trait._id}}"><input class="inline-edit" name="item.trait.{{key}}.name" type="text" value="{{trait.name}}"/></div>
-              <div class="npc-name-input centre item" data-field ="value" data-itemid="{{trait._id}}"><input class="inline-edit" name="item.system.trait.{{key}}.value" type="text" value="{{trait.system.value}}" data-dtype="Number"/></div>
+              <div class="npc-name-input centre item" data-field ="value" data-itemid="{{trait._id}}"><input class="inline-edit" name="item.system.trait.{{key}}.value" type="number" value="{{trait.system.value}}"/></div>
               <div class="npc-name centre item" data-document-class='Item' data-itemid ="{{trait._id}}">
                 <a class="item-control fade" data-action="viewDoc"><i title="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
                 <a class="item-control fade" data-action="deleteDoc"><i title="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
@@ -338,7 +337,7 @@
               <div></div>      
             {{else}}
               <div class="npc-name-input item" data-field ="name" data-itemid="{{passion._id}}"><input class="inline-edit" name="item.passion.{{key}}.name" type="text" value="{{passion.name}}"/></div>
-              <div class="npc-name-input centre item" data-field ="value" data-itemid="{{passion._id}}"><input class="inline-edit" name="item.system.passion.{{key}}.value" type="text" value="{{passion.system.value}}" data-dtype="Number"/></div>
+              <div class="npc-name-input centre item" data-field ="value" data-itemid="{{passion._id}}"><input class="inline-edit" name="item.system.passion.{{key}}.value" type="number" value="{{passion.system.value}}"/></div>
               <div class="npc-name centre item" data-document-class='Item' data-itemid ="{{passion._id}}">
                 <a class="item-control fade" data-action="viewDoc"><i title="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
                 <a class="item-control fade" data-action="deleteDoc"><i title="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
@@ -366,12 +365,12 @@
           {{#each horses as |horse key|}}
             {{#if ../system.lock}}
               <div class="npc-name rollable" data-type ="horse" data-sourceID = "{{horse.system.sourceID}}" data-itemid="{{horse._id}}">{{horse.name}}</div> 
-              <div class="npc-name-input centre item" data-field ="hp" data-itemid="{{horse._id}}"><input class="inline-edit" name="item.system.horse.{{key}}.value" type="text" value="{{horse.system.hp}}" data-dtype="Number"/></div>
+              <div class="npc-name-input centre item" data-field ="hp" data-itemid="{{horse._id}}"><input class="inline-edit" name="item.system.horse.{{key}}.value" type="number" value="{{horse.system.hp}}"/></div>
               <div class="npc-name centre rollable damage" title="{{localize 'PEN.chargeDmgHint'}}: {{horse.system.chargeDmg}}" data-itemid="{{horse._id}}">{{horse.system.damage}}</div>
               <div></div>      
             {{else}}
               <div class="npc-name-input item" data-field ="name" data-itemid="{{horse._id}}"><input class="inline-edit" name="item.horse.{{key}}.name" type="text" value="{{horse.name}}"/></div>
-              <div class="npc-name-input centre item" data-field ="hp" data-itemid="{{horse._id}}"><input class="inline-edit" name="item.system.horse.{{key}}.value" type="text" value="{{horse.system.hp}}" data-dtype="Number"/></div>
+              <div class="npc-name-input centre item" data-field ="hp" data-itemid="{{horse._id}}"><input class="inline-edit" name="item.system.horse.{{key}}.value" type="number" value="{{horse.system.hp}}"/></div>
               <div class="npc-name-input centre item" data-field ="damage" data-itemid="{{horse._id}}"><input class="inline-edit" name="item.system.horse.{{key}}.damage" type="text" value="{{horse.system.damage}}"/></div>
               <div class="npc-name centre item" data-document-class='Item' data-itemid ="{{horse._id}}">
                 <a class="item-control fade" data-action="viewDoc"><i title="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>

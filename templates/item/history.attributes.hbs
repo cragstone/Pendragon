@@ -9,16 +9,16 @@
 
   <div class = "history-small-grid">
     <div class="stat-name left bold">{{localize 'PEN.year'}}</div>
-    <div class="stat-name-input centre"><input name="system.year" type="text" value="{{item.system.year}}" data-dtype="Number"/></div>
+    <div class="stat-name-input centre"><input name="system.year" type="number" value="{{item.system.year}}"/></div>
     <br>
 
     <div class="stat-name left bold new-row">{{localize 'PEN.glory'}}</div>
-    <div class="stat-name-input centre"><input name="system.glory" type="text" value="{{item.system.glory}}" data-dtype="Number"/></div>
+    <div class="stat-name-input centre"><input name="system.glory" type="number" value="{{item.system.glory}}"/></div>
 
     {{#if item.system.favour}}
       <br>
       <div class="stat-name left bold new-row">{{localize 'PEN.favourLevel'}}</div>
-      <div class="stat-name-input centre"><input name="system.favourLevel" type="text" value="{{item.system.favourLevel}}" data-dtype="Number"/></div>
+      <div class="stat-name-input centre"><input name="system.favourLevel" type="number" value="{{item.system.favourLevel}}"/></div>
     {{/if}}
 
   </div>

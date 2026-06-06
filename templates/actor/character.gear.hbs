@@ -18,7 +18,7 @@
       {{#if armour.system.type}}
         <div class="stat-name centre grid-item">{{armour.system.ap}}</div>
       {{else}}
-      <div class="stat-name-input grid-item centre middle item" data-field="armour" data-itemid ="{{armour._id}}"><input class="inline-edit" name="item.system.armour.{{key}}.ap" type="text" value="{{armour.system.ap}}" data-dtype="Number"/></div>
+      <div class="stat-name-input grid-item centre middle item" data-field="armour" data-itemid ="{{armour._id}}"><input class="inline-edit" name="item.system.armour.{{key}}.ap" type="number" value="{{armour.system.ap}}"/></div>
       {{/if}}
       <div class="stat-name centre grid-item">{{armour.system.missPenalty}}</div>
       {{#if (eq armour.system.disadvantage '')}}

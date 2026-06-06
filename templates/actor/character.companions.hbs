@@ -57,7 +57,7 @@
       <div class="stat-name grid-item centre">{{horse.system.totalAR}}</div>
       <div class="stat-name grid-item centre">{{horse.system.move}}</div>
       <div class="stat-name grid-item centre rollable damage" data-tooltip="{{localize 'PEN.chargeDmgHint'}}: {{horse.system.chargeDmg}}" data-itemid="{{horse._id}}">{{horse.system.damage}}</div>
-      <div class="dam-name-input item grid-item centre dam-value" data-field="horse" data-itemid ="{{horse._id}}"><input class="inline-edit" name="item.system.horse.{{key}}.hp" type="text" value="{{horse.system.hp}}" data-dtype="Number"/></div>
+      <div class="dam-name-input item grid-item centre dam-value" data-field="horse" data-itemid ="{{horse._id}}"><input class="inline-edit" name="item.system.horse.{{key}}.hp" type="number" value="{{horse.system.hp}}" /></div>
       <div class="stat-name grid-item centre">{{horse.system.maxHP}}</div>
       <div class="stat-name grid-item centre">{{horse.system.healthName}}</div>
       <div class="stat-name grid-item centre">{{horse.system.careName}}</div>
@@ -79,9 +79,9 @@
   <div class="stat-name bold">{{localize 'PEN.joust'}}</div>
   <div class="joust-grid">
   <div class="stat-name">{{localize 'PEN.wins'}}</div>  
-  <div class="dam-name-input"><input name="system.joust.wins" type="text" value="{{actor.system.joust.wins}}" data-dtype="Number"/></div>
+  <div class="dam-name-input"><input name="system.joust.wins" type="number" value="{{actor.system.joust.wins}}"/></div>
   <div class="stat-name">{{localize 'PEN.losses'}}</div>  
-  <div class="dam-name-input"><input name="system.joust.losses" type="text" value="{{actor.system.joust.losses}}" data-dtype="Number"/></div>
+  <div class="dam-name-input"><input name="system.joust.losses" type="number" value="{{actor.system.joust.losses}}"/></div>
   </div>
   <br>
 </section>  

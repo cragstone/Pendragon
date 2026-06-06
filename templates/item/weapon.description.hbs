@@ -1,15 +1,15 @@
 <div class="tab {{tab.cssClass}}" data-group="primary" data-tab="description">
     <div class="money-grid">
         <div class="stat-name left bold">{{localize 'PEN.price'}}</div>
-        <div class="stat-name-input {{#if (eq item.system.libra '')}} input-border {{/if}} left"><input name="system.libra" type="text" value="{{item.system.libra}}" data-dtype="Number"/></div>
+        <div class="stat-name-input {{#if (eq item.system.libra '')}} input-border {{/if}} left"><input name="system.libra" type="number" value="{{item.system.libra}}"/></div>
         <div class="stat-name left bold">/</div>
-        <div class="stat-name-input {{#if (eq item.system.denarii '')}} input-border {{/if}} left"><input name="system.denarii" type="text" value="{{item.system.denarii}}" data-dtype="Number"/></div>
+        <div class="stat-name-input {{#if (eq item.system.denarii '')}} input-border {{/if}} left"><input name="system.denarii" type="number" value="{{item.system.denarii}}"/></div>
     </div>
 
     <div class="item-armour-grid">
       <div class="stat-name left bold">{{localize 'PEN.yearAvailable'}}</div>
       {{#if isGM}}
-        <div class="stat-name-input "><input name="system.yearAvailable" type="text" value="{{item.system.yearAvailable}}" data-dtype="Number"/></div>
+        <div class="stat-name-input "><input name="system.yearAvailable" type="number" value="{{item.system.yearAvailable}}"/></div>
       {{else}}
         <div class="stat-name">{{item.system.yearAvailable}}</div>
       {{/if}}

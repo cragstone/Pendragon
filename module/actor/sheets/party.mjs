@@ -229,7 +229,7 @@ export class PendragonPartySheet extends api.HandlebarsApplicationMixin(
       return;
     } else {
       ui.notifications.warn(
-        game.i18n.format("AOV.ErrorMsg.cantDropActor", {
+        game.i18n.format("PEN.cantDropActor", {
           itemType: game.i18n.localize("TYPES.Actor." + newActor.type),
           actorType: game.i18n.localize("TYPES.Actor." + this.actor.type),
         }),
