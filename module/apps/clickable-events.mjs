@@ -13,40 +13,6 @@ export default class PENClickableEvents extends foundry.data.regionBehaviors.Reg
    * Set up Clickable Events and Chaosium Canvas Interface
    */
   static initSelf () {
-    /* // FoundryVTT V12 */
-    if (game.release.generation === 12) {
-      class NoteDocumentPolyfill extends CONFIG.Note.documentClass {
-        /**
-         * Name field for FoundryVTT v12 Note
-         * @returns {string}
-         */
-        get name () {
-          return (this.text?.length ? this.text : this.label)
-        }
-      }
-      CONFIG.Note.documentClass = NoteDocumentPolyfill
-      class TileDocumentPolyfill extends CONFIG.Tile.documentClass {
-        /**
-         * Name field for FoundryVTT v12 Tile
-         * @returns {string}
-         */
-        get name () {
-          return this.collectionName + ': ' + this.id
-        }
-      }
-      CONFIG.Tile.documentClass = TileDocumentPolyfill
-      class DrawingDocumentPolyfill extends CONFIG.Drawing.documentClass {
-        /**
-         * Name field for FoundryVTT v12 Drawing
-         * @returns {string}
-         */
-        get name () {
-          return this.collectionName + ': ' + this.id
-        }
-      }
-      CONFIG.Drawing.documentClass = DrawingDocumentPolyfill
-    }
-
     const known = [
       ChaosiumCanvasInterfaceAmbientLightToggle,
       ChaosiumCanvasInterfaceDrawingToggle,
@@ -77,8 +43,7 @@ export default class PENClickableEvents extends foundry.data.regionBehaviors.Reg
 
     Object.assign(CONFIG.RegionBehavior.typeIcons, typeIcons)
 
-    /* // FoundryVTT V12 */
-    ;(foundry.applications.apps?.DocumentSheetConfig ?? DocumentSheetConfig).registerSheet(
+    foundry.applications.apps.DocumentSheetConfig.registerSheet(
       RegionBehavior,
       'PEN',
       foundry.applications.sheets.RegionBehaviorConfig,
@@ -88,22 +53,17 @@ export default class PENClickableEvents extends foundry.data.regionBehaviors.Reg
       }
     )
 
-    /* // FoundryVTT V12 */
-    const polyfillTokenLayer = (foundry.canvas?.layers?.TokenLayer ?? TokenLayer)
+    const polyfillTokenLayer = foundry.canvas.layers.TokenLayer
 
     const oldOnClickLeft = polyfillTokenLayer.prototype._onClickLeft
     polyfillTokenLayer.prototype._onClickLeft = function (event) {
       oldOnClickLeft.call(this, event)
       if (canvas.activeLayer instanceof polyfillTokenLayer) {
         const destination = canvas.activeLayer.toLocal(event)
-        /* // FoundryVTT V13 */
-        const level = canvas.level?.id
+        const level = canvas.level.id
         for (const region of canvas.scene.regions.contents) {
-          /* // FoundryVTT V13 */
-          if (typeof level === 'undefined' || region.levels.size === 0 || region.levels.has(level)) {
-            /* // FoundryVTT V12 */
-            const polygonTree = region.object?.document.polygonTree ?? region.object.polygonTree
-            const behaviors = region.behaviors.filter(b => !b.disabled && (b.system instanceof PENClickableEvents || b.system instanceof ChaosiumCanvasInterface) && polygonTree.testPoint(destination))
+          if (region.levels.size === 0 || region.levels.has(level)) {
+            const behaviors = region.behaviors.filter(b => !b.disabled && (b.system instanceof PENClickableEvents || b.system instanceof ChaosiumCanvasInterface) && region.object.document.polygonTree.testPoint(destination))
             if (behaviors) {
               behaviors.map(async (b) => { if (await b.system._handleMouseOverEvent() === true && typeof b.system._handleLeftClickEvent === 'function') { await b.system._handleLeftClickEvent() } })
             }
@@ -117,14 +77,10 @@ export default class PENClickableEvents extends foundry.data.regionBehaviors.Reg
       oldOnClickRight.call(this, event)
       if (canvas.activeLayer instanceof polyfillTokenLayer) {
         const destination = canvas.activeLayer.toLocal(event)
-        /* // FoundryVTT V13 */
-        const level = canvas.level?.id
+        const level = canvas.level.id
         for (const region of canvas.scene.regions.contents) {
-          /* // FoundryVTT V13 */
-          if (typeof level === 'undefined' || region.levels.size === 0 || region.levels.has(level)) {
-            /* // FoundryVTT V12 */
-            const polygonTree = region.object?.document.polygonTree ?? region.object.polygonTree
-            const behaviors = region.behaviors.filter(b => !b.disabled && (b.system instanceof PENClickableEvents || b.system instanceof ChaosiumCanvasInterface) && polygonTree.testPoint(destination))
+          if (region.levels.size === 0 || region.levels.has(level)) {
+            const behaviors = region.behaviors.filter(b => !b.disabled && (b.system instanceof PENClickableEvents || b.system instanceof ChaosiumCanvasInterface) && region.object.document.polygonTree.testPoint(destination))
             if (behaviors) {
               behaviors.map(async (b) => { if (await b.system._handleMouseOverEvent() === true && typeof b.system._handleRightClickEvent === 'function') { await b.system._handleRightClickEvent() } })
             }
@@ -139,16 +95,12 @@ export default class PENClickableEvents extends foundry.data.regionBehaviors.Reg
         if (!pointer) {
           return
         }
-        /* // FoundryVTT V13 */
-        const level = canvas.level?.id
+        const level = canvas.level.id
         const destination = canvas.activeLayer.toLocal(event)
         let setPointer = false
         for (const region of canvas.scene.regions.contents) {
-          /* // FoundryVTT V13 */
-          if (typeof level === 'undefined' || region.levels.size === 0 || region.levels.has(level)) {
-            /* // FoundryVTT V12 */
-            const polygonTree = region.object?.document.polygonTree ?? region.object.polygonTree
-            const behaviors = region.behaviors.filter(b => !b.disabled && (b.system instanceof PENClickableEvents || b.system instanceof ChaosiumCanvasInterface) && polygonTree.testPoint(destination))
+          if (region.levels.size === 0 || region.levels.has(level)) {
+            const behaviors = region.behaviors.filter(b => !b.disabled && (b.system instanceof PENClickableEvents || b.system instanceof ChaosiumCanvasInterface) && region.object.document.polygonTree.testPoint(destination))
             if (behaviors) {
               setPointer = (await Promise.all(behaviors.map(async (doc) => {
                 const r = await doc.system._handleMouseOverEvent()
@@ -374,12 +326,10 @@ export default class PENClickableEvents extends foundry.data.regionBehaviors.Reg
     if (doc?.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) {
       if (pageId) {
         if (doc.pages.get(pageId)?.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) {
-          /* // FoundryVTT V12 */
-          doc.sheet.render(true, { pageId, anchor })
+          doc.sheet.render({ force: true }, { pageId, anchor })
         }
       } else {
-        /* // FoundryVTT V12 */
-        doc.sheet.render(true)
+        doc.sheet.render({ force: true })
       }
     }
   }
