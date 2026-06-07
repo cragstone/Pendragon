@@ -11,9 +11,7 @@ import { PIDEditor } from "../../pid/pid-editor.mjs";
 import { isCtrlKey } from "../../apps/helper.mjs";
 const { api, sheets } = foundry.applications;
 
-export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
-  sheets.ActorSheetV2,
-) {
+export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(sheets.ActorSheetV2) {
   constructor(options = {}) {
     super(options);
     this._dragDrop = this._createDragDropHandlers();
@@ -132,10 +130,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     const frame = await super._renderFrame(options);
     //define button
     const sheetPID = this.actor.flags?.Pendragon?.pidFlag;
-    const noId =
-      typeof sheetPID === "undefined" ||
-      typeof sheetPID.id === "undefined" ||
-      sheetPID.id === "";
+    const noId = typeof sheetPID === "undefined" || typeof sheetPID.id === "undefined" || sheetPID.id === "";
     //add button
     const label = game.i18n.localize("PEN.PIDFlag.id");
     const pidEditor = `<button type="button" class="header-control fa-solid fa-fingerprint icon ${noId ? "edit-pid-warning" : "edit-pid-exisiting"}"
@@ -153,24 +148,12 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     //Common parts to the character - this is the order they are show on the sheet
     options.parts = ["header", "tabs"];
     //First tab is at the left of the list on the character sheet
-    options.parts.push(
-      "combat",
-      "traits",
-      "passions",
-      "skills",
-      "gear",
-      "companions",
-      "history",
-      "house",
-    );
+    options.parts.push("combat", "traits", "passions", "skills", "gear", "companions", "history", "house");
     if (game.settings.get("Pendragon", "useRelation")) {
       options.parts.push("follower");
     }
     options.parts.push("biography", "stats");
-    if (
-      game.settings.get("Pendragon", "winter") ||
-      game.settings.get("Pendragon", "development")
-    ) {
+    if (game.settings.get("Pendragon", "winter") || game.settings.get("Pendragon", "development")) {
       options.parts.push("winter");
     }
     if (game.settings.get("Pendragon", "creation")) {
@@ -271,9 +254,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     context.hasPSP = false;
     context.hasEquip = false;
     context.hasLuck = false;
-    let equip = await this.actor.items
-      .filter((i) => i.type != "class")
-      .filter((i) => i.system.source === "class");
+    let equip = await this.actor.items.filter((i) => i.type != "class").filter((i) => i.system.source === "class");
     if (equip.length > 0) {
       context.hasEquip = true;
     }
@@ -286,10 +267,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     context.isCreation = game.settings.get("Pendragon", "creation");
     context.useRelation = game.settings.get("Pendragon", "useRelation");
     context.hasName = true;
-    if (
-      this.actor.name.toUpperCase() ===
-      game.i18n.localize("TYPES.Actor.character").toUpperCase()
-    ) {
+    if (this.actor.name.toUpperCase() === game.i18n.localize("TYPES.Actor.character").toUpperCase()) {
       context.hasName = false;
     }
     context.knightly = await PendragonCharacterSheet.testKnightly(this.actor);
@@ -311,11 +289,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     if (this.actor.system.religionID != "") {
       context.hasReligion = true;
     }
-    if (
-      actorData.items.filter(
-        (itm) => itm.type === "skill" && itm.system.family > 0,
-      ).length > 0
-    ) {
+    if (actorData.items.filter((itm) => itm.type === "skill" && itm.system.family > 0).length > 0) {
       context.hasFamily = true;
     }
     if (actorData.system.beauty > 0) {
@@ -324,17 +298,14 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     context.statTotal = actorData.system.statTotal;
     context.battlePosType = await PENSelectLists.getBattlePos();
     context.fieldPosType = await PENSelectLists.getFieldPos();
-    context.sizLabel = game.i18n.localize(
-      "PEN.sizInc." + actorData.system.stats.siz.growth,
+    context.sizLabel = game.i18n.localize("PEN.sizInc." + actorData.system.stats.siz.growth);
+    context.enrichedBackgroundValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+      context.system.background,
+      {
+        async: true,
+        secrets: context.editable,
+      },
     );
-    context.enrichedBackgroundValue =
-      await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-        context.system.background,
-        {
-          async: true,
-          secrets: context.editable,
-        },
-      );
 
     this._prepareItems(context);
     this._prepareEffects(context);
@@ -396,11 +367,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
         wounds.push(i);
       } else if (i.type === "history") {
         if (i.system.favour) {
-          i.system.label =
-            game.i18n.localize("PEN.favourShort") +
-            i.system.favourLevel +
-            " " +
-            i.system.description;
+          i.system.label = game.i18n.localize("PEN.favourShort") + i.system.favourLevel + " " + i.system.description;
         } else {
           i.system.label = i.system.description;
         }
@@ -418,12 +385,8 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
           context.hasParentPassion = true;
         }
       } else if (i.type === "horse") {
-        i.system.careName = game.i18n.localize(
-          "PEN.horseHealth." + i.system.horseCare,
-        );
-        i.system.healthName = game.i18n.localize(
-          "PEN.horseHealth." + i.system.horseHealth,
-        );
+        i.system.careName = game.i18n.localize("PEN.horseHealth." + i.system.horseCare);
+        i.system.healthName = game.i18n.localize("PEN.horseHealth." + i.system.horseHealth);
         i.system.totalAR = i.system.armour + i.system.horseArmour;
         i.system.label = i.name;
         if (i.system.horseName != "") {
@@ -449,8 +412,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
       } else if (i.type === "relationship") {
         i.system.typeName = game.i18n.localize("PEN." + i.system.typeLabel);
         if (i.system.born > 0) {
-          i.system.age =
-            game.settings.get("Pendragon", "gameYear") - i.system.born;
+          i.system.age = game.settings.get("Pendragon", "gameYear") - i.system.born;
         } else {
           i.system.age = "";
         }
@@ -693,9 +655,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
   static async _onEditImage(event, target) {
     const attr = target.dataset.edit;
     const current = foundry.utils.getProperty(this.document, attr);
-    const { img } =
-      this.document.constructor.getDefaultArtwork?.(this.document.toObject()) ??
-      {};
+    const { img } = this.document.constructor.getDefaultArtwork?.(this.document.toObject()) ?? {};
     const fp = new foundry.applications.apps.FilePicker.implementation({
       current,
       type: "image",
@@ -730,15 +690,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
         checkProp = {
           [`system.status.${prop}`]: !this.actor.system.status[prop],
         };
-      } else if (
-        [
-          "unconscious",
-          "dying",
-          "maddened",
-          "melancholic",
-          "miserable",
-        ].includes(prop)
-      ) {
+      } else if (["unconscious", "dying", "maddened", "melancholic", "miserable"].includes(prop)) {
         this.toggleStatus(prop);
         return;
       } else if (prop === "debilitated") {
@@ -781,28 +733,16 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     }
     if (target.dataset.type === "talent") {
       foundry.utils.setProperty(docData, "system.magical", true);
-      foundry.utils.setProperty(
-        docData,
-        "name",
-        game.i18n.localize("PEN.magicalTalent"),
-      );
+      foundry.utils.setProperty(docData, "name", game.i18n.localize("PEN.magicalTalent"));
     }
 
     if (target.dataset.type === "skill" || target.dataset.type === "passion") {
-      foundry.utils.setProperty(
-        docData,
-        "system.mainName",
-        target.dataset.name,
-      );
+      foundry.utils.setProperty(docData, "system.mainName", target.dataset.name);
     }
 
     if (target.dataset.type === "passion") {
       if (target.dataset.court) {
-        foundry.utils.setProperty(
-          docData,
-          "system.court",
-          target.dataset.court,
-        );
+        foundry.utils.setProperty(docData, "system.court", target.dataset.court);
       }
     }
 
@@ -810,18 +750,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     const newItem = await docCls.create(docData, { parent: this.actor });
 
     //And in certain circumstances render the new item sheet
-    if (
-      [
-        "history",
-        "wound",
-        "horse",
-        "squire",
-        "gear",
-        "passion",
-        "armour",
-        "family",
-      ].includes(newItem.type)
-    ) {
+    if (["history", "wound", "horse", "squire", "gear", "passion", "armour", "family"].includes(newItem.type)) {
       newItem.sheet.render(true);
     }
   }
@@ -1006,79 +935,49 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     this._dragDrop.forEach((d) => d.bind(this.element));
     this.element
       .querySelectorAll(".rollable.stat")
-      .forEach((n) =>
-        n.addEventListener("click", PENRollType._onStatCheck.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("click", PENRollType._onStatCheck.bind(this)));
     this.element
       .querySelectorAll(".rollable.glory")
-      .forEach((n) =>
-        n.addEventListener("click", PENRollType._onGloryCheck.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("click", PENRollType._onGloryCheck.bind(this)));
     this.element
       .querySelectorAll(".rollable.move")
-      .forEach((n) =>
-        n.addEventListener("click", PENRollType._onMoveCheck.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("click", PENRollType._onMoveCheck.bind(this)));
     this.element
       .querySelectorAll(".addWound")
-      .forEach((n) =>
-        n.addEventListener("click", PENCombat.addWound.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("click", PENCombat.addWound.bind(this)));
     this.element
       .querySelectorAll(".natural-heal")
-      .forEach((n) =>
-        n.addEventListener("dblclick", PENCombat.naturalHealing.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("dblclick", PENCombat.naturalHealing.bind(this)));
     this.element
       .querySelectorAll(".treat-wound")
-      .forEach((n) =>
-        n.addEventListener("dblclick", PENCombat.treatWound.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("dblclick", PENCombat.treatWound.bind(this)));
     this.element
       .querySelectorAll(".rollable.decision")
-      .forEach((n) =>
-        n.addEventListener("click", PENRollType._onDecisionCheck.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("click", PENRollType._onDecisionCheck.bind(this)));
     this.element
       .querySelectorAll(".rollable.trait")
-      .forEach((n) =>
-        n.addEventListener("click", PENRollType._onTraitCheck.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("click", PENRollType._onTraitCheck.bind(this)));
     this.element
       .querySelectorAll(".rollable.damage")
-      .forEach((n) =>
-        n.addEventListener("click", PENRollType._onDamageRoll.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("click", PENRollType._onDamageRoll.bind(this)));
     this.element
       .querySelectorAll(".rollable.combat")
-      .forEach((n) =>
-        n.addEventListener("click", PENRollType._onCombatCheck.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("click", PENRollType._onCombatCheck.bind(this)));
     this.element
       .querySelectorAll(".rollable.passion-name")
-      .forEach((n) =>
-        n.addEventListener("click", PENRollType._onPassionCheck.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("click", PENRollType._onPassionCheck.bind(this)));
     this.element
       .querySelectorAll(".rollable.skill-name")
-      .forEach((n) =>
-        n.addEventListener("click", PENRollType._onSkillCheck.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("click", PENRollType._onSkillCheck.bind(this)));
     this.element
       .querySelectorAll(".rollable.squire")
-      .forEach((n) =>
-        n.addEventListener("click", PENRollType._onSquireCheck.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("click", PENRollType._onSquireCheck.bind(this)));
     this.element
       .querySelectorAll(".inline-edit")
-      .forEach((n) =>
-        n.addEventListener("change", this._onInlineEdit.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("change", this._onInlineEdit.bind(this)));
     this.element
       .querySelectorAll(".item-toggle")
-      .forEach((n) =>
-        n.addEventListener("dblclick", this._onItemToggle.bind(this)),
-      );
+      .forEach((n) => n.addEventListener("dblclick", this._onItemToggle.bind(this)));
   }
 
   async _onItemDelete(event) {
@@ -1094,9 +993,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     let item = await this.actor.items.get(itemid);
     let tempActr = await fromUuid(item.system.sourceUuid);
     if (!tempActr) {
-      ui.notifications.warn(
-        game.i18n.format("PEN.noActor", { actr: person1Name }),
-      );
+      ui.notifications.warn(game.i18n.format("PEN.noActor", { actr: person1Name }));
       return;
     }
     let name1 = tempActr.name;
@@ -1190,27 +1087,19 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     if (pass < 2) {
       return false;
     }
-    let sword = await actor.items.filter(
-      (i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.sword",
-    );
+    let sword = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.sword");
     if (sword.length === 0 || sword[0].system.total < 10) {
       return false;
     }
-    let charge = await actor.items.filter(
-      (i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.charge",
-    );
+    let charge = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.charge");
     if (charge.length === 0 || charge[0].system.total < 10) {
       return false;
     }
-    let brawling = await actor.items.filter(
-      (i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.brawling",
-    );
+    let brawling = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.brawling");
     if (brawling.length === 0 || brawling[0].system.total < 10) {
       return false;
     }
-    let honor = await actor.items.filter(
-      (i) => i.flags.Pendragon?.pidFlag?.id === "i.passion.honor",
-    );
+    let honor = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.passion.honor");
     if (honor.length === 0 || honor[0].system.total < 5) {
       return false;
     }
@@ -1224,9 +1113,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
       return this.actor.items.get(docRow.dataset.itemId);
     } else if (docRow.dataset.documentClass === "ActiveEffect") {
       const parent =
-        docRow.dataset.parentId === this.actor.id
-          ? this.actor
-          : this.actor.items.get(docRow?.dataset.parentId);
+        docRow.dataset.parentId === this.actor.id ? this.actor : this.actor.items.get(docRow?.dataset.parentId);
       return parent.effects.get(docRow?.dataset.effectId);
     } else return console.warn("Could not find document class");
   }
@@ -1259,8 +1146,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
 
   //Callback actions which occur when a dragged element is dropped on a target.
   async _onDrop(event) {
-    const data =
-      foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     const actor = this.actor;
     const allowed = Hooks.call("dropActorSheetData", actor, this, data);
     if (allowed === false) return;
@@ -1296,9 +1182,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
         .filter((itm) => itm.type === "relationship")
         .filter((nitm) => nitm.system.sourceUuid === companion.uuid).length;
       if (present > 0) {
-        ui.notifications.warn(
-          game.i18n.format("PEN.relationPresent", { name: companion.name }),
-        );
+        ui.notifications.warn(game.i18n.format("PEN.relationPresent", { name: companion.name }));
         continue;
       }
 
@@ -1353,8 +1237,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
     if (!this.actor.isOwner) return false;
     const item = await Item.implementation.fromDropData(data);
     // Handle item sorting within the same Actor
-    if (this.actor.uuid === item.parent?.uuid)
-      return this._onSortItem(event, item);
+    if (this.actor.uuid === item.parent?.uuid) return this._onSortItem(event, item);
     // Create the owned item
     return this._onDropItemCreate(item, event);
   }
@@ -1375,10 +1258,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(
 
   //Handle the final creation of dropped Item data on the Actor.
   async _onDropItemCreate(itemData, event) {
-    itemData = await PENactorItemDrop._PENonDropItemCreate(
-      this.actor,
-      itemData,
-    );
+    itemData = await PENactorItemDrop._PENonDropItemCreate(this.actor, itemData);
     const list = await this.actor.createEmbeddedDocuments("Item", itemData);
     return list;
   }

@@ -1,7 +1,6 @@
 import { RollType, PENCheck, CardType } from "../apps/checks.mjs";
 import { isCtrlKey } from "../apps/helper.mjs";
-import  PENDialog  from "../setup/pen-dialog.mjs";
-
+import PENDialog from "../setup/pen-dialog.mjs";
 
 export class PENRollType {
   //Roll Types
@@ -293,15 +292,13 @@ export class PENRollType {
       data,
     );
 
-    const usage = await PENDialog.input(
-      {
-        window: {title: game.i18n.localize("PEN.gmRoll")},
-        content: html,
-        ok: {
-          label: game.i18n.localize("PEN.rollDice"),
-        },
-      }
-    );
-    return usage
+    const usage = await PENDialog.input({
+      window: { title: game.i18n.localize("PEN.gmRoll") },
+      content: html,
+      ok: {
+        label: game.i18n.localize("PEN.rollDice"),
+      },
+    });
+    return usage;
   }
 }

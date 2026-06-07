@@ -1,110 +1,108 @@
-export function registerSettings () {
-
+export function registerSettings() {
   let tokenDropModeOptions = {
-    "ask": game.i18n.localize('PEN.Settings.tokenDropModeAsk'),
-    "roll": game.i18n.localize('PEN.Settings.tokenDropModeRoll'),
-    "ignore": game.i18n.localize('PEN.Settings.tokenDropModeIgnore')
-  }
+    ask: game.i18n.localize("PEN.Settings.tokenDropModeAsk"),
+    roll: game.i18n.localize("PEN.Settings.tokenDropModeRoll"),
+    ignore: game.i18n.localize("PEN.Settings.tokenDropModeIgnore"),
+  };
 
+  //Game Settings
 
- //Game Settings
-
- game.settings.register('Pendragon', "gameYear", {
+  game.settings.register("Pendragon", "gameYear", {
     name: "PEN.Settings.gameYear",
     hint: "PEN.Settings.gameYearHint",
     scope: "world",
     requiresReload: true,
     config: true,
     type: Number,
-    default: 508
+    default: 508,
   });
 
-  game.settings.register('Pendragon', "autoXP", {
+  game.settings.register("Pendragon", "autoXP", {
     name: "PEN.Settings.autoXP",
     hint: "PEN.Settings.autoXPHint",
     scope: "world",
     requiresReload: true,
     config: true,
     type: Boolean,
-    default: false
+    default: false,
   });
 
-  game.settings.register('Pendragon', "fumbleXP", {
+  game.settings.register("Pendragon", "fumbleXP", {
     name: "PEN.Settings.fumbleXP",
     hint: "PEN.Settings.fumbleXPHint",
     scope: "world",
     requiresReload: true,
     config: true,
     type: Boolean,
-    default: false
+    default: false,
   });
 
-  game.settings.register('Pendragon', "switchShift", {
+  game.settings.register("Pendragon", "switchShift", {
     name: "PEN.Settings.switchShift",
     hint: "PEN.Settings.switchShiftHint",
     scope: "client",
     config: true,
     type: Boolean,
-    default: false
+    default: false,
   });
 
-  game.settings.register('Pendragon', "critAdj", {
+  game.settings.register("Pendragon", "critAdj", {
     name: "PEN.Settings.critAdj",
     hint: "PEN.Settings.critAdjHint",
     scope: "world",
     config: true,
     type: Boolean,
-    default: false
+    default: false,
   });
 
-  game.settings.register('Pendragon', "toolTipDelay", {
+  game.settings.register("Pendragon", "toolTipDelay", {
     name: "PEN.Settings.toolTipDelay",
     hint: "PEN.Settings.toolTipDelayHint",
     scope: "world",
     config: true,
     type: Number,
-    default: 2000
+    default: 2000,
   });
 
-  game.settings.register('Pendragon', "childMortality", {
+  game.settings.register("Pendragon", "childMortality", {
     name: "PEN.Settings.childMortality",
     hint: "PEN.Settings.childMortalityHint",
     scope: "world",
     config: true,
     type: Boolean,
-    default: true
+    default: true,
   });
 
-  game.settings.register('Pendragon', "tokenVision", {
+  game.settings.register("Pendragon", "tokenVision", {
     name: "PEN.Settings.tokenVision",
     hint: "PEN.Settings.tokenVisionHint",
     scope: "world",
     config: true,
     type: Boolean,
-    default: true
+    default: true,
   });
 
-  game.settings.register('Pendragon', "useRelation", {
+  game.settings.register("Pendragon", "useRelation", {
     name: "PEN.Settings.useRelation",
     hint: "PEN.Settings.useRelationHint",
     scope: "world",
     requiresReload: true,
     config: true,
     type: Boolean,
-    default: false
+    default: false,
   });
-    
-  game.settings.register('Pendragon', "showParty", {
+
+  game.settings.register("Pendragon", "showParty", {
     name: "PEN.Settings.showParty",
     hint: "PEN.Settings.showPartyHint",
     scope: "world",
     requiresReload: true,
     config: true,
     type: Boolean,
-    default: true
+    default: true,
   });
-  
-  game.settings.register('Pendragon','tokenDropMode', {
+
+  game.settings.register("Pendragon", "tokenDropMode", {
     name: "PEN.Settings.tokenDropMode",
     hint: "PEN.Settings.tokenDropModeHint",
     scope: "world",
@@ -112,46 +110,46 @@ export function registerSettings () {
     config: true,
     default: "ask",
     choices: tokenDropModeOptions,
-    type: String
+    type: String,
   });
 
-  //Invisible Game Settings 
+  //Invisible Game Settings
 
-  game.settings.register('Pendragon', "winter", {
+  game.settings.register("Pendragon", "winter", {
     name: "",
     hint: "",
     scope: "world",
-    requiresReload:false,
+    requiresReload: false,
     config: false,
     type: Boolean,
-    default: false
+    default: false,
   });
 
-  game.settings.register('Pendragon', "development", {
+  game.settings.register("Pendragon", "development", {
     name: "",
     hint: "",
     scope: "world",
-    requiresReload:false,
+    requiresReload: false,
     config: false,
     type: Boolean,
-    default: false
+    default: false,
   });
 
-  game.settings.register('Pendragon', "creation", {
+  game.settings.register("Pendragon", "creation", {
     name: "",
     hint: "",
     scope: "world",
-    requiresReload:false,
+    requiresReload: false,
     config: false,
     type: Boolean,
-    default: false
+    default: false,
   });
 
   // used by migration script
-  game.settings.register('Pendragon', "systemMigrationVersion", {
+  game.settings.register("Pendragon", "systemMigrationVersion", {
     config: false,
     scope: "world",
     type: String,
-    default: ""
+    default: "",
   });
 }

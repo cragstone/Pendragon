@@ -14,24 +14,22 @@ export class BattleData extends foundry.abstract.TypeDataModel {
     const requiredInteger = { required: true, nullable: false, integer: true };
     return {
       encounters: new ArrayField(new StringField()),
-      knights: new ArrayField(
-        new ForeignDocumentField(foundry.documents.BaseActor),
-      ),
-      shortDesc: new StringField({ required: true, blank: true, initial: ""}),
-      fieldPos: new StringField({ required: true, blank: true, initial: ""}),
-      description: new HTMLField({ required: true, blank: true, initial: ""}),
-      notes: new HTMLField({ required: true, blank: true, initial: ""}),
+      knights: new ArrayField(new ForeignDocumentField(foundry.documents.BaseActor)),
+      shortDesc: new StringField({ required: true, blank: true, initial: "" }),
+      fieldPos: new StringField({ required: true, blank: true, initial: "" }),
+      description: new HTMLField({ required: true, blank: true, initial: "" }),
+      notes: new HTMLField({ required: true, blank: true, initial: "" }),
       maxTurns: new NumberField({ ...requiredInteger, initial: 8 }),
       currTurn: new NumberField({ ...requiredInteger, initial: 1 }),
       battleScore: new NumberField({ ...requiredInteger, initial: 0 }),
       intensity: new NumberField({ ...requiredInteger, initial: 0 }),
       maxMorale: new NumberField({ ...requiredInteger, initial: 0 }),
       currMorale: new NumberField({ ...requiredInteger, initial: 0 }),
-      lock: new BooleanField({ initial: false}),
-      noteView: new BooleanField({initial: false}),
-      resultsView: new BooleanField({initial: false}),      
-      descripView: new BooleanField({initial: false}),
-      encView: new BooleanField({initial: false}),
+      lock: new BooleanField({ initial: false }),
+      noteView: new BooleanField({ initial: false }),
+      resultsView: new BooleanField({ initial: false }),
+      descripView: new BooleanField({ initial: false }),
+      encView: new BooleanField({ initial: false }),
     };
   }
   static migrateData(source) {
@@ -63,9 +61,7 @@ export class BattleData extends foundry.abstract.TypeDataModel {
 
     for (const uuid of this.encounters) {
       const { collection, id } = foundry.utils.parseUuid(uuid);
-      if (
-        collection instanceof foundry.documents.collections.CompendiumCollection
-      ) {
+      if (collection instanceof foundry.documents.collections.CompendiumCollection) {
         let ids = collections.get(collection);
         if (!ids) {
           ids = [];
@@ -79,9 +75,7 @@ export class BattleData extends foundry.abstract.TypeDataModel {
     }
 
     for (const [collection, ids] of collections.entries()) {
-      if (
-        collection instanceof foundry.documents.collections.CompendiumCollection
-      ) {
+      if (collection instanceof foundry.documents.collections.CompendiumCollection) {
         await collection.getDocuments({ _id__in: ids });
       }
     }
@@ -90,10 +84,7 @@ export class BattleData extends foundry.abstract.TypeDataModel {
       members
         .entries()
         .map(([id, collection]) => {
-          if (
-            collection instanceof
-            foundry.documents.collections.CompendiumCollection
-          ) {
+          if (collection instanceof foundry.documents.collections.CompendiumCollection) {
             return { actor: collection.get(id) };
           }
         })
@@ -120,7 +111,7 @@ export class BattleData extends foundry.abstract.TypeDataModel {
     return this.knights.map((a) => ({ actor: a() }));
   }
   async addKnight(actor) {
-    console.log(actor.id, actor._id)
+    console.log(actor.id, actor._id);
     const membersCollection = this.toObject().knights;
     membersCollection.push(actor.id);
     return this.parent.update({ "system.knights": membersCollection });

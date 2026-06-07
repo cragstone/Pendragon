@@ -14,17 +14,17 @@ export class EncounterData extends foundry.abstract.TypeDataModel {
     const requiredInteger = { required: true, nullable: false, integer: true };
     return {
       npcs: new ArrayField(new DocumentUUIDField({ type: "Actor" })),
-      shortDesc: new StringField({ required: true, blank: true, initial: ""}),
-      moraleLoss: new StringField({ required: true, blank: true, initial: ""}),
-      description: new HTMLField({ required: true, blank: true, initial: ""}),
-      notes: new HTMLField({ required: true, blank: true, initial: ""}),
+      shortDesc: new StringField({ required: true, blank: true, initial: "" }),
+      moraleLoss: new StringField({ required: true, blank: true, initial: "" }),
+      description: new HTMLField({ required: true, blank: true, initial: "" }),
+      notes: new HTMLField({ required: true, blank: true, initial: "" }),
       moraleMin: new NumberField({ ...requiredInteger, initial: 0 }),
       numOpp: new NumberField({ ...requiredInteger, initial: 1 }),
       npcView: new NumberField({ ...requiredInteger, initial: 99 }),
-      opportunity: new BooleanField({initial: false}),
-      lock: new BooleanField({initial: false}),
-      noteView: new BooleanField({initial: false}),
-      used: new BooleanField({initial: false}),
+      opportunity: new BooleanField({ initial: false }),
+      lock: new BooleanField({ initial: false }),
+      noteView: new BooleanField({ initial: false }),
+      used: new BooleanField({ initial: false }),
     };
   }
 
@@ -48,9 +48,7 @@ export class EncounterData extends foundry.abstract.TypeDataModel {
 
     for (const uuid of this.npcs) {
       const { collection, id } = foundry.utils.parseUuid(uuid);
-      if (
-        collection instanceof foundry.documents.collections.CompendiumCollection
-      ) {
+      if (collection instanceof foundry.documents.collections.CompendiumCollection) {
         let ids = collections.get(collection);
         if (!ids) {
           ids = [];
@@ -64,9 +62,7 @@ export class EncounterData extends foundry.abstract.TypeDataModel {
     }
 
     for (const [collection, ids] of collections.entries()) {
-      if (
-        collection instanceof foundry.documents.collections.CompendiumCollection
-      ) {
+      if (collection instanceof foundry.documents.collections.CompendiumCollection) {
         await collection.getDocuments({ _id__in: ids });
       }
     }
@@ -75,10 +71,7 @@ export class EncounterData extends foundry.abstract.TypeDataModel {
       members
         .entries()
         .map(([id, collection]) => {
-          if (
-            collection instanceof
-            foundry.documents.collections.CompendiumCollection
-          ) {
+          if (collection instanceof foundry.documents.collections.CompendiumCollection) {
             return { actor: collection.get(id) };
           }
         })

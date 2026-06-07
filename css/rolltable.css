@@ -4,8 +4,8 @@
   padding: 0.5em;
   font-size: var(--font-size-16);
   .right {
-      text-align: right;
-    }
+    text-align: right;
+  }
   .modOn {
     font-size: 20px;
     background-color: var(--color-warm-1);
@@ -15,5 +15,5 @@
   .modOff {
     font-size: 20px;
     padding-right: 3px;
-  }  
-} 
+  }
+}

@@ -8,11 +8,7 @@
     "verified": "14.363",
     "maximum": 14
   },
-  "authors": [
-    { "name": "jbowtie" },
-    { "name": "Dangermouse" },
-    { "name": "JamesB" }
-  ],
+  "authors": [{ "name": "jbowtie" }, { "name": "Dangermouse" }, { "name": "JamesB" }],
   "esmodules": ["module/pendragon.mjs", "module/setup/load.mjs"],
   "styles": [
     "css/pendragon.css",
@@ -110,20 +106,20 @@
     },
     "Item": {
       "gear": {
-        "htmlFields": ["description", "GMdescription"]        
+        "htmlFields": ["description", "GMdescription"]
       },
       "skill": {
-        "htmlFields": ["description", "GMdescription"]            
+        "htmlFields": ["description", "GMdescription"]
       },
       "trait": {
-        "htmlFields": ["description", "GMdescription"]               
+        "htmlFields": ["description", "GMdescription"]
       },
       "wound": {},
       "history": {
-        "htmlFields": ["description", "GMdescription"]               
+        "htmlFields": ["description", "GMdescription"]
       },
       "passion": {
-        "htmlFields": ["description", "GMdescription"]        
+        "htmlFields": ["description", "GMdescription"]
       },
       "horse": {
         "htmlFields": ["description", "GMdescription"]

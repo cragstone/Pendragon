@@ -4,9 +4,7 @@ import { PendragonActor } from "../actor.mjs";
 import { PENSelectLists } from "../../apps/select-lists.mjs";
 import { RollType, PENCheck, CardType } from "../../apps/checks.mjs";
 
-export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
-  sheets.ActorSheetV2,
-) {
+export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.ActorSheetV2) {
   constructor(options = {}) {
     super(options);
     this.#dragDrop = this._createDragDropHandlers();
@@ -91,26 +89,24 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
     }
     context.fieldPosType = await PENSelectLists.getFieldPos();
 
-    context.enrichedDescription =
-      await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-        this.actor.system.description,
-        {
-          async: true,
-          secrets: this.document.isOwner,
-          rollData: this.actor.getRollData(),
-          relativeTo: this.actor,
-        },
-      );
-    context.enrichedNotes =
-      await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-        this.actor.system.notes,
-        {
-          async: true,
-          secrets: this.document.isOwner,
-          rollData: this.actor.getRollData(),
-          relativeTo: this.actor,
-        },
-      );
+    context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+      this.actor.system.description,
+      {
+        async: true,
+        secrets: this.document.isOwner,
+        rollData: this.actor.getRollData(),
+        relativeTo: this.actor,
+      },
+    );
+    context.enrichedNotes = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+      this.actor.system.notes,
+      {
+        async: true,
+        secrets: this.document.isOwner,
+        rollData: this.actor.getRollData(),
+        relativeTo: this.actor,
+      },
+    );
 
     let encounters = [];
     let knights = [];
@@ -120,10 +116,7 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
       if (enc) {
         let morale = true;
         const pid = enc.getFlag("Pendragon", "pidFlag");
-        if (
-          this.actor.system.currMorale < enc.system.moraleMin &&
-          context.isGM
-        ) {
+        if (this.actor.system.currMorale < enc.system.moraleMin && context.isGM) {
           morale = false;
         }
         encounters.push({
@@ -152,12 +145,8 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
           id: knight.id,
           pid: pid?.id,
           pos: game.i18n.localize("PEN.battlePos." + knight.system.battlePos),
-          fieldPos: game.i18n.localize(
-            "PEN.fieldPos." + knight.system.fieldPos,
-          ),
-          fieldPosAbbr: game.i18n.localize(
-            "PEN.fieldPosAbbr." + knight.system.fieldPos,
-          ),
+          fieldPos: game.i18n.localize("PEN.fieldPos." + knight.system.fieldPos),
+          fieldPosAbbr: game.i18n.localize("PEN.fieldPosAbbr." + knight.system.fieldPos),
           actr: knight,
         });
       } else {
@@ -210,10 +199,7 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
     const frame = await super._renderFrame(options);
     //define button
     const sheetPID = this.actor.flags?.Pendragon?.pidFlag;
-    const noId =
-      typeof sheetPID === "undefined" ||
-      typeof sheetPID.id === "undefined" ||
-      sheetPID.id === "";
+    const noId = typeof sheetPID === "undefined" || typeof sheetPID.id === "undefined" || sheetPID.id === "";
     //add button
     const label = game.i18n.localize("PEN.PIDFlag.id");
     const pidEditor = `<button type="button" class="header-control fa-solid fa-fingerprint icon ${noId ? "edit-pid-warning" : "edit-pid-exisiting"}"
@@ -297,10 +283,7 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
     const change = Number(target.dataset.property);
     if (change + this.actor.system.currTurn < 1) {
       await this.actor.update({ "system.currTurn": 1 });
-    } else if (
-      change + this.actor.system.currTurn >
-      this.actor.system.maxTurns
-    ) {
+    } else if (change + this.actor.system.currTurn > this.actor.system.maxTurns) {
       await this.actor.update({
         "system.currTurn": this.actor.system.maxTurns,
       });
@@ -321,9 +304,7 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
     const pid = target.closest(".partic-item").dataset.pid;
     console.log(pid);
     //Check to see if Encounter is in game world
-    let enc = await game.actors.filter(
-      (actr) => actr.flags.Pendragon?.pidFlag?.id === pid,
-    )[0];
+    let enc = await game.actors.filter((actr) => actr.flags.Pendragon?.pidFlag?.id === pid)[0];
     //If not in game then check compendiums as well
     if (!enc) {
       enc = (await game.system.api.pid.fromPIDBest({ pid: pid }))[0];
@@ -343,9 +324,7 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
     event.stopImmediatePropagation();
     const pid = target.closest(".partic-item").dataset.pid;
     //Check to see if Encounter is in game world
-    let enc = await game.actors.filter(
-      (actr) => actr.flags.Pendragon?.pidFlag?.id === pid,
-    )[0];
+    let enc = await game.actors.filter((actr) => actr.flags.Pendragon?.pidFlag?.id === pid)[0];
     if (enc) {
       enc.sheet.render(true);
     } else {
@@ -361,7 +340,7 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
       event.stopImmediatePropagation();
       const membersCollection = this.actor.toObject().system.knights;
       for (let actr of membersCollection) {
-        console.log(actr)
+        console.log(actr);
         let knight = await game.actors.get(actr);
         if (knight) {
           await knight.update({ "system.battlePos": 0 });
@@ -393,9 +372,7 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
 
   //Reset Battle Encounters
   static async resetEnc(event) {
-    let enctrs = await game.actors
-      .filter((a) => a.type === "encounter")
-      .filter((a) => a.system.used);
+    let enctrs = await game.actors.filter((a) => a.type === "encounter").filter((a) => a.system.used);
     for (let enc of enctrs) {
       await enc.update({ "system.used": false });
     }
@@ -405,9 +382,7 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
   static async _clearBattle(event) {
     if (event.detail === 2) {
       //Only perform on double click
-      let tokens = canvas.tokens.placeables
-        .filter((t) => t.actor?.type === "npc")
-        .map((itm) => itm.id);
+      let tokens = canvas.tokens.placeables.filter((t) => t.actor?.type === "npc").map((itm) => itm.id);
       if (tokens) {
         await canvas.scene.deleteEmbeddedDocuments("Token", tokens);
       }
@@ -450,8 +425,7 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(
 
   //Callback actions which occur when a dragged element is dropped on a target.
   async _onDrop(event) {
-    const data =
-      foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     const actor = this.actor;
     const allowed = Hooks.call("dropActorSheetData", actor, this, data);
     if (allowed === false) return;

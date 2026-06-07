@@ -13,24 +13,24 @@
 }
 
 @font-face {
-  font-family: 'AGaramondPro';
+  font-family: "AGaramondPro";
   font-style: normal;
   font-weight: 400;
-  src: url('../assets/AGaramondPro-Regular.otf') format('woff2');
+  src: url("../assets/AGaramondPro-Regular.otf") format("woff2");
 }
 
 @font-face {
-  font-family: 'Basteleur';
+  font-family: "Basteleur";
   font-style: normal;
   font-weight: 400;
-  src: url('../assets/Basteleur-Bold.otf') format('woff2');
+  src: url("../assets/Basteleur-Bold.otf") format("woff2");
 }
 
 @font-face {
-  font-family: 'IMFell';
+  font-family: "IMFell";
   font-style: normal;
   font-weight: 400;
-  src: url('../assets/IMFeGPrm29C.otf') format('woff2');
+  src: url("../assets/IMFeGPrm29C.otf") format("woff2");
 }
 
 @font-face {
@@ -47,7 +47,7 @@
   --pendragon-black: black;
   --pendragon-grey: #918987;
   --pendragon-darkred: darkred;
-  --pendragon-darkblue: #034694;  
+  --pendragon-darkblue: #034694;
   --header-row: #240202;
   --background-color: #fffde7;
   --sec-background-color: rgb(56, 78, 30);
@@ -55,22 +55,22 @@
   --font-h2: Messiri, Signika, sans-serif;
   --pd-light-row: #e5dbd488;
   --pd-dark-row: #4507072b;
-  --pd-first-row: #180202e7;   
+  --pd-first-row: #180202e7;
   --pill-size: var(--font-size-11);
-  --pss-table-row-colour-even: rgba(0,0,0,0.1);
-  --pss-table-row-colour-odd: transparent;  
+  --pss-table-row-colour-even: rgba(0, 0, 0, 0.1);
+  --pss-table-row-colour-odd: transparent;
   --notes-background: rgb(177, 168, 168);
 }
 
 body.theme-light .application.Pendragon,
-body.theme-light.application .Pendragon{
+body.theme-light.application .Pendragon {
   --pendragon-blue: #1274bd;
   --pendragon-red: #ab0f14;
   --pendragon-gold: #ffd000;
   --pendragon-black: black;
   --pendragon-grey: #918987;
   --pendragon-darkred: darkred;
-  --pendragon-darkblue: #034694;    
+  --pendragon-darkblue: #034694;
   --header-row: #240202;
   --background-color: #fffde7;
   --sec-background-color: rgb(56, 78, 30);
@@ -78,22 +78,22 @@ body.theme-light.application .Pendragon{
   --font-h2: Messiri, Signika, sans-serif;
   --pd-light-row: #e5dbd488;
   --pd-dark-row: #4507072b;
-  --pd-first-row: #180202e7; 
+  --pd-first-row: #180202e7;
   --pill-size: var(--font-size-11);
-  --notes-background: rgb(177, 168, 168);  
-  --pss-table-row-colour-even: rgba(0,0,0,0.1);
-  --pss-table-row-colour-odd: transparent;  
+  --notes-background: rgb(177, 168, 168);
+  --pss-table-row-colour-even: rgba(0, 0, 0, 0.1);
+  --pss-table-row-colour-odd: transparent;
 }
 
 body.theme-dark .application.Pendragon,
-body.theme-dark.application .Pendragon{
+body.theme-dark.application .Pendragon {
   --pendragon-blue: #1274bd;
   --pendragon-red: #ab0f14;
   --pendragon-gold: #ffd000;
-  --pendragon-black: #fffde7;  
+  --pendragon-black: #fffde7;
   --pendragon-grey: #3d3b3a;
   --pendragon-darkred: #d50909;
-  --pendragon-darkblue: #034694;    
+  --pendragon-darkblue: #034694;
   --header-row: #240202;
   --background-color: #1e1e1c;
   --sec-background-color: rgb(56, 78, 30);
@@ -103,9 +103,9 @@ body.theme-dark.application .Pendragon{
   --pd-dark-row: #396da775;
   --pd-first-row: #1e5a69e7;
   --pill-size: var(--font-size-11);
-  --notes-background: rgb(177, 168, 168);  
-  --pss-table-row-colour-even: rgba(0,0,0,0.1);
-  --pss-table-row-colour-odd: transparent;  
+  --notes-background: rgb(177, 168, 168);
+  --pss-table-row-colour-even: rgba(0, 0, 0, 0.1);
+  --pss-table-row-colour-odd: transparent;
 }
 
 body.theme-dark .application.Pendragon.sheet,
@@ -114,7 +114,6 @@ body.theme-dark .application.Pendragon.sheet,
     backdrop-filter: none;
   }
 }
-
 
 .app .header-button.edit-pid-warning,
 .application .window-header .header-control.edit-pid-warning {
@@ -129,11 +128,13 @@ body.theme-dark .application.Pendragon.sheet,
     text-align: right;
   }
 
-    input[type="text"], input[type="number"], select {
-      background-color: transparent;
-      color: black;
-      border: 1px solid black;
-    }
+  input[type="text"],
+  input[type="number"],
+  select {
+    background-color: transparent;
+    color: black;
+    border: 1px solid black;
+  }
 
   fieldset.item-sheet-properties {
     label {
@@ -171,11 +172,11 @@ body.theme-dark .application.Pendragon.sheet,
   background-size: cover;
 }
 
-.Pendragon:not(.party) .window-content  {
-    background-image: url("../assets/parchment.jpg");
-    background-size: cover;
-    padding: 0.5em;
-    font-size: var(--font-size-16);
+.Pendragon:not(.party) .window-content {
+  background-image: url("../assets/parchment.jpg");
+  background-size: cover;
+  padding: 0.5em;
+  font-size: var(--font-size-16);
 }
 
 .Pendragon.party.sheet {
@@ -206,7 +207,7 @@ body.theme-dark .application.Pendragon.sheet,
 .Pendragon .centre {
   text-align: center;
 
-  &>input {
+  & > input {
     text-align: inherit;
   }
 }
@@ -246,8 +247,8 @@ body.theme-dark .application.Pendragon.sheet,
 }
 
 .Pendragon .fraction {
-    font-variant-numeric:diagonal-fractions;
-  }
+  font-variant-numeric: diagonal-fractions;
+}
 
 .Pendragon .curtail {
   overflow: auto;
@@ -931,9 +932,8 @@ body.theme-dark .application.Pendragon.sheet,
   border: 0px;
   border-radius: 0px;
   background: none;
-  padding-top:4px;
+  padding-top: 4px;
 }
-
 
 .Pendragon .npc-name-input input {
   font-family: "AGaramondPro";
@@ -1068,26 +1068,26 @@ body.theme-dark .application.Pendragon.sheet,
   width: 360px;
   border: 1px gray solid;
   font-family: AGaramondPro;
-  margin:10px;
+  margin: 10px;
 }
 
-  .npcv2-notes-doc .prosemirror,
-  .npcv2-notes-doc prose-mirror {
-    min-height: 623px;
-    height: 100%;
-    width: 335px;
-    color: black;
-  }
+.npcv2-notes-doc .prosemirror,
+.npcv2-notes-doc prose-mirror {
+  min-height: 623px;
+  height: 100%;
+  width: 335px;
+  color: black;
+}
 
-  .npcv2-notes-doc .prosemirror.active .editor-content,
-  .npcv2-notes-doc prose-mirror.active .editor-content {
-    max-height: 580px;
-  }
+.npcv2-notes-doc .prosemirror.active .editor-content,
+.npcv2-notes-doc prose-mirror.active .editor-content {
+  max-height: 580px;
+}
 
-  .npcv2-notes-doc .prosemirror.inactive .editor-content,
-  .npcv2-notes-doc prose-mirror.inactive .editor-content {
-    max-height: 670px;
-  }  
+.npcv2-notes-doc .prosemirror.inactive .editor-content,
+.npcv2-notes-doc prose-mirror.inactive .editor-content {
+  max-height: 670px;
+}
 
 .Pendragon .result-success {
   color: green;
@@ -1176,8 +1176,6 @@ body.theme-dark .application.Pendragon.sheet,
   display: inline-block;
   text-align: center;
 }
-
-
 
 .Pendragon .rollHidden {
   margin-left: 40px;
@@ -1435,7 +1433,6 @@ body.theme-dark .application.Pendragon.sheet,
   color: darkred;
 }
 
-
 .Pendragon .blue {
   color: #034694;
 }
@@ -1496,7 +1493,7 @@ body.theme-dark .application.Pendragon.sheet,
   font-size: 20px;
   color: black;
   text-transform: capitalize;
-  margin:0px;
+  margin: 0px;
 }
 
 /* skill training - assign skill points */
@@ -1641,8 +1638,6 @@ body.theme-dark .application.Pendragon.sheet,
   overflow-y: auto;
 }
 
-
-
 .Pendragon.party.app .window-content {
   padding: 5px;
   background-image: none;
@@ -1657,12 +1652,11 @@ body.theme-dark .application.Pendragon.sheet,
   width: inherit;
 }
 
-
 .Pendragon .party-form {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  gap: .5rem;
+  gap: 0.5rem;
   overflow: visible;
   margin: 0 auto;
 }
@@ -1730,7 +1724,6 @@ body.theme-dark .application.Pendragon.sheet,
   text-overflow: ellipsis;
 }
 
-
 .Pendragon .hide-enc-notes {
   display: none;
 }
@@ -1743,50 +1736,52 @@ body.theme-dark .application.Pendragon.sheet,
 
 .Pendragon.npcv2,
 .Pendragon.item.sheet {
-   overflow: visible;
-   .window-content{
+  overflow: visible;
+  .window-content {
     overflow-y: auto;
-    scrollbar-width: thin;  
-   }
+    scrollbar-width: thin;
+  }
 }
 
-.Pendragon.npcv2, .Pendragon.item {
-  .controls-dropdown { 
+.Pendragon.npcv2,
+.Pendragon.item {
+  .controls-dropdown {
     background-color: black;
-    background-image:none;
-    a.button, button {
+    background-image: none;
+    a.button,
+    button {
       color: cornsilk;
-    }  
-  }    
+    }
+  }
 }
 
 .Pendragon.item {
   nav.tabs {
-      --color-text-primary: #000;
-      --color-text-emphatic: #000;
-      --color-text-secondary: #333;
+    --color-text-primary: #000;
+    --color-text-emphatic: #000;
+    --color-text-secondary: #333;
   }
 }
 
 .Pendragon.actor {
   nav.tabs {
-      --color-text-primary: #000;
-      --color-text-emphatic: #000;
-      --color-text-secondary: #333;
+    --color-text-primary: #000;
+    --color-text-emphatic: #000;
+    --color-text-secondary: #333;
   }
 }
 
 .Pendragon .npc-notes-section {
-    position: absolute;
-    min-width: 355px;
-    min-height: 714px;
-    border: 1px solid var(--pendragon-black);
-    color: var(--pendragon-black);
-    top: 35px;
-    left: 418px;
-    background-color: var(--notes-background);  
-    color: black;       
-  } 
+  position: absolute;
+  min-width: 355px;
+  min-height: 714px;
+  border: 1px solid var(--pendragon-black);
+  color: var(--pendragon-black);
+  top: 35px;
+  left: 418px;
+  background-color: var(--notes-background);
+  color: black;
+}
 
 .Pendragon .actor-import {
   min-width: 640px;
@@ -1809,4 +1804,3 @@ body.theme-dark .application.Pendragon.sheet,
 .Pendragon li:nth-child(odd).charcreate {
   background-color: var(--pss-table-row-colour-even);
 }
-
