@@ -1,4 +1,6 @@
 # CHANGELOG
+## 14.3
+- Decision Rolls should now display the target score correctly in the Chat Card
 
 ## 14.2
 - System instructions now visible in Dark Mode

@@ -335,7 +335,9 @@ export class PENCheck {
     } else {
       let usage = await PENCheck.RollDialog(config);
       if (usage) {
-        config.flatMod = Number(usage.checkBonus);
+        if (usage.flatMod) {
+          config.flatMod = Number(usage.flatMod);
+        }
         if (config.reflex) {
           config.reflexMod = Number(usage.reflexMod);
         }
@@ -368,6 +370,7 @@ export class PENCheck {
         return;
       }
     }
+
 
     //Adjust scores etc based on combat action
     switch (config.action) {
@@ -535,6 +538,7 @@ export class PENCheck {
       oppLabel: options.oppLabel,
       decision: options.decision,
       reflex: options.reflex,
+      reflexMod: options.reflexMod,
       flatMod: options.flatMod,
     };
     const html = await foundry.applications.handlebars.renderTemplate(options.dialogTemplate, data);

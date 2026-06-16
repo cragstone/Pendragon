@@ -6,18 +6,18 @@
         <div class = "stat-name diff-label bold">{{ localize 'PEN.card.RE'}}
       {{else}}
         <div class = "stat-name diff-label bold">{{ localize 'PEN.card.OP'}}
-      {{/if}}    
+      {{/if}}
     {{/if}}
 
     {{#unless (eq decision 'choose')}}
       : {{label}}
     {{/unless}}
-    </div>  
+    </div>
     <br>
 
-    {{#if (eq rollType 'CM')}}  
+    {{#if (eq rollType 'CM')}}
       <div class="flexrow stat-name">
-        <label data-tooltip="{{ localize 'PEN.inquiryHint' }}" >{{localize "PEN.combatAction"}}</label>   
+        <label data-tooltip="{{ localize 'PEN.inquiryHint' }}" >{{localize "PEN.combatAction"}}</label>
         <select class="resource-label-diff centre" name="action" >
           <option selected value="attack" >{{localize 'PEN.attack'}}</option>
           <option value="mounted">{{localize 'PEN.mounted'}}</option>
@@ -43,28 +43,28 @@
 
     {{#if reflex}}
       <div class="flexrow stat-name">
-        <label data-tooltip="{{ localize 'PEN.checkBonusHint' }}" >{{localize "PEN.reflexMod"}}</label>   
-          <input data-handle-change class="centre" type="number" value="{{formData.reflexMod}}" name="reflexMod">
+        <label data-tooltip="{{ localize 'PEN.checkBonusHint' }}" >{{localize "PEN.reflexMod"}}</label>
+          <input data-handle-change class="centre" type="number" value="{{reflexMod}}" name="reflexMod">
       </div>
       <br>
     {{/if}}
 
     {{#isAnd (eq rollType 'SK') (eq cardType 'NO')}}
       <div class="flexrow stat-name">
-        <label data-tooltip="{{ localize 'PEN.inquiryHint' }}" >{{localize "PEN.inquiry"}}</label>   
+        <label data-tooltip="{{ localize 'PEN.inquiryHint' }}" >{{localize "PEN.inquiry"}}</label>
         <select class="resource-label-diff centre" name="inquiry" >
           <option value="yes" >{{localize 'PEN.yes'}}</option>
           <option selected value="no">{{localize 'PEN.no'}}</option>
         </select>
       </div>
       <br>
-    {{/isAnd}}    
+    {{/isAnd}}
 
     {{#unless (eq rollType 'DC')}}
       {{#unless (eq rollType 'DM')}}
         <div class="flexrow stat-name">
-          <label data-tooltip="{{ localize 'PEN.checkBonusHint' }}" >{{localize "PEN.checkBonus"}}</label>   
-            <input data-handle-change class="centre" type="number" value="{{flatMod}}" name="checkBonus">
+          <label data-tooltip="{{ localize 'PEN.checkBonusHint' }}" >{{localize "PEN.checkBonus"}}</label>
+            <input data-handle-change class="centre" type="number" value="{{flatMod}}" name="flatMod">
         </div>
         <br>
       {{/unless}}
@@ -72,18 +72,18 @@
 
     {{#if (eq cardType 'RE')}}
       <div class="flexrow stat-name">
-        <label data-tooltip="{{ localize 'PEN.resistHint' }}" >{{localize "PEN.resist"}}</label>   
-          <input data-handle-change class="centre" type="number" value="{{formData.fixedOpp}}" name="fixedOpp">
+        <label data-tooltip="{{ localize 'PEN.resistHint' }}" >{{localize "PEN.resist"}}</label>
+          <input data-handle-change class="centre" type="number" value="{{fixedOpp}}" name="fixedOpp">
       </div>
-      <br>      
+      <br>
     {{/if}}
 
     {{#isOr (eq rollType 'CM') (eq rollType 'DM')}}
       <div class="flexrow stat-name">
-        <label data-tooltip="{{ localize 'PEN.dmgModHint' }}" >{{localize "PEN.dmgMod"}}</label>   
-          <input data-handle-change class="centre" type="text" value="{{formData.dmgMod}}" name="dmgMod">
+        <label data-tooltip="{{ localize 'PEN.dmgModHint' }}" >{{localize "PEN.dmgMod"}}</label>
+          <input data-handle-change class="centre" type="text" value="{{dmgMod}}" name="dmgMod">
       </div>
-      <br>      
+      <br>
     {{/isOr}}
-    <br>  
+    <br>
   </section>
