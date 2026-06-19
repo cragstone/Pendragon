@@ -25,7 +25,7 @@ export class SkillData extends foundry.abstract.TypeDataModel {
       winter: new NumberField({ ...requiredInteger, initial: 0 }),
       base: new SchemaField({
         stat: new StringField({ required: true, blank: true, initial: "" }),
-        multi: new NumberField({ ...requiredInteger, min: 0, initial: 1 }),
+        multi: new NumberField({ required: true, nullable: false, min: 0, initial: 1 }),
         mod: new NumberField({ ...requiredInteger, initial: 0 }),
       }),
       categories: new ArrayField(new DataField(), { initial: [] }),

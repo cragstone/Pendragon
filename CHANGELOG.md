@@ -1,4 +1,7 @@
 # CHANGELOG
+## 14.4
+- Base Skill Score multipliers are no longer integers.
+
 ## 14.3
 - Decision Rolls should now display the target score correctly in the Chat Card
 
