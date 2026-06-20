@@ -102,8 +102,8 @@ export class PENCombat {
 
     for (const i of wounds) {
       const woundHeal = Math.min(healing, i.system.value);
+      const item = actor.items.get(i._id);
       if (woundHeal > 0) {
-        const item = actor.items.get(i._id);
         await item.update({
           "system.value": i.system.value - woundHeal,
           "system.treated": true,
