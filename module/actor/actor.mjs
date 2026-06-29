@@ -291,9 +291,6 @@ export class PendragonActor extends Actor {
       this.removeStatus(PendragonStatusEffects.DEBILITATED);
       systemData.status.chirurgery = false;
     }
-    //Check to see if Actor is in a visible party or battle and if so re-render the party/battle sheet
-    await this._updateParty(actorData);
-    await this._updateBattle(actorData);
   }
 
   // Prepare NPC and follower type specific data.
@@ -315,7 +312,6 @@ export class PendragonActor extends Actor {
   //Prepare Encounter Dats
   _prepareEncounterData(actorData) {
     if (!["encounter"].includes(actorData.type)) return;
-    this._updateBattle(actorData);
   }
 
   // Prepare Common type specific data.
