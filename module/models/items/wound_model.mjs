@@ -9,6 +9,7 @@ export class WoundData extends foundry.abstract.TypeDataModel {
       treated: new BooleanField({ initial: false }),
       created: new BooleanField({ initial: false }),
       source: new StringField({ required: true, blank: true, default: "wound" }),
+      description: new StringField({ required: true, blank: true, default: "" }),
     };
   }
 }
