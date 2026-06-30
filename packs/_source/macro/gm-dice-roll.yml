@@ -1,0 +1,22 @@
+name: GM Dice Roll
+type: script
+command: game.Pendragon.GMRollMacro();
+img: icons/svg/d20.svg
+author: 5mHEPLk9BC8jn18S
+scope: global
+folder: null
+flags: {}
+_stats:
+  duplicateSource: null
+  coreVersion: '13.351'
+  systemId: Pendragon
+  systemVersion: 12.1.11
+  createdTime: 1720071577612
+  modifiedTime: 1774338958314
+  lastModifiedBy: pendragonBuilder
+  exportSource: null
+_id: DXuLeg6NtvzVTX9D
+sort: 100000
+ownership:
+  default: 0
+_key: '!macros!DXuLeg6NtvzVTX9D'
