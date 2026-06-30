@@ -192,9 +192,9 @@ async function compilePacks(packName) {
  * @param {string} [packName]       Name of pack to extract. If none provided, all packs will be unpacked.
  * @param {string} [entryName]      Name of a specific entry to extract.
  *
- * - `npm build:source - Extract all compendium LevelDB files into source files.
- * - `npm build:source -- classes` - Only extract the contents of the specified compendium.
- * - `npm build:source -- classes Barbarian` - Only extract a single item from the specified compendium.
+ * - `npm run build:json` - Extract all compendium LevelDB files into source files.
+ * - `npm run build:json` -- classes` - Only extract the contents of the specified compendium.
+ * - `npm run build:json` -- classes Barbarian` - Only extract a single item from the specified compendium.
  */
 async function extractPacks(packName, entryName) {
   entryName = entryName?.toLowerCase();
