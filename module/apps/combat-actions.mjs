@@ -356,44 +356,34 @@ export class CombatAction {
 
   static async claimPrisoner(actor) {
     const options = {
-      ...this.defaultOptions(actor, CombatAction.PRISONER),
-      ...this.calcTargets(0, 0),
-      cardType: CardType.UNOPPOSED,
-      state: ChatCardState.CLOSED,
+      action: CombatAction.PRISONER,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
     };
-    console.log(options);
-    // TODO: we only do this because we're using common code that expects a roll
-    // we may need to clean that up a bit
-    await PENCheck.makeRoll(options);
     await this.createDeclarationCard(options, `${options.particName} claims a prisoner.`);
   }
 
   // used to declare an unopposed action with an automatic success
   // examples: don armor, study, pick up, claim prisoner
   static async createDeclarationCard(config, message) {
-    const chatMsgData = {
-      rollType: config.rollType,
-      cardType: config.cardType,
-      chatType: config.chatType,
-      chatTemplate: ChatCardTemplate.DECLARE,
-      state: config.state,
-      rolls: config.roll,
-      resultLevel: config.resultLevel,
-      rollResult: config.rollResult,
-      inquiry: config.inquiry,
-      card: {
-        particId: config.particId,
-        particType: config.particType,
-        particName: config.particName,
-        particImg: config.particImg,
-        action: config.action,
-        actionLabel: game.i18n.localize(`PEN.actions.${config.action}`),
-        content: message,
+    const messageData = {
+      action: config.action,
+      actionLabel: game.i18n.localize(`PEN.actions.${config.action}`),
+      image: config.particImg,
+      name: config.particName,
+      message: message,
+    };
+    const html = await foundry.applications.handlebars.renderTemplate(ChatCardTemplate.DECLARE, messageData);
+    const chatData = {
+      user: game.user.id,
+      content: html,
+      speaker: {
+        actor: config.actor._id,
+        alias: config.actor.name,
       },
     };
-    chatMsgData.chatCard = [chatMsgData.card];
-    const html = await PENCheck.startChat(chatMsgData);
-    const msgID = await PENCheck.showChat(html, chatMsgData);
+    await ChatMessage.create(chatData);
   }
 
   static async createChatCard(config) {

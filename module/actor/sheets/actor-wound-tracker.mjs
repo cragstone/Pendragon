@@ -127,10 +127,11 @@ export class WoundTrackerDialog extends api.HandlebarsApplicationMixin(api.Docum
   static async #naturalHealing(event, target) {
     const debilitated = this.actor.statuses.has(PendragonStatusEffects.DEBILITATED);
     let deterioration = 0;
+    let totalHealed = 0;
     let markSuccessfulChirurgery = false;
     if (debilitated) {
-      let healing = 0;
-      const healingRate = this.actor.system.healRate;
+      // let healing = 0;
+      // const healingRate = this.actor.system.healRate;
       const result = await api.DialogV2.wait({
         window: { title: "Chirurgery" },
         content: "<p>What is the result of this week's Chirurgery check?</p>",
@@ -156,7 +157,8 @@ export class WoundTrackerDialog extends api.HandlebarsApplicationMixin(api.Docum
       });
       switch (result) {
         case "critical":
-          await PENCombat.applyNaturalHealing(this.actor);
+          const crit = await PENCombat.applyNaturalHealing(this.actor);
+          totalHealed += crit.healing;
           markSuccessfulChirurgery = true;
           break;
         case "success":
@@ -175,7 +177,21 @@ export class WoundTrackerDialog extends api.HandlebarsApplicationMixin(api.Docum
           return;
       }
     }
-    await PENCombat.applyNaturalHealing(this.actor, deterioration, markSuccessfulChirurgery);
+    const healResult = await PENCombat.applyNaturalHealing(this.actor, deterioration, markSuccessfulChirurgery);
+    totalHealed += healResult.healing;
+    console.log(totalHealed);
+    if (healResult.died) {
+      console.log("NAME suffered X points of deterioration and died.");
+      return;
+    }
+    if (deterioration > 0 && deterioration == totalHealed) {
+      console.log("NAME has not improved this week.");
+      return;
+    }
+    // deter > 0 "NAME lost X points to deterioration and gained X points of natural healing."
+    // "NAME has recovered X points of health."
+    // "NAME is no longer debilitated."
+    // "NAME has fully recovered."
     // if at least one success since becoming debilitated AND > 1/2 hp, recover
   }
   // apply multiple weeks of natural healing
