@@ -103,7 +103,7 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
         label: "PEN.feast.moveCloser",
         icon: '<i class="fa-solid fa-chevron-up"></i>',
         visible: (li) => game.user.isGM && this.viewed.isFeast() && getCombatant(li)?.initiative < RollResult.CRITICAL,
-        onClick: (li) => {
+        onClick: (e, li) => {
           const combatant = getCombatant(li);
           if (!combatant) return;
           combatant.update({ initiative: combatant.initiative + 1 });
@@ -113,7 +113,7 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
         label: "PEN.feast.moveFurther",
         icon: '<i class="fa-solid fa-chevron-down"></i>',
         visible: (li) => game.user.isGM && this.viewed.isFeast() && getCombatant(li)?.initiative >= RollResult.FAIL,
-        onClick: (li) => {
+        onClick: (e, li) => {
           const combatant = getCombatant(li);
           if (!combatant) return;
           combatant.update({ initiative: combatant.initiative - 1 });

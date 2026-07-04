@@ -283,6 +283,7 @@
       "moveCloser": "Move to higher seat",
       "moveFurther": "Move to lower seat",
       "begin": "Start Feast",
+      "end": "End Feast",
       "reroll": "Fumble: rolling again and shifting result down a level",
       "resultLevel.0": "Seated on the floor with the squires",
       "resultLevel.1": "Seated further from the salt",
