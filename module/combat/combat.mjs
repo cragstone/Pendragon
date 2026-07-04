@@ -13,7 +13,7 @@ export class PendragonCombat extends Combat {
     } else {
       this.setFlag("Pendragon", "encounterType", "feast");
     }
-    ui.combat.initialize();
+    ui.combat.viewed = this;
   }
 
   async rollInitiative(ids, { formula = null, updateTurn = true, messageOptions = {} } = {}) {
