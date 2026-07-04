@@ -34,6 +34,8 @@ export class PendragonCalendarWidget extends api.HandlebarsApplicationMixin(api.
   updateDate() {
     const label = this.element.querySelector("#pendragon-calendar-date");
     label.innerText = this.#getCurrentDate();
+    // force re-render
+    this.render();
   }
 
   #getCurrentDate() {

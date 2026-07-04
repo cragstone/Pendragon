@@ -3,6 +3,7 @@ import { ActorImporterDialog } from "./actor-importer-input.mjs";
 const { api } = foundry.applications;
 export class ActorImport extends api.HandlebarsApplicationMixin(api.ApplicationV2) {
   constructor() {
+    super();
     this.parsed = {};
     this.itemLocations = "";
   }
