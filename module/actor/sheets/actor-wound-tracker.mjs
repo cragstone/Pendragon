@@ -1,6 +1,7 @@
 import { PENCombat } from "../../apps/combat.mjs";
 import { PENUtilities } from "../../apps/utilities.mjs";
 import { PendragonStatusEffects } from "../../apps/status-effects.mjs";
+import { HealingCard } from "../../cards/healing-card.mjs";
 
 const { api } = foundry.applications;
 
@@ -43,7 +44,7 @@ export class WoundTrackerDialog extends api.HandlebarsApplicationMixin(api.Docum
   // add a new wound
   static #addWound(event, target) {
     const dmg = target.previousElementSibling;
-    if (dmg.value > 0) {
+    if (dmg.value) {
       const val = Number(dmg.value);
       // add the wound
       PENCombat.addStandardWound(this.actor, val);
@@ -57,7 +58,7 @@ export class WoundTrackerDialog extends api.HandlebarsApplicationMixin(api.Docum
   // take aggravation or other direct damage
   static async #directDamage(event, target) {
     const dmg = target.nextElementSibling;
-    if (dmg.value > 0) {
+    if (dmg.value) {
       const val = Number(dmg.value);
       // add the wound
       await this.actor.update({ "system.aggravDam": this.actor.system.aggravDam + val });
@@ -129,6 +130,7 @@ export class WoundTrackerDialog extends api.HandlebarsApplicationMixin(api.Docum
     let deterioration = 0;
     let totalHealed = 0;
     let markSuccessfulChirurgery = false;
+    let becomesHealthy = false;
     if (debilitated) {
       // let healing = 0;
       // const healingRate = this.actor.system.healRate;
@@ -159,6 +161,7 @@ export class WoundTrackerDialog extends api.HandlebarsApplicationMixin(api.Docum
         case "critical":
           const crit = await PENCombat.applyNaturalHealing(this.actor);
           totalHealed += crit.healing;
+          becomesHealthy = becomesHealthy || crit.becameHealthy;
           markSuccessfulChirurgery = true;
           break;
         case "success":
@@ -179,21 +182,18 @@ export class WoundTrackerDialog extends api.HandlebarsApplicationMixin(api.Docum
     }
     const healResult = await PENCombat.applyNaturalHealing(this.actor, deterioration, markSuccessfulChirurgery);
     totalHealed += healResult.healing;
-    console.log(totalHealed);
-    if (healResult.died) {
-      console.log("NAME suffered X points of deterioration and died.");
-      return;
-    }
-    if (deterioration > 0 && deterioration == totalHealed) {
-      console.log("NAME has not improved this week.");
-      return;
-    }
-    // deter > 0 "NAME lost X points to deterioration and gained X points of natural healing."
-    // "NAME has recovered X points of health."
-    // "NAME is no longer debilitated."
-    // "NAME has fully recovered."
-    // if at least one success since becoming debilitated AND > 1/2 hp, recover
+    becomesHealthy = becomesHealthy || healResult.becameHealthy;
+
+    const overallResult = {
+      deterioration,
+      totalHealed,
+      becomesHealthy,
+      died: healResult.died,
+    };
+    // TODO: see if we need to apply unconscious, debilitated, or dead statuses
+    await HealingCard.announceHealingOutcome(this.actor, overallResult);
   }
+
   // apply multiple weeks of natural healing
   static #healOverTime(event, target) {
     // dialog: chirurgery skill, number of weeks

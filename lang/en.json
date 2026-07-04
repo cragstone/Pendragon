@@ -344,6 +344,15 @@
     "healPrompt": "Please enter the amount of damage healed",
     "healRate": " Healing Rate",
     "health": "Health",
+    "healthResult": {
+      "death": "{name} has lost their remaining health and passed away.",
+      "deteriorated": "{health_lost} points of health are lost to deterioration.",
+      "healthy": "{name} recovers {health_gained} points of health and is no longer debilitated.",
+      "healed": "{name} recovers {health_gained} points of health.",
+      "label": "Healing",
+      "recovered": "{name} has gained {health_gained} points and is now fully recovered.",
+      "unchanged": "The condition of {name} remains unchanged."
+    },
     "heir": "Heir",
     "heirStatus": "Is the character the family heir?",
     "heraldry": "Heraldry",

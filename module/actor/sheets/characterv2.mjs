@@ -236,7 +236,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
       } else if (i.type === "relationship") {
         i.system.typeName = game.i18n.localize("PEN." + i.system.typeLabel);
         if (i.system.born > 0) {
-          i.system.age = game.settings.get("Pendragon", "gameYear") - i.system.born;
+          i.system.age = game.time.components.year - i.system.born;
         } else {
           i.system.age = "";
         }
@@ -308,10 +308,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
         name: f.name,
         died: Number(f.system.died ?? 0),
         born: Number(f.system.born ?? 0),
-        age:
-          f.system.died > 0
-            ? f.system.died - f.system.born
-            : game.settings.get("Pendragon", "gameYear") - f.system.born,
+        age: f.system.died > 0 ? f.system.died - f.system.born : game.time.components.year - f.system.born,
         glory: Number(f.system.glory),
         type: "storyNPC",
       };
@@ -333,15 +330,12 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     }
     for (const s of squires) {
       // why do we store age instead of born?
-      s.system.born = game.settings.get("Pendragon", "gameYear") - s.system.age;
+      s.system.born = game.time.components.year - s.system.age;
       const person = {
         name: s.name,
         died: Number(s.system.died ?? 0),
         born: Number(s.system.born ?? 0),
-        age:
-          s.system.died > 0
-            ? s.system.died - s.system.born
-            : game.settings.get("Pendragon", "gameYear") - s.system.born,
+        age: s.system.died > 0 ? s.system.died - s.system.born : game.time.components.year - s.system.born,
         glory: Number(s.system.glory),
         type: "storyNPC",
       };
@@ -353,10 +347,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
         name: otherActor.name,
         died: Number(f.system.died ?? 0),
         born: Number(f.system.born ?? 0),
-        age:
-          f.system.died > 0
-            ? f.system.died - f.system.born
-            : game.settings.get("Pendragon", "gameYear") - f.system.born,
+        age: f.system.died > 0 ? f.system.died - f.system.born : game.time.components.year - f.system.born,
         glory: Number(otherActor.system.glory ?? 0),
         type: f.system.typeLabel,
         uuid: f.system.sourceUuid,
@@ -485,7 +476,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     context.age =
       this.actor.system.died > 0
         ? this.actor.system.died - this.actor.system.born
-        : game.settings.get("Pendragon", "gameYear") - this.actor.system.born;
+        : game.time.components.year - this.actor.system.born;
     return context;
   }
 
