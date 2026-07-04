@@ -51,10 +51,8 @@ export class PENCombat {
   }
   static async applyNaturalHealing(actor, deterioration = 0, markSuccessfulChirurgery = false) {
     const currentHealth = actor.system.hp.value;
-    console.log(`deter: ${deterioration}`);
-    if (deterioration > currentHealth) {
-      console.log("DEAD from deterioration");
-      return;
+    if (deterioration >= currentHealth) {
+      return { deterioration, healing: 0, died: true };
     }
     let healing = actor.system.healRate;
     let deterHeal = 0;
@@ -115,6 +113,7 @@ export class PENCombat {
       }
     }
     await PENCombat.cleanseWounds(actor);
+    return { deterioration, healing: actor.system.healRate - healing, died: false };
   }
 
   //
