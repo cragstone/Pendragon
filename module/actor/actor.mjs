@@ -41,11 +41,6 @@ export class PendragonActor extends Actor {
     systemData.honor = 0;
     systemData.winter = 0;
 
-    systemData.age = game.time.components.year - systemData.born;
-    if (systemData.died > 0) {
-      systemData.age = systemData.died - systemData.born;
-    }
-
     //Set Culture ID and add stats max
     let culture = actorData.items.filter((itm) => itm.type === "culture")[0];
     if (culture) {
@@ -81,11 +76,6 @@ export class PendragonActor extends Actor {
       systemData.religionID = religion._id;
       systemData.religionName = religion.name;
     }
-
-    //Actor only Adjustments
-    systemData.damage = systemData.damage + systemData.damAdj;
-    systemData.move = systemData.move + systemData.moveAdj;
-    systemData.armour = systemData.armour + systemData.armourAdj;
 
     //Calculate passive Glory
     systemData.appeal = 0;
@@ -204,12 +194,12 @@ export class PendragonActor extends Actor {
         if (i.system.active) {
           systemData.passglory.ideals = systemData.passglory.ideals + i.system.glory;
           systemData.armour = systemData.armour + i.system.armour;
-          let damAdj = i.system.dam.toUpperCase();
+          /*let damAdj = i.system.dam.toUpperCase();
           if (damAdj.split("D").length > 1) {
             systemData.damage = systemData.damage + Number(damAdj.split("D")[0]);
           } else {
             systemData.damageMod = systemData.damageMod + i.system.dam;
-          }
+          }*/
           systemData.move = systemData.move + i.system.move;
           systemData.hp.max = systemData.hp.max + i.system.hp;
           systemData.healRate = systemData.healRate + i.system.hr;
@@ -283,17 +273,6 @@ export class PendragonActor extends Actor {
     // If hp <=0 we probably should do something
     // code used to set DYING/DEBILITATED/UNCONSCIOUS etc here but creating effects during prepare can end up with duplicates or cycles
     // TOR2E emits a warning to chat 'actor expected to have STATUS' which if we don't spam chat at wrong time may be useful
-
-    //Check debilitated status
-    if (
-      this.statuses.has(PendragonStatusEffects.DEBILITATED) &&
-      systemData.status.chirurgery &&
-      systemData.hp.value >= Math.floor(systemData.hp.max / 2)
-    ) {
-      //TODO - review in case deleting effect during prepare is a problem
-      this.removeStatus(PendragonStatusEffects.DEBILITATED);
-      systemData.status.chirurgery = false;
-    }
   }
 
   // Prepare NPC and follower type specific data.

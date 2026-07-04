@@ -112,8 +112,17 @@ export class PENCombat {
         await item.update({ "system.treated": true });
       }
     }
+    // check to see if we remove the debilitation
+    let removeDebilitation = false;
+    if (successfulChirurgery && actor.system.hp.value >= Math.floor(actor.system.hp.max / 2)) {
+      removeDebilitation = true;
+      actor.removeStatus(PendragonStatusEffects.DEBILITATED);
+      await actor.update({
+        "system.status.chirurgery": false,
+      });
+    }
     await PENCombat.cleanseWounds(actor);
-    return { deterioration, healing: actor.system.healRate - healing, died: false };
+    return { deterioration, healing: actor.system.healRate - healing, died: false, becameHealthy: removeDebilitation };
   }
 
   //
