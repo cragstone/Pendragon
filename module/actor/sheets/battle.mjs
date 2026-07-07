@@ -227,7 +227,6 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
     event.preventDefault();
     event.stopImmediatePropagation();
     await this.actor.update({ "system.noteView": !this.actor.system.noteView });
-    await this.render["notes"];
   }
 
   static async _resultsView(event) {
@@ -236,7 +235,6 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
     await this.actor.update({
       "system.resultsView": !this.actor.system.resultsView,
     });
-    await this.render["results"];
   }
 
   static async _onToggleActor(event, target) {
