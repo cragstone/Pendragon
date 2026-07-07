@@ -259,7 +259,7 @@ export class PENWinter {
       title = game.i18n.localize("PEN.training");
     }
 
-    console.log(options);
+
     let destination = "systems/Pendragon/templates/dialog/winterOptions.hbs";
     let data = {
       headTitle: title,

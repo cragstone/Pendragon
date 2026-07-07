@@ -302,7 +302,6 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
       return;
     }
     const pid = target.closest(".partic-item").dataset.pid;
-    console.log(pid);
     //Check to see if Encounter is in game world
     let enc = await game.actors.filter((actr) => actr.flags.Pendragon?.pidFlag?.id === pid)[0];
     //If not in game then check compendiums as well
@@ -340,7 +339,6 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
       event.stopImmediatePropagation();
       const membersCollection = this.actor.toObject().system.knights;
       for (let actr of membersCollection) {
-        console.log(actr);
         let knight = await game.actors.get(actr);
         if (knight) {
           await knight.update({ "system.battlePos": 0 });
