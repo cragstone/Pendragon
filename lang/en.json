@@ -969,7 +969,15 @@
         "rt..table-6-11-random-camp-loot": "GMHB-Table 6.11: Random Camp Loot",
         "rt..table-6-12-random-camp-loot": "GMHB-Table 6.12: Random Camp Loot",
         "rt..table-8-5-goblin-appearance": "GMHB-Table 8.5: Goblin Appearance",
-        "rt..table-8-6-elfin-gift": "GMHB-Table 8.6: Elfin Gift"
+        "rt..table-8-6-elfin-gift": "GMHB-Table 8.6: Elfin Gift",
+        "rt..table-2-1-randomwife-mercenaryknight": "NHB-Table2.1: Random Wife (Mercenary Knight)",
+        "rt..table-2-1-randomwife-householdknight": "NHB-Table2.1: Random Wife (Household Knight)",
+        "rt..table-2-1-randomwife-vassalknight": "NHB-Table2.1: Random Wife (Vassal Knight)",
+        "rt..table-2-1-randomwife-richvassalknight": "NHB-Table2.1: Random Wife (Rich Vassal Knight)",
+        "rt..table-2-1-randomwife-estateholder": "NHB-Table2.1: Random Wife (Estate Holder)",
+        "rt..table-2-1-randomwife-heiress": "NHB-Table2.1: Random Wife (Heiress)",
+        "rt..table-2-1-randomwife-majorheiress": "NHB-Table2.1: Random Wife (Major Heiress)"
+
       },
       "language": "Language",
       "new": "- Custom System ID - ",

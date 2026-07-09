@@ -1,4 +1,8 @@
 # CHANGELOG
+
+## 14.6
+- Fix for bug stopping skill rolls etc working.  Sorry about that
+
 ## 14.5
 - async removed from actor.mjs preparation to prevent race conditions(James B)
 - Compendia packs now held as YAML files (Mr Primate & Johnny B)

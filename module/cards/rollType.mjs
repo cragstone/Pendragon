@@ -24,6 +24,7 @@ export class PENRollType {
 
   //Start a Stat Check
   static async _onStatCheck(event) {
+    let shiftKey = event?.shiftKey;
     let ctrlKey = isCtrlKey(event ?? false);
     let cardType = CardType.UNOPPOSED;
     let characteristic = event.currentTarget.dataset.stat;
@@ -33,13 +34,13 @@ export class PENRollType {
       cardType = CardType.FIXED;
     }
     if (game.settings.get("Pendragon", "switchShift")) {
-      event.shiftKey = !event.shiftKey;
+      shiftKey = !event.shiftKey;
     }
     PENCheck._trigger({
       rollType: RollType.CHARACTERISTIC,
       cardType,
       characteristic,
-      shiftKey: event.shiftKey,
+      shiftKey: shiftKey,
       actor: this.actor,
       token: this.token,
     });
@@ -85,6 +86,7 @@ export class PENRollType {
 
   //Start a Skill Check
   static async _onSkillCheck(event) {
+    let shiftKey = event?.shiftKey;
     let ctrlKey = isCtrlKey(event ?? false);
     let cardType = CardType.UNOPPOSED;
     let skillId = event.currentTarget.dataset.itemid;
@@ -94,13 +96,13 @@ export class PENRollType {
       cardType = CardType.FIXED;
     }
     if (game.settings.get("Pendragon", "switchShift")) {
-      event.shiftKey = !event.shiftKey;
+      shiftKey = !event.shiftKey;
     }
     PENCheck._trigger({
       rollType: RollType.SKILL,
       cardType,
       skillId,
-      shiftKey: event.shiftKey,
+      shiftKey: shiftKey,
       actor: this.actor,
       token: this.token,
     });
@@ -108,6 +110,7 @@ export class PENRollType {
 
   //Start a Passion Check
   static async _onPassionCheck(event) {
+    let shiftKey = event?.shiftKey;    
     let ctrlKey = isCtrlKey(event ?? false);
     let cardType = CardType.UNOPPOSED;
     let skillId = event.currentTarget.dataset.itemid;
@@ -122,14 +125,14 @@ export class PENRollType {
       cardType = CardType.FIXED;
     }
     if (game.settings.get("Pendragon", "switchShift")) {
-      event.shiftKey = !event.shiftKey;
+      shiftKey = !event.shiftKey;
     }
     PENCheck._trigger({
       rollType: RollType.PASSION,
       cardType,
       skillId,
       flatMod,
-      shiftKey: event.shiftKey,
+      shiftKey: shiftKey,
       actor: this.actor,
       token: this.token,
     });
@@ -138,6 +141,7 @@ export class PENRollType {
   //Start a Glory Check
   static async _onGloryCheck(event) {
     let ctrlKey = isCtrlKey(event ?? false);
+    let shiftKey = event?.shiftKey;        
     let cardType = CardType.UNOPPOSED;
     if (event.altKey) {
       cardType = CardType.OPPOSED;
@@ -145,12 +149,12 @@ export class PENRollType {
       cardType = CardType.FIXED;
     }
     if (game.settings.get("Pendragon", "switchShift")) {
-      event.shiftKey = !event.shiftKey;
+      shiftKey = !event.shiftKey;
     }
     PENCheck._trigger({
       rollType: RollType.GLORY,
       cardType,
-      shiftKey: event.shiftKey,
+      shiftKey: shiftKey,
       actor: this.actor,
       token: this.token,
     });
@@ -159,6 +163,7 @@ export class PENRollType {
   //Start a Move Check
   static async _onMoveCheck(event) {
     let ctrlKey = isCtrlKey(event ?? false);
+    let shiftKey = event?.shiftKey;        
     let cardType = CardType.UNOPPOSED;
     let rollType = RollType.MOVE;
     if (event.currentTarget.dataset.property === "altmove") {
@@ -170,12 +175,12 @@ export class PENRollType {
       cardType = CardType.FIXED;
     }
     if (game.settings.get("Pendragon", "switchShift")) {
-      event.shiftKey = !event.shiftKey;
+      shiftKey = !event.shiftKey;
     }
     PENCheck._trigger({
       rollType,
       cardType,
-      shiftKey: event.shiftKey,
+      shiftKey: shiftKey,
       actor: this.actor,
       token: this.token,
     });
@@ -184,6 +189,7 @@ export class PENRollType {
   //Start a Squire Check
   static async _onSquireCheck(event) {
     let ctrlKey = isCtrlKey(event ?? false);
+    let shiftKey = event?.shiftKey;    
     let subType = event.currentTarget.dataset.type;
     let cardType = CardType.UNOPPOSED;
     let itemId = event.currentTarget.dataset.itemid;
@@ -193,12 +199,12 @@ export class PENRollType {
       cardType = CardType.FIXED;
     }
     if (game.settings.get("Pendragon", "switchShift")) {
-      event.shiftKey = !event.shiftKey;
+      shiftKey = !event.shiftKey;
     }
     PENCheck._trigger({
       rollType: RollType.SQUIRE,
       cardType,
-      shiftKey: event.shiftKey,
+      shiftKey: shiftKey,
       itemId,
       subType,
       actor: this.actor,
@@ -209,6 +215,7 @@ export class PENRollType {
   //Start a Trait Check
   static async _onTraitCheck(event) {
     let ctrlKey = isCtrlKey(event ?? false);
+    let shiftKey = event?.shiftKey;        
     let cardType = "NO";
     let subType = event.currentTarget.dataset.type;
     let skillId = event.currentTarget.dataset.itemid;
@@ -218,13 +225,13 @@ export class PENRollType {
       cardType = "RE";
     }
     if (game.settings.get("Pendragon", "switchShift")) {
-      event.shiftKey = !event.shiftKey;
+      shiftKey = !event.shiftKey;
     }
     PENCheck._trigger({
       rollType: RollType.TRAIT,
       cardType,
       subType,
-      shiftKey: event.shiftKey,
+      shiftKey: shiftKey,
       skillId,
       actor: this.actor,
       token: this.token,
@@ -234,14 +241,15 @@ export class PENRollType {
   //Start a Decision Trait Check
   static async _onDecisionCheck(event) {
     let cardType = "NO";
+    let shiftKey = event?.shiftKey;        
     let skillId = event.currentTarget.dataset.itemid;
     if (game.settings.get("Pendragon", "switchShift")) {
-      event.shiftKey = !event.shiftKey;
+      shiftKey = !event.shiftKey;
     }
     PENCheck._trigger({
       rollType: RollType.DECISION,
       cardType,
-      shiftKey: event.shiftKey,
+      shiftKey: shiftKey,
       skillId,
       actor: this.actor,
       token: this.token,
@@ -251,6 +259,7 @@ export class PENRollType {
   //Start a Damage Roll
   static async _onDamageRoll(event) {
     let damCrit = false;
+    let shiftKey = event?.shiftKey;        
     if (event.altKey) {
       damCrit = true;
     }
@@ -259,7 +268,7 @@ export class PENRollType {
     PENCheck._trigger({
       rollType: RollType.DAMAGE,
       cardType,
-      shiftKey: event.shiftKey,
+      shiftKey: shiftKey,
       itemId,
       damCrit,
       actor: this.actor,
@@ -270,14 +279,15 @@ export class PENRollType {
   //Start a Combat Check
   static async _onCombatCheck(event) {
     let cardType = "CO";
+    let shiftKey = event?.shiftKey;        
     let itemId = event.currentTarget.dataset.itemid;
     if (game.settings.get("Pendragon", "switchShift")) {
-      event.shiftKey = !event.shiftKey;
+      shiftKey = !event.shiftKey;
     }
     PENCheck._trigger({
       rollType: RollType.COMBAT,
       cardType,
-      shiftKey: event.shiftKey,
+      shiftKey: shiftKey,
       itemId,
       actor: this.actor,
       token: this.token,
