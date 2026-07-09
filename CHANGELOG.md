@@ -11,6 +11,9 @@
 - Game setting added in Combat Settings that turns off wounds - in this case you just edit the HP.  Adding damage will not check for Minor, Major or Mortal wounds, but Natural Healing will increase HP
 - Natural Healing now triggered by single click.
 - There are two new buttons in the GM Tools - to increase and decrease the Game Year by one.  Game Year setting replaced using Foudnry native Calendar and new worlds will default to 510.
+- Removed an infinite loop on Party/Battle update(Mr Primate)
+- Fixed some unreadable dialogues in Dark Mode (Mr Primate)
+- Corrected trait typo (Mr Primate)
 
 ## 14.4
 - Base Skill Score multipliers are no longer integers.

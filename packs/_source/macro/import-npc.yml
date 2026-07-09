@@ -1,0 +1,24 @@
+name: Import NPC
+type: script
+img: icons/svg/mystery-man-black.svg
+command: game.Pendragon.NPCImporter();
+flags:
+  Pendragon:
+    itemMacro: true
+author: fJaZRxqzwKDvRnNd
+scope: global
+folder: null
+ownership:
+  default: 0
+_stats:
+  duplicateSource: null
+  exportSource: null
+  coreVersion: '13.351'
+  systemId: Pendragon
+  systemVersion: 13.1.60
+  createdTime: 1774338958304
+  modifiedTime: 1774338958314
+  lastModifiedBy: pendragonBuilder
+_id: B2do35OUYbVrWlle
+sort: 200000
+_key: '!macros!B2do35OUYbVrWlle'
