@@ -20,29 +20,28 @@
       {{#each system.stats as |stat key|}}
         <div class="stat-name centre grid-item-left new-row">{{stat.labelShort}}</div>    
         {{#isOr ../isGM ../isCreation}}
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.value" type="number" value="{{stat.value}}"/></div>
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.culture" type="number" value="{{stat.culture}}"/></div>
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.create" type="number" value="{{stat.create}}"/></div>
+          <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.value" type="number" value="{{stat.value}}"/></div>
+          <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.culture" type="number" value="{{stat.culture}}"/></div>
+          <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.create" type="number" value="{{stat.create}}"/></div>
           {{#if (eq key 'con')}}
-            <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.poison" type="number" value="{{stat.poison}}"/></div>
+            <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.poison" type="number" value="{{stat.poison}}"/></div>
           {{else}}
-            <div class="stat-item centre grid-item-bottom grey"></div>
+            <div class="stat-item centre grid-item-bottom">-</div>
           {{/if}}
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.disease" type="number" value="{{stat.disease}}"/></div>
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.sol" type="number" value="{{stat.sol}}"/></div>
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.major" type="number" value="{{stat.major}}"/></div>
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.age" type="number" value="{{stat.age}}"/></div>
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.winter" type="number" value="{{stat.winter}}"/></div>
+          <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.disease" type="number" value="{{stat.disease}}"/></div>
+          <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.sol" type="number" value="{{stat.sol}}"/></div>
+          <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.major" type="number" value="{{stat.major}}"/></div>
+          <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.winter" type="number" value="{{stat.winter}}"/></div>
         {{else}}
           <div class="stat-item centre grid-item-bottom">{{stat.value}}</div>
-          <div class="stat-item centre grid-item-bottom">{{stat.culture}}</div>
+          <div class="stat-itemt centre grid-item-bottom">{{stat.culture}}</div>
           <div class="stat-item centre grid-item-bottom">{{stat.create}}</div>
           {{#if (eq key 'con')}}
-            <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.poison" type="number" value="{{stat.poison}}"/></div>
+            <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.poison" type="number" value="{{stat.poison}}"/></div>
           {{else}}
-            <div class="stat-item centre grid-item-bottom grey"></div>
+            <div class="stat-item centre grid-item-bottom">-</div>
           {{/if}}
-          <div class="stat-item centre grid-item-bottom"><input name="system.stats.{{key}}.disease" type="number" value="{{stat.disease}}"/></div>
+          <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.disease" type="number" value="{{stat.disease}}"/></div>
           <div class="stat-item centre grid-item-bottom">{{stat.sol}}</div>   
           <div class="stat-item centre grid-item-bottom">{{stat.major}}</div>   
           <div class="stat-item centre grid-item-bottom">{{stat.age}}</div>        

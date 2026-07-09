@@ -25,7 +25,7 @@ export class PendragonActor extends Actor {
   }
 
   // Prepare Character type specific data
-  async _prepareCharacterData(actorData) {
+  _prepareCharacterData(actorData) {
     if (actorData.type !== "character") return;
     const systemData = actorData.system;
     //Set basic object IDs
@@ -40,7 +40,8 @@ export class PendragonActor extends Actor {
     systemData.civilitas = 0;
     systemData.honor = 0;
     systemData.winter = 0;
-    systemData.age = game.settings.get("Pendragon", "gameYear") - systemData.born;
+
+    systemData.age = game.time.components.year - systemData.born;
     if (systemData.died > 0) {
       systemData.age = systemData.died - systemData.born;
     }
@@ -264,7 +265,9 @@ export class PendragonActor extends Actor {
       }
     }
 
-    systemData.hp.value = systemData.hp.max - systemData.totalWounds - systemData.aggravDam - systemData.deterDam;
+    if (game.settings.get('Pendragon','trackWnd')) {
+      systemData.hp.value = systemData.hp.max - systemData.totalWounds - systemData.aggravDam - systemData.deterDam;
+    }
     systemData.hp.unconscious = Math.round(systemData.hp.max / 4);
     systemData.tap = Math.min(100, systemData.passion) + Math.min(100, systemData.trait);
     systemData.passive =
@@ -315,7 +318,7 @@ export class PendragonActor extends Actor {
   }
 
   // Prepare Common type specific data.
-  async _prepareCommonData(actorData) {
+  _prepareCommonData(actorData) {
     if (!["npc", "character", "follower"].includes(actorData.type)) return;
     actorData.system.statTotal = 0;
     // Handle stats scores, adding labels to stats
@@ -406,7 +409,9 @@ export class PendragonActor extends Actor {
       }
     }
     //Calculate current HP then check for Near Death
-    systemData.hp.value = systemData.hp.max - (systemData.woundTotal ? systemData.woundTotal : 0);
+    if (game.settings.get('Pendragon','trackWnd')) {
+      systemData.hp.value = systemData.hp.max - (systemData.woundTotal ? systemData.woundTotal : 0);
+    }
     if (glory < 3000) {
       systemData.reputation = game.i18n.localize("PEN.unproven");
     } else if (glory < 4000) {
@@ -666,7 +671,7 @@ export class PendragonActor extends Actor {
         libra: 0,
         denarii: 0,
         description: desc,
-        year: game.settings.get("Pendragon", "gameYear"),
+        year: game.time.components.year,
         glory: glory,
       },
     };
@@ -682,44 +687,25 @@ export class PendragonActor extends Actor {
 
   //Rerender Party Sheet if actor is in it
   async _updateParty(actorData) {
-    let parties = await game.actors.filter((actr) => actr.type === "party");
-    if (parties.length === 0) return;
-    for (let party of parties) {
-      if (!party.sheet?.rendered) continue;
-      let update = false;
-      const membersCollection = party.toObject().system.members;
-      for (let member of membersCollection) {
-        if (member === actorData._id) {
-          update = true;
-        }
+    try {
+      const parties = game.actors.filter(actr=>actr.type==='party' && actr.sheet.rendered && actr.system.members.find(m => m.uuid === actorData.uuid))
+      for (const party of parties) {
+        await party.render()
       }
-      if (update) {
-        await party.render();
-      }
+    } catch (e) {
+      // Called before sheet is ready
     }
   }
-
+  
   //Rerender Battle Sheet if actor is in it
   async _updateBattle(actorData) {
-    let parties = await game.actors.filter((actr) => actr.type === "battle");
-    if (parties.length === 0) return;
-    for (let party of parties) {
-      if (!party.sheet.rendered) continue;
-      let update = false;
-      for (let member of party.system.encounters) {
-        if (member === actorData.uuid) {
-          update = true;
-        }
+    try {
+      const parties = game.actors.filter(actr=>actr.type==='battle' && actr.sheet.rendered && actr.system.encounters.find(m => m.uuid === actorData.uuid))
+      for (const party of parties) {
+        await party.render()
       }
-      const membersCollection = party.toObject().system.knights;
-      for (let member of membersCollection) {
-        if (member === actorData._id) {
-          update = true;
-        }
-      }
-      if (update) {
-        await party.render();
-      }
+    } catch (e) {
+      // Called before sheet is ready
     }
   }
 

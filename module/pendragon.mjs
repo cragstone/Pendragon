@@ -5,7 +5,7 @@ import { PendragonCombatant } from "./combat/combatant.mjs";
 import { PENDRAGON } from "./setup/config.mjs";
 import { handlebarsHelper } from "./setup/handlebar-helper.mjs";
 import { PendragonHooks } from "./hooks/index.mjs";
-import { registerSettings } from "./setup/register-settings.mjs";
+import { registerSettings } from "./settings/register-settings.mjs";
 import { PENLayer } from "./setup/layers.mjs";
 import { PENSystemSocket } from "./apps/socket.mjs";
 import * as Chat from "./apps/chat.mjs";
@@ -196,6 +196,9 @@ Hooks.once("ready", async function () {
         await a.update({ "system.status.train": false });
       }
     }
+  if (game.time.components.year === 0) {
+    await game.time.set({year: 510});
+  }    
   }
 
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to

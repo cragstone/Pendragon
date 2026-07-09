@@ -379,7 +379,10 @@ body.theme-dark .application.Pendragon.sheet,
   padding: 0px;
   color: darkred;
   height: 20px;
-  border: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid darkred;
   border-radius: 0px;
   background: none;
   box-shadow: none;
@@ -396,10 +399,10 @@ body.theme-dark .application.Pendragon.sheet,
   height: 26px;
   padding: 0px;
   color: darkred;
-  border: 0px;
   border-radius: 0px;
-  background: none;
+  border: 0px;
   box-shadow: none;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .Pendragon .rotate {
@@ -518,6 +521,15 @@ body.theme-dark .application.Pendragon.sheet,
 .Pendragon .cash-grid {
   display: grid;
   grid-template-columns: 160px 45px 10px 40px;
+  grid-template-rows: 23px;
+  gap: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.Pendragon .trackWnd-grid{
+  display: grid;
+  grid-template-columns: 45px 10px 40px;
   grid-template-rows: 23px;
   gap: 0px;
   margin-top: 0px;
@@ -759,6 +771,14 @@ body.theme-dark .application.Pendragon.sheet,
   margin-bottom: 0px;
 }
 
+.Pendragon .wound-item-grid {
+  display: grid;
+  grid-template-columns: 150px 350px;
+  gap: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
 .Pendragon .trait-grid {
   display: grid;
   grid-template-columns: 50px 30px 150px 70px 150px 30px 50px 60px 230px;
@@ -793,8 +813,8 @@ body.theme-dark .application.Pendragon.sheet,
 
 .Pendragon .joust-grid {
   display: grid;
-  grid-template-columns: 100px 50px 100px 50px;
-  gap: 0px;
+  grid-template-columns: 100px 50px 20px 100px 50px;
+  gap: 5px;
   margin-top: 0px;
   margin-bottom: 0px;
 }
@@ -1283,7 +1303,10 @@ body.theme-dark .application.Pendragon.sheet,
   padding: 0px;
   color: darkred;
   height: 20px;
-  border: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid darkred;  
   border-radius: 0px;
   background: none;
   box-shadow: none;
@@ -1800,4 +1823,36 @@ body.theme-dark .application.Pendragon.sheet,
 
 .Pendragon li:nth-child(odd).charcreate {
   background-color: var(--pss-table-row-colour-even);
+}
+
+.pen .standard-form .form-fields {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  max-height: 20px;
+}
+
+.pen .standard-form .form-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  gap: 0.5rem;
+  padding-bottom: 10px;
+
+}
+
+.pen .standard-form .form-group>label,
+.standard-form .form-group>span.label {
+  flex: 1;
+  font-weight: bold;
+  line-height: 20px;
+}
+
+.pen .standard-form .form-group .settingNote {
+  flex: 0 0 100%;
 }

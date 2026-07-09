@@ -13,4 +13,5 @@ node_modules/
 .DS_Store
 
 # packs
-packs/**/LOG.old
+packs/*
+!packs/_source/

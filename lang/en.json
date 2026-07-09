@@ -209,6 +209,7 @@
     "decrepitude": "Decrepuitude",
     "decrepitudeDeath": "You have died from decrepitude",
     "decrepitudeLive": "You survivied another year",
+    "decYear": "Decrease Game Year by 1",    
     "degraded": "Degraded",
     "degradedHint": "Has suffered 1 or more years of poor or impoverished upkeep",
     "delete": "Double click to delete",
@@ -358,6 +359,7 @@
     "hp": "Hit Points",
     "hpAdj": "HP Adjustment",
     "hpShort": "HP",
+    "incYear": "Increase Game Year by 1",
     "ideals": "Ideals",
     "illustrious": "Illustrious",
     "inherit": "Inherited",
@@ -457,7 +459,7 @@
     "multipleResult": "Multiple Birth Result",
     "name": "Name",
     "naturalHeal": "Natural Healing",
-    "naturalHealHint": "Double click to trigger Natural Healing",
+    "naturalHealHint": "Click to trigger Natural Healing",
     "nearDeath": "Near Death",
     "nearlyDied": "You lost stats in Childbirth",
     "nextTurn": "Next Turn",
@@ -861,13 +863,17 @@
       "autoXPHint": "Automatically grants XP checks for Success or Critical",
       "childMortality": "Child Mortality",
       "childMortalityHint": "When off, child survival rolls are skipped and childbirth tragedies are not possible.",
+      "combatOptions": "Combat/Damage Options",
+      "combatOptionsHint": "Change settings for combat and damage",      
       "critAdj": "Critical Bonus Adjustment",
       "critAdjHint": "Reduce critical bonuses where all parties have a bonus",
+      "diceOptions": "Dice Roll Options",
+      "diceOptionsHint": "Change settings for Dice Rolls",
       "diceRolls": "Dice Rolls",
       "fumbleXP": "Fumble XP",
       "fumbleXPHint": "Grants XP checks for Fumbles if Automate XP is turned on.",
       "gameYear": "Game Year",
-      "gameYearHint": "This can be increased via the Winter Phase",
+      "gameYearHint": "This is increased via the Winter Phase or can be changed via GM Tools",
       "oppDice1": "First Opposed Dice Roll",
       "oppDice1Hint": "Dice So Nice Colour Scheme for first roll",
       "oppDice2": "Second Opposed Dice Roll",
@@ -886,9 +892,13 @@
       "tokenVisionHint": "Do characters start with token vision set to on or off",
       "toolTipDelay": "Tooltip delay",
       "toolTipDelayHint": "Delay in milliseconds before tooltip should show.  Set to 0 for never",
+      "trackWnd": "Track Wounds",
+      "trackWndHint": "EXPERIMENTAL: Turning this off ignores Wounds and lets you enter current HP manually.  Does not apply to V2 Character Sheet yet.",
       "useRelation": "Allow relationships",
       "useRelationHint": "Allows GM to create relationships on characters",
-      "xpCheck": "Experience Checks"
+      "xpCheck": "Experience Checks",
+      "xpOptions": "XP Check Options",
+      "xpOptionsHint": "Change settings for XP Checks"      
     },
 
     "resultLevel": {
@@ -969,6 +979,7 @@
       "summary": "Set a group identifier that can be used to find the most up to date version of this {type}. The System ID should use the English translation of the {type} to support localization across all languages.",
       "title": "Edit System ID (PID)"
     },
+
     "skillcat": {
       "combat": "Combat",
       "courtly": "Courtly",

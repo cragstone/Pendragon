@@ -63,7 +63,7 @@ export class PendragonFollowerSheet extends api.HandlebarsApplicationMixin(sheet
       displayNotes: this.actor.system.noteView,
     };
 
-    context.age = game.settings.get("Pendragon", "gameYear") - this.actor.system.born;
+    context.age = game.time.components.year - this.actor.system.born;
     context.followerType = await PENSelectLists.getFollowerType();
     context.follower = context.followerType[this.actor.system.subType];
     context.solType = await PENSelectLists.getSOLType();

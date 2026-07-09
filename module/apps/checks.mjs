@@ -178,7 +178,7 @@ export class PENCheck {
         } else if (config.subType === "actorAge") {
           let particActor = await PENactorDetails._getParticipant(config.particId, config.particType);
           config.label = game.i18n.localize("PEN.age");
-          config.rawScore = game.settings.get("Pendragon", "gameYear") - particActor.system.born - 9 ?? 0;
+          config.rawScore = game.time.components.year - particActor.system.born - 9 ?? 0;
         } else {
           tempItem = particActor.items.get(config.itemId);
           if (config.subType === "squire") {
@@ -192,7 +192,7 @@ export class PENCheck {
             config.rawScore = tempItem.system.squire ?? 0;
           } else if (config.subType === "followerAge") {
             config.label = tempItem.system.person1Name + "[" + game.i18n.localize("PEN.age") + "]";
-            config.rawScore = game.settings.get("Pendragon", "gameYear") - tempItem.system.born - 9 ?? 0;
+            config.rawScore = game.time.components.year - tempItem.system.born - 9 ?? 0;
           }
         }
         break;

@@ -235,6 +235,7 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
     await this.actor.update({
       "system.resultsView": !this.actor.system.resultsView,
     });
+
   }
 
   static async _onToggleActor(event, target) {

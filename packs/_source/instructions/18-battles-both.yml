@@ -1,0 +1,155 @@
+name: 18) Battles (Both)
+_id: kL2SCATAJc30P2G0
+pages:
+  - sort: 100000
+    name: Battle Sheet
+    type: text
+    _id: Xkf4GjkxiPTeEDu9
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <p>A Battle is a type of Actor. Players should normally be given Owner
+        status when a Battle is starting.</p><p></p><p>Enter a name and short
+        description for the battle in the yellow section at the top of the
+        sheet.</p><p>Both GM and Players will see an icon in the middle left
+        side of the yellow section - a quill. This will show/hide an "Outcomes"
+        section which all parties (if they have owner status) can edit to record
+        the results from encounters etc (such as Glory earned or Knight Values
+        defeated).</p><p>The GM will see five additional icons in the yellow
+        section:</p><p>Scroll - this will allow the GM to enter battle specific
+        notes (such as scripted events) which the players can not
+        see.</p><p>Lock - the GM can lock/unlock the battle sheet</p><p>Horse
+        Icon - this will reset the Battle Posture for all Knights on the Battle
+        Card. This is useful between Battle Turns so that all Knights need to
+        reselect their posture for the next encounter.</p><p>Swords Icon - this
+        will add all NPCs on the scene to a new Foundry Combat Encounter (not a
+        Pendragon Encounter card). If the NPC is already on the combat then it
+        won't be added again. If no Combat exists a new one is created. Remember
+        to delete old/unused combats encounters.</p><p>Person icon - this will
+        remove all NPC tokens (not characters) from the current scene - it
+        quickly allows the GM to remove tokens relating to the previous
+        encounter before starting the next one.</p><p></p><p>The GM can enter
+        the Battle Intensity score. Clicking on the word "Intensity" will make
+        an Intensity Roll.</p><p>If the Conroi leader is an NPC enter their
+        Battle Score next. Clicking on the words "Battle Score" will make a
+        Battle roll. If the leader is a PC you can leave this blank and use the
+        Battle Score from the character sheet.</p><p>Current Morale is the
+        Conroi's current Morale. Reduce it for morale lost at the start of an
+        encounter, and increase it for enemies defeated.</p><p>Max Morale is the
+        Conroi's starting Morale. Current Morale should not exceed
+        this.</p><p>Position: You can select the Conroi's position in the
+        field.</p><p></p><p>You can add encounters to the Battle (drag and drop
+        them). The encounters are listed alphabetically, followed by any
+        Opportunities with "Opp" in brackets after the name. A tooltip will let
+        the players see a short description of the encounter.<br /><br />Any
+        used encounters will be struck through, although this doesn't prevent
+        them being viewed/used. For the GM only, encounters in red have a higher
+        morale rating than the Conroi's current value.</p><p></p><p>You can add
+        Characters to the Conroi and these will be displayed below the
+        encounters. You will see an image of the character (a tooltip will show
+        their name), the GM can see a broom icon which is used to remove the
+        Character, and two numbers/letters.<br /></p><p>The first letter is a
+        reflection of where the Knight is on the Battle Field (F = On the Field,
+        R = Retired to the Rear, O = Out of Battle, L = Left the Field).  A
+        tooltip shows the full name of the position</p><p><br />The second
+        number/letter is an indication of the Battle Posture of each Character.
+        0 = the character has not yet selected a posture on the character sheet,
+        1-3 = number of rounds the character will fight in the encounter and R =
+        Cowardly/Retreat to the Rear. A tooltip shows the full name of the
+        posture.</p><p>Underneath the knights the players will see the current
+        Battle Turn. The GM can also enter the maximum number of turns in the
+        battle and there are left and right arrows to increase/decrease the
+        current turn number. The players can not see the max turns or the arrows
+        to change the current turn.</p>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+    flags: {}
+    _stats:
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.351'
+      systemId: Pendragon
+      systemVersion: 13.1.44
+      createdTime: 1764088710235
+      modifiedTime: 1765957460553
+      lastModifiedBy: pendragonBuilder
+    _key: '!journal.pages!kL2SCATAJc30P2G0.Xkf4GjkxiPTeEDu9'
+  - sort: 200000
+    name: Battle Scene
+    type: text
+    _id: XfCh4hPHxKWLfuWZ
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <p>The core system includes a scene for battles - but you are free to
+        create your own.</p><p></p><p>This scene is a table - the right hand
+        side is clear and is for character/NPC sheets, party sheets, encounter
+        and battle cards etc.</p><p><br />The left hand side is a parchment with
+        a round map of the battle field, divided in to sections by dotted red
+        lines.<br /></p><p>The top section is the enemy's "rear" where some
+        encounters may be fought.</p><p>The next (largest) section is the "In
+        the Field" area.</p><p>The  next (empty) section is the "Retreat to the
+        Rear" area where Conroi's can recover morale, get healed etc</p><p>And
+        the bottom section is "Behind the lines"</p><p></p><p>There is no
+        functionality associated with the sections, they are merely to help show
+        where the Player Characters are.</p><p></p><p>Adiing tokens to the scene
+        with the relevant icons on the
+        @UUID[Compendium.Pendragon.instructions.JournalEntry.IVQ9dYdmIjkJdAZa]{17)
+        Encounters (GM)} sheet will place the enemy tokens in the "In the Field
+        " area.</p>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+    flags: {}
+    _stats:
+      duplicateSource: null
+      exportSource: null
+      coreVersion: '13.351'
+      systemId: Pendragon
+      systemVersion: 13.1.44
+      createdTime: 1764089505962
+      modifiedTime: 1764089732519
+      lastModifiedBy: pendragonBuilder
+    _key: '!journal.pages!kL2SCATAJc30P2G0.XfCh4hPHxKWLfuWZ'
+folder: null
+categories: []
+sort: 0
+ownership:
+  default: 0
+flags:
+  Pendragon:
+    pidFlag:
+      id: je..18-battles-both
+      lang: en
+      priority: 0
+    css-adventure-entry: true
+    fixed-adventure-heading: true
+_stats:
+  duplicateSource: null
+  exportSource: null
+  coreVersion: '14.364'
+  systemId: Pendragon
+  systemVersion: '14.1'
+  createdTime: 1764088694529
+  modifiedTime: 1781499282199
+  lastModifiedBy: pendragonBuilder
+_key: '!journal!kL2SCATAJc30P2G0'
