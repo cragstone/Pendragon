@@ -378,14 +378,12 @@ pages:
     text:
       format: 1
       content: >-
-        <p>A wound doesn't have a Description or GM Info tab.  </p><p>It is made
-        up on the following information</p><ul><li><p>Damage - this the amount
-        of the wound</p></li><li><p>Wound Type - see
-        @UUID[JournalEntry.nK2HPwEm6y15GqKh.JournalEntryPage.F6sWns3Q5TtIXhy6]
-        for more info</p></li><li><p>When the wound is first created a
-        description/status is added to show the severity of the wound - it is
-        not visible on the Wound Item sheet, but is on the character
-        sheet.</p></li></ul><p></p><p>Whether the wound has been (or can be)
+        <p>A wound doesn't have a Description or GM Info tab.</p><p>It is made
+        up on the following information</p><ul><li><p>Name - this is set as the
+        severity of the wound</p></li><li><p>Damage - this the amount of the
+        wound</p></li><li><p>Wound Type</p></li><li><p>Description - this is not
+        set automatically but can be edited
+        later.</p></li></ul><p></p><p>Whether the wound has been (or can be)
         treated or not is shown on the combat tab of the character sheet rather
         than here.</p>
     video:
@@ -398,11 +396,11 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: '13.345'
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.16
-      createdTime: null
-      modifiedTime: null
+      createdTime: 1783596062198
+      modifiedTime: 1783596062198
       lastModifiedBy: null
       exportSource: null
     category: null

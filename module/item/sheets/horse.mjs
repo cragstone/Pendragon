@@ -96,7 +96,7 @@ export class PendragonHorseSheet extends PendragonItemSheet {
     // pure Javascript, no jQuery
     this.element
       .querySelectorAll(".item-toggle")
-      .forEach((n) => n.addEventListener("dblclick", this.#onItemToggle.bind(this)));
+      .forEach((n) => n.addEventListener("click", this.#onItemToggle.bind(this)));
   }
 
   /* -------------------------------------------- */

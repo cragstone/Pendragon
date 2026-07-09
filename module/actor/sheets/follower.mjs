@@ -163,13 +163,13 @@ export class PendragonFollowerSheet extends api.HandlebarsApplicationMixin(sheet
     this._dragDrop.forEach((d) => d.bind(this.element));
     this.element
       .querySelectorAll(".close-sheet")
-      .forEach((n) => n.addEventListener("dblclick", this._onCloseSheet.bind(this)));
+      .forEach((n) => n.addEventListener("click", this._onCloseSheet.bind(this)));
     this.element
       .querySelectorAll(".inline-edit")
       .forEach((n) => n.addEventListener("change", this._onInlineEdit.bind(this)));
     this.element
       .querySelectorAll(".item-toggle")
-      .forEach((n) => n.addEventListener("dblclick", this._onItemToggle.bind(this)));
+      .forEach((n) => n.addEventListener("click", this._onItemToggle.bind(this)));
     this.element
       .querySelectorAll(".rollable.skill-name")
       .forEach((n) => n.addEventListener("click", PENRollType._onSkillCheck.bind(this)));
@@ -343,7 +343,6 @@ export class PendragonFollowerSheet extends api.HandlebarsApplicationMixin(sheet
 
   //Toggle Actor
   static async _onActorToggle(event, target) {
-    if (event.detail === 2) {
       //Only perform on double click
       const prop = target.dataset.property;
       let checkProp = {};
@@ -351,7 +350,6 @@ export class PendragonFollowerSheet extends api.HandlebarsApplicationMixin(sheet
         checkProp = { [`system.${prop}`]: !this.actor.system[prop] };
       }
       await this.actor.update(checkProp);
-    }
     return;
   }
 

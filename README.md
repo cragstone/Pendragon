@@ -19,8 +19,22 @@ The compiled LevelDB databases in `packs/<pack>/` are **not** committed (git-ign
 
 Before packaging/zipping the system for a release, compile the source into the LevelDB packs Foundry loads:
 
+Open a command prompt and change the directory to your Foundry Pendragon folder.   It will be something like
+
+```
+cd /d D:\FoundryVTT\Data\system\Pendragon
+
+```
+
+If you haven't already installed npm then run the following in command prompt
+
 ```
 npm install       # first time only
+```
+
+To build the packs from the JSON/YAML files run the following in command prompt
+
+```
 npm run build:db  # compile packs/_source/**/*.yml -> packs/<pack>/
 ```
 

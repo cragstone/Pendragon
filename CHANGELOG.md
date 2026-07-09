@@ -1,7 +1,6 @@
 # CHANGELOG
 ## 14.5
 - async removed from actor.mjs preparation to prevent race conditions(James B)
-- Battle and party updates streamlined (James B)
 - Compendia packs now held as YAML files (Mr Primate & Johnny B)
 - Feast tracker fixed (JohnnyB)
 - Wound names now set by amount of damage.  Wound description can be edited on wound sheet.  Character wound table shows description if populated, otherwise name (Mr Primate)
@@ -9,9 +8,10 @@
 - Standard of living now shows on the character sheet (it is set in Winter Phase)
 - Fields that can be edited on the character sheet now show a red line at the bottom or, where they are in a grid, have a grey background to make it clearer what can be edited
 - EXPERIMENTAL FEATURE = Game setting added in Combat Settings that turns off wounds - in this case you just edit the HP.  Adding damage will not check for Minor, Major or Mortal wounds, but Natural Healing will increase HP.  
-  It is not used in the new v2 CHaracter Sheet yet 
-- Natural Healing now triggered by single click.
-- There are two new buttons in the GM Tools - to increase and decrease the Game Year by one.  Game Year setting replaced using Foudnry native Calendar and new worlds will default to 510.
+  It is not used in the forthcoming v2 Character Sheet yet 
+- A lot of double clicks have been removed in favour of single clicks.  Generally only destructive actions will be double clicks.
+- Game Year setting replaced using Foundry native Calendar and new worlds will default to 510. 
+- There are two new buttons in the GM Tools - to increase and decrease the Game Year by one.  You can always enter await game.time.set({year:510}) in the console (F12) to change the year
 - Removed an infinite loop on Party/Battle update(Mr Primate)
 - Fixed some unreadable dialogues in Dark Mode (Mr Primate)
 - Corrected trait typo (Mr Primate)

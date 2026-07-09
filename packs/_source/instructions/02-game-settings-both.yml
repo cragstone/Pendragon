@@ -13,10 +13,11 @@ pages:
       format: 1
       content: >-
         <p>The current game settings options
-        are:</p><ul><li><p>@UUID[.ty31IeGwbI6DR5cM]</p></li><li><p>@UUID[.WyR6m6LOKiF3HVmB]</p></li><li><p>@UUID[.8JRDCc5CePLRMFxN]</p></li><li><p>@UUID[.xvSMxXzJeG1DEqE2]</p></li><li>@UUID[Compendium.Pendragon.instructions.JournalEntry.7U9pKyQCsPrhgwnl.JournalEntryPage.qEZbHtdNgLaa37pV]{Child
-        Mortality}</li><li><p>@UUID[.yCbdGRto5p6ReXOg]</p></li><li><p>@UUID[.DSedYGFfcELhYENQ]</p></li><li><p>@UUID[.bfXTt8IYHlChzhqc]{Use
+        are:</p><ul><li><p>@UUID[.ty31IeGwbI6DR5cM]</p></li><li><p>@UUID[.k4EAubcSwrqtCWCs]{Combat/Damage
+        Options}</p></li><li><p>@UUID[.WyR6m6LOKiF3HVmB]</p></li><li><p>@UUID[.8JRDCc5CePLRMFxN]</p></li><li><p>@UUID[.yCbdGRto5p6ReXOg]</p></li><li><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.7U9pKyQCsPrhgwnl.JournalEntryPage.qEZbHtdNgLaa37pV]{Child
+        Mortality}</p></li><li><p>@UUID[.DSedYGFfcELhYENQ]</p></li><li><p>@UUID[.bfXTt8IYHlChzhqc]{Allow
         Relationships}</p></li><li><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.7U9pKyQCsPrhgwnl.JournalEntryPage.BGPNYU1lP7NF3mmV]{Show
-        Party
+        Players Party
         Details}</p></li><li><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.7U9pKyQCsPrhgwnl.JournalEntryPage.EG80uuwz8hOXkuUN]{When
         Creating NPC (GM)}</p></li></ul>
     video:
@@ -29,11 +30,11 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: '13.351'
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: 1765438460419
+      createdTime: 1783594487601
+      modifiedTime: 1783594738193
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
@@ -49,10 +50,18 @@ pages:
     text:
       format: 1
       content: >-
-        <p>Enter the year of the game. </p><p></p><p>As you runt the Winter
-        Phase the year will automatically update but you can manually change the
-        year here as needed.  </p><p></p><p>When creating a new History Events
-        the year defaults to the Game Year.</p>
+        <p><strong>From v14.5 onwards</strong></p><p>This setting is no longer
+        used (and is not visible), instead the system uses the inbuilt Foundry
+        calendar. You can use the
+        @UUID[Compendium.Pendragon.instructions.JournalEntry.CJhCwQigLrJhBBQF]{GM
+        tools} to alter the year or alternatively in the console (F12) you can
+        enterr</p><p><br>await game.time.set({year: 510})</p><p></p><p>you can
+        change 510 for your desired year.</p><p></p><p>When creating a new world
+        the Game Year will be set to 510 by default.</p><p></p><p><strong>Up to
+        v14.4</strong></p><p>Enter the year of the game.</p><p></p><p>As you
+        runt the Winter Phase the year will automatically update but you can
+        manually change the year here as needed.</p><p></p><p>When creating a
+        new History Events the year defaults to the Game Year.</p><p></p><p></p>
     video:
       controls: true
       volume: 0.5
@@ -63,17 +72,17 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: '13.345'
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: null
-      lastModifiedBy: null
+      createdTime: 1783594007288
+      modifiedTime: 1783594536029
+      lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
     _key: '!journal.pages!7U9pKyQCsPrhgwnl.ty31IeGwbI6DR5cM'
   - sort: 200000
-    name: Automate and Fumble XP (GM only)
+    name: XP Check Options
     type: text
     _id: WyR6m6LOKiF3HVmB
     title:
@@ -103,7 +112,7 @@ pages:
         style="text-align:center">Add XP checks
         manually</p></td></tr><tr><td><p><strong>Fumble XP
         Off</strong></p></td><td><p style="text-align:center">XP checks added
-        automatically for Critical  &amp; Success</p></td><td><p
+        automatically for Critical &amp; Success</p></td><td><p
         style="text-align:center">Add XP checks
         manually</p></td></tr></tbody></table>
     video:
@@ -116,17 +125,17 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: '13.345'
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: null
-      lastModifiedBy: null
+      createdTime: 1783594571266
+      modifiedTime: 1783594571266
+      lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
     _key: '!journal.pages!7U9pKyQCsPrhgwnl.WyR6m6LOKiF3HVmB'
   - sort: 300000
-    name: SHIFT key (both)
+    name: Dice Roll Options
     type: text
     _id: 8JRDCc5CePLRMFxN
     title:
@@ -136,50 +145,22 @@ pages:
     text:
       format: 1
       content: >-
-        <p>By default when clicking a Check Roll (skill, trait etc) a dialogue
-        box opens asking for things like modifiers. Pressing SHIFT and clicking
-        stops this box from appearing and uses no modifiers (unless set by
-        something else in the game).</p><p>Toggling this option on changes this
-        behaviour so that the default is that no box appears, and using SHIFT +
-        click causes the box to appear.</p><p>This is set separately by the
-        person playing the game and can be different for each
+        <p>There are two options here:</p><p></p><p><strong>Toggle SHIFT
+        click</strong></p><p>By default when clicking a Check Roll (skill, trait
+        etc) a dialogue box opens asking for things like modifiers. Pressing
+        SHIFT and clicking stops this box from appearing and uses no modifiers
+        (unless set by something else in the game).</p><p>Toggling this option
+        on changes this behaviour so that the default is that no box appears,
+        and using SHIFT + click causes the box to appear.</p><p>This is set
+        separately by the person playing the game and can be different for each
         player.</p><p></p><p>This <strong>does not</strong> apply to Horse
-        damage where the SHIFT key is used to apply charging damage.</p>
-    video:
-      controls: true
-      volume: 0.5
-    src: null
-    system: {}
-    ownership:
-      default: -1
-    flags: {}
-    _stats:
-      duplicateSource: null
-      coreVersion: '13.345'
-      systemId: Pendragon
-      systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: null
-      lastModifiedBy: null
-      exportSource: null
-    category: null
-    _key: '!journal.pages!7U9pKyQCsPrhgwnl.8JRDCc5CePLRMFxN'
-  - sort: 400000
-    name: Critical Bonus Adjustment (GM only)
-    type: text
-    _id: xvSMxXzJeG1DEqE2
-    title:
-      show: true
-      level: 1
-    image: {}
-    text:
-      format: 1
-      content: >-
-        <p>When an opposed or combat roll is made and all parties have a
-        critical bonus due to scores of 20+ then all parties bonuses are reduced
-        by the lowest bonus.<br /></p><p>For example, two knights with Sword
-        Skills of 20 (+3) and 20 (+5) would see their Skills reduced to 20 and
-        20 (+2), respectively.  This rule has the effect of putting
+        damage where the SHIFT key is used to apply charging
+        damage.</p><p></p><p></p><p><strong>Critical Bonus
+        Adjustment</strong></p><p>When an opposed or combat roll is made and all
+        parties have a critical bonus due to scores of 20+ then all parties
+        bonuses are reduced by the lowest bonus.</p><p>For example, two knights
+        with Sword Skills of 20 (+3) and 20 (+5) would see their Skills reduced
+        to 20 and 20 (+2), respectively. This rule has the effect of putting
         equally-proficient characters on a more even footing with fewer critical
         successes overall.</p>
     video:
@@ -192,15 +173,15 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: '13.345'
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: null
-      lastModifiedBy: null
+      createdTime: 1783594605989
+      modifiedTime: 1783594652801
+      lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: '!journal.pages!7U9pKyQCsPrhgwnl.xvSMxXzJeG1DEqE2'
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.8JRDCc5CePLRMFxN'
   - sort: 500000
     name: Tooltip Delay (GM only)
     type: text
@@ -406,6 +387,47 @@ pages:
       modifiedTime: 1765438447476
       lastModifiedBy: pendragonBuilder
     _key: '!journal.pages!7U9pKyQCsPrhgwnl.EG80uuwz8hOXkuUN'
+  - sort: 150000
+    name: Combat/Damage Options
+    type: text
+    _id: k4EAubcSwrqtCWCs
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <p>There is currently one option in this
+        screen</p><p></p><p><strong>Track Wounds</strong></p><p>Please note this
+        is an experimental feature and is currently only applicable to the v1
+        (original) character sheet.</p><p></p><p>When ticked (the default) you
+        add wounds to a character which in turn calculates the current
+        HP.</p><p></p><p>When unticked you no longer create wounds or see them
+        on the character sheet. Instead you direcrly enter the current HP score.
+        This means that there is no automatic tracking for Major or Mortal
+        wounds.</p><p></p><p>Natural Healing is still applied when activated but
+        the current HP are adjusted (after allowing for Aggravated and
+        Deterioriation damage).</p>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+    flags: {}
+    _stats:
+      coreVersion: '14.364'
+      systemId: Pendragon
+      systemVersion: '14.5'
+      createdTime: 1783594218406
+      modifiedTime: 1783594540037
+      lastModifiedBy: pendragonBuilder
+      duplicateSource: null
+      exportSource: null
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.k4EAubcSwrqtCWCs'
 folder: null
 flags:
   Pendragon:

@@ -211,7 +211,7 @@ export class PendragonNPCSheetv2 extends api.HandlebarsApplicationMixin(sheets.A
       .forEach((n) => n.addEventListener("change", this._onInlineEdit.bind(this)));
     this.element
       .querySelectorAll(".item-toggle")
-      .forEach((n) => n.addEventListener("dblclick", this._onItemToggle.bind(this)));
+      .forEach((n) => n.addEventListener("click", this._onItemToggle.bind(this)));
     this.element
       .querySelectorAll(".rollable.skill-name")
       .forEach((n) => n.addEventListener("click", PENRollType._onSkillCheck.bind(this)));
@@ -389,7 +389,6 @@ export class PendragonNPCSheetv2 extends api.HandlebarsApplicationMixin(sheets.A
 
   //Toggle Actor on Double
   static async _onActorToggle(event, target) {
-    if (event.detail === 2) {
       //Only perform on double click
       const prop = target.dataset.property;
       let checkProp = {};
@@ -397,7 +396,6 @@ export class PendragonNPCSheetv2 extends api.HandlebarsApplicationMixin(sheets.A
         checkProp = { "system.lock": !this.actor.system.lock };
       }
       await this.actor.update(checkProp);
-    }
     return;
   }
 

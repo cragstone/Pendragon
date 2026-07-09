@@ -19,12 +19,16 @@ pages:
         are many great videos and articles out there on how to use the software.
         This is aimed at helping you get going with Pendragon.</p><p></p><p>The
         following pages are aimed predominantly at either the GM, Players or All
-        users.</p><p><br />We hope you enjoy the game.</p><p></p><p></p><p>This
+        users.</p><p><br>We hope you enjoy the game.</p><p></p><p></p><p>This
         system gives you the ability to create various items such as Relgions,
         Classes, Cultures etc but does not come packaged with
         any.</p><p></p><p>There is a "P6EBase" module that comes with some basic
         items which appear on the character sheet (such as skills, traits) and
-        some samples of other items to give you some examples to work from.</p>
+        some samples of other items to give you some examples to work from. 
+        This will save your a chunk of set up time.  If you have bought the
+        "Core Rulebook" premium module then you won't need the "P6EBase" module
+        as the Core Rulebook has enhanced/expanded versions of the item in the
+        Base module.</p>
     video:
       controls: true
       volume: 0.5
@@ -35,12 +39,12 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: '13.345'
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: null
-      lastModifiedBy: null
+      createdTime: 1783593820032
+      modifiedTime: 1783593845914
+      lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
     _key: '!journal.pages!QfE8fkB7i9zIDSZm.nVEgrKj235qjFDdC'
@@ -55,11 +59,11 @@ pages:
     text:
       format: 1
       content: >-
-        <p>So first things first.</p><p></p><p>Create a scene in Foundry - this
-        will give you access to the
+        <p>So first things first.</p><p></p><p>To access
         @UUID[Compendium.Pendragon.instructions.JournalEntry.CJhCwQigLrJhBBQF]{GM
-        Tools}</p><p></p><p>You should see the "Tools" icon in the scene control
-        buttons at the top left of your screen</p>
+        Tools} you need to have a scene.</p><p></p><p>The Pendragon system will
+        create an activate a defauly scene automatically if you don't have
+        one.</p>
     video:
       controls: true
       volume: 0.5
@@ -70,11 +74,11 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: '13.345'
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: 1749770229752
+      createdTime: 1783593913632
+      modifiedTime: 1783593913632
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null

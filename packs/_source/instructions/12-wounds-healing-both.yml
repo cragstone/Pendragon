@@ -32,22 +32,23 @@ pages:
         rather than creating a wound. Look at the
         @UUID[Compendium.Pendragon.instructions.JournalEntry.b5d7Ha8LOeLSNvul.JournalEntryPage.qLYS7miTa5T31GYn]{Stats
         Tab} to see the poison damage.</p></li></ul><p>When the wound is created
-        it's severity is calculated and included in the wound.</p><p>Once
-        created the only value that can be changed on the wound itself is the
-        current damage. You can, from the combat tab, toggle on/off the
-        "treated" box.</p><p>If you made a mistake and want to change a wound
-        type etc you need to delete the wound. To delete a wound in full you
-        need to unlock the character sheet for the "Broom" icon to appear -
-        double click this icon to delete the relevant wound.</p><p>If the
-        character sheet is locked you may see a "Healing Hand" icon - this is
-        used to Heal a wound (see @UUID[.BS5YMZSWPPVKLcfe])</p><p>The
-        Debilitated, Unconscious and Near Death statuses may be ticked following
-        the addition of the wound - as these are not specifically related to the
-        wound but are a character level status they are shown in the
+        it's severity is calculated and becomes the wound name.</p><p>Once
+        created the only values that can be changed on the wound itself are the
+        current damage and a description of the wound. You can, from the combat
+        tab, toggle on/off the "treated" box.</p><p>If you made a mistake and
+        want to change a wound type etc you need to delete the wound. To delete
+        a wound in full you need to unlock the character sheet for the "Broom"
+        icon to appear - double click this icon to delete the relevant
+        wound.</p><p>If the character sheet is locked you may see a "Healing
+        Hand" icon - this is used to Heal a wound (see
+        @UUID[.BS5YMZSWPPVKLcfe])</p><p>The Debilitated, Unconscious and Near
+        Death statuses may be ticked following the addition of the wound - as
+        these are not specifically related to the wound but are a character
+        level status they are shown in the
         @UUID[Compendium.Pendragon.instructions.JournalEntry.b5d7Ha8LOeLSNvul.JournalEntryPage.Ra9PK638R24cc31A]{Stats
         Section} at the top of the character sheet. E.g. a major wound
         automatically renders the character unconscious and that in turn
-        debilitates them.<br /></p><p></p>
+        debilitates them.<br></p><p></p>
     video:
       controls: true
       volume: 0.5
@@ -58,11 +59,11 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: '13.345'
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.16
-      createdTime: null
-      modifiedTime: 1749775809262
+      createdTime: 1783595992114
+      modifiedTime: 1783595992114
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null

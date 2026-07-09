@@ -239,7 +239,6 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
   }
 
   static async _onToggleActor(event, target) {
-    if (event.detail === 2) {
       //Only perform on double click
       event.stopPropagation(); // Don't trigger other events
       let checkProp = {};
@@ -250,7 +249,6 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
         return;
       }
       this.actor.update(checkProp);
-    }
   }
 
   //Delete an Encounter or Knight from battle
@@ -332,7 +330,6 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
 
   //Reset Battle Posture for all Knights
   static async _resetPosture(event, target) {
-    if (event.detail === 2) {
       //Only perform on double click
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -343,7 +340,6 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
           await knight.update({ "system.battlePos": 0 });
         }
       }
-    }
   }
 
   //Battle Intensity Roll

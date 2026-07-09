@@ -145,7 +145,7 @@ export class PendragonIdealSheet extends PendragonItemSheet {
     this.#dragDrop.forEach((d) => d.bind(this.element));
     this.element
       .querySelectorAll(".item-toggle")
-      .forEach((n) => n.addEventListener("dblclick", this.#onItemToggle.bind(this)));
+      .forEach((n) => n.addEventListener("click", this.#onItemToggle.bind(this)));
   }
 
   //Handle toggle states

@@ -184,7 +184,6 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(shee
   }
 
   static async _onToggleActor(event, target) {
-    if (event.detail === 2) {
       //Only perform on double click
       event.stopPropagation(); // Don't trigger other events
       let checkProp = {};
@@ -195,7 +194,6 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(shee
         return;
       }
       this.actor.update(checkProp);
-    }
   }
 
   //Delete an NPC from encounter

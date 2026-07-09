@@ -681,7 +681,6 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   }
 
   static async _onActorToggle(event, target) {
-    if (event.detail === 2) {
       //Only perform on double click
       const prop = target.dataset.property;
       let checkProp = {};
@@ -702,7 +701,6 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
         return;
       }
       await this.actor.update(checkProp);
-    }
     return;
   }
 
@@ -956,7 +954,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       .forEach((n) => n.addEventListener("click", PENCombat.naturalHealing.bind(this)));
     this.element
       .querySelectorAll(".treat-wound")
-      .forEach((n) => n.addEventListener("dblclick", PENCombat.treatWound.bind(this)));
+      .forEach((n) => n.addEventListener("click", PENCombat.treatWound.bind(this)));
     this.element
       .querySelectorAll(".rollable.decision")
       .forEach((n) => n.addEventListener("click", PENRollType._onDecisionCheck.bind(this)));
@@ -983,7 +981,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       .forEach((n) => n.addEventListener("change", this._onInlineEdit.bind(this)));
     this.element
       .querySelectorAll(".item-toggle")
-      .forEach((n) => n.addEventListener("dblclick", this._onItemToggle.bind(this)));
+      .forEach((n) => n.addEventListener("click", this._onItemToggle.bind(this)));
   }
 
   async _onItemDelete(event) {

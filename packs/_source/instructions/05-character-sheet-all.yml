@@ -59,18 +59,18 @@ pages:
     text:
       format: 1
       content: >-
-        <p>Generally text in red, or where there is a red underline, can be
-        entered/edited.</p><p></p><p>Some entries, such as money, are always
-        editable. Other entries, such as the year your character was born, can
-        only be changed when the character sheet is unlocked (toggle the padlock
-        icon in the <strong>Tab Bar</strong>).</p><p></p><p>In several places
-        you will see an "Eye" icon if the character sheet is locked - this will
-        open up the relevant item in more detail and may let you edit certain
-        fields that can't be edited directly in the character
-        sheet.</p><p></p><p>If the character sheet is unlocked the "Eye" icon
-        will be supplemented with a "Broom" or a "x" icon which is used to
-        delete an item.  You will need to Double Click the Broom/X icon to
-        delete the item.</p><p></p><p></p>
+        <p>Generally text in red,  where there is a red underline, or has a
+        shaded background in a grid can be entered/edited.</p><p></p><p>Some
+        entries, such as money, are always editable. Other entries, such as the
+        year your character was born, can only be changed when the character
+        sheet is unlocked (toggle the padlock icon in the <strong>Tab
+        Bar</strong>).</p><p></p><p>In several places you will see an "Eye" icon
+        if the character sheet is locked - this will open up the relevant item
+        in more detail and may let you edit certain fields that can't be edited
+        directly in the character sheet.</p><p></p><p>If the character sheet is
+        unlocked the "Eye" icon will be supplemented with a "Broom" or a "x"
+        icon which is used to delete an item. You will need to Double Click the
+        Broom/X icon to delete the item.</p><p></p><p></p>
     video:
       controls: true
       volume: 0.5
@@ -81,12 +81,12 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: '13.345'
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: null
-      lastModifiedBy: null
+      createdTime: 1783595587745
+      modifiedTime: 1783595587745
+      lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
     _key: '!journal.pages!b5d7Ha8LOeLSNvul.FElHOQiryTfX4zxc'
@@ -109,11 +109,13 @@ pages:
         @UUID[Compendium.Pendragon.instructions.JournalEntry.nK2HPwEm6y15GqKh.JournalEntryPage.Rh5w3CHEaLoAfkOf]{Natural
         Healing}</p><p>There is also a selection field for Battles - where you
         set the characters Battle Posture and Field Position.</p><p></p><p>Below
-        this are two grids.</p><p><strong>Wounds</strong></p><p>The left hand
-        grid shows all the wounds your character has taken. To add a wound click
-        on the "+" icon and a wound sheet will pop up. Enter the wound value (it
-        will close automatically when you move off the input box - or click the
-        close button). We'll talk more about this in the wounds page -
+        this are two grids.</p><p><strong>Wounds </strong>- only used/visible if
+        @UUID[Compendium.Pendragon.instructions.JournalEntry.7U9pKyQCsPrhgwnl.JournalEntryPage.k4EAubcSwrqtCWCs]{Track
+        Wounds }is on</p><p>The left hand grid shows all the wounds your
+        character has taken. To add a wound click on the "+" icon and a wound
+        sheet will pop up. Enter the wound value (it will close automatically
+        when you move off the input box - or click the close button). We'll talk
+        more about this in the wounds page -
         @UUID[Compendium.Pendragon.instructions.JournalEntry.nK2HPwEm6y15GqKh.JournalEntryPage.F6sWns3Q5TtIXhy6]{Add
         a Wound}</p><p><strong>Weapons</strong></p><p>The right hand grid shows
         your weapons. You can drag new weapons from the relevant Items folder.
@@ -135,11 +137,11 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: '13.351'
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: 1765957332064
+      createdTime: 1783595713850
+      modifiedTime: 1783595713850
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
@@ -513,21 +515,24 @@ pages:
         automatically toggle on if appropriate as you take wounds (more about
         this in the wounds page).</p><p></p><p><strong>Derived
         Stats</strong></p><ul><li><p>Hit Points show current and maximum HP.
-        These are automatically calculated and updated for
-        you</p></li><li><p>Move - your movement rate is automatically
-        calculated. You can click on "Move" to make a roll against your Movement
-        Score</p></li><li><p>Glory - your Glory is automatically calculated from
-        items on the "Events tab" - see later. Clicking on the word Glory will
-        make a Glory skill roll based on current Glory
-        /1000</p></li><li><p>Damage - this is calculated automatically and
-        applied to the relevant weapons on the Combat Tab</p></li><li><p>Armour
-        - this is calculated automatically from items on the Equipment tab that
-        are marked as equipped. The two values displayed are AP from armour and
-        shield respectively</p></li><li><p>Money shown as Libra and Denarii -
-        you can edit this.</p></li></ul><p><strong>Images</strong></p><p>There
-        are two images, the one on the left is for the character's Coat of Arms
-        and has a tooltip which shows the heraldry description.</p><p></p><p>The
-        right hand image is for a character portrait.</p>
+        These are automatically calculated and updated for you (unless you have
+        turned off
+        @UUID[Compendium.Pendragon.instructions.JournalEntry.7U9pKyQCsPrhgwnl.JournalEntryPage.k4EAubcSwrqtCWCs]{Track
+        Wounds} in which case you manually enter current HP)</p></li><li><p>Move
+        - your movement rate is automatically calculated. You can click on
+        "Move" to make a roll against your Movement Score</p></li><li><p>Glory -
+        your Glory is automatically calculated from items on the "Events tab" -
+        see later. Clicking on the word Glory will make a Glory skill roll based
+        on current Glory /1000</p></li><li><p>Damage - this is calculated
+        automatically and applied to the relevant weapons on the Combat
+        Tab</p></li><li><p>Armour - this is calculated automatically from items
+        on the Equipment tab that are marked as equipped. The two values
+        displayed are AP from armour and shield
+        respectively</p></li><li><p>Money shown as Libra and Denarii - you can
+        edit this.</p></li></ul><p><strong>Images</strong></p><p>There are two
+        images, the one on the left is for the character's Coat of Arms and has
+        a tooltip which shows the heraldry description.</p><p></p><p>The right
+        hand image is for a character portrait.</p>
     video:
       controls: true
       volume: 0.5
@@ -538,11 +543,11 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: '13.350'
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: 1762882219694
+      createdTime: 1783595658282
+      modifiedTime: 1783595658282
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null

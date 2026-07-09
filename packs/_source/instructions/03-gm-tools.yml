@@ -13,14 +13,17 @@ pages:
     text:
       format: 1
       content: >-
-        <p>First things, first - create a Scene. You need to this for the GM
-        Tools scene tool to be visible on the top left of the screen (the
-        spanner and screwdriver icon). The current tools
-        are:</p><ul><li><p>Winter Phase</p></li><li><p>Development
-        Phase</p></li></ul><p></p><p>Restarting the game (including F5) will
+        <p>You need to have a scene in teh game for the GM Tools scene tool to
+        be visible on the top left of the screen (the spanner and screwdriver
+        icon).  Pendragon will create a scene for you if you don't have
+        one.</p><p></p><p>The current tools are:</p><ul><li><p>Winter
+        Phase</p></li><li><p>Development Phase</p></li><li><p>Character
+        Creation</p></li><li><p>GM Roll</p></li><li><p>Reset
+        Encounters</p></li><li><p>Increase Game Year</p></li><li><p>Decrease
+        Game Year</p></li></ul><p></p><p>Restarting the game (including F5) will
         turn off the phases. If Winter Phase was active and you restart the game
         it will be turned off but the Game Year will not be advanced. You can
-        always correct the year manually in the game settings.</p>
+        always correct the year manually via the GM tools.</p>
     video:
       controls: true
       volume: 0.5
@@ -31,12 +34,12 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: '13.345'
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: null
-      lastModifiedBy: null
+      createdTime: 1783594813960
+      modifiedTime: 1783594844553
+      lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
     _key: '!journal.pages!CJhCwQigLrJhBBQF.IeRRwtptKGvZCG1f'
@@ -226,6 +229,39 @@ pages:
       modifiedTime: 1764087491543
       lastModifiedBy: pendragonBuilder
     _key: '!journal.pages!CJhCwQigLrJhBBQF.6aH2K7tpoqzfcCf9'
+  - sort: 700000
+    name: Increase/Decrease Game Year
+    type: text
+    _id: aKqujK7wAxwJGVYU
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <p>These two options increase/decrease the Game Year by one.  This will
+        update the year shown at the top of the screen and, if appropriate,
+        change the name of the current period.</p>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+    flags: {}
+    _stats:
+      coreVersion: '14.364'
+      systemId: Pendragon
+      systemVersion: '14.5'
+      createdTime: 1783594894117
+      modifiedTime: 1783594937729
+      lastModifiedBy: pendragonBuilder
+      duplicateSource: null
+      exportSource: null
+    _key: '!journal.pages!CJhCwQigLrJhBBQF.aKqujK7wAxwJGVYU'
 flags:
   Pendragon:
     pidFlag:

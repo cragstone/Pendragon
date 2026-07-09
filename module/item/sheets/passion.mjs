@@ -101,7 +101,7 @@ export class PendragonPassionSheet extends PendragonItemSheet {
     // pure Javascript, no jQuery
     this.element
       .querySelectorAll(".item-toggle")
-      .forEach((n) => n.addEventListener("dblclick", this.#onItemToggle.bind(this)));
+      .forEach((n) => n.addEventListener("click", this.#onItemToggle.bind(this)));
     this.element
       .querySelectorAll(".changeName")
       .forEach((n) => n.addEventListener("change", PendragonItemSheet.skillChangeName(this.item)));
