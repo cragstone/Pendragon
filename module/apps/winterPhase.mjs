@@ -729,20 +729,6 @@ export class PENWinter {
     return;
   }
 
-  //Simple Stats roll
-  static async statRoll(actor, stat) {
-    let msgID = await PENCheck._trigger({
-      rollType: "CH",
-      cardType: "NO",
-      characteristic: stat,
-      shiftKey: true,
-      actor: actor,
-      token: "",
-    });
-    let level = await game.messages.get(msgID).flags.Pendragon.chatCard[0].resultLevel;
-    return level;
-  }
-
   //Reduce clothing value
   static async priceReduction(clothing) {
     let libra = 0;

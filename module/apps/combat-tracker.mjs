@@ -34,7 +34,7 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
         const combatantId = row.dataset.combatantId ?? "";
         const combatant = this.viewed.combatants.get(combatantId, { strict: true });
         const init = row.querySelector(".token-initiative");
-        if (init) {
+        if (init && combatant.initiative) {
           init.innerText = combatant.actor.system.glory.toLocaleString();
           this.#addGenialityVal(row.querySelector(".token-initiative"), combatant);
         }
@@ -97,32 +97,29 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
 
   _getEntryContextOptions() {
     const getCombatant = (li) => this.viewed.combatants.get(li.dataset.combatantId);
-    let options = [...super._getEntryContextOptions()];
-    if (this.viewed?.isFeast()) {
-      options.push(
-        {
-          name: "PEN.feast.moveCloser",
-          icon: '<i class="fa-solid fa-chevron-up"></i>',
-          condition: (li) =>
-            game.user.isGM && this.viewed.isFeast() && getCombatant(li)?.initiative < RollResult.CRITICAL,
-          callback: (li) => {
-            const combatant = getCombatant(li);
-            if (!combatant) return;
-            combatant.update({ initiative: combatant.initiative + 1 });
-          },
+    const options = super._getEntryContextOptions();
+    options.push(
+      {
+        label: "PEN.feast.moveCloser",
+        icon: '<i class="fa-solid fa-chevron-up"></i>',
+        visible: (li) => game.user.isGM && this.viewed.isFeast() && getCombatant(li)?.initiative < RollResult.CRITICAL,
+        onClick: (e, li) => {
+          const combatant = getCombatant(li);
+          if (!combatant) return;
+          combatant.update({ initiative: combatant.initiative + 1 });
         },
-        {
-          name: "PEN.feast.moveFurther",
-          icon: '<i class="fa-solid fa-chevron-down"></i>',
-          condition: (li) => game.user.isGM && this.viewed.isFeast() && getCombatant(li)?.initiative >= RollResult.FAIL,
-          callback: (li) => {
-            const combatant = getCombatant(li);
-            if (!combatant) return;
-            combatant.update({ initiative: combatant.initiative - 1 });
-          },
+      },
+      {
+        label: "PEN.feast.moveFurther",
+        icon: '<i class="fa-solid fa-chevron-down"></i>',
+        visible: (li) => game.user.isGM && this.viewed.isFeast() && getCombatant(li)?.initiative >= RollResult.FAIL,
+        onClick: (e, li) => {
+          const combatant = getCombatant(li);
+          if (!combatant) return;
+          combatant.update({ initiative: combatant.initiative - 1 });
         },
-      );
-    }
+      },
+    );
     return options;
   }
 }

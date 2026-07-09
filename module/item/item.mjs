@@ -69,7 +69,7 @@ export class PendragonItem extends Item {
     let altKey = event.altKey;
     let shiftKey = event.shiftKey;
     if (game.settings.get("Pendragon", "switchShift")) {
-      shiftKey = shiftKey;
+      shiftKey = !shiftKey;
     }
     let cardType = "NO";
     let rollType = "";

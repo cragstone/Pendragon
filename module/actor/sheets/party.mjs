@@ -199,12 +199,6 @@ export class PendragonPartySheet extends api.HandlebarsApplicationMixin(sheets.A
     await this.actor.system.removeMember(member);
   }
 
-  // Change default on Drop Item Create routine for requirements (single items and folder drop)-----------------------------------------------------------------
-  async _onDropItemCreate(itemData) {
-    const newItemData = await PENactorItemDrop._PENonDropItemCreate(this.actor, itemData);
-    return this.actor.createEmbeddedDocuments("Item", newItemData);
-  }
-
   //Drop Actor on to an Actor Sheet
   async DropActor(data) {
     let newActor = await fromUuid(data.uuid);

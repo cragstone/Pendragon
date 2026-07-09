@@ -13,7 +13,7 @@ export class PendragonCombat extends Combat {
     } else {
       this.setFlag("Pendragon", "encounterType", "feast");
     }
-    ui.combat.initialize();
+    ui.combat.viewed = this;
   }
 
   async rollInitiative(ids, { formula = null, updateTurn = true, messageOptions = {} } = {}) {
@@ -119,6 +119,22 @@ export class PendragonCombat extends Combat {
     if (this.isFeast()) {
       this.combatants.forEach((c) => c.addGeniality(Math.floor(c.initiative) - 1));
     }
+    // TODO: for combat
+    //   advance phases each round
+    //     declare
+    //     resolve
+    //     apply outcomes
+    //     movement
+    //   remove participants that are captured
+    //   if a battle encounter, remove participants based on posture
     super.nextRound();
+  }
+
+  async endCombat() {
+    // TODO: for a feast, similar confirmation
+    // then show glory award window
+    //   allow GM to adjust rounds present, feast name,
+    //   final geniality, bonus glory
+    super.endCombat();
   }
 }

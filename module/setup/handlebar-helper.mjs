@@ -1,12 +1,13 @@
 // Additional Handlebar helpers
 
 export const handlebarsHelper = function () {
-  (Handlebars.registerHelper("isAnd", function (cond1, cond2, options) {
+  Handlebars.registerHelper("isAnd", function (cond1, cond2, options) {
     return cond1 && cond2 ? options.fn(this) : options.inverse(this);
-  }),
-    Handlebars.registerHelper("isOr", function (cond1, cond2, options) {
-      return cond1 || cond2 ? options.fn(this) : options.inverse(this);
-    }));
+  });
+
+  Handlebars.registerHelper("isOr", function (cond1, cond2, options) {
+    return cond1 || cond2 ? options.fn(this) : options.inverse(this);
+  });
 
   Handlebars.registerHelper("concat", function () {
     var outStr = "";

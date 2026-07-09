@@ -247,7 +247,6 @@ async function createItemMacro(data, slot) {
       }
       game.user.assignHotbarMacro(macro, slot);
       return false;
-      break;
 
     case "JournalEntry":
     case "JournalEntryPage":
@@ -264,7 +263,6 @@ async function createItemMacro(data, slot) {
       }
       game.user.assignHotbarMacro(macro, slot);
       return false;
-      break;
 
     case "Macro":
       let tempMacro = await fromUuid(data.uuid);
@@ -279,11 +277,9 @@ async function createItemMacro(data, slot) {
       }
       game.user.assignHotbarMacro(macro, slot);
       return false;
-      break;
 
     default:
       return;
-      break;
   }
 }
 
