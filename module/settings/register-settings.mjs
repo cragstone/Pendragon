@@ -1,3 +1,7 @@
+import { PENCombatSettings } from "./settings-combatOptions.mjs";
+import { PENXPSettings } from "./settings-xpOptions.mjs";
+import { PENDiceSettings } from "./settings-diceOptions.mjs";
+
 export function registerSettings() {
   let tokenDropModeOptions = {
     ask: game.i18n.localize("PEN.Settings.tokenDropModeAsk"),
@@ -17,43 +21,35 @@ export function registerSettings() {
     default: 508,
   });
 
-  game.settings.register("Pendragon", "autoXP", {
-    name: "PEN.Settings.autoXP",
-    hint: "PEN.Settings.autoXPHint",
-    scope: "world",
-    requiresReload: true,
-    config: true,
-    type: Boolean,
-    default: false,
-  });
+  //Combat Settings Button
+  game.settings.registerMenu('Pendragon', 'combatOptions', {
+    name: 'PEN.Settings.combatOptionsHint',
+    label: 'PEN.Settings.combatOptions',
+    icon: 'fas fa-swords',
+    type: PENCombatSettings,
+    restricted: true
+  })
+  PENCombatSettings.registerSettings()
 
-  game.settings.register("Pendragon", "fumbleXP", {
-    name: "PEN.Settings.fumbleXP",
-    hint: "PEN.Settings.fumbleXPHint",
-    scope: "world",
-    requiresReload: true,
-    config: true,
-    type: Boolean,
-    default: false,
-  });
+  //XP Settings Button
+  game.settings.registerMenu('Pendragon', 'xpOptions', {
+    name: 'PEN.Settings.xpOptionsHint',
+    label: 'PEN.Settings.xpOptions',
+    icon: 'fas fa-certificate',
+    type: PENXPSettings,
+    restricted: true
+  })
+  PENXPSettings.registerSettings()
 
-  game.settings.register("Pendragon", "switchShift", {
-    name: "PEN.Settings.switchShift",
-    hint: "PEN.Settings.switchShiftHint",
-    scope: "client",
-    config: true,
-    type: Boolean,
-    default: false,
-  });
-
-  game.settings.register("Pendragon", "critAdj", {
-    name: "PEN.Settings.critAdj",
-    hint: "PEN.Settings.critAdjHint",
-    scope: "world",
-    config: true,
-    type: Boolean,
-    default: false,
-  });
+  //Dice Roll Settings Button
+  game.settings.registerMenu('Pendragon', 'diceOptions', {
+    name: 'PEN.Settings.diceOptionsHint',
+    label: 'PEN.Settings.diceOptions',
+    icon: 'fas fa-dice-d20',
+    type: PENDiceSettings,
+    restricted: true
+  })
+  PENDiceSettings.registerSettings()
 
   game.settings.register("Pendragon", "toolTipDelay", {
     name: "PEN.Settings.toolTipDelay",

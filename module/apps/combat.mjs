@@ -49,6 +49,7 @@ export class PENCombat {
     if (!confirm) {
       return;
     }
+
     let healing = this.actor.system.healRate;
     let deterHeal = 0;
     let aggravHeal = 0;
@@ -73,6 +74,16 @@ export class PENCombat {
       "system.aggravDam": this.actor.system.aggravDam - aggravHeal,
       "system.stats.con.poison": conDamage,
     });
+
+    //If not tracking Wounds then just apply Healing Rate to HP value
+    if (!game.settings.get('Pendragon','trackWnd')){
+      let newHP = Math.min(this.actor.system.hp.value + healing, this.actor.system.hp.max)
+      await this.actor.update({
+        "system.hp.value": newHP
+      });
+      return
+    }
+
 
     //Put wounds in array and sort lowest to highest damage
     let wounds = [];
@@ -108,6 +119,7 @@ export class PENCombat {
       await this.actor.updateEmbeddedDocuments("Item", updatedWounds);
     }
     await PENCombat.cleanseWounds(this.actor);
+    return
   }
 
   //
@@ -212,16 +224,23 @@ export class PENCombat {
         return;
     }
 
+
+    let wndName = game.i18n.localize("PEN.minor");
+    if (damAmount >= this.actor.system.hp.max) {
+      wndName = game.i18n.localize("PEN.mortal");
+    } else if (damAmount >= this.actor.system.hp.majorWnd) {
+      wndName = game.i18n.localize("PEN.major");
+    }
+
     if (createNew) {
       const itemData = {
-        name: game.i18n.localize("PEN.wound"),
+        name: wndName,
         type: "wound",
         system: {
           value: damAmount,
           treated,
           created,
           source: damType,
-          description: game.i18n.localize("PEN." + damType),
         },
       };
       let item = await Item.create(itemData, { parent: this.actor });
@@ -262,15 +281,12 @@ export class PENCombat {
     if (item.system.created) {
       return;
     }
-    let status = game.i18n.localize("PEN.minor");
     let unconscious = false;
     let dying = false;
 
     if (item.system.value >= actor.system.hp.max) {
-      status = game.i18n.localize("PEN.mortal");
       unconscious = true;
     } else if (item.system.value >= actor.system.hp.majorWnd) {
-      status = game.i18n.localize("PEN.major");
       unconscious = true;
     }
 
@@ -279,7 +295,7 @@ export class PENCombat {
       unconscious = true;
       dying = true;
     }
-    let checkProp = { "system.created": true, "system.description": status };
+    let checkProp = { "system.created": true};
     await item.update(checkProp);
 
     if (unconscious) {

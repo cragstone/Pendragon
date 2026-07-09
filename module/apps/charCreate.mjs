@@ -603,7 +603,7 @@ export class PENCharCreate {
     for (let cCount = 1; cCount <= maxHeroic; cCount++) {
       let description = "";
       let title = game.i18n.localize("PEN.parentHeroicEvent");
-      let year = game.settings.get("Pendragon", "gameYear");
+      let year = game.time.components.year;
       let results = [];
       let table = await game.system.api.pid.fromPIDBest({ pid: "rt..table-3-1-heroic-event" });
       if (table.length > 0) {
@@ -1320,7 +1320,7 @@ export class PENCharCreate {
       }
     }
     //Calc birth year and create history event
-    let birth = game.settings.get("Pendragon", "gameYear") - Number(age);
+    let birth = game.time.components.year - Number(age);
     await PENCharCreate.createHistory(actor, game.i18n.localize("PEN.born"), birth, 0, "born", "");
     await actor.update({
       "system.born": birth,
@@ -1407,7 +1407,7 @@ export class PENCharCreate {
     await PENCharCreate.createHistory(
       actor,
       game.i18n.localize("PEN.knighted") + " (" + msg + ")",
-      game.settings.get("Pendragon", "gameYear"),
+      game.time.components.year,
       glory,
       "knighted",
       "",

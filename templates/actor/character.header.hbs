@@ -32,14 +32,19 @@
             <div class="stat-name">{{localize 'PEN.melancholy'}}</div>
             <div class="stat-name"><a class="item-control large-icon" data-action="toggleActor" data-property="miserable" data-tooltip="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if statuses.miserable}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
             <div class="stat-name">{{localize 'PEN.misery'}}</div>
-
-
-
           </div>
           <div>
-            <div class="hp-grid">
-              <div class="stat-name left bold">{{localize 'PEN.hp'}}</div>
-              <div class="stat-name centre">{{system.hp.value}} / {{system.hp.max}}</div>
+          <div class="hp-grid">
+            <div class="stat-name left bold">{{localize 'PEN.hp'}}</div>
+            {{#if trackWnd}}
+                <div class="stat-name centre">{{system.hp.value}} / {{system.hp.max}}</div>
+            {{else}}
+              <div class="trackWnd-grid"> 
+                <div class="stat-name-input centre"><input name="system.hp.value" type="number" value="{{system.hp.value}}"/></div>
+                <div class="stat-name-input centre"> /</div>
+                <div class="stat-name centre">{{system.hp.max}}</div>
+              </div>
+            {{/if}}
               <div class="stat-name left bold rollable move" data-tooltip="{{localize 'PEN.rollHint'}}">{{localize 'PEN.move'}}</div>
               <div class="stat-name centre">{{system.move}}</div>
               <div class="stat-name left bold rollable glory" data-tooltip="{{localize 'PEN.rollHint'}}">{{localize 'PEN.glory'}}  ({{system.reputation}})</div>
@@ -55,7 +60,7 @@
               <div class="stat-name-input centre"> /</div>
               <div class="stat-name-input centre"><input name="system.money.denarii" type="text" value="{{system.money.denarii}}"/></div>
             </div>
-           </div>    
+          </div>    
         </div>
       </section>
 

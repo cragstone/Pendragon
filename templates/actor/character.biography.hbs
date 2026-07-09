@@ -9,7 +9,7 @@
         {{/unless}}
       </div>
     {{else}}
-      <div class="stat-name-input {{#if (eq system.culture '')}} input-border {{/if}}"><input name="system.culture" type="text" value="{{system.culture}}"/></div>
+      <div class="stat-name-input"><input name="system.culture" type="text" value="{{system.culture}}"/></div>
     {{/if}}
     <div></div>
     <div class="stat-name bold">{{localize 'PEN.religion'}}</div>
@@ -21,7 +21,7 @@
         {{/unless}}    
       </div>
     {{else}}
-      <div class="stat-name-input {{#if (eq system.religion '')}} input-border {{/if}}"><input name="system.religion" type="text" value="{{system.religion}}"/></div>
+      <div class="stat-name-input"><input name="system.religion" type="text" value="{{system.religion}}"/></div>
     {{/if}}
 
     <div class="stat-name bold item">{{localize 'PEN.homeland'}}</div>
@@ -33,7 +33,7 @@
        {{/unless}}        
       </div>
     {{else}}
-      <div class="stat-name-input {{#if (eq system.homeland '')}} input-border {{/if}}"><input name="system.homeland" type="text" value="{{system.homeland}}"/></div>
+      <div class="stat-name-input"><input name="system.homeland" type="text" value="{{system.homeland}}"/></div>
     {{/if}}
     <div></div>
     <div class="stat-name bold">{{localize 'PEN.class'}}</div>
@@ -45,20 +45,20 @@
         {{/unless}}                
       </div>
     {{else}}    
-      <div class="stat-name-input {{#if (eq system.class '')}} input-border {{/if}}"><input name="system.class" type="text" value="{{system.class}}"/></div>
+      <div class="stat-name-input "><input name="system.class" type="text" value="{{system.class}}"/></div>
     {{/if}}  
 
     <div class="stat-name bold">{{localize 'PEN.lord'}}</div>
-    <div class="stat-name-input {{#if (eq system.lord '')}} input-border {{/if}}"><input name="system.lord" type="text" value="{{system.lord}}"/></div>
+    <div class="stat-name-input"><input name="system.lord" type="text" value="{{system.lord}}"/></div>
     <div></div>
     <div class="stat-name bold">{{localize 'PEN.home'}}</div>
-    <div class="stat-name-input {{#if (eq system.home '')}} input-border {{/if}}"><input name="system.home" type="text" value="{{system.home}}"/></div>        
+    <div class="stat-name-input"><input name="system.home" type="text" value="{{system.home}}"/></div>        
 
     <div class="stat-name bold">{{localize 'PEN.born'}}</div>
     {{#if isLocked}}
       <div class="stat-name">{{system.born}}</div>
     {{else}}
-      <div class="stat-name-input {{#if (eq system.born '')}} input-border {{/if}}"><input name="system.born" type="number" value="{{system.born}}" /></div>
+      <div class="stat-name-input"><input name="system.born" type="number" value="{{system.born}}" /></div>
     {{/if}}
     <div></div>    
     <div class="stat-name bold">{{localize 'PEN.age'}}</div>
@@ -72,15 +72,15 @@
       <div class="stat-name">{{system.died}}</div>
       {{/if}}
     {{else}}
-      <div class="stat-name-input {{#if (eq system.died 0)}} input-border {{/if}}"><input name="system.died" type="number" value="{{#unless (eq system.died 0)}}{{system.died}}{{/unless}}" /></div>
+      <div class="stat-name-input"><input name="system.died" type="number" value="{{#unless (eq system.died 0)}}{{system.died}}{{/unless}}" /></div>
     {{/if}}
     <div></div>
     <div class="stat-name bold">{{localize 'PEN.parentClass'}}</div>
-    <div class="stat-name-input {{#if (eq system.parentclass '')}} input-border {{/if}}"><input name="system.parentclass" type="text" value="{{system.parentclass}}"/></div>    
+    <div class="stat-name-input"><input name="system.parentclass" type="text" value="{{system.parentclass}}"/></div>    
 
 
     <div class="stat-name bold">{{localize 'PEN.gender'}}</div>
-    <div class="stat-name-input {{#if (eq system.gender '')}} input-border {{/if}}"><input name="system.gender" type="text" value="{{system.gender}}"/></div>
+    <div class="stat-name-input"><input name="system.gender" type="text" value="{{system.gender}}"/></div>
     <div></div>
     <div class="stat-name bold">{{localize 'PEN.heir'}}</div>
     <div class="check-lower"><a class="item-control large-icon" data-action="toggleActor" data-property = "heir" data-tooltip="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if system.heir}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
@@ -97,14 +97,14 @@
     {{#if hasFamily}}
       <div class="stat-name">{{system.family}}</div>    
     {{else}}
-      <div class="stat-name-input {{#if (eq system.family '')}} input-border {{/if}}"><input name="system.family" type="text" value="{{system.family}}"/></div>
+      <div class="stat-name-input"><input name="system.family" type="text" value="{{system.family}}"/></div>
     {{/if}}
     <div class="stat-name bold">{{localize 'PEN.motto'}}</div>
-    <div class="stat-name-input {{#if (eq system.motto '')}} input-border {{/if}}"><input name="system.motto" type="text" value="{{system.motto}}"/></div>
+    <div class="stat-name-input"><input name="system.motto" type="text" value="{{system.motto}}"/></div>
     <div class="stat-name bold">{{localize 'PEN.heraldry'}}</div> 
-    <div class="stat-name-input {{#if (eq system.heraldry '')}} input-border {{/if}}"><input name="system.heraldry" type="text" value="{{system.heraldry}}"/></div>
+    <div class="stat-name-input"><input name="system.heraldry" type="text" value="{{system.heraldry}}"/></div>
     <div class="stat-name bold">{{localize 'PEN.distFeat'}}</div> 
-    <div class="stat-name-input {{#if (eq system.features '')}} input-border {{/if}}"><input name="system.features" type="text" value="{{system.features}}"/></div>
+    <div class="stat-name-input"><input name="system.features" type="text" value="{{system.features}}"/></div>
     <div class="stat-name bold"></div> 
     <div class="stat-name">{{sizLabel}}</div>
   </div>

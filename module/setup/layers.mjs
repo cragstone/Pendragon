@@ -107,6 +107,28 @@ export class PENLayer extends foundry.canvas.layers.InteractionLayer {
             if (active) await PendragonBattleSheet.resetEnc(event);
           },
         },
+        incYear: {
+          name: "incYear",
+          order: 6,
+          icon: "fas fa-arrow-up",
+          title: "PEN.incYear",
+          button: true,
+          visible: true,
+          onChange: async (event, active) => {
+            if (active) await PENWinter.changeYear(1);
+          },
+        },
+        decYear: {
+          name: "decYear",
+          order: 7,
+          icon: "fas fa-arrow-down",
+          title: "PEN.decYear",
+          button: true,
+          visible: true,
+          onChange: async (event, active) => {
+            if (active) await PENWinter.changeYear(-1);
+          },
+        },
       },
     };
   }

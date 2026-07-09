@@ -37,9 +37,7 @@ export class PENWinter {
         await Item.updateDocuments(squires, { parent: actr });
       }
       //Update the game year by one
-      const year = game.settings.get("Pendragon", "gameYear") + 1;
-      game.settings.set("Pendragon", "gameYear", year);
-      game.Pendragon.ui?.calendar.updateDate();
+      await PENWinter.changeYear(1)
 
       ui.notifications.warn(game.i18n.localize("PEN.winterPhaseEnd"));
       return;
@@ -68,7 +66,7 @@ export class PENWinter {
           system: {
             description: game.i18n.localize("PEN.winterPhase"),
             source: "winter",
-            year: game.settings.get("Pendragon", "gameYear"),
+            year: game.time.components.year,
             glory: a.system.passive,
           },
         };
@@ -259,7 +257,7 @@ export class PENWinter {
       title = game.i18n.localize("PEN.training");
     }
 
-
+    console.log(options);
     let destination = "systems/Pendragon/templates/dialog/winterOptions.hbs";
     let data = {
       headTitle: title,
@@ -311,7 +309,7 @@ export class PENWinter {
         libra: 0,
         denarii: 0,
         description: pickedName,
-        year: game.settings.get("Pendragon", "gameYear"),
+        year: game.time.components.year,
         glory: 0,
       },
     };
@@ -466,7 +464,7 @@ export class PENWinter {
         libra: 0,
         denarii: 0,
         description: pickedName,
-        year: game.settings.get("Pendragon", "gameYear"),
+        year: game.time.components.year,
         glory: 0,
       },
     };
@@ -555,7 +553,7 @@ export class PENWinter {
         libra: 0,
         denarii: 0,
         description: pickedName,
-        year: game.settings.get("Pendragon", "gameYear"),
+        year: game.time.components.year,
         glory: 0,
       },
     };
@@ -1228,7 +1226,7 @@ export class PENWinter {
         (itm) =>
           Number(itm.system.died) < 1 &&
           itm.system.relation === "child" &&
-          game.settings.get("Pendragon", "gameYear") - itm.system.born < 5 &&
+          game.time.components.year - itm.system.born < 5 &&
           !itm.system.blessed,
       );
     if (children.length > 0 && game.settings.get("Pendragon", "childMortality")) {
@@ -1242,14 +1240,14 @@ export class PENWinter {
         let died = "";
         let label = game.i18n.localize("PEN.survived");
 
-        if (game.settings.get("Pendragon", "gameYear") - child.system.born === 1) {
+        if (game.time.components.year - child.system.born === 1) {
           if (adjRes < 5) {
-            died = game.settings.get("Pendragon", "gameYear");
+            died = game.time.components.year;
             label = game.i18n.localize("PEN.died");
           }
         } else {
           if (adjRes < 2) {
-            died = game.settings.get("Pendragon", "gameYear");
+            died = game.time.components.year;
             label = game.i18n.localize("PEN.died");
           }
         }
@@ -1756,7 +1754,7 @@ export class PENWinter {
       for (let newFamily of newborn) {
         let died = "";
         if (newFamily.status === "dies") {
-          died = game.settings.get("Pendragon", "gameYear");
+          died = game.time.components.year;
         }
         const itemData = {
           name: newFamily.name,
@@ -1764,7 +1762,7 @@ export class PENWinter {
           system: {
             relation: "child",
             gender: newFamily.genderLabel,
-            born: game.settings.get("Pendragon", "gameYear"),
+            born: game.time.components.year,
             died: died,
             description: newFamily.notes,
             blessed: newFamily.blessed,
@@ -1789,14 +1787,14 @@ export class PENWinter {
           let spouse = await actor.items
             .filter((itm) => itm.type === "family")
             .filter((itm) => itm.system.relation === "spouse")[0];
-          await spouse.update({ "system.died": game.settings.get("Pendragon", "gameYear") });
+          await spouse.update({ "system.died": game.time.components.year });
         } else if (decision === "self") {
           await actor.addStatus("dead");
           const itemData = {
             name: game.i18n.localize("PEN.died"),
             type: "history",
             system: {
-              year: game.settings.get("Pendragon", "gameYear"),
+              year: game.time.components.year,
               description: game.i18n.localize("PEN.died"),
             },
             flags: {
@@ -1843,7 +1841,7 @@ export class PENWinter {
           type: type,
           system: {
             description: `${game.i18n.localize("PEN.spendPrestige")}: ${game.i18n.localize("PEN.childBirth")}`,
-            year: game.settings.get("Pendragon", "gameYear"),
+            year: game.time.components.year,
             glory: 0,
           },
           flags: {
@@ -1952,4 +1950,15 @@ export class PENWinter {
     let gender = await PENCharCreate.selectFromRadio("list", false, aspect, game.i18n.localize("PEN.childGender"));
     return gender;
   }
+
+  //Change the game year
+  static async changeYear(value) {
+      //Update the game year by one
+      if (!value) {return}
+      const year = game.time.components.year + Number(value)
+      await game.time.set({year: year});
+      await game.Pendragon.ui?.calendar.updateDate();
+      return
+  }
+
 }

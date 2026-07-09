@@ -1,0 +1,25 @@
+<div class="settingsForm flexcol" autocomplete="off">
+
+
+    <h2 class="bold">{{localize 'PEN.Settings.diceOptions'}}</h2>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'PEN.Settings.switchShift'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked optSet.switchShift.value}} name="switchShift">
+      </div>
+      <p class="settingNote">{{localize 'PEN.Settings.switchShiftHint'}}</p>
+    </div>
+    <br>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'PEN.Settings.critAdj'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked optSet.critAdj.value}} name="critAdj">
+      </div>
+      <p class="settingNote">{{localize 'PEN.Settings.critAdjHint'}}</p>
+    </div>
+    <br>
+
+
+  </div>

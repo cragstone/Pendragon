@@ -1,0 +1,26 @@
+<div class="settingsForm flexcol" autocomplete="off">
+
+
+    <h2 class="bold">{{localize 'PEN.Settings.xpOptions'}}</h2>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'PEN.Settings.autoXP'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked optSet.autoXP.value}} name="autoXP">
+      </div>
+      <p class="settingNote">{{localize 'PEN.Settings.autoXPHint'}}</p>
+    </div>
+    <br>
+
+    <div class="form-group">
+      <label class="bold">{{localize 'PEN.Settings.fumbleXP'}}</label>
+      <div class="form-fields" style="flex: 1;">
+        <input type="checkbox" {{checked optSet.fumbleXP.value}} name="fumbleXP">
+      </div>
+      <p class="settingNote">{{localize 'PEN.Settings.fumbleXPHint'}}</p>
+    </div>
+    <br>
+
+
+
+  </div>

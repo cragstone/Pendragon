@@ -235,6 +235,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   async _prepareContext(options) {
     let context = await super._prepareContext(options);
     context.tabs = this._getTabs(options.parts);
+    context.trackWnd = game.settings.get('Pendragon','trackWnd')
     context.editable = this.isEditable;
     context.owner = this.document.isOwner;
     context.limited = this.document.limited;
@@ -299,6 +300,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     context.battlePosType = await PENSelectLists.getBattlePos();
     context.fieldPosType = await PENSelectLists.getFieldPos();
     context.sizLabel = game.i18n.localize("PEN.sizInc." + actorData.system.stats.siz.growth);
+    context.solLabel = game.i18n.localize('PEN.'+ this.actor.system.sol);    
     context.enrichedBackgroundValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       context.system.background,
       {
@@ -412,7 +414,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       } else if (i.type === "relationship") {
         i.system.typeName = game.i18n.localize("PEN." + i.system.typeLabel);
         if (i.system.born > 0) {
-          i.system.age = game.settings.get("Pendragon", "gameYear") - i.system.born;
+          i.system.age = game.time.components.year - i.system.born;
         } else {
           i.system.age = "";
         }
@@ -746,6 +748,10 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       }
     }
 
+    if (target.dataset.type === "history") {
+        foundry.utils.setProperty(docData, "system.year", game.time.components.year);
+    }
+
     // Create the embedded document
     const newItem = await docCls.create(docData, { parent: this.actor });
 
@@ -947,7 +953,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       .forEach((n) => n.addEventListener("click", PENCombat.addWound.bind(this)));
     this.element
       .querySelectorAll(".natural-heal")
-      .forEach((n) => n.addEventListener("dblclick", PENCombat.naturalHealing.bind(this)));
+      .forEach((n) => n.addEventListener("click", PENCombat.naturalHealing.bind(this)));
     this.element
       .querySelectorAll(".treat-wound")
       .forEach((n) => n.addEventListener("dblclick", PENCombat.treatWound.bind(this)));
@@ -1074,17 +1080,19 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
 
   //Does the Character qualify for Knighthood
   static async testKnightly(actor) {
-    let pass = 0;
+//    let pass = 0;
     let skills = await actor.items
       .filter((i) => i.type === "skill")
-      .filter((j) => j.system.total >= 10 && !j.system.combat);
-    for (let skill of skills) {
-      for (let category of skill.system.categories)
-        if (category === "knightly") {
-          pass = pass + 1;
-        }
-    }
-    if (pass < 2) {
+      .filter((j) => j.system.total >= 10 && j.system.weaponType === "")
+      .filter((k) => k.system.categories.find(m=>m==='knightly'));      
+
+//      for (let skill of skills) {
+//      for (let category of skill.system.categories)
+//        if (category === "knightly") {
+//          pass = pass + 1;
+//        }
+//    }
+    if (skills.length < 2) {
       return false;
     }
     let sword = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.sword");

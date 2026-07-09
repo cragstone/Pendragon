@@ -9,8 +9,8 @@
   }
 }
 
-form.pen-adventure-entry.sheet,
-div.pen-adventure-entry.sheet {
+form.pen-adventure-entry,
+div.pen-adventure-entry {
   &.fixed-adventure-heading header.journal-header,
   &.fixed-adventure-heading form.journal-header {
     display: none;
@@ -48,6 +48,7 @@ div.pen-adventure-entry.sheet {
 
     img {
       border: none;
+      box-shadow: none;
     }
 
     .cm-scroller {
@@ -118,6 +119,12 @@ div.pen-adventure-entry.sheet {
       margin: 0px;
       text-indent: 20px;
       padding-left: 0px;
+    }
+
+    .revindent {
+      margin: 0px;
+      text-indent: -20px;
+      padding-left: 20px;
     }
 
     .advice {
@@ -321,6 +328,21 @@ div.pen-adventure-entry.sheet {
       background-color: rgba(0, 0, 0, 0);
       border-bottom: none;
       border-top: none;
+      &.fixed{
+        table-layout: fixed;
+        width: 100%;
+        td.twenty {
+          min-width:90px;
+          max-width:90px;          
+        }
+        td.eighty {
+          min-width: 500px;
+          max-width: 500px;          
+        }
+        p {
+        padding-right: 5px;
+      }
+      }
     }
 
     table td {

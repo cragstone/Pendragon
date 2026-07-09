@@ -23,35 +23,42 @@
       </div>
       <br>
 
-      <div class="wound-grid">  
-        <div class="stat-name bold grid-item-bottom centre" data-tooltip="{{localize 'PEN.treated'}}">{{ localize "PEN.td" }}</div>  
-        <div class="stat-name bold grid-item-bottom centre">{{ localize "PEN.wounds" }}</div>
-        <div class="stat-name bold grid-item-bottom centre">{{ localize "PEN.dmg" }}</div>    
-        <div class="stat-name bold grid-item-bottom centre" title = "{{ localize 'PEN.firstAid' }}">{{ localize "PEN.firstAidShort" }}</div>
-        <div class="stat-name bold grid-item-bottom centre addWound">  
-          <a class="large-icon" data-tooltip="{{localize 'PEN.addWound'}}"><i class="item-control fas fa-plus"></i></a>
-        </div> 
-        
-
-        {{#each wounds as |wound key|}}
-          <div class="grid-item-bottom stat-name centre"><a class="item-control item-toggle large-icon" data-itemid ="{{wound._id}}" data-property="wound" data-tooltip="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if wound.system.treated}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
-          <div class="grid-item-bottom stat-name centre">{{wound.system.description}}</div>
-          <div class="grid-item-bottom stat-name centre">{{wound.system.value}}</div>
-          {{#if wound.system.treated}}
-            <div class="grid-item-bottom"></div>
-          {{else}}  
-            <div class="item grid-item-bottom centre middle treat-wound" data-itemid="{{wound._id}}">
-              <a class="large-icon" data-tooltip="{{localize 'PEN.treatWound'}}"><i class="item-control fas fa-hand-holding-medical"></i></a>
-            </div>
-          {{/if}} 
-          <div class="item grid-item-bottom centre" data-itemid ="{{wound._id}}">
-            <a class="item-control large-icon fade" data-action="viewDoc"><i data-tooltip="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
-            {{#unless ../system.lock}}
-              <a class="item-control large-icon fade" data-action="deleteDoc" data-tooltip="{{localize 'PEN.delete'}}"><i class="item-control fas fa-broom-wide"></i></a>
-            {{/unless}}
-          </div>  
-        {{/each}}
-      </div>     
+      {{#if trackWnd}}
+        <div class="wound-grid">  
+          <div class="stat-name bold grid-item-bottom centre" data-tooltip="{{localize 'PEN.treated'}}">{{ localize "PEN.td" }}</div>  
+          <div class="stat-name bold grid-item-bottom centre">{{ localize "PEN.wounds" }}</div>
+          <div class="stat-name bold grid-item-bottom centre">{{ localize "PEN.dmg" }}</div>    
+          <div class="stat-name bold grid-item-bottom centre" title = "{{ localize 'PEN.firstAid' }}">{{ localize "PEN.firstAidShort" }}</div>
+          <div class="stat-name bold grid-item-bottom centre addWound">  
+            <a class="large-icon" data-tooltip="{{localize 'PEN.addWound'}}"><i class="item-control fas fa-plus"></i></a>
+          </div> 
+          {{#each wounds as |wound key|}}
+            <div class="grid-item-bottom stat-name centre"><a class="item-control item-toggle large-icon" data-itemid ="{{wound._id}}" data-property="wound" data-tooltip="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if wound.system.treated}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+            {{#if (eq wound.system.description '')}}
+              <div class="grid-item-bottom stat-name centre truncate">{{wound.name}}</div>
+            {{else}}
+              <div class="grid-item-bottom stat-name centre truncate" data-tooltip="{{wound.system.description}}">{{wound.system.description}}</div>
+            {{/if}}
+            
+            <div class="grid-item-bottom stat-name centre">{{wound.system.value}}</div>
+            {{#if wound.system.treated}}
+              <div class="grid-item-bottom"></div>
+            {{else}}  
+              <div class="item grid-item-bottom centre middle treat-wound" data-itemid="{{wound._id}}">
+                <a class="large-icon" data-tooltip="{{localize 'PEN.treatWound'}}"><i class="item-control fas fa-hand-holding-medical"></i></a>
+              </div>
+            {{/if}} 
+            <div class="item grid-item-bottom centre" data-itemid ="{{wound._id}}">
+              <a class="item-control large-icon fade" data-action="viewDoc"><i data-tooltip="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
+              {{#unless ../system.lock}}
+                <a class="item-control large-icon fade" data-action="deleteDoc" data-tooltip="{{localize 'PEN.delete'}}"><i class="item-control fas fa-broom-wide"></i></a>
+              {{/unless}}
+            </div>  
+          {{/each}}
+        </div>   
+      {{else}}
+        <div></div>
+      {{/if}}
     </div>
 
 
