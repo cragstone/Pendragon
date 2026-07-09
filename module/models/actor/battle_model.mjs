@@ -111,7 +111,6 @@ export class BattleData extends foundry.abstract.TypeDataModel {
     return this.knights.map((a) => ({ actor: a() }));
   }
   async addKnight(actor) {
-    console.log(actor.id, actor._id);
     const membersCollection = this.toObject().knights;
     membersCollection.push(actor.id);
     return this.parent.update({ "system.knights": membersCollection });

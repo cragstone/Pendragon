@@ -235,7 +235,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   async _prepareContext(options) {
     let context = await super._prepareContext(options);
     context.tabs = this._getTabs(options.parts);
-    context.trackWnd = game.settings.get('Pendragon','trackWnd')
+    context.trackWnd = game.settings.get('Pendragon','trackWnd');
     context.editable = this.isEditable;
     context.owner = this.document.isOwner;
     context.limited = this.document.limited;
@@ -1085,13 +1085,6 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       .filter((i) => i.type === "skill")
       .filter((j) => j.system.total >= 10 && j.system.weaponType === "")
       .filter((k) => k.system.categories.find(m=>m==='knightly'));      
-
-//      for (let skill of skills) {
-//      for (let category of skill.system.categories)
-//        if (category === "knightly") {
-//          pass = pass + 1;
-//        }
-//    }
     if (skills.length < 2) {
       return false;
     }

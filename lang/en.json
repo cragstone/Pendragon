@@ -893,12 +893,12 @@
       "toolTipDelay": "Tooltip delay",
       "toolTipDelayHint": "Delay in milliseconds before tooltip should show.  Set to 0 for never",
       "trackWnd": "Track Wounds",
-      "trackWndHint": "Turning this off ignores Wounds and lets you enter current HP manually",
+      "trackWndHint": "EXPERIMENTAL: Turning this off ignores Wounds and lets you enter current HP manually.  Does not apply to V2 Character Sheet yet.",
       "useRelation": "Allow relationships",
       "useRelationHint": "Allows GM to create relationships on characters",
       "xpCheck": "Experience Checks",
       "xpOptions": "XP Check Options",
-      "xpOptionHints": "Change settings for XP Checks"      
+      "xpOptionsHint": "Change settings for XP Checks"      
     },
 
     "resultLevel": {

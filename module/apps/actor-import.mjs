@@ -34,7 +34,7 @@ export class ActorImport extends api.HandlebarsApplicationMixin(api.ApplicationV
 
   static async processSourceText(inputs, actorType) {
     let srcText = inputs.text;
-    console.log(srcText, actorType);
+    //console.log(srcText, actorType);
 
     if (inputs.text[inputs.text.length] !== ".") {
       inputs.text += "."; // Add a dot a the end to help the regex find the end

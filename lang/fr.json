@@ -875,7 +875,7 @@
       "useRelationHint": "Autoriser le MJ à créer des relations sur les personnages",
       "xpCheck": "Test d'XP",
       "xpOptions": "Options de vérification XP",
-      "xpOptionHints": "Changer les paramètres pour les vérifications d'XP"          
+      "xpOptionsHint": "Changer les paramètres pour les vérifications d'XP"          
     },
     "resultLevel": {
       "0": "Fumble",

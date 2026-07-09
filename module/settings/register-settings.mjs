@@ -16,7 +16,7 @@ export function registerSettings() {
     hint: "PEN.Settings.gameYearHint",
     scope: "world",
     requiresReload: true,
-    config: true,
+    config: false,
     type: Number,
     default: 508,
   });
