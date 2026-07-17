@@ -47,6 +47,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
       toggleEquip: this._onToggleEquip,
       switchHorse: this._onSwitchHorse,
       switchWeapon: this._onSwitchWeapon,
+      switchSheet: this._onSwitchSheet,
       // automated combat actions
       combatAction: this._declareCombatAction,
     },
@@ -690,5 +691,10 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     } else {
       console.warn(`Unknown combat action ${combatAction}`);
     }
+  }
+
+  static async _onSwitchSheet(event, target) {
+    const sheetClass = this.actor.getFlag("core", "sheetClass") ?? "";
+    this.actor.setFlag("core", "sheetClass", "Pendragon.PendragonCharacterSheet");
   }
 }
