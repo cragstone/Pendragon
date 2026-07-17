@@ -11,7 +11,7 @@
   <ol class="wounds">
   {{#each wounds as |wound key|}}
     <li data-itemid="{{wound._id}}">
-      <span>{{wound.system.description}}</span>
+      <span>{{wound.name}}</span>
       <span class="right">{{wound.system.value}}</span>
       {{#unless wound.system.treated}}<button data-action="applyFirstAid">First Aid</button>{{/unless}}
     </li>

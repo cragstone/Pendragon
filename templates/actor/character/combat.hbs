@@ -63,37 +63,37 @@
     </div>
     <h2>Combat Actions</h2>
     <div class="actions">
-    <button type="button" data-action="combatAction" data-combat-action="attack">Attack</button>
-    <button type="button" data-action="combatAction" data-combat-action="reckless">Reckless Attack</button>
-    <button type="button" data-action="combatAction" data-combat-action="callSquire">Call Squire</button>
-    <button type="button" data-action="combatAction" data-combat-action="claimPrisoner">Claim a Prisoner</button>
-    <button type="button" data-action="combatAction" data-combat-action="defend">Defend</button>
-    <button type="button" data-action="combatAction" data-combat-action="disarm">Disarm</button>
-    <button type="button" data-action="combatAction" data-combat-action="evade">Evade</button>
-    <button type="button" data-action="combatAction" data-combat-action="pickUp">Pick Up</button>
-    <button>Self-sacrifice</button>
-    <button>Study</button>
-    <button>Withhold Damage</button>
-    <button>Zigzag</button>
+      <button type="button" data-action="combatAction" data-combat-action="attack">Attack</button>
+      <button type="button" data-action="combatAction" data-combat-action="reckless">Reckless Attack</button>
+      <button type="button" data-action="combatAction" data-combat-action="callSquire">Call Squire</button>
+      <button type="button" data-action="combatAction" data-combat-action="claimPrisoner">Claim a Prisoner</button>
+      <button type="button" data-action="combatAction" data-combat-action="defend">Defend</button>
+      <button type="button" data-action="combatAction" data-combat-action="disarm">Disarm</button>
+      <button type="button" data-action="combatAction" data-combat-action="evade">Evade</button>
+      <button type="button" data-action="combatAction" data-combat-action="pickUp">Pick Up</button>
+      <button type="button" data-action="combatAction" data-combat-action="selfSacrifice">Self-sacrifice</button>
+      <button type="button" data-action="combatAction" data-combat-action="study">Study</button>
+      <button type="button" data-action="combatAction" data-combat-action="withholdDamage">Withhold Damage</button>
+      <button type="button" data-action="combatAction" data-combat-action="zigzag">Zigzag</button>
     </div>
     <div class="action-tabs" {{#if statuses.mounted.active}}open{{/if}}>
       <details name="cond-actions">
         <summary>Mounted</summary>
         <div class="actions">
-        <button>Mounted Charge</button>
-        <button>Control Mount</button>
-        <button>Trample</button>
+        <button type="button" data-action="combatAction" data-combat-action="charge">Mounted Charge</button>
+        <button type="button" data-action="combatAction" data-combat-action="controlMount">Control Mount</button>
+        <button type="button" data-action="combatAction" data-combat-action="trample">Trample</button>
         <button type="button" data-action="combatAction" data-combat-action="dismount">Dismount</button>
-        <button>Emergency Dismount</button>
+        <button type="button" data-action="combatAction" data-combat-action="quickDismount">Quick Dismount</button>
         </div>
       </details>
       <details name="cond-actions" {{#unless statuses.mounted.active}}open{{/unless}}>
         <summary>On Foot</summary>
         <div class="actions">
-        <button>Dodge</button>
-        <button>Don Armour</button>
-        <button>Hook</button>
-        <button>Set Spear</button>
+        <button type="button" data-action="combatAction" data-combat-action="dodge">Dodge</button>
+        <button type="button" data-action="combatAction" data-combat-action="donArmor">Don Armour</button>
+        <button type="button" data-action="combatAction" data-combat-action="hook">Hook</button>
+        <button type="button" data-action="combatAction" data-combat-action="setSpear">Set Spear</button>
         <button type="button" data-action="combatAction" data-combat-action="mount">Leap into Saddle</button>
         <button type="button" data-action="combatAction" data-combat-action="mount">Mount Up</button>
         </div>
@@ -101,21 +101,26 @@
       <details name="cond-actions">
         <summary>Brawling</summary>
         <div class="actions">
-        <button>Punch</button>
-        <button>Slap</button>
-        <button>Escape</button>
-        <button>Grapple</button>
-        <button>Slam</button>
+        <button type="button" data-action="combatAction" data-combat-action="punch">Punch</button>
+        <button type="button" data-action="combatAction" data-combat-action="slap">Slap</button>
+        <button type="button" data-action="combatAction" data-combat-action="escape">Escape</button>
+        <button type="button" data-action="combatAction" data-combat-action="grapple">Grapple</button>
+        <button type="button" data-action="combatAction" data-combat-action="slam">Slam</button>
         </div>
       </details>
       <details name="cond-actions">
         <summary>Battle</summary>
         <div class="actions">
           <label>{{localize 'PEN.battlePosture'}}</label>
-        <select class="centre" data-handle-change name="system.battlePos">
-          <option>TODO</option>
-          <option>TODO 2</option>
-        </select>
+          <select class="centre" data-handle-change name="system.battlePos">
+            <option>TODO</option>
+            <option>TODO 2</option>
+          </select>
+          <label>{{localize 'PEN.fieldPosition'}}</label>
+          <select class="centre" data-handle-change name="system.fieldPos">
+            <option>TODO</option>
+            <option>TODO 2</option>
+          </select>
         </div>
       </details>
     </div>

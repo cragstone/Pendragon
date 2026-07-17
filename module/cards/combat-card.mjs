@@ -203,6 +203,7 @@ export class COCard {
 
   static compareCombatResults(p1, p2) {
     // work around fact JS can't use tuple for case statement
+    console.log(p1.resultLevel, p2.resultLevel);
     const k = (result1, result2) => `${result1}_${result2}`;
     switch (k(p1.resultLevel, p2.resultLevel)) {
       case k(RollResult.CRITICAL, RollResult.CRITICAL):

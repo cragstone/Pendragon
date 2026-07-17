@@ -681,27 +681,14 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
   }
   static async _declareCombatAction(event, target) {
     const { combatAction } = target.closest("[data-combat-action]")?.dataset ?? {};
-    switch (combatAction) {
-      case CombatAction.ATTACK:
-        await CombatAction.attack(this.actor, event.shiftKey);
-        break;
-      case CombatAction.RECKLESS:
-        await CombatAction.recklessAttack(this.actor, event.shiftKey);
-        break;
-      case CombatAction.DEFEND:
-        await CombatAction.defend(this.actor, event.shiftKey);
-        break;
-      case CombatAction.MOUNT:
-        await CombatAction.mount(this.actor, event.shiftKey);
-        break;
-      case CombatAction.DISMOUNT:
-        await CombatAction.dismount(this.actor, event.shiftKey);
-        break;
-      case CombatAction.PRISONER:
-        await CombatAction.claimPrisoner(this.actor);
-        break;
-      default:
-        console.warn(`Unknown combat action ${combatAction}`);
+    // this little trick lets us map the name of the action
+    // to the actual static function instead of building a pointless switch statement here
+    const action = CombatAction[combatAction];
+    if (action) {
+      // so "mount" becomes the equivalent of "CombatAction.mount(...)"
+      await action.bind(CombatAction)(this.actor, event.shiftKey);
+    } else {
+      console.warn(`Unknown combat action ${combatAction}`);
     }
   }
 }
