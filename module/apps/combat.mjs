@@ -221,9 +221,9 @@ export class PENCombat {
     }
 
     let wndName = game.i18n.localize("PEN.minor");
-    if (damAmount >= this.actor.system.hp.max) {
+    if (damAmount >= actor.system.hp.max) {
       wndName = game.i18n.localize("PEN.mortal");
-    } else if (damAmount >= this.actor.system.hp.majorWnd) {
+    } else if (damAmount >= actor.system.hp.majorWnd) {
       wndName = game.i18n.localize("PEN.major");
     }
 

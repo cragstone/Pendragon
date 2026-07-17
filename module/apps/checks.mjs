@@ -576,7 +576,7 @@ export class PENCheck {
       return;
     }
     //Get the level of Success
-    config.resultLevel = await PENCheck.successLevel(config);
+    config.resultLevel = PENCheck.successLevel(config);
 
     //If this is a decisionTrait roll and it was failed then consider activating the reverseRoll option
     if (config.rollType === RollType.DECISION && config.resultLevel === RollResult.FAIL && !config.reverseRoll) {
@@ -587,7 +587,7 @@ export class PENCheck {
   }
 
   // Calculate Success Level
-  static async successLevel(config) {
+  static successLevel(config) {
     let resultLevel = -1;
     //Calculate result level
     if (config.rollVal === config.targetScore) {

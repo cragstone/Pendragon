@@ -33,7 +33,7 @@ export class CombatAction {
   static DISMOUNT = "dismount";
   static QUICK_DISMOUNT = "quickDismount";
   static DODGE = "dodge";
-  static ARMOUR = "donArmour";
+  static ARMOR = "donArmor";
   static HOOK = "hook";
   static SET_SPEAR = "setSpear";
   static MOUNT = "mount";
@@ -67,6 +67,8 @@ export class CombatAction {
     return targetScore;
   }
 
+  // calculate the initial roll modifiers
+  // there can be further adjusted
   static getRollModifiers(action) {
     let total = 0;
     // +10 if taking defend action
@@ -85,6 +87,8 @@ export class CombatAction {
     return total;
   }
 
+  // this presents a dialog that lets you adjust the bonus
+  // returns null if the roll is canceled
   static async requestRollModifiers(action) {
     const bonuses = this.getRollModifiers(action);
     const textInput = fields.createNumberInput({
@@ -102,7 +106,7 @@ export class CombatAction {
       content: content,
       ok: { label: "Roll" },
     });
-    return data.checkBonus;
+    return data?.checkBonus;
   }
 
   static defaultOptions(actor, action) {
@@ -124,6 +128,9 @@ export class CombatAction {
       reflexMod: 0,
     };
   }
+
+  // make a fairly standard opposed combat roll using weapon skill
+  // returns null if the roll dialog is canceled
   static async opposedWeaponRollOptions(actor, action) {
     // default to unarmed
     let currentWeapon = {
@@ -145,6 +152,7 @@ export class CombatAction {
     const targetScore = this.applyHorsemanshipCap(actor, currentWeapon);
     // will use as flatMod but later make more granular
     const modifier = await this.requestRollModifiers(action);
+    if (modifier == null) return null;
     // opposed roll by default
     const options = {
       ...this.defaultOptions(actor, action),
@@ -158,6 +166,7 @@ export class CombatAction {
     return options;
   }
 
+  // modify the target score and crit bonus
   static calcTargets(targetScore, modifier) {
     const grossTarget = targetScore + modifier;
     const options = {
@@ -210,7 +219,8 @@ export class CombatAction {
     }
     config.grossTarget = grossTarget;
 
-    config.rollVal = config.rollResult + config.critBonus;
+    // cap result at 20 per original check
+    config.rollVal = Math.min(Number(config.rollResult + config.critBonus), 20);
     config.resultLevel = PENCheck.successLevel(config);
   }
 
@@ -233,6 +243,7 @@ export class CombatAction {
   static async attack(actor, unopposed = false) {
     // standard opposed weapon roll
     const options = await this.opposedWeaponRollOptions(actor, CombatAction.ATTACK);
+    if (options == null) return;
 
     // allow for unopposed roll
     if (unopposed) {
@@ -253,9 +264,10 @@ export class CombatAction {
   }
 
   // Reckless Attack
-  static async recklessAttack(actor, unopposed = false) {
+  static async reckless(actor, unopposed = false) {
     // standard opposed weapon roll
     const options = await this.opposedWeaponRollOptions(actor, CombatAction.RECKLESS);
+    if (options == null) return;
 
     // allow for unopposed roll
     if (unopposed) {
@@ -278,6 +290,7 @@ export class CombatAction {
   static async defend(actor, unopposed = false) {
     // standard opposed weapon roll
     const options = await this.opposedWeaponRollOptions(actor, CombatAction.DEFEND);
+    if (options == null) return;
 
     // allow for unopposed roll
     if (unopposed) {
@@ -301,7 +314,8 @@ export class CombatAction {
       total: actor.system.move,
     });
     // will use as flatMod but later make more granular
-    const modifier = await this.requestRollModifiers(action);
+    const modifier = await this.requestRollModifiers(CombatAction.MOUNT);
+    if (modifier == null) return;
     // opposed roll by default
     const options = {
       ...this.defaultOptions(actor, CombatAction.MOUNT),
@@ -331,6 +345,7 @@ export class CombatAction {
     });
     // will use as flatMod but later make more granular
     const modifier = await this.requestRollModifiers(CombatAction.DISMOUNT);
+    if (modifier == null) return;
     // opposed roll by default
     const options = {
       ...this.defaultOptions(actor, CombatAction.DISMOUNT),
@@ -362,6 +377,166 @@ export class CombatAction {
       actor: actor,
     };
     await this.createDeclarationCard(options, `${options.particName} claims a prisoner.`);
+  }
+
+  static async callSquire(actor) {
+    const options = {
+      action: CombatAction.SQUIRE,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async disarm(actor) {
+    const options = {
+      action: CombatAction.DISARM,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async evade(actor) {
+    const options = {
+      action: CombatAction.EVADE,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async pickUp(actor) {
+    const options = {
+      action: CombatAction.PICKUP,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async selfSacrifice(actor) {
+    const options = {
+      action: CombatAction.SACRIFICE,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async study(actor) {
+    const options = {
+      action: CombatAction.STUDY,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async withholdDamage(actor) {
+    const options = {
+      action: CombatAction.WITHHOLD,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async zigzag(actor) {
+    const options = {
+      action: CombatAction.ZIGZAG,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async charge(actor) {
+    const options = {
+      action: CombatAction.CHARGE,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async controlMount(actor) {
+    const options = {
+      action: CombatAction.CONTROL_MOUNT,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async trample(actor) {
+    const options = {
+      action: CombatAction.TRAMPLE,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async quickDismount(actor) {
+    const options = {
+      action: CombatAction.QUICK_DISMOUNT,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async dodge(actor) {
+    const options = {
+      action: CombatAction.DODGE,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async donArmor(actor) {
+    const options = {
+      action: CombatAction.ARMOR,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async hook(actor) {
+    const options = {
+      action: CombatAction.HOOK,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  }
+
+  static async setSpear(actor) {
+    const options = {
+      action: CombatAction.SET_SPEAR,
+      particName: actor.name,
+      particImg: actor.img,
+      actor: actor,
+    };
+    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
   // used to declare an unopposed action with an automatic success
