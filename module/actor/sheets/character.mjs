@@ -59,6 +59,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       prestigeSkill: this._prestigeSkill,
       prestigePassion: this._prestigePassion,
       familyRoll: this._familyRoll,
+      switchSheet: this._onSwitchSheet,
     },
     window: {
       resizable: true,
@@ -958,6 +959,10 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     await PENWinter.familyRoll(this.actor);
   }
 
+  static async _onSwitchSheet(event, target) {
+    const sheetClass = this.actor.getFlag("core", "sheetClass") ?? "";
+    this.actor.setFlag("core", "sheetClass", "Pendragon.PendragonCharacterSheetv2");
+  }
   // -----------------------------------LISTENERS-----------------------------------------
   //Activate event listeners using the prepared sheet HTML
   _onRender(context, _options) {
