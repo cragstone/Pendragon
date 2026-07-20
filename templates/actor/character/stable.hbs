@@ -21,7 +21,7 @@
         <p>Breed: {{horse.system.breed}}</p>
       </div>
       <p>Personality: {{horse.system.personality}}</p>
-      {{#if horse.system.equipped}}<p>CURRENT HORSE</p>{{/if}}
+      {{#if (eq horse._id ../currentHorse._id)}}<p>CURRENT HORSE</p>{{/if}}
       </div>
     </div>
 

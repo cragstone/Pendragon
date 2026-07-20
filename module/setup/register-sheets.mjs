@@ -34,7 +34,7 @@ export function registerSheets() {
     makeDefault: true,
   });
 
-  Actors.registerSheet("Pendragon", PendragonCharacterSheetv2, {
+  collections.Actors.registerSheet("Pendragon", PendragonCharacterSheetv2, {
     types: ["character"],
   });
 
