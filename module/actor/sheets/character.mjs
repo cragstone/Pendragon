@@ -707,7 +707,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   static _onEditPid(event, target) {
     event.stopPropagation(); // Don't trigger other events
     if (event.detail > 1) return; // Ignore repeated clicks
-    new PIDEditor({ document: this.document }, {}).render(true, {
+    new PIDEditor(this.document, {}).render(true, {
       focus: true,
     });
   }

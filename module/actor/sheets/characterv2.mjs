@@ -2,6 +2,7 @@ import { PENCombat } from "../../apps/combat.mjs";
 import { PENWinter } from "../../apps/winterPhase.mjs";
 import { PENCharCreate } from "../../apps/charCreate.mjs";
 import { PENactorItemDrop } from "../actor-itemDrop.mjs";
+import { PENSelectLists } from "../../apps/select-lists.mjs";
 import { PENUtilities } from "../../apps/utilities.mjs";
 import { isCtrlKey } from "../../apps/helper.mjs";
 import { PendragonActorSheet } from "./actor-sheet.mjs";
@@ -50,6 +51,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
       switchSheet: this._onSwitchSheet,
       // automated combat actions
       combatAction: this._declareCombatAction,
+      toggleCondition: this.#toggleCondition,
     },
     window: {
       resizable: true,
@@ -382,9 +384,9 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     const conditionIds = CONFIG.statusEffects.map((c) => c.id);
     const effects = [];
     for (const e of effectList) {
-      if (!conditionIds.includes(e.id)) effects.push(e);
+      if (!conditionIds.includes(e.name)) effects.push(e);
     }
-    context.effects = effectList.filter((e) => !conditionIds.includes(e.id));
+    context.effects = effects;
     context.conditions = CONFIG.statusEffects
       .map((c) => {
         // check to see if the status effect has been applied to the actor
@@ -507,6 +509,8 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     } else {
       context.currentWeapon = this.#unarmed();
     }
+    context.battlePosType = await PENSelectLists.getBattlePos();
+    context.fieldPosType = await PENSelectLists.getFieldPos();
     return context;
   }
 
@@ -613,6 +617,15 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
   static async _onShowWounds(event, target) {
     const dlg = new WoundTrackerDialog(this.actor);
     dlg.render(true);
+  }
+
+  static async #toggleCondition(event, target) {
+    const { effectId } = target.closest("[data-effect-id]")?.dataset ?? {};
+    if (this.actor.statuses.has(effectId)) {
+      this.actor.removeStatus(effectId);
+    } else {
+      this.actor.addStatus(effectId);
+    }
   }
 
   static #onCreateActiveEffect(event, target) {

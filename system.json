@@ -20,7 +20,8 @@
     "css/encounter.css",
     "css/battle.css",
     "css/journals.css",
-    "css/rolltable.css"
+    "css/rolltable.css",
+    "css/charv2.css"
   ],
   "scripts": [],
   "packFolders": [

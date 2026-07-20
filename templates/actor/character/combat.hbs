@@ -76,8 +76,8 @@
       <button type="button" data-action="combatAction" data-combat-action="withholdDamage">Withhold Damage</button>
       <button type="button" data-action="combatAction" data-combat-action="zigzag">Zigzag</button>
     </div>
-    <div class="action-tabs" {{#if statuses.mounted.active}}open{{/if}}>
-      <details name="cond-actions">
+    <div class="action-tabs">
+      <details name="cond-actions" {{#if statuses.mounted.active}}open{{/if}}>
         <summary>Mounted</summary>
         <div class="actions">
         <button type="button" data-action="combatAction" data-combat-action="charge">Mounted Charge</button>
@@ -113,13 +113,11 @@
         <div class="actions">
           <label>{{localize 'PEN.battlePosture'}}</label>
           <select class="centre" data-handle-change name="system.battlePos">
-            <option>TODO</option>
-            <option>TODO 2</option>
+            {{selectOptions battlePosType selected=system.battlePos}}
           </select>
           <label>{{localize 'PEN.fieldPosition'}}</label>
           <select class="centre" data-handle-change name="system.fieldPos">
-            <option>TODO</option>
-            <option>TODO 2</option>
+            {{selectOptions fieldPosType selected=system.fieldPos}}
           </select>
         </div>
       </details>
