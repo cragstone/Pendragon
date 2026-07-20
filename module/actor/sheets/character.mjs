@@ -60,6 +60,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       prestigePassion: this._prestigePassion,
       familyRoll: this._familyRoll,
       switchSheet: this._onSwitchSheet,
+      toggleHorse: this._toggleHorse,
     },
     window: {
       resizable: true,
@@ -327,6 +328,11 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
 
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
+
+    // add the current horse
+    const horse = context.actor.currentHorse();
+    const mountedHorse = context.actor.isMounted() ? horse : undefined;
+    context.currentHorse = { _id: mountedHorse?._id };
 
     return context;
   }
@@ -960,6 +966,20 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   //Family Roll
   static async _familyRoll(event, target) {
     await PENWinter.familyRoll(this.actor);
+  }
+
+  //Mount/dismount horse
+  static async _toggleHorse(event, target) {
+    const li = target.closest(".item");
+    console.log(li.dataset.itemId);
+    const item = this.actor.items.get(li.dataset.itemId);
+    const currentHorse = this.actor.currentHorse();
+    if (this.actor.isMounted() && currentHorse?.id == item.id) {
+      await this.actor.dismountCurrentHorse();
+    } else {
+      if (item.id != currentHorse?.id) await this.actor.setFlag("Pendragon", "currentHorse", item.id);
+      await this.actor.mountCurrentHorse();
+    }
   }
 
   static async _onSwitchSheet(event, target) {

@@ -29,10 +29,6 @@ export class PendragonActor extends Actor {
     if (actorData.type !== "character") return;
     const systemData = actorData.system;
     //Set basic object IDs
-    systemData.cultureID = "";
-    systemData.homelandID = "";
-    systemData.classID = "";
-    systemData.religionID = "";
     systemData.statTotal = 0;
     systemData.fidelitas = 0;
     systemData.fervor = 0;
@@ -41,12 +37,9 @@ export class PendragonActor extends Actor {
     systemData.honor = 0;
     systemData.winter = 0;
 
-    //Set Culture ID and add stats max
-    let culture = actorData.items.filter((itm) => itm.type === "culture")[0];
-    if (culture) {
-      systemData.cultureID = culture._id;
-      systemData.cultureName = culture.name;
-    }
+    //Set stats max
+    const culture = actorData.items.find((itm) => itm.type === "culture");
+
     for (let [key, stat] of Object.entries(actorData.system.stats)) {
       stat.max = 18 + stat.culture;
       if (culture) {
@@ -54,27 +47,6 @@ export class PendragonActor extends Actor {
       }
       stat.total = Math.min(stat.total, stat.max);
       systemData.statTotal = systemData.statTotal + Number(stat.value);
-    }
-
-    //Set Homeland ID
-    let homeland = actorData.items.filter((itm) => itm.type === "homeland")[0];
-    if (homeland) {
-      systemData.homelandID = homeland._id;
-      systemData.homelandName = homeland.name;
-    }
-
-    //Set Class ID
-    let actClass = actorData.items.filter((itm) => itm.type === "class")[0];
-    if (actClass) {
-      systemData.classID = actClass._id;
-      systemData.className = actClass.name;
-    }
-
-    //Set Religion ID
-    let religion = actorData.items.filter((itm) => itm.type === "religion")[0];
-    if (religion) {
-      systemData.religionID = religion._id;
-      systemData.religionName = religion.name;
     }
 
     //Calculate passive Glory
@@ -381,11 +353,6 @@ export class PendragonActor extends Actor {
           //Otherwise type = false then add AP to shield
           shield = shield + Number(i.system.ap);
         }
-      } else if (i.type === "horse" && i.system.equipped) {
-        //Get horse damage from an equipped horse,
-        systemData.horseDam = i.system.damage;
-        systemData.horseChgDam = i.system.chargeDmg;
-        this.addStatus(PendragonStatusEffects.MOUNTED);
       }
     }
     //Calculate current HP then check for Near Death
@@ -664,16 +631,14 @@ export class PendragonActor extends Actor {
     if (this.isMounted()) return;
     const horse = this.currentHorse();
     if (horse) {
-      await horse.update({ "system.equipped": true });
+      await this.update({ "system.horseDam": horse.system.damage, "system.horseChgDam": horse.system.chargeDmg });
+      this.addStatus(PendragonStatusEffects.MOUNTED);
     }
   }
 
   async dismountCurrentHorse() {
     if (!this.isMounted()) return;
-    const horse = this.currentHorse();
-    if (horse) {
-      await horse.update({ "system.equipped": false });
-    }
+    this.removeStatus(PendragonStatusEffects.MOUNTED);
   }
 
   async addStatus(statusId) {

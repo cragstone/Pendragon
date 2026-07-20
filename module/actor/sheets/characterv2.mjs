@@ -117,11 +117,12 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
   async _preparePartContext(partId, context) {
     switch (partId) {
       case "equipment":
-      case "stable":
       case "events":
       case "house":
         context.tab = context.tabs[partId];
         break;
+      case "stable":
+        return this._prepareStableTab(context);
       case "combat":
         return this._prepareCombatTab(context);
       case "skills":
@@ -430,6 +431,13 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     }
   }
 
+  async _prepareStableTab(context) {
+    context.tab = context.tabs.stable;
+    const horse = this.actor.currentHorse();
+    context.currentHorse = { _id: horse?._id };
+    return context;
+  }
+
   async _prepareSkillsTab(context) {
     context.tab = context.tabs.skills;
     const skills = context.items
@@ -653,7 +661,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     });
     // no result or missing horse id
     if (!result || result === "switch") return;
-    this.actor.setFlag("Pendragon", "currentHorse", result);
+    await this.actor.setFlag("Pendragon", "currentHorse", result);
   }
   static async _onSwitchWeapon(event, target) {
     const weapons = this.actor.items.filter((itm) => itm.type === "weapon");
@@ -678,7 +686,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     });
     // no result or missing weapon id
     if (!result || result === "switch") return;
-    this.actor.setFlag("Pendragon", "currentWeapon", result);
+    await this.actor.setFlag("Pendragon", "currentWeapon", result);
   }
   static async _declareCombatAction(event, target) {
     const { combatAction } = target.closest("[data-combat-action]")?.dataset ?? {};

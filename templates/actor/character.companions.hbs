@@ -7,10 +7,10 @@
     <div class="stat-name grid-item bold centre">{{localize 'PEN.skill'}}</div>
     <div class="stat-name grid-item bold centre" data-tooltip="{{localize 'PEN.knightlyMod'}}">{{localize 'PEN.mod'}}</div>
     <div class="stat-name grid-item bold centre">{{localize 'PEN.glory'}}</div>
-    <div class="stat-name bold grid-item centre" data-action="createDoc" data-document-class='Item' data-type="squire">  
+    <div class="stat-name bold grid-item centre" data-action="createDoc" data-document-class='Item' data-type="squire">
       <a class="large-icon" data-tooltip="{{localize 'PEN.addSquire'}}"><i class="item-control fas fa-plus"></i></a>
-    </div> 
-  </div>  
+    </div>
+  </div>
 
   {{#each squires as |squire key|}}
     <li class="item squire-grid" data-drag='true' data-document-class='Item' data-item-id="{{squire._id}}">
@@ -25,7 +25,7 @@
         {{#unless ../system.lock}}
           <a class="item-control large-icon fade" data-action="deleteDoc"><i data-tooltip="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
         {{/unless}}
-      </div>  
+      </div>
     </li>
   {{/each}}
   <div class="squire-grid"></div>
@@ -43,15 +43,15 @@
     <div class="stat-name grid-item centre bold">{{localize 'PEN.maxHP'}}</div>
     <div class="stat-name grid-item centre bold">{{localize 'PEN.health'}}</div>
     <div class="stat-name grid-item centre bold">{{localize 'PEN.care'}}</div>
-    <div class="stat-name bold grid-item centre" data-action="createDoc" data-document-class='Item' data-type="horse">  
+    <div class="stat-name bold grid-item centre" data-action="createDoc" data-document-class='Item' data-type="horse">
       <a class="large-icon" data-tooltip="{{localize 'PEN.addHorse'}}"><i class="item-control fas fa-plus"></i></a>
-    </div> 
-  </div>  
+    </div>
+  </div>
 
   {{#each horses as |horse key|}}
     <li class="item companion-grid" data-drag='true' data-document-class='Item' data-item-id="{{horse._id}}">
       <div class="grid-item middle centre">
-        <a class="item-control item-toggle large-icon" data-itemid ="{{horse._id}}" data-property="equipped" data-tooltip="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if horse.system.equipped}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
+        <a class="item-control item-toggle large-icon" data-action="toggleHorse" data-tooltip="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if (eq horse._id ../currentHorse._id)}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
       </div>
       <div class="stat-name grid-item" data-tooltip="{{horse.name}}">{{horse.system.label}}</div>
       <div class="stat-name grid-item centre">{{horse.system.totalAR}}</div>
@@ -66,7 +66,7 @@
       {{#unless ../system.lock}}
         <a class="item-control large-icon fade" data-action="deleteDoc"><i data-tooltip="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
       {{/unless}}
-      </div>  
+      </div>
     </li>
   {{/each}}
   <div class="companion-grid"></div>
@@ -78,11 +78,11 @@
   <br>
   <div class="stat-name bold">{{localize 'PEN.joust'}}</div>
   <div class="joust-grid">
-    <div class="stat-name">{{localize 'PEN.wins'}}</div>  
+    <div class="stat-name">{{localize 'PEN.wins'}}</div>
     <div class="stat-name-input centre"><input name="system.joust.wins" type="number" value="{{actor.system.joust.wins}}"/></div>
     <div></div>
-    <div class="stat-name">{{localize 'PEN.losses'}}</div>  
+    <div class="stat-name">{{localize 'PEN.losses'}}</div>
     <div class="stat-name-input centre"><input name="system.joust.losses" type="number" value="{{actor.system.joust.losses}}"/></div>
     </div>
   <br>
-</section>  
+</section>
