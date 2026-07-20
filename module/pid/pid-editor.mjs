@@ -4,6 +4,11 @@ import { PENUtilities } from "../apps/utilities.mjs";
 export class PIDEditor extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.api.ApplicationV2,
 ) {
+  constructor(document, options = {}) {
+    options.document = document;
+    super(options);
+    this.document = document;
+  }
   static DEFAULT_OPTIONS = {
     classes: ["Pendragon", "dialog", "pid-editor", "theme-light"],
     tag: "form",
@@ -46,7 +51,8 @@ export class PIDEditor extends foundry.applications.api.HandlebarsApplicationMix
           if (event.button === 2 && (application.document.flags.Pendragon?.pidFlag?.id ?? false)) {
             game.clipboard.copyPlainText(application.document.flags.Pendragon.pidFlag.id);
           } else {
-            new PIDEditor({ document: application.document }, {}).render(true, { focus: true });
+            console.log(application);
+            new PIDEditor(application.document, {}).render(true, { focus: true });
           }
         },
         buttons: [0, 2],
@@ -67,8 +73,9 @@ export class PIDEditor extends foundry.applications.api.HandlebarsApplicationMix
   }
 
   async _prepareContext(options) {
-    this.document = this.options.document;
+    //this.document = this.options.document;
     const sheetData = await super._prepareContext();
+    console.log(this.document, this.options);
     sheetData.objtype = this.document.type;
     sheetData.objid = this.document.id;
     sheetData.objuuid = this.document.uuid;

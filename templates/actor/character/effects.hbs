@@ -2,9 +2,9 @@
     <h2>Conditions</h2>
     <ul class="conditions">
     {{#each conditions}}
-      <li>
+      <li data-effect-id="{{ id }}">
         <label>
-        <input type="checkbox" {{#if active}}checked{{/if}}/>
+        <input type="checkbox" data-action="toggleCondition" {{#if active}}checked{{/if}}/>
         <img src="{{img}}" class="icon-img" />
         <span>{{ name }}</span>
         </label>
