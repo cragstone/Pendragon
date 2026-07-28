@@ -149,6 +149,25 @@ export class CombatAction {
         damage: weapon.system.damage,
       };
     }
+    // mounted charge adjustments
+    if (action == CombatAction.CHARGE) {
+      // expected to be on combat trained horse
+      const horseDamage = actor.currentHorse().system.chargeDmg;
+      const chargeSkillTotal = actor.getSkillTotal("i.skill.charge");
+      // use lower of charge or weapon skill
+      currentWeapon.total = Math.min(chargeSkillTotal, weapon.system.total);
+      // if dmgChar = "h" weapon damage already set properly
+      // TODO: special case spear as lance
+      if (weapon.system.damageChar != "h") {
+        const weaponDamageDice = actor.system.damage + Number(weapon.system.damageMod) + 1;
+        const dmgDice = Math.min(weaponDamageDice, Number.parseInt(horseDamage));
+        const dmgModifier = Number(weapon.system.damageBonus) + Number(actor.system.damageMod);
+        currentWeapon.damage = `${dmgDice}D6`;
+        if (dmgModifier != 0) {
+          currentWeapon.damage = `${dmgDice}D6 + ${dmgModifier}`;
+        }
+      }
+    }
     const targetScore = this.applyHorsemanshipCap(actor, currentWeapon);
     // will use as flatMod but later make more granular
     const modifier = await this.requestRollModifiers(action);
@@ -193,12 +212,13 @@ export class CombatAction {
     if (config.action == CombatAction.DEFEND && opponent.action == this.RECKLESS) {
       config.flatMod -= 10;
     }
-    //  mounted vs foot or foot vs prone(height advantage)
-    //  foot using reach weapon vs mounted (cancels height advantage)
+    //  TODO: mounted vs foot or foot vs prone(height advantage)
+    //  TODO: foot using reach weapon vs mounted (cancels height advantage)
     //  opponent using reckless +5
     if (config.action != CombatAction.DEFEND && opponent.action == this.RECKLESS) {
       config.flatMod += 5;
     }
+    // TODO: charge using lance/spear, opponent not using reach weapon
 
     // recalculate the gross target
     const grossTarget = originalTarget + config.flatMod;
@@ -340,6 +360,10 @@ export class CombatAction {
   }
 
   static async dismount(actor, unopposed = false) {
+    if (!actor.isMounted()) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.mustBeMounted"));
+      return;
+    }
     const targetScore = this.applyHorsemanshipCap(actor, {
       total: actor.system.move,
     });
@@ -459,17 +483,45 @@ export class CombatAction {
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
-  static async charge(actor) {
-    const options = {
-      action: CombatAction.CHARGE,
-      particName: actor.name,
-      particImg: actor.img,
-      actor: actor,
-    };
-    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  static async charge(actor, unopposed = false) {
+    if (!actor.isMounted()) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.mustBeMounted"));
+      return;
+    }
+    if (!actor.currentHorse().system.combat) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.needCombatTrainedMount"));
+      return;
+    }
+    if (!actor.currentWeapon()?.system.canCharge) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.currentWeaponCannotCharge"));
+      return;
+    }
+    // standard opposed weapon roll
+    const options = await this.opposedWeaponRollOptions(actor, CombatAction.CHARGE);
+    if (options == null) return;
+
+    // allow for unopposed roll
+    if (unopposed) {
+      options.cardType = CardType.UNOPPOSED;
+      options.state = ChatCardState.CLOSED;
+    }
+
+    // make the roll
+    await PENCheck.makeRoll(options);
+
+    // set the outcome if unopposed
+    if (unopposed) {
+      this.applyUnopposedOutcome(options);
+    }
+
+    await this.createChatCard(options);
   }
 
   static async controlMount(actor) {
+    if (!actor.isMounted()) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.mustBeMounted"));
+      return;
+    }
     const options = {
       action: CombatAction.CONTROL_MOUNT,
       particName: actor.name,
@@ -480,6 +532,10 @@ export class CombatAction {
   }
 
   static async trample(actor) {
+    if (!actor.isMounted()) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.mustBeMounted"));
+      return;
+    }
     const options = {
       action: CombatAction.TRAMPLE,
       particName: actor.name,
@@ -490,6 +546,10 @@ export class CombatAction {
   }
 
   static async quickDismount(actor) {
+    if (!actor.isMounted()) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.mustBeMounted"));
+      return;
+    }
     const options = {
       action: CombatAction.QUICK_DISMOUNT,
       particName: actor.name,

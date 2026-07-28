@@ -814,6 +814,11 @@
     "virtues": "Virtues",
     "vweak": "Very Weak",
     "walk": "Walk",
+    "warn": {
+      "currentWeaponCannotCharge": "You cannot use your current weapon in a mounted charge.",
+      "mustBeMounted": "You must be mounted to use this action.",
+      "needCombatTrainedMount": "Your mount must be combat trained to take this action."
+    },
     "weak": "Weak",
     "weapon": "Weapon",
     "weaponType": "Weapon Type",
@@ -845,7 +850,7 @@
       "disarm": "Disarm",
       "dismount": "Dismount",
       "dodge": "Dodge",
-      "donArmour": "Don Armour",
+      "donArmor": "Don Armor",
       "evade": "Evade",
       "hook": "Hook",
       "mount": "Mount",

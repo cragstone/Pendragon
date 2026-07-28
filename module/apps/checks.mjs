@@ -390,9 +390,7 @@ export class PENCheck {
         }
         break;
       case "charge":
-        let charge = (
-          await particActor.items.filter((itm) => itm.flags.Pendragon?.pidFlag?.id === "i.skill.charge")
-        )[0];
+        let charge = await particActor.items.find((itm) => itm.flags.Pendragon?.pidFlag?.id === "i.skill.charge");
         if (!charge) {
           if (particActor.type != "npc") {
             config.targetScore = 0;

@@ -51,7 +51,6 @@ export class PIDEditor extends foundry.applications.api.HandlebarsApplicationMix
           if (event.button === 2 && (application.document.flags.Pendragon?.pidFlag?.id ?? false)) {
             game.clipboard.copyPlainText(application.document.flags.Pendragon.pidFlag.id);
           } else {
-            console.log(application);
             new PIDEditor(application.document, {}).render(true, { focus: true });
           }
         },
@@ -73,9 +72,7 @@ export class PIDEditor extends foundry.applications.api.HandlebarsApplicationMix
   }
 
   async _prepareContext(options) {
-    //this.document = this.options.document;
     const sheetData = await super._prepareContext();
-    console.log(this.document, this.options);
     sheetData.objtype = this.document.type;
     sheetData.objid = this.document.id;
     sheetData.objuuid = this.document.uuid;
