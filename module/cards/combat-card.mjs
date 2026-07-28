@@ -203,7 +203,6 @@ export class COCard {
 
   static compareCombatResults(p1, p2) {
     // work around fact JS can't use tuple for case statement
-    console.log(p1.resultLevel, p2.resultLevel);
     const k = (result1, result2) => `${result1}_${result2}`;
     switch (k(p1.resultLevel, p2.resultLevel)) {
       case k(RollResult.CRITICAL, RollResult.CRITICAL):
@@ -255,7 +254,7 @@ export class COCard {
     let targetMsg = await game.messages.get(config.targetChatId);
     let rank = config.dataset.rank;
 
-    //Turn off the DamageRoll button for the clicked button and update the existing chat message so the button disappears to prevent mutliple rerolls
+    //Turn off the DamageRoll button for the clicked button and update the existing chat message so the button disappears to prevent multiple rerolls
     const chatCards = targetMsg.flags.Pendragon.chatCard;
     chatCards[rank].damRoll = false;
     const newChatCards = [];
