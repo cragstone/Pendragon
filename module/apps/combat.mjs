@@ -87,7 +87,7 @@ export class PENCombat {
 
     //If not tracking Wounds then just apply Healing Rate to HP value
     if (!game.settings.get("Pendragon", "trackWnd")) {
-      let newHP = Math.min(this.actor.system.hp.value + healing, this.actor.system.hp.max);
+      let newHP = Math.min(actor.system.hp.value + healing, actor.system.hp.max);
       await this.actor.update({
         "system.hp.value": newHP,
       });
