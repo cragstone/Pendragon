@@ -73,17 +73,21 @@ export class COCard {
 
     let result = comboOutcome.split("/");
     let newchatCards = [];
+    //Work out the outcome and whether damage can be rolled
     for (let cCount = 0; cCount < 2; cCount++) {
       chatCards[cCount].outcome = result[cCount];
       chatCards[cCount].outcomeLabel = game.i18n.localize("PEN.comRoll" + result[cCount]);
 
+      //Only a weapon roll can cause damage - a skill etc joining a combat card has no weapon to roll
+      const armed = chatCards[cCount].rollType === "CM" && chatCards[cCount].itemId;
+
       //If Critical, Tie or Win then allow Damage Roll
-      if (["C", "T", "W"].includes(result[cCount])) {
+      if (armed && ["C", "T", "W"].includes(result[cCount])) {
         chatCards[cCount].damRoll = true;
       }
 
       //If Critical then set Damage Roll to critical
-      if (["C"].includes(result[cCount])) {
+      if (armed && ["C"].includes(result[cCount])) {
         chatCards[cCount].damCrit = true;
       }
 
@@ -92,12 +96,12 @@ export class COCard {
         chatCards[cCount].damRoll = false;
         chatCards[cCount].damCrit = false;
       }
+    }
 
-      //Set Shield Use if Partial Success or better and opponent is causing damage
-      if (["C", "T", "W", "P"].includes(result[cCount])) {
-        if (["C", "T", "W"].includes(result[1 - cCount])) {
-          chatCards[cCount].damShield = true;
-        }
+    //Set Shield Use if Partial Success or better and opponent is causing damage
+    for (let cCount = 0; cCount < 2; cCount++) {
+      if (["C", "T", "W", "P"].includes(result[cCount]) && chatCards[1 - cCount].damRoll) {
+        chatCards[cCount].damShield = true;
       }
 
       newchatCards.push(chatCards[cCount]);

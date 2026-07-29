@@ -61,6 +61,16 @@ export class PENactorDetails {
     return result;
   }
 
+  //
+  //Weapons an actor could use for a given combat skill.
+  //
+  static getSkillWeapons(actor, skillItem) {
+    if (!actor || !skillItem?.system?.weaponType) {
+      return [];
+    }
+    return actor.items.filter((itm) => itm.type === "weapon" && itm.system.skill === skillItem.system.weaponType);
+  }
+
   //Get Actor Image for Id
   static async getParticImg(particId, particType) {
     if (!particId || !particType) return null;

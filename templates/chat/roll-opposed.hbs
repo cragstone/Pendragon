@@ -36,7 +36,15 @@
               {{/if}}
           
               {{#if (eq c.resultLevel 0)}}
-                <span class="pending">{{c.outcomeLabel}}: {{c.resultLabel}} ({{c.rollVal}}) <i class=" result-fail fas fa-skull"></i></i><i class=" result-fail fas fa-skull"></i></span>
+                <span class="pending">{{c.outcomeLabel}}: {{c.resultLabel}} ({{c.rollVal}}) <i class=" result-fail fas fa-skull"></i><i class=" result-fail fas fa-skull"></i></span>
+              {{/if}}
+
+              {{#isAnd (eq c.resultLevel 0) (eq c.rollType "CM")}}
+                <span class="pending">&nbsp <i class=" result-fail fas fa-sword" title="{{localize 'PEN.dropWpn'}}"></i></span>
+              {{/isAnd}}
+
+              {{#if c.damShield}}
+                <span class="pending">&nbsp <i class="fas fa-shield" title="{{localize 'PEN.damShield'}}"></i></span>
               {{/if}}
 
             {{else}}
@@ -74,6 +82,11 @@
           </div>  
         {{/if}}
       </div>
+      {{#if (eq ../state 'closed')}}
+        {{#if c.damRoll}}
+          <button class='cardbutton owner-only'data-partic-id="{{c.particId}}" data-partic-type="{{c.particType}}" data-rank='{{key}}' data-preset='dam-co-card' type="button">{{localize 'PEN.rollDamage'}}</button>
+        {{/if}}
+      {{/if}}
       {{/each}}
     </ol>
   </div>

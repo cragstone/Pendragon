@@ -1,5 +1,8 @@
 import { PENCheck } from "../apps/checks.mjs";
 
+//Card types that take part in the same contest - an Opposed roll and a Combat roll can share a card
+export const CONTEST_CARDS = ["OP", "CO"];
+
 export class OPCard {
   //Add a new skill etc to an Opposed Card
   static async OPAdd(config, msgId) {
@@ -138,6 +141,22 @@ export class OPCard {
         }
       }
       i.outcomeLabel = game.i18n.localize("PEN.comRoll" + i.outcome);
+
+      //A weapon roll that joined an opposed card still gets its damage roll
+      if (i.rollType === "CM" && i.itemId && ["W", "T"].includes(i.outcome) && !["evade", "dodge"].includes(i.action)) {
+        i.damRoll = true;
+        if (i.resultLevel === 3) {
+          i.damCrit = true;
+        }
+      }
+    }
+
+    //Now the damage rolls are known flag Shield Use where someone else on the card is rolling damage
+    for (let i of chatCards) {
+      if (["W", "T", "P"].includes(i.outcome) && chatCards.some((opp) => opp !== i && opp.damRoll)) {
+        i.damShield = true;
+      }
+
       newchatCards.push(i);
       await OPCard.showDiceRoll(i);
 
@@ -156,33 +175,35 @@ export class OPCard {
     return;
   }
 
-  //Check to see if there is an open card that matches the cardType that's not more than a day old
+  //Check to see if there is an open card this roll can join that's not more than a day old
+  //Opposed and Combat cards share a contest, so either type can join the other
   static async checkNewMsg(config) {
-    let messages = ui.chat.collection.filter((message) => {
-      if (
-        config.cardType === message.getFlag("Pendragon", "cardType") &&
-        message.getFlag("Pendragon", "state") !== "closed"
-      ) {
-        return true;
-      }
-    });
-
-    if (messages.length) {
-      // Old messages can't be used if message is more than a day old mark it as resolved
-      const timestamp = new Date(messages[0].timestamp);
-      const now = new Date();
-      const timeDiffSec = (now - timestamp) / 1000;
-      if (60 * 60 * 24 < timeDiffSec) {
-        await messages[0].setFlag("Pendragon", "state", "closed");
-        messages = [];
-      }
-    }
-
-    if (!messages.length) {
+    if (!CONTEST_CARDS.includes(config.cardType)) {
       return false;
-    } else {
-      return messages[0].id;
     }
+
+    //Newest first so a roll always joins the most recent open card
+    let messages = ui.chat.collection
+      .filter((message) => {
+        return (
+          CONTEST_CARDS.includes(message.getFlag("Pendragon", "cardType")) &&
+          message.getFlag("Pendragon", "state") !== "closed"
+        );
+      })
+      .sort((a, b) => b.timestamp - a.timestamp);
+
+    // Old messages can't be used - if a message is more than a day old mark it as resolved and keep looking
+    const now = new Date();
+    for (let message of messages) {
+      const timeDiffSec = (now - new Date(message.timestamp)) / 1000;
+      if (60 * 60 * 24 < timeDiffSec) {
+        await message.setFlag("Pendragon", "state", "closed");
+        continue;
+      }
+      return message.id;
+    }
+
+    return false;
   }
 
   static async OPClose(config) {

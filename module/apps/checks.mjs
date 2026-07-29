@@ -1,5 +1,5 @@
 import { PENactorDetails } from "./actorDetails.mjs";
-import { OPCard } from "../cards/opposed-card.mjs";
+import { OPCard, CONTEST_CARDS } from "../cards/opposed-card.mjs";
 import { COCard } from "../cards/combat-card.mjs";
 import PENDialog from "../setup/pen-dialog.mjs";
 
@@ -155,6 +155,15 @@ export class PENCheck {
           tempItem = particActor.items.get(config.skillId);
           config.label = tempItem.name ?? "";
           config.rawScore = tempItem.system.total ?? 0;
+          //If this skill could be rolled with a weapon then offer the choice in the dialog.
+          if (CONTEST_CARDS.includes(config.cardType)) {
+            config.weaponChoices = PENactorDetails.getSkillWeapons(particActor, tempItem).map((itm) => {
+              return { id: itm.id, name: itm.name };
+            });
+            //Default to whatever was last used for this skill.
+            let remembered = (particActor.flags?.Pendragon?.lastWeapon ?? {})[config.skillId] ?? "";
+            config.lastWeapon = config.weaponChoices.some((wpn) => wpn.id === remembered) ? remembered : "";
+          }
         }
         break;
       case RollType.PASSION:
@@ -256,16 +265,7 @@ export class PENCheck {
           config.label = "";
           config.rawScore = config.gmRollScore ?? 0;
         } else {
-          tempItem = particActor.items.get(config.itemId);
-          config.label = tempItem.name ?? "";
-          config.skillId = tempItem.system.sourceId;
-          config.rawScore = tempItem.system.total ?? 0;
-          if (particActor.type != "character") {
-            config.rawScore = tempItem.system.value;
-          }
-          if (tempItem.system.improv) {
-            config.flatMod = -5;
-          }
+          PENCheck.applyWeapon(config, particActor);
         }
         break;
       case RollType.MOVE:
@@ -305,7 +305,7 @@ export class PENCheck {
           config.reflex = true;
         } else {
           let targetMsg = await game.messages.get(config.checkMsgId);
-          config.reflexMod = -targetMsg.flags.Pendragon.chatCard[0].reflexMod ?? 0;
+          config.reflexMod = -(targetMsg.flags.Pendragon.chatCard[0].reflexMod ?? 0);
         }
         if (!foundry.utils.isNewerVersion(game.version, "11")) {
           config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER;
@@ -327,11 +327,69 @@ export class PENCheck {
     return config;
   }
 
+  //Point the config at a specific weapon and take the label and score from it.
+  //Shared by a straight combat roll and by a skill roll that the roller has attached a weapon to.
+  static applyWeapon(config, particActor) {
+    let weapon = particActor.items.get(config.itemId);
+    if (!weapon) {
+      return false;
+    }
+    config.label = weapon.name ?? "";
+    config.skillId = weapon.system.sourceID;
+    config.rawScore = weapon.system.total ?? 0;
+    //NPCs and followers hold the weapon score on the weapon rather than taking it from a skill
+    if (particActor.type != "character") {
+      config.rawScore = weapon.system.value;
+    }
+    if (weapon.system.improv) {
+      config.flatMod = Number(config.flatMod) - 5;
+    }
+    return true;
+  }
+
+  //Where the roller has picked a weapon for a skill roll turn it into a combat roll so damage etc all work.
+  //No weapon picked leaves it as a plain skill roll.
+  static attachWeapon(config, particActor, weaponId) {
+    if (!weaponId) {
+      return false;
+    }
+    config.itemId = weaponId;
+    if (!PENCheck.applyWeapon(config, particActor)) {
+      config.itemId = false;
+      return false;
+    }
+    config.rollType = RollType.COMBAT;
+    config.targetScore = config.rawScore;
+    return true;
+  }
+
+  //Remember the weapon pick for this skill so it can be the default next time.
+  static rememberWeapon(config, particActor, weaponId) {
+    if (!particActor?.isOwner || config.neutralRoll || !config.skillId) {
+      return;
+    }
+    let chosen = weaponId ?? "";
+    //Only write on a change - an actor update rerenders the sheet
+    if ((particActor.flags?.Pendragon?.lastWeapon ?? {})[config.skillId] === chosen) {
+      return;
+    }
+    particActor.update({ ["flags.Pendragon.lastWeapon." + config.skillId]: chosen });
+  }
+
   //Start the check now that the config has been prepared
   static async startCheck(config) {
     let particActor = await PENactorDetails._getParticipant(config.particId, config.particType);
     //If Shift key has been held then accept the defaults above otherwise call a Dialog box for Difficulty, Modifier etc
     if (config.shiftKey) {
+      //The options dialog is skipped, but a skill that could be rolled with a weapon still has to say which one
+      if (config.weaponChoices?.length) {
+        let weaponUsage = await PENCheck.weaponDialog(config);
+        if (!weaponUsage) {
+          return;
+        }
+        PENCheck.rememberWeapon(config, particActor, weaponUsage.weaponChoice);
+        PENCheck.attachWeapon(config, particActor, weaponUsage.weaponChoice);
+      }
     } else {
       let usage = await PENCheck.RollDialog(config);
       if (usage) {
@@ -360,8 +418,16 @@ export class PENCheck {
           config.oppLabel = tempLabel;
           config.targetScore = config.rawScore;
         }
-        config.action = usage.action;
-        config.damMod = usage.dmgMod;
+        //The action list only shows for a combat roll so keep the default where the dialog didn't offer it
+        config.action = usage.action ?? config.action;
+
+        if (config.weaponChoices?.length) {
+          PENCheck.rememberWeapon(config, particActor, usage.weaponChoice);
+        }
+        PENCheck.attachWeapon(config, particActor, usage.weaponChoice);
+
+        //The damage modifier only shows for a combat or damage roll so keep the default fallback
+        config.damMod = usage.dmgMod ?? config.damMod;
         if (config.damMod && !Roll.validate(config.damMod)) {
           ui.notifications.warn(game.i18n.localize("PEN.invalidDamageFormula"));
           config.damMod = "0";
@@ -370,7 +436,6 @@ export class PENCheck {
         return;
       }
     }
-
 
     //Adjust scores etc based on combat action
     switch (config.action) {
@@ -540,10 +605,42 @@ export class PENCheck {
       reflex: options.reflex,
       reflexMod: options.reflexMod,
       flatMod: options.flatMod,
+      weaponChoices: options.weaponChoices ?? [],
+      weaponOptions: PENCheck.weaponOptions(options),
+      lastWeapon: options.lastWeapon ?? "",
     };
     const html = await foundry.applications.handlebars.renderTemplate(options.dialogTemplate, data);
     const dlg = await PENDialog.input({
       window: { title: game.i18n.localize("PEN.card.rollMods") },
+      content: html,
+      ok: {
+        label: game.i18n.localize("PEN.rollDice"),
+      },
+    });
+    return dlg;
+  }
+
+  //Build the weapon select list, with no weapon as the first option
+  static weaponOptions(options) {
+    return Object.fromEntries([
+      ["", game.i18n.localize("PEN.skillOnly")],
+      ...(options.weaponChoices ?? []).map((wpn) => [wpn.id, wpn.name]),
+    ]);
+  }
+
+  //Ask which weapon a skill is being rolled with
+  static async weaponDialog(options) {
+    const data = {
+      label: options.label,
+      weaponOptions: PENCheck.weaponOptions(options),
+      lastWeapon: options.lastWeapon ?? "",
+    };
+    const html = await foundry.applications.handlebars.renderTemplate(
+      "systems/Pendragon/templates/dialog/weaponChoice.hbs",
+      data,
+    );
+    const dlg = await PENDialog.input({
+      window: { title: game.i18n.localize("PEN.chooseWeapon") },
       content: html,
       ok: {
         label: game.i18n.localize("PEN.rollDice"),

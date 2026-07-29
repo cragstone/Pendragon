@@ -1,0 +1,12 @@
+<section class="Pendragon" id="check-weapon-form">
+  <div class = "stat-name diff-label bold">{{ localize 'PEN.card.OP'}}: {{label}}</div>
+  <br>
+
+  <div class="flexrow stat-name">
+    <label data-tooltip="{{ localize 'PEN.chooseWeaponHint' }}" >{{localize "PEN.chooseWeapon"}}</label>
+    <select class="resource-label-diff centre" name="weaponChoice" >
+      {{selectOptions weaponOptions selected=lastWeapon}}
+    </select>
+  </div>
+  <br>
+</section>
