@@ -138,6 +138,7 @@ export class CombatAction {
       name: "Unarmed",
       total: actor.getSkillTotal("i.skill.brawling"),
       damage: actor.system.damage,
+      skillId: actor.getItemByPid("i.skill.brawling")?.id,
     };
     // determine skill based on current weapon
     const weapon = actor.currentWeapon();
@@ -147,14 +148,16 @@ export class CombatAction {
         name: weapon.name,
         total: weapon.system.total,
         damage: weapon.system.damage,
+        skillId: weapon.system.sourceId,
       };
     }
     // mounted charge adjustments
     if (action == CombatAction.CHARGE) {
       // expected to be on combat trained horse
       const horseDamage = actor.currentHorse().system.chargeDmg;
+      currentWeapon.skillId = actor.getItemByPid("i.skill.charge")?.id;
+      // effective charge skill is lower of charge or weapon skill
       const chargeSkillTotal = actor.getSkillTotal("i.skill.charge");
-      // use lower of charge or weapon skill
       currentWeapon.total = Math.min(chargeSkillTotal, weapon.system.total);
       // if dmgChar = "h" weapon damage already set properly
       // TODO: special case spear as lance
@@ -180,7 +183,7 @@ export class CombatAction {
       flatMod: modifier,
       label: currentWeapon.name,
       rawScore: currentWeapon.total,
-      skillId: weapon?.system.sourceId ?? actor.getItemByPid("i.skill.brawling")?.id,
+      skillId: currentWeapon.skillId,
     };
     return options;
   }
@@ -361,7 +364,7 @@ export class CombatAction {
 
   static async dismount(actor, unopposed = false) {
     if (!actor.isMounted()) {
-      ui.notifications.warn(game.i18n.localize("PEN.warn.mustBeMounted"));
+      ui.notifications.warn(game.i18n.localize("PEN.warn.mountedOnlyAction"));
       return;
     }
     const targetScore = this.applyHorsemanshipCap(actor, {
@@ -410,6 +413,7 @@ export class CombatAction {
       particImg: actor.img,
       actor: actor,
     };
+    // squire skill; special card to choose action on success
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
@@ -420,27 +424,34 @@ export class CombatAction {
       particImg: actor.img,
       actor: actor,
     };
+    // crit, weapon flies out of reach (or at feet of winner)
+    // win, opponent drops weapon/object
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
-  static async evade(actor) {
+  static async evade(actor, unopposed = false) {
     const options = {
       action: CombatAction.EVADE,
       particName: actor.name,
       particImg: actor.img,
       actor: actor,
     };
+    // if mounted, horse's movement rate
+    // if on foot, character's movement rate
+    // disengage from combat on win, fall on fumble
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
-  static async pickUp(actor) {
+  static async pickUp(actor, unopposed = false) {
     const options = {
       action: CombatAction.PICKUP,
       particName: actor.name,
       particImg: actor.img,
       actor: actor,
     };
-    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+    // automatic success if unopposed
+    // else DEX+5
+    await this.createDeclarationCard(options, `${options.particName} picks up an object within easy reach.`);
   }
 
   static async selfSacrifice(actor) {
@@ -450,6 +461,9 @@ export class CombatAction {
       particImg: actor.img,
       actor: actor,
     };
+    // GM needs to approve, no roll needed
+    // auto-success, max crit damage, character dies heroically at the end
+    // roll.evaluate({maximize:true})
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
@@ -460,7 +474,8 @@ export class CombatAction {
       particImg: actor.img,
       actor: actor,
     };
-    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+    // if attacked, can switch action with -5 penalty
+    await this.createDeclarationCard(options, `${options.particName} studies the combat scene carefully.`);
   }
 
   static async withholdDamage(actor) {
@@ -470,6 +485,7 @@ export class CombatAction {
       particImg: actor.img,
       actor: actor,
     };
+    //choose either reduce by X dice or 1/2 damage
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
@@ -480,12 +496,14 @@ export class CombatAction {
       particImg: actor.img,
       actor: actor,
     };
+    // always unopposed movement or horse movement
+    // impose penalty on attacking archer; distance moved depends on result
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
   static async charge(actor, unopposed = false) {
     if (!actor.isMounted()) {
-      ui.notifications.warn(game.i18n.localize("PEN.warn.mustBeMounted"));
+      ui.notifications.warn(game.i18n.localize("PEN.warn.mountedOnlyAction"));
       return;
     }
     if (!actor.currentHorse().system.combat) {
@@ -519,7 +537,7 @@ export class CombatAction {
 
   static async controlMount(actor) {
     if (!actor.isMounted()) {
-      ui.notifications.warn(game.i18n.localize("PEN.warn.mustBeMounted"));
+      ui.notifications.warn(game.i18n.localize("PEN.warn.mountedOnlyAction"));
       return;
     }
     const options = {
@@ -528,12 +546,23 @@ export class CombatAction {
       particImg: actor.img,
       actor: actor,
     };
+    // make at start of round if mount is unsettled
+    //   not combat trained, always starts unsettled, -5 penalty
+    //   5+ dmg becomes unsettled
+    // Horsemanship (penalty = HP lost this combat)
+    // if combat trained, settle on success
+    // otherwise settle on crit
+    // fumble means thrown (quick dismount!)
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
   static async trample(actor) {
     if (!actor.isMounted()) {
-      ui.notifications.warn(game.i18n.localize("PEN.warn.mustBeMounted"));
+      ui.notifications.warn(game.i18n.localize("PEN.warn.mountedOnlyAction"));
+      return;
+    }
+    if (!actor.currentHorse().system.combat) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.needCombatTrainedMount"));
       return;
     }
     const options = {
@@ -542,12 +571,13 @@ export class CombatAction {
       particImg: actor.img,
       actor: actor,
     };
+    // Horsemanship, apply horse's normal dmg on win
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
   static async quickDismount(actor) {
     if (!actor.isMounted()) {
-      ui.notifications.warn(game.i18n.localize("PEN.warn.mustBeMounted"));
+      ui.notifications.warn(game.i18n.localize("PEN.warn.mountedOnlyAction"));
       return;
     }
     const options = {
@@ -560,6 +590,13 @@ export class CombatAction {
   }
 
   static async dodge(actor) {
+    if (actor.isMounted()) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.unmountedOnlyAction"));
+      return;
+    }
+    // ignore multiple enemy penalty
+    // only one roll (compare to each opponent)
+    // move skill
     const options = {
       action: CombatAction.DODGE,
       particName: actor.name,
@@ -570,16 +607,27 @@ export class CombatAction {
   }
 
   static async donArmor(actor) {
+    if (actor.isMounted()) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.unmountedOnlyAction"));
+      return;
+    }
     const options = {
       action: CombatAction.ARMOR,
       particName: actor.name,
       particImg: actor.img,
       actor: actor,
     };
-    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+    await this.createDeclarationCard(options, `${options.particName} dons their armor.`);
   }
 
   static async hook(actor) {
+    if (actor.isMounted()) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.unmountedOnlyAction"));
+      return;
+    }
+    // weapon skill
+    // crit = auto opponent pulled down, falls if mounted
+    // success = unopposed STR to pull down
     const options = {
       action: CombatAction.HOOK,
       particName: actor.name,
@@ -590,12 +638,19 @@ export class CombatAction {
   }
 
   static async setSpear(actor) {
+    if (actor.isMounted()) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.unmountedOnlyAction"));
+      return;
+    }
     const options = {
       action: CombatAction.SET_SPEAR,
       particName: actor.name,
       particImg: actor.img,
       actor: actor,
     };
+    // if opponent not charging, convert to attack
+    // on win: apply opponent's damage plus your weapon's damage bonus to mount
+    // if horse dies, excess damage passes through to rider
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 

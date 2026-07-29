@@ -816,7 +816,10 @@
     "walk": "Walk",
     "warn": {
       "currentWeaponCannotCharge": "You cannot use your current weapon in a mounted charge.",
-      "mustBeMounted": "You must be mounted to use this action.",
+      "mountedOnlyAction": "You must be mounted to use this action.",
+      "mountedOnlyWeapon": "You cannot use your current weapon while on foot.",
+      "unmountedOnlyAction": "You must be on foot to use this action.",
+      "unmountedOnlyWeapon": "You cannot use your current weapon while mounted.",
       "needCombatTrainedMount": "Your mount must be combat trained to take this action."
     },
     "weak": "Weak",

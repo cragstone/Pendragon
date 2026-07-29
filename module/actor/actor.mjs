@@ -632,7 +632,7 @@ export class PendragonActor extends Actor {
     const horse = this.currentHorse();
     if (horse) {
       await this.update({ "system.horseDam": horse.system.damage, "system.horseChgDam": horse.system.chargeDmg });
-      this.addStatus(PendragonStatusEffects.MOUNTED);
+      await this.addStatus(PendragonStatusEffects.MOUNTED);
     }
   }
 
