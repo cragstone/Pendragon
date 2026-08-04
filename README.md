@@ -22,7 +22,7 @@ Before packaging/zipping the system for a release, compile the source into the L
 Open a command prompt and change the directory to your Foundry Pendragon folder.   It will be something like
 
 ```
-cd /d D:\FoundryVTT\Data\system\Pendragon
+cd /d D:\FoundryVTT\Data\systems\Pendragon
 
 ```
 
