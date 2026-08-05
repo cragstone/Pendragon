@@ -1,90 +1,86 @@
 const SETTINGS = {
-
   switchShift: {
-    name: 'PEN.Settings.switchShift',
-    hint: 'PEN.Settings.switchShiftHint',
-    scope: 'world',
+    name: "PEN.Settings.switchShift",
+    hint: "PEN.Settings.switchShiftHint",
+    scope: "world",
     config: false,
     type: Boolean,
-    default: true
+    default: false,
   },
 
   critAdj: {
-    name: 'PEN.Settings.critAdj',
-    hint: 'PEN.Settings.critAdjHint',
-    scope: 'world',
+    name: "PEN.Settings.critAdj",
+    hint: "PEN.Settings.critAdjHint",
+    scope: "world",
     config: false,
     type: Boolean,
-    default: true
+    default: true,
   },
+};
 
-}
-
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 export class PENDiceSettings extends HandlebarsApplicationMixin(ApplicationV2) {
   static DEFAULT_OPTIONS = {
-    classes: ['Pendragon', 'sheet', 'settings'],
-    id: 'dice-settings',
+    classes: ["Pendragon", "sheet", "settings"],
+    id: "dice-settings",
     actions: {
-      reset: PENDiceSettings.onResetDefaults
+      reset: PENDiceSettings.onResetDefaults,
     },
     form: {
       handler: PENDiceSettings.formHandler,
       closeOnSubmit: true,
-      submitOnChange: false
+      submitOnChange: false,
     },
     position: {
       width: 550,
-      height: 'auto'
+      height: "auto",
     },
-    tag: 'form',
+    tag: "form",
     window: {
-      title: 'PEN.Settings.diceOptions',
-      contentClasses: ['standard-form']
-    }
-  }
+      title: "PEN.Settings.diceOptions",
+      contentClasses: ["standard-form"],
+    },
+  };
 
   /**
    *
    */
-  get title () {
-    return `${game.i18n.localize(this.options.window.title)}`
+  get title() {
+    return `${game.i18n.localize(this.options.window.title)}`;
   }
 
   static PARTS = {
-    form: { template: 'systems/Pendragon/templates/settings/dice-settings.hbs' },
-    footer: { template: 'templates/generic/form-footer.hbs' }
-  }
-
+    form: { template: "systems/Pendragon/templates/settings/dice-settings.hbs" },
+    footer: { template: "templates/generic/form-footer.hbs" },
+  };
 
   /**
    *
    * @param options
    */
-  async _prepareContext (options) {
-
-    const optSet = {}
+  async _prepareContext(options) {
+    const optSet = {};
     for (const [k, v] of Object.entries(SETTINGS)) {
       optSet[k] = {
-        value: game.settings.get('Pendragon', k),
-        setting: v
-      }
+        value: game.settings.get("Pendragon", k),
+        setting: v,
+      };
     }
     return {
       optSet,
       buttons: [
-        { type: 'submit', icon: 'fa-solid fa-save', label: 'SETTINGS.Save' },
-        { type: 'reset', action: 'reset', icon: 'fa-solid fa-undo', label: 'SETTINGS.Reset' }
-      ]
-    }
+        { type: "submit", icon: "fa-solid fa-save", label: "SETTINGS.Save" },
+        { type: "reset", action: "reset", icon: "fa-solid fa-undo", label: "SETTINGS.Reset" },
+      ],
+    };
   }
 
   /**
    *
    */
-  static registerSettings () {
+  static registerSettings() {
     for (const [k, v] of Object.entries(SETTINGS)) {
-      game.settings.register('Pendragon', k, v)
+      game.settings.register("Pendragon", k, v);
     }
   }
 
@@ -92,12 +88,12 @@ export class PENDiceSettings extends HandlebarsApplicationMixin(ApplicationV2) {
    *
    * @param event
    */
-  static async onResetDefaults (event) {
-    event.preventDefault()
+  static async onResetDefaults(event) {
+    event.preventDefault();
     for await (const [k, v] of Object.entries(SETTINGS)) {
-      await game.settings.set('Pendragon', k, v?.default)
+      await game.settings.set("Pendragon", k, v?.default);
     }
-    return this.render()
+    return this.render();
   }
 
   /**
@@ -106,12 +102,8 @@ export class PENDiceSettings extends HandlebarsApplicationMixin(ApplicationV2) {
    * @param form
    * @param formData
    */
-  static async formHandler (event, form, formData) {
-    const settings = foundry.utils.expandObject(formData.object)
-    await Promise.all(
-      Object.entries(settings)
-        .map(([key, value]) => game.settings.set('Pendragon', key, value))
-    )
+  static async formHandler(event, form, formData) {
+    const settings = foundry.utils.expandObject(formData.object);
+    await Promise.all(Object.entries(settings).map(([key, value]) => game.settings.set("Pendragon", key, value)));
   }
-
 }

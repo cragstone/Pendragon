@@ -371,7 +371,6 @@ export class PENCheck {
       }
     }
 
-
     //Adjust scores etc based on combat action
     switch (config.action) {
       case "mounted":

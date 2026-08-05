@@ -389,13 +389,13 @@ export class PendragonNPCSheetv2 extends api.HandlebarsApplicationMixin(sheets.A
 
   //Toggle Actor on Double
   static async _onActorToggle(event, target) {
-      //Only perform on double click
-      const prop = target.dataset.property;
-      let checkProp = {};
-      if (prop === "lock") {
-        checkProp = { "system.lock": !this.actor.system.lock };
-      }
-      await this.actor.update(checkProp);
+    //Only perform on double click
+    const prop = target.dataset.property;
+    let checkProp = {};
+    if (prop === "lock") {
+      checkProp = { "system.lock": !this.actor.system.lock };
+    }
+    await this.actor.update(checkProp);
     return;
   }
 

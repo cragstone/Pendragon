@@ -15,11 +15,11 @@ Please note that the base system comes with instructions but no "items" (i.e. sk
 Compendium packs are stored in this repo as editable **YAML source** under `packs/_source/<pack>/`.
 The compiled LevelDB databases in `packs/<pack>/` are **not** committed (git-ignored) and must be built from source.
 
-### Building packs for a release
+### Building packs for a release (i.e. create DB files from YAML files)
 
 Before packaging/zipping the system for a release, compile the source into the LevelDB packs Foundry loads:
 
-Open a command prompt and change the directory to your Foundry Pendragon folder.   It will be something like
+Open a command prompt and change the directory to your Foundry Pendragon folder. It will be something like
 
 ```
 cd /d D:\FoundryVTT\Data\systems\Pendragon
@@ -48,7 +48,7 @@ npm run build:db -- macro
 
 Because the compiled `packs/<pack>/` databases are git-ignored, they will not come from a git checkout — they must be generated at release time and included in the distributed archive.
 
-### Editing pack contents
+### Editing pack contents (i.e. create YAML files from DB files)
 
 Edit the YAML files in `packs/_source/` directly, or edit inside Foundry and extract the changes back to source:
 
@@ -58,3 +58,11 @@ npm run build:json -- macro # extract a single pack
 ```
 
 Commit the resulting YAML under `packs/_source/`; never commit the compiled `packs/<pack>/` databases.
+
+### Format the JS files to consistent format
+
+To ensure the spacing, row lengths etc are consistent run the fmt formatting before preparing the commit to ensure consistency
+
+```
+npm run fmt
+```

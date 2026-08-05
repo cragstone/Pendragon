@@ -22,34 +22,34 @@ export function registerSettings() {
   });
 
   //Combat Settings Button
-  game.settings.registerMenu('Pendragon', 'combatOptions', {
-    name: 'PEN.Settings.combatOptionsHint',
-    label: 'PEN.Settings.combatOptions',
-    icon: 'fas fa-swords',
+  game.settings.registerMenu("Pendragon", "combatOptions", {
+    name: "PEN.Settings.combatOptionsHint",
+    label: "PEN.Settings.combatOptions",
+    icon: "fas fa-swords",
     type: PENCombatSettings,
-    restricted: true
-  })
-  PENCombatSettings.registerSettings()
+    restricted: true,
+  });
+  PENCombatSettings.registerSettings();
 
   //XP Settings Button
-  game.settings.registerMenu('Pendragon', 'xpOptions', {
-    name: 'PEN.Settings.xpOptionsHint',
-    label: 'PEN.Settings.xpOptions',
-    icon: 'fas fa-certificate',
+  game.settings.registerMenu("Pendragon", "xpOptions", {
+    name: "PEN.Settings.xpOptionsHint",
+    label: "PEN.Settings.xpOptions",
+    icon: "fas fa-certificate",
     type: PENXPSettings,
-    restricted: true
-  })
-  PENXPSettings.registerSettings()
+    restricted: true,
+  });
+  PENXPSettings.registerSettings();
 
   //Dice Roll Settings Button
-  game.settings.registerMenu('Pendragon', 'diceOptions', {
-    name: 'PEN.Settings.diceOptionsHint',
-    label: 'PEN.Settings.diceOptions',
-    icon: 'fas fa-dice-d20',
+  game.settings.registerMenu("Pendragon", "diceOptions", {
+    name: "PEN.Settings.diceOptionsHint",
+    label: "PEN.Settings.diceOptions",
+    icon: "fas fa-dice-d20",
     type: PENDiceSettings,
-    restricted: true
-  })
-  PENDiceSettings.registerSettings()
+    restricted: true,
+  });
+  PENDiceSettings.registerSettings();
 
   game.settings.register("Pendragon", "toolTipDelay", {
     name: "PEN.Settings.toolTipDelay",

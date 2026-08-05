@@ -235,7 +235,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   async _prepareContext(options) {
     let context = await super._prepareContext(options);
     context.tabs = this._getTabs(options.parts);
-    context.trackWnd = game.settings.get('Pendragon','trackWnd');
+    context.trackWnd = game.settings.get("Pendragon", "trackWnd");
     context.editable = this.isEditable;
     context.owner = this.document.isOwner;
     context.limited = this.document.limited;
@@ -300,7 +300,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     context.battlePosType = await PENSelectLists.getBattlePos();
     context.fieldPosType = await PENSelectLists.getFieldPos();
     context.sizLabel = game.i18n.localize("PEN.sizInc." + actorData.system.stats.siz.growth);
-    context.solLabel = game.i18n.localize('PEN.'+ this.actor.system.sol);    
+    context.solLabel = game.i18n.localize("PEN." + this.actor.system.sol);
     context.enrichedBackgroundValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       context.system.background,
       {
@@ -681,26 +681,26 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   }
 
   static async _onActorToggle(event, target) {
-      //Only perform on double click
-      const prop = target.dataset.property;
-      let checkProp = {};
+    //Only perform on double click
+    const prop = target.dataset.property;
+    let checkProp = {};
 
-      if (["lock", "heir"].includes(prop)) {
-        checkProp = { [`system.${prop}`]: !this.actor.system[prop] };
-      } else if (["chirurgery", "barren"].includes(prop)) {
-        checkProp = {
-          [`system.status.${prop}`]: !this.actor.system.status[prop],
-        };
-      } else if (["unconscious", "dying", "maddened", "melancholic", "miserable"].includes(prop)) {
-        this.toggleStatus(prop);
-        return;
-      } else if (prop === "debilitated") {
-        this.toggleStatus(prop);
-        checkProp = { "system.status.chirurgery": false };
-      } else {
-        return;
-      }
-      await this.actor.update(checkProp);
+    if (["lock", "heir"].includes(prop)) {
+      checkProp = { [`system.${prop}`]: !this.actor.system[prop] };
+    } else if (["chirurgery", "barren"].includes(prop)) {
+      checkProp = {
+        [`system.status.${prop}`]: !this.actor.system.status[prop],
+      };
+    } else if (["unconscious", "dying", "maddened", "melancholic", "miserable"].includes(prop)) {
+      this.toggleStatus(prop);
+      return;
+    } else if (prop === "debilitated") {
+      this.toggleStatus(prop);
+      checkProp = { "system.status.chirurgery": false };
+    } else {
+      return;
+    }
+    await this.actor.update(checkProp);
     return;
   }
 
@@ -747,7 +747,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     }
 
     if (target.dataset.type === "history") {
-        foundry.utils.setProperty(docData, "system.year", game.time.components.year);
+      foundry.utils.setProperty(docData, "system.year", game.time.components.year);
     }
 
     // Create the embedded document
@@ -1078,11 +1078,11 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
 
   //Does the Character qualify for Knighthood
   static async testKnightly(actor) {
-//    let pass = 0;
+    //    let pass = 0;
     let skills = await actor.items
       .filter((i) => i.type === "skill")
       .filter((j) => j.system.total >= 10 && j.system.weaponType === "")
-      .filter((k) => k.system.categories.find(m=>m==='knightly'));      
+      .filter((k) => k.system.categories.find((m) => m === "knightly"));
     if (skills.length < 2) {
       return false;
     }

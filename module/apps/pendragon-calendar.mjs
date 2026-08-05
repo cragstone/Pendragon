@@ -39,7 +39,7 @@ export class PendragonCalendarWidget extends api.HandlebarsApplicationMixin(api.
   }
 
   #getCurrentDate() {
-    const currentYear = game.time.components.year
+    const currentYear = game.time.components.year;
     const period = yearToPeriodName(currentYear);
     return `Year ${currentYear} - ${period}`;
   }

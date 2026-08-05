@@ -265,7 +265,7 @@ export class PendragonActor extends Actor {
       }
     }
 
-    if (game.settings.get('Pendragon','trackWnd')) {
+    if (game.settings.get("Pendragon", "trackWnd")) {
       systemData.hp.value = systemData.hp.max - systemData.totalWounds - systemData.aggravDam - systemData.deterDam;
     }
     systemData.hp.unconscious = Math.round(systemData.hp.max / 4);
@@ -409,7 +409,7 @@ export class PendragonActor extends Actor {
       }
     }
     //Calculate current HP then check for Near Death
-    if (game.settings.get('Pendragon','trackWnd')) {
+    if (game.settings.get("Pendragon", "trackWnd")) {
       systemData.hp.value = systemData.hp.max - (systemData.woundTotal ? systemData.woundTotal : 0);
     }
     if (glory < 3000) {
@@ -688,21 +688,29 @@ export class PendragonActor extends Actor {
   //Rerender Party Sheet if actor is in it
   async _updateParty(actorData) {
     try {
-      const parties = game.actors.filter(actr=>actr.type==='party' && actr.sheet.rendered && actr.system.members.find(m => m.uuid === actorData.uuid))
+      const parties = game.actors.filter(
+        (actr) =>
+          actr.type === "party" && actr.sheet.rendered && actr.system.members.find((m) => m.uuid === actorData.uuid),
+      );
       for (const party of parties) {
-        await party.render()
+        await party.render();
       }
     } catch (e) {
       // Called before sheet is ready
     }
   }
-  
+
   //Rerender Battle Sheet if actor is in it
   async _updateBattle(actorData) {
     try {
-      const parties = game.actors.filter(actr=>actr.type==='battle' && actr.sheet.rendered && actr.system.encounters.find(m => m.uuid === actorData.uuid))
+      const parties = game.actors.filter(
+        (actr) =>
+          actr.type === "battle" &&
+          actr.sheet.rendered &&
+          actr.system.encounters.find((m) => m.uuid === actorData.uuid),
+      );
       for (const party of parties) {
-        await party.render()
+        await party.render();
       }
     } catch (e) {
       // Called before sheet is ready

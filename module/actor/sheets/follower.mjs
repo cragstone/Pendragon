@@ -343,13 +343,13 @@ export class PendragonFollowerSheet extends api.HandlebarsApplicationMixin(sheet
 
   //Toggle Actor
   static async _onActorToggle(event, target) {
-      //Only perform on double click
-      const prop = target.dataset.property;
-      let checkProp = {};
-      if (["lock", "view", "heir", "barren"].includes(prop)) {
-        checkProp = { [`system.${prop}`]: !this.actor.system[prop] };
-      }
-      await this.actor.update(checkProp);
+    //Only perform on double click
+    const prop = target.dataset.property;
+    let checkProp = {};
+    if (["lock", "view", "heir", "barren"].includes(prop)) {
+      checkProp = { [`system.${prop}`]: !this.actor.system[prop] };
+    }
+    await this.actor.update(checkProp);
     return;
   }
 

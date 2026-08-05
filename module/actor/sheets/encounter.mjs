@@ -184,16 +184,16 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(shee
   }
 
   static async _onToggleActor(event, target) {
-      //Only perform on double click
-      event.stopPropagation(); // Don't trigger other events
-      let checkProp = {};
-      let prop = target.dataset.property;
-      if (["lock", "opportunity", "used"].includes(prop)) {
-        checkProp = { [`system.${prop}`]: !this.actor.system[prop] };
-      } else {
-        return;
-      }
-      this.actor.update(checkProp);
+    //Only perform on double click
+    event.stopPropagation(); // Don't trigger other events
+    let checkProp = {};
+    let prop = target.dataset.property;
+    if (["lock", "opportunity", "used"].includes(prop)) {
+      checkProp = { [`system.${prop}`]: !this.actor.system[prop] };
+    } else {
+      return;
+    }
+    this.actor.update(checkProp);
   }
 
   //Delete an NPC from encounter
@@ -236,12 +236,8 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(shee
       return;
     }
 
-    // Get the actor by UUID
-    //let actor = await fromUuid(itemId);
-
     let actor = (await game.system.api.pid.fromPIDBest({ pid: pid }))[0];
     if (!actor) {
-      //ui.notifications.error(game.i18n.format('PEN.actorNotFound',{ type: itemId }));
       ui.notifications.error(game.i18n.format("PEN.actorNotFound", { type: pid }));
       return;
     }
@@ -286,6 +282,12 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(shee
         actorLink: false,
         texture: {
           src: actor.prototypeToken.texture.src,
+        },
+        ring: {
+          enabled: actor.prototypeToken.ring.enabled,
+          subject: {
+            texture: actor.prototypeToken.ring.subject.texture,
+          },
         },
       };
       newTokens.push(tokenData);

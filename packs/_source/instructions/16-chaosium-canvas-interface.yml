@@ -13,10 +13,10 @@ pages:
     text:
       format: 1
       content: >-
-        <p>What is the Chaosium Canvas Interface?<br /><br />The Chaosium Canvas
+        <p>What is the Chaosium Canvas Interface?<br><br>The Chaosium Canvas
         Interface was designed for the Call of Cthulhu system, but thanks to
-        James B (who created the CCI) it has been ported it over to Rivers of
-        London. James has kindly simplified the user interface so it needs less
+        James B (who created the CCI) it has been ported it over to Pendragon.
+        James has kindly simplified the user interface so it needs less
         technical know-how to set up the options, but it does mean it may be
         slightly more limiting than the Call of Cthulhu version.</p><p
         class="MsoNormal">In Foundry you can create map notes and tiles, and
@@ -25,25 +25,25 @@ pages:
         "token" layer to these layers during gameplay. CCI lets you, with some
         setup, control tiles from the normal 'token' layer.</p><p
         class="MsoNormal">It also has some other functions that the inbuilt
-        Foundry Behaviours layer doesn't have.<br /><br />The current options
-        are:</p><ul style="margin-top:0cm"><li class="MsoNormal"
-        style="mso-list:l0 level1 lfo1;tab-stops:list
-        36.0pt"><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.YIOXEE3VeZemUzVc.JournalEntryPage.eK6nvn2IndkckRJK]{CCI:
-        Open Document}</p></li><li class="MsoNormal" style="mso-list:l0 level1
-        lfo1;tab-stops:list
-        36.0pt"><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.YIOXEE3VeZemUzVc.JournalEntryPage.ObOSbX8C45S5H1rV]{CCI:
-        Drawing Toggle}</p></li><li class="MsoNormal" style="mso-list:l0 level1
-        lfo1;tab-stops:list
-        36.0pt"><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.YIOXEE3VeZemUzVc.JournalEntryPage.dHWBhwsRzdDuc2N8]{CCI:
-        Map Pin Toggle}</p></li><li class="MsoNormal" style="mso-list:l0 level1
-        lfo1;tab-stops:list
-        36.0pt"><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.YIOXEE3VeZemUzVc.JournalEntryPage.47TGEJqzg1JbeUip]{CCI:
-        Tile Toggle}</p></li><li class="MsoNormal" style="mso-list:l0 level1
-        lfo1;tab-stops:list
-        36.0pt"><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.YIOXEE3VeZemUzVc.JournalEntryPage.xQuMWZdTuze0V2sh]{CCI:
-        Play Sound}</p></li><li class="MsoNormal" style="mso-list:l0 level1
-        lfo1;tab-stops:list
-        36.0pt"><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.YIOXEE3VeZemUzVc.JournalEntryPage.ZUyOPBM4Ntq4xdE2]{CCI:
+        Foundry Behaviours layer doesn't have.<br><br>The current options
+        are:</p><ul style="margin-top:0cm"><li style="mso-list:l0 level1
+        lfo1;tab-stops:list 36.0pt"
+        class="MsoNormal"><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.YIOXEE3VeZemUzVc.JournalEntryPage.eK6nvn2IndkckRJK]{CCI:
+        Open Document}</p></li><li style="mso-list:l0 level1 lfo1;tab-stops:list
+        36.0pt"
+        class="MsoNormal"><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.YIOXEE3VeZemUzVc.JournalEntryPage.ObOSbX8C45S5H1rV]{CCI:
+        Drawing Toggle}</p></li><li style="mso-list:l0 level1
+        lfo1;tab-stops:list 36.0pt"
+        class="MsoNormal"><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.YIOXEE3VeZemUzVc.JournalEntryPage.dHWBhwsRzdDuc2N8]{CCI:
+        Map Pin Toggle}</p></li><li style="mso-list:l0 level1
+        lfo1;tab-stops:list 36.0pt"
+        class="MsoNormal"><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.YIOXEE3VeZemUzVc.JournalEntryPage.47TGEJqzg1JbeUip]{CCI:
+        Tile Toggle}</p></li><li style="mso-list:l0 level1 lfo1;tab-stops:list
+        36.0pt"
+        class="MsoNormal"><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.YIOXEE3VeZemUzVc.JournalEntryPage.xQuMWZdTuze0V2sh]{CCI:
+        Play Sound}</p></li><li style="mso-list:l0 level1 lfo1;tab-stops:list
+        36.0pt"
+        class="MsoNormal"><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.YIOXEE3VeZemUzVc.JournalEntryPage.ZUyOPBM4Ntq4xdE2]{CCI:
         To Scene}</p></li></ul><p class="MsoNormal">When setting up regions it
         is often useful to have some extra tiles set up - for example a red eye
         tile and a green eye tile plus say the picture of a statue. Set a
@@ -62,11 +62,11 @@ pages:
     _stats:
       duplicateSource: null
       exportSource: null
-      coreVersion: '13.350'
+      coreVersion: '14.365'
       systemId: Pendragon
       systemVersion: 13.1.40
       createdTime: 1761023334245
-      modifiedTime: 1761023522952
+      modifiedTime: 1785910635571
       lastModifiedBy: pendragonBuilder
     _key: '!journal.pages!YIOXEE3VeZemUzVc.gBj2YxqJaneb1F9r'
   - sort: 200000
