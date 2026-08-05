@@ -6,10 +6,13 @@
     "fmt:check": "oxfmt --check"
   },
   "devDependencies": {
-    "@foundryvtt/foundryvtt-cli": "^1.0.0-rc.4",
+    "@foundryvtt/foundryvtt-cli": "^3.0.0",
     "fancy-log": "^2.0.0",
-    "js-yaml": "^4.1.0",
-    "oxfmt": "^0.53.0",
-    "yargs": "^17.7.2"
+    "js-yaml": "^5.2.0",
+    "oxfmt": "^0.62.0",
+    "yargs": "^18.1.0"
+  },
+  "allowScripts": {
+    "classic-level": false
   }
 }
