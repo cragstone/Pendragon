@@ -167,7 +167,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
       tabs: this._prepareTabs("primary"),
     };
     // now organize the items belonging to the character
-    this._prepareItems(sheetData);
+    await this._prepareItems(sheetData);
     return sheetData;
   }
 
