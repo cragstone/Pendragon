@@ -257,7 +257,7 @@ export class CombatAction {
       options.outcome = CombatOutcome.WIN;
       options.outcomeLabel = game.i18n.localize("PEN.comRollW");
     } else {
-      options.outcome = CombatAction.LOSE;
+      options.outcome = CombatOutcome.LOSE;
       options.outcomeLabel = game.i18n.localize("PEN.comRollL");
     }
   }

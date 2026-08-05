@@ -15,7 +15,7 @@
     <ul class="conditions effects">
     {{#each effects}}
       <li data-effect-id="{{ id }}">
-        <span>{{ name }} {{ source }}</span>
+        <span>{{ name }} {{#if origin}}{{ sourceName }}{{/if}}</span>
         <button class="inline-control icon fa-regular fa-pen-to-square" data-action="editEffect"></button>
         <button class="inline-control icon fa-regular fa-trash" data-action="removeEffect"></button>
       </li>

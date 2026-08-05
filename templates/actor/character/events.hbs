@@ -6,18 +6,24 @@
       <span class="pill">Died {{system.died}}</span>
     {{/if}}
   </div>
-  <table>
+  <table class="events">
     <tbody>
       <tr>
         <th>{{localize 'PEN.year'}}</th>
         <th>{{localize 'PEN.event'}}</th>
+        <th></th>
         <th>{{localize 'PEN.glory'}}</th>
       </tr>
       {{#each history as |historical key|}}
-      <tr>
+      <tr data-itemid="{{historical._id}}">
         <td>{{historical.system.year}}</td>
-        <td>{{historical.name}}{{#if historical.label}}: {{historical.label}}{{/if}}</td>
-        <td class="right">{{#if historical.system.glory}}{{formatNumber historical.system.glory}}{{/if}}</td>
+        <td>{{historical.name}}{{#if historical.system.label}}: {{historical.system.label}}{{/if}}</td>
+        <td>
+        <button class="inline-control icon fa-regular fa-pen-to-square" data-action="editItem"></button>
+        </td>
+        <td class="right">
+        {{#if historical.system.glory}}{{formatNumber historical.system.glory}}{{/if}}
+        </td>
       </tr>
       {{/each}}
     </tbody>
