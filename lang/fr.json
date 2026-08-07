@@ -886,10 +886,9 @@
       "toolTipDelayHint": " Délai en  millisecondes avant que l’infobulle ne s’affiche. 0 pour jamais",
       "useRelation": "Autoriser les relations",
       "useRelationHint": "Autoriser le MJ à créer des relations sur les personnages",
-      "xpCheck": "Test d'XP",
+      "xpCheck": "Coche d'XP"
       "xpOptions": "Options de vérification XP",
       "xpOptionsHint": "Changer les paramètres pour les vérifications d'XP"
-      "xpCheck": "Coche d'XP"
     },
     "resultLevel": {
       "0": "Échec critique",
