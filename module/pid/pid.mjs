@@ -4,6 +4,7 @@
 // 10 = Start Set
 // 15 = Core Rulebook
 // 20 = GM Guide
+// 25 = Noble Handbook
 
 /* global Actor, Card, CONFIG, foundry, game, Item, JournalEntry, Macro, Playlist, RollTable, Scene, SceneNavigation, ui */
 import { PENUtilities } from "../apps/utilities.mjs";

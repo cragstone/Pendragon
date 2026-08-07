@@ -196,9 +196,9 @@ Hooks.once("ready", async function () {
         await a.update({ "system.status.train": false });
       }
     }
-  if (game.time.components.year === 0) {
-    await game.time.set({year: 510});
-  }    
+    if (game.time.components.year === 0) {
+      await game.time.set({ year: 510 });
+    }
   }
 
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to

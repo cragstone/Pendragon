@@ -76,14 +76,13 @@ export class PENCombat {
     });
 
     //If not tracking Wounds then just apply Healing Rate to HP value
-    if (!game.settings.get('Pendragon','trackWnd')){
-      let newHP = Math.min(this.actor.system.hp.value + healing, this.actor.system.hp.max)
+    if (!game.settings.get("Pendragon", "trackWnd")) {
+      let newHP = Math.min(this.actor.system.hp.value + healing, this.actor.system.hp.max);
       await this.actor.update({
-        "system.hp.value": newHP
+        "system.hp.value": newHP,
       });
-      return
+      return;
     }
-
 
     //Put wounds in array and sort lowest to highest damage
     let wounds = [];
@@ -119,7 +118,7 @@ export class PENCombat {
       await this.actor.updateEmbeddedDocuments("Item", updatedWounds);
     }
     await PENCombat.cleanseWounds(this.actor);
-    return
+    return;
   }
 
   //
@@ -224,7 +223,6 @@ export class PENCombat {
         return;
     }
 
-
     let wndName = game.i18n.localize("PEN.minor");
     if (damAmount >= this.actor.system.hp.max) {
       wndName = game.i18n.localize("PEN.mortal");
@@ -295,7 +293,7 @@ export class PENCombat {
       unconscious = true;
       dying = true;
     }
-    let checkProp = { "system.created": true};
+    let checkProp = { "system.created": true };
     await item.update(checkProp);
 
     if (unconscious) {

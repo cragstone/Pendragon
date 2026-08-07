@@ -5,19 +5,24 @@ Hooks.on("ready", () => {
   if (game.scenes.filter((doc) => doc.id !== "NUEDEFAULTSCENE0").length === 0) {
     Scene.create({
       name: "Default",
-      height: 2061,
-      width: 3350,
       active: true,
-      background: { src: "systems/Pendragon/assets/knight_pendragon.webp" },
-      foregroundElevation: 4,
+      height: 1815,
+      width: 3000,
+      levels: [
+        {
+          name: "Default",
+          background: { src: "systems/Pendragon/assets/knight_pendragon.webp" },
+        },
+      ],
+      foregroundElevation: 20,
       thumb: "systems/Pendragon/assets/knight_pendragon.webp",
       grid: { type: 0 },
       tokenVision: false,
       fog: { exploration: false },
       initial: {
-        scale: 0.5,
-        x: 2947,
-        y: 1572,
+        scale: 0.6,
+        x: 2513,
+        y: 1390,
       },
     });
   }

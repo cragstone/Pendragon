@@ -251,6 +251,7 @@ div.pen-adventure-entry {
 
     ol.p6e {
       padding: 0 0 0 25px;
+      margin: 0px;
     }
 
     .redbox {
@@ -328,21 +329,48 @@ div.pen-adventure-entry {
       background-color: rgba(0, 0, 0, 0);
       border-bottom: none;
       border-top: none;
-      &.fixed{
+      &.fixed {
         table-layout: fixed;
         width: 100%;
         td.twenty {
-          min-width:90px;
-          max-width:90px;          
+          min-width: 90px;
+          max-width: 90px;
+        }
+        td.forty {
+          min-width: 180px;
+          max-width: 180px;
+        }
+        td.sixty {
+          min-width: 270px;
+          max-width: 270px;
         }
         td.eighty {
           min-width: 500px;
-          max-width: 500px;          
+          max-width: 500px;
         }
         p {
-        padding-right: 5px;
+          padding-right: 5px;
+        }
+        td.tableMainRow {
+          background-color: #ede6dac7;
+        }
+        td.paganLight {
+          background-color: rgba(162, 201, 162, 0.25);
+        }
+        td.paganDark {
+          background-color: rgba(140, 169, 140, 0.5);
+        }
+        td.christianLight {
+          background-color: #ede6dac7;
+        }
+        td.christianDark {
+          background-color: rgba(215, 162, 162, 0.4);
+        }
       }
-      }
+    }
+
+    table.festival tbody tr:nth-child(even) {
+      background-color: transparent;
     }
 
     table td {
@@ -354,19 +382,22 @@ div.pen-adventure-entry {
       }
     }
 
-    table tbody tr:nth-child(odd) {
-      background-color: var(--pss-table-row-colour-odd);
+    table:not(.festival) tbody tr:nth-child(odd) {
+      background-color: #ede6dac7;
     }
 
-    table tbody tr:first-child {
-      background-color: rgb(50, 25, 0);
-      color: cornsilk;
-      text-transform: uppercase;
-      border-top: 1px solid black;
+    table:not(.festival),
+    table.festival {
+      tbody tr:first-child {
+        background-color: rgb(50, 25, 0);
+        color: cornsilk;
+        text-transform: uppercase;
+        border-top: 1px solid black;
+      }
     }
 
-    table tbody tr:nth-child(even) {
-      background-color: var(--pss-table-row-colour-even);
+    table:not(.festival) tbody tr:nth-child(even) {
+      background-color: rgb(211 201 190);
     }
 
     table tbody tr:last-child {

@@ -110,7 +110,7 @@ export class PENRollType {
 
   //Start a Passion Check
   static async _onPassionCheck(event) {
-    let shiftKey = event?.shiftKey;    
+    let shiftKey = event?.shiftKey;
     let ctrlKey = isCtrlKey(event ?? false);
     let cardType = CardType.UNOPPOSED;
     let skillId = event.currentTarget.dataset.itemid;
@@ -141,7 +141,7 @@ export class PENRollType {
   //Start a Glory Check
   static async _onGloryCheck(event) {
     let ctrlKey = isCtrlKey(event ?? false);
-    let shiftKey = event?.shiftKey;        
+    let shiftKey = event?.shiftKey;
     let cardType = CardType.UNOPPOSED;
     if (event.altKey) {
       cardType = CardType.OPPOSED;
@@ -163,7 +163,7 @@ export class PENRollType {
   //Start a Move Check
   static async _onMoveCheck(event) {
     let ctrlKey = isCtrlKey(event ?? false);
-    let shiftKey = event?.shiftKey;        
+    let shiftKey = event?.shiftKey;
     let cardType = CardType.UNOPPOSED;
     let rollType = RollType.MOVE;
     if (event.currentTarget.dataset.property === "altmove") {
@@ -189,7 +189,7 @@ export class PENRollType {
   //Start a Squire Check
   static async _onSquireCheck(event) {
     let ctrlKey = isCtrlKey(event ?? false);
-    let shiftKey = event?.shiftKey;    
+    let shiftKey = event?.shiftKey;
     let subType = event.currentTarget.dataset.type;
     let cardType = CardType.UNOPPOSED;
     let itemId = event.currentTarget.dataset.itemid;
@@ -215,7 +215,7 @@ export class PENRollType {
   //Start a Trait Check
   static async _onTraitCheck(event) {
     let ctrlKey = isCtrlKey(event ?? false);
-    let shiftKey = event?.shiftKey;        
+    let shiftKey = event?.shiftKey;
     let cardType = "NO";
     let subType = event.currentTarget.dataset.type;
     let skillId = event.currentTarget.dataset.itemid;
@@ -241,7 +241,7 @@ export class PENRollType {
   //Start a Decision Trait Check
   static async _onDecisionCheck(event) {
     let cardType = "NO";
-    let shiftKey = event?.shiftKey;        
+    let shiftKey = event?.shiftKey;
     let skillId = event.currentTarget.dataset.itemid;
     if (game.settings.get("Pendragon", "switchShift")) {
       shiftKey = !event.shiftKey;
@@ -259,7 +259,7 @@ export class PENRollType {
   //Start a Damage Roll
   static async _onDamageRoll(event) {
     let damCrit = false;
-    let shiftKey = event?.shiftKey;        
+    let shiftKey = event?.shiftKey;
     if (event.altKey) {
       damCrit = true;
     }
@@ -279,7 +279,7 @@ export class PENRollType {
   //Start a Combat Check
   static async _onCombatCheck(event) {
     let cardType = "CO";
-    let shiftKey = event?.shiftKey;        
+    let shiftKey = event?.shiftKey;
     let itemId = event.currentTarget.dataset.itemid;
     if (game.settings.get("Pendragon", "switchShift")) {
       shiftKey = !event.shiftKey;

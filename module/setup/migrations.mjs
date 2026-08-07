@@ -37,7 +37,7 @@ export async function migrateWorld({ bypassVersionCheck = false } = {}) {
     await classIdealUpdate();
   }
 
- //Migrate if current system is less that Version 14.5
+  //Migrate if current system is less that Version 14.5
   if (foundry.utils.isNewerVersion("14.5", currentVersion ?? "0")) {
     await gameTimeUpdate();
   }
@@ -320,8 +320,8 @@ export async function classIdealUpdate() {
 export async function gameTimeUpdate() {
   console.log("Migration to 14.5 started");
 
-  let year = game.settings.get('Pendragon','gameYear')
-    await game.time.set({year:year})
-    await game.Pendragon.ui?.calendar.render({ force: true })
-  return
-}  
+  let year = game.settings.get("Pendragon", "gameYear");
+  await game.time.set({ year: year });
+  await game.Pendragon.ui?.calendar.render({ force: true });
+  return;
+}

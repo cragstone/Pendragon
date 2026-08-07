@@ -527,7 +527,7 @@ body.theme-dark .application.Pendragon.sheet,
   margin-bottom: 0px;
 }
 
-.Pendragon .trackWnd-grid{
+.Pendragon .trackWnd-grid {
   display: grid;
   grid-template-columns: 45px 10px 40px;
   grid-template-rows: 23px;
@@ -1306,7 +1306,7 @@ body.theme-dark .application.Pendragon.sheet,
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
-  border-bottom: 1px solid darkred;  
+  border-bottom: 1px solid darkred;
   border-radius: 0px;
   background: none;
   box-shadow: none;
@@ -1843,11 +1843,10 @@ body.theme-dark .application.Pendragon.sheet,
   margin: 0;
   gap: 0.5rem;
   padding-bottom: 10px;
-
 }
 
-.pen .standard-form .form-group>label,
-.standard-form .form-group>span.label {
+.pen .standard-form .form-group > label,
+.standard-form .form-group > span.label {
   flex: 1;
   font-weight: bold;
   line-height: 20px;
@@ -1855,4 +1854,48 @@ body.theme-dark .application.Pendragon.sheet,
 
 .pen .standard-form .form-group .settingNote {
   flex: 0 0 100%;
+}
+
+.Pendragon .npc-notes-table {
+  table {
+    display: block;
+    overflow-x: auto;
+    background-color: rgba(0, 0, 0, 0);
+    border-bottom: none;
+    border-top: none;
+    table-layout: fixed;
+    max-width: 325px;
+    p {
+      padding-right: 5px;
+    }
+    font-size: 14px;
+  }
+
+  table td {
+    padding: 0px 0px 0px 5px;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    &.merged {
+      vertical-align: middle;
+    }
+  }
+
+  table tbody tr:nth-child(odd) {
+    background-color: var(--pss-table-row-colour-odd);
+  }
+
+  table tbody tr:first-child {
+    background-color: rgb(50, 25, 0);
+    color: cornsilk;
+    text-transform: uppercase;
+    border-top: 1px solid black;
+  }
+
+  table tbody tr:nth-child(even) {
+    background-color: var(--pss-table-row-colour-even);
+  }
+
+  table tbody tr:last-child {
+    border-bottom: 1px solid black;
+  }
 }

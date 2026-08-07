@@ -205,6 +205,7 @@
     "decrepitude": "Vieillesse",
     "decrepitudeDeath": "Vous êtes mort de vieillesse",
     "decrepitudeLive": "Vous survivez un an de plus",
+    "decYear": "Réduis l'année du jeu de 1",
     "degraded": "Degradé",
     "degradedHint": "A subi 1 ou plusieurs années de niveau de vie médiocre ou pauvre",
     "delete": "Double-cliquez pour supprimer",
@@ -364,6 +365,7 @@
     "inclClass": "Comprend la classe de départ",
     "incomplete": "Incomplet",
     "increased": "Augmenté",
+    "incYear": "Augmente l'année du jeu de 1",
     "inherited": "Hérité",
     "inputStats": "Choisir les valeurs des Caractéristiques",
     "inputTraits": "Modifier les valeurs de {name} ",
@@ -858,6 +860,8 @@
       "critAdj": "Modificateur bonus de Critique",
       "critAdjHint": "Réduire les bonus de Critique lorsque toutes les parties ont un bonus",
       "diceRolls": "Lancés de dé",
+      "diceOptions": "Options de lancer de dés",
+      "diceOptionsHint": "Changer les paramètres pour les lancers de dés",
       "fumbleXP": "Fumble XP",
       "fumbleXPHint": "Accorde des vérifications XP pour les Fumbles si Automatiser XP est activé.",
       "gameYear": "Année en Jeu",
@@ -882,6 +886,9 @@
       "toolTipDelayHint": " Délai en  millisecondes avant que l’infobulle ne s’affiche. 0 pour jamais",
       "useRelation": "Autoriser les relations",
       "useRelationHint": "Autoriser le MJ à créer des relations sur les personnages",
+      "xpCheck": "Test d'XP",
+      "xpOptions": "Options de vérification XP",
+      "xpOptionsHint": "Changer les paramètres pour les vérifications d'XP"
       "xpCheck": "Coche d'XP"
     },
     "resultLevel": {

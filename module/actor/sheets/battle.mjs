@@ -235,20 +235,19 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
     await this.actor.update({
       "system.resultsView": !this.actor.system.resultsView,
     });
-
   }
 
   static async _onToggleActor(event, target) {
-      //Only perform on double click
-      event.stopPropagation(); // Don't trigger other events
-      let checkProp = {};
-      let prop = target.dataset.property;
-      if (["lock"].includes(prop)) {
-        checkProp = { [`system.${prop}`]: !this.actor.system[prop] };
-      } else {
-        return;
-      }
-      this.actor.update(checkProp);
+    //Only perform on double click
+    event.stopPropagation(); // Don't trigger other events
+    let checkProp = {};
+    let prop = target.dataset.property;
+    if (["lock"].includes(prop)) {
+      checkProp = { [`system.${prop}`]: !this.actor.system[prop] };
+    } else {
+      return;
+    }
+    this.actor.update(checkProp);
   }
 
   //Delete an Encounter or Knight from battle
@@ -330,16 +329,16 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
 
   //Reset Battle Posture for all Knights
   static async _resetPosture(event, target) {
-      //Only perform on double click
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      const membersCollection = this.actor.toObject().system.knights;
-      for (let actr of membersCollection) {
-        let knight = await game.actors.get(actr);
-        if (knight) {
-          await knight.update({ "system.battlePos": 0 });
-        }
+    //Only perform on double click
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const membersCollection = this.actor.toObject().system.knights;
+    for (let actr of membersCollection) {
+      let knight = await game.actors.get(actr);
+      if (knight) {
+        await knight.update({ "system.battlePos": 0 });
       }
+    }
   }
 
   //Battle Intensity Roll

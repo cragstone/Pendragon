@@ -37,7 +37,7 @@ export class PENWinter {
         await Item.updateDocuments(squires, { parent: actr });
       }
       //Update the game year by one
-      await PENWinter.changeYear(1)
+      await PENWinter.changeYear(1);
 
       ui.notifications.warn(game.i18n.localize("PEN.winterPhaseEnd"));
       return;
@@ -1938,12 +1938,13 @@ export class PENWinter {
 
   //Change the game year
   static async changeYear(value) {
-      //Update the game year by one
-      if (!value) {return}
-      const year = game.time.components.year + Number(value)
-      await game.time.set({year: year});
-      await game.Pendragon.ui?.calendar.updateDate();
-      return
+    //Update the game year by one
+    if (!value) {
+      return;
+    }
+    const year = game.time.components.year + Number(value);
+    await game.time.set({ year: year });
+    await game.Pendragon.ui?.calendar.updateDate();
+    return;
   }
-
 }

@@ -73,18 +73,47 @@ flags: {}
 _stats:
   duplicateSource: null
   exportSource: null
-  coreVersion: '14.364'
+  coreVersion: '14.365'
   systemId: Pendragon
-  systemVersion: 13.1.56
-  createdTime: 1772041493907
-  modifiedTime: 1772187580932
+  systemVersion: '14.6'
+  createdTime: 1785910615841
+  modifiedTime: 1785910615841
   lastModifiedBy: pendragonBuilder
 navName: ''
 _id: lj6Clvg2O6aOcjzJ
 active: false
 sort: 0
 levels:
-  - defaultLevel0000
+  - _id: defaultLevel0000
+    name: Level
+    background:
+      src: systems/Pendragon/assets/battle_field.webp
+      color: '#999999'
+      tint: '#ffffff'
+      alphaThreshold: 0.75
+    elevation:
+      bottom: 0
+      top: 20
+    foreground:
+      src: null
+      tint: '#ffffff'
+      alphaThreshold: 0.75
+    fog:
+      src: null
+    textures:
+      anchorX: 0.5
+      anchorY: 0.5
+      offsetX: 0
+      offsetY: 0
+      fit: fill
+      scaleX: 1
+      scaleY: 1
+      rotation: 0
+    visibility:
+      levels: []
+    sort: 0
+    flags: {}
+    _key: '!scenes.levels!lj6Clvg2O6aOcjzJ.defaultLevel0000'
 shiftX: 0
 shiftY: 0
 initialLevel: defaultLevel0000
@@ -92,5 +121,5 @@ transition:
   type: null
   duration: 1500
   activeOnly: false
-templates: []
 _key: '!scenes!lj6Clvg2O6aOcjzJ'
+templates: []
