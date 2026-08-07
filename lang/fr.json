@@ -130,7 +130,7 @@
     "charGender": "Genre du personnage",
     "charHome": "Indiquez la résidence du personnage",
     "charLord": "Indiquez le Seigneur Suzerain du personnage",
-    "charName": "Nom du personnage", 
+    "charName": "Nom du personnage",
     "checkBonus": "Bonus pour ce jet",
     "checkBonusHint": "Saisir les bonus en positif et les malus en négatif",
     "checks": "Tests",
@@ -441,8 +441,6 @@
     "moraleMin": "Moral minimum",
     "mother": "Mère",
     "money": "Argent £/d",
-    "moraleLoss": "Perte de Moral",
-    "moraleMin": "Moral Minimum",
     "mortal": "Mortelle",
     "motherDies": "Mère morte en couche",
     "motherBarren": "Femme stérile",
@@ -886,7 +884,7 @@
       "toolTipDelayHint": " Délai en  millisecondes avant que l’infobulle ne s’affiche. 0 pour jamais",
       "useRelation": "Autoriser les relations",
       "useRelationHint": "Autoriser le MJ à créer des relations sur les personnages",
-      "xpCheck": "Coche d'XP"
+      "xpCheck": "Coche d'XP",
       "xpOptions": "Options de vérification XP",
       "xpOptionsHint": "Changer les paramètres pour les vérifications d'XP"
     },

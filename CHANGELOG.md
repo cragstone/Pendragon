@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 14.7
+
+- French language pack updated to more align with the official French translation of Pendtagon (Tontione)
+- Adding rolls to an existing open Oppoosed/Combat card should now add it to the newest open card (not the oldest) (MrPrimate)
+- Oppossed/Combat cards older than 24 hours will be closed automatically (Mr Primate)
+- New worlds should once again have the correct background image appearing
+- The system battle scene should now have the correct background image
+- Adding tokens to a scene via the Encounter card should now add dynamic rings/relevant artwork
+- CCI Instructions noew refer to Pendragon, not Rivers of London
+
 ## 14.6
 
 - Fix for bug stopping skill rolls etc working. Sorry about that
