@@ -158,31 +158,28 @@ export class OPCard {
 
   //Check to see if there is an open card that matches the cardType that's not more than a day old
   static async checkNewMsg(config) {
-    let messages = ui.chat.collection.filter((message) => {
-      if (
-        config.cardType === message.getFlag("Pendragon", "cardType") &&
-        message.getFlag("Pendragon", "state") !== "closed"
-      ) {
-        return true;
-      }
-    });
+    //Newest first so a roll always joins the most recent open card
+    let messages = ui.chat.collection
+      .filter((message) => {
+        return (
+          config.cardType === message.getFlag("Pendragon", "cardType") &&
+          message.getFlag("Pendragon", "state") !== "closed"
+        );
+      })
+      .sort((a, b) => b.timestamp - a.timestamp);
 
-    if (messages.length) {
-      // Old messages can't be used if message is more than a day old mark it as resolved
-      const timestamp = new Date(messages[0].timestamp);
-      const now = new Date();
-      const timeDiffSec = (now - timestamp) / 1000;
+    // Old messages can't be used - if a message is more than a day old mark it as resolved and keep looking
+    const now = new Date();
+    for (let message of messages) {
+      const timeDiffSec = (now - new Date(message.timestamp)) / 1000;
       if (60 * 60 * 24 < timeDiffSec) {
-        await messages[0].setFlag("Pendragon", "state", "closed");
-        messages = [];
+        await message.setFlag("Pendragon", "state", "closed");
+        continue;
       }
+      return message.id;
     }
 
-    if (!messages.length) {
-      return false;
-    } else {
-      return messages[0].id;
-    }
+    return false;
   }
 
   static async OPClose(config) {
