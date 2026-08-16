@@ -3,6 +3,7 @@ import { PENCharCreate } from "../apps/charCreate.mjs";
 import { PENRollType } from "../cards/rollType.mjs";
 import { PendragonBattleSheet } from "../actor/sheets/battle.mjs";
 import { ActorImport } from "../apps/actor-import.mjs";
+import { PENUtilities } from "../apps/utilities.mjs";
 
 export class PENLayer extends foundry.canvas.layers.InteractionLayer {
   constructor() {
@@ -51,9 +52,20 @@ export class PENLayer extends foundry.canvas.layers.InteractionLayer {
           button: true,
           onChange: async (event, toggle) => {},
         },
+        gloryAward: {
+          name: "gloryAward",
+          order: 1,
+          icon: "fas fa-trophy",
+          title: "PEN.gloryAward",
+          button: true,
+          visible: true,
+          onChange: async (event, active) => {
+            if (active) await PENUtilities.gloryAward(event);
+          },
+        },
         winter: {
           name: "winter",
-          order: 1,
+          order: 2,
           icon: "fas fa-snowflake",
           title: "PEN.winterPhase",
           active: game.settings.get("Pendragon", "winter"),
@@ -65,7 +77,7 @@ export class PENLayer extends foundry.canvas.layers.InteractionLayer {
         },
         development: {
           name: "development",
-          order: 2,
+          order: 3,
           icon: "fas fa-helmet-battle",
           title: "PEN.developmentPhase",
           active: game.settings.get("Pendragon", "development"),
@@ -76,7 +88,7 @@ export class PENLayer extends foundry.canvas.layers.InteractionLayer {
         },
         creation: {
           name: "creation",
-          order: 3,
+          order: 4,
           icon: "fas fa-wand-magic-sparkles",
           title: "PEN.creation",
           active: game.settings.get("Pendragon", "creation"),
@@ -87,7 +99,7 @@ export class PENLayer extends foundry.canvas.layers.InteractionLayer {
         },
         gmRoll: {
           name: "gmRoll",
-          order: 4,
+          order: 5,
           icon: "fas fa-dice-d20",
           title: "PEN.gmRoll",
           button: true,
@@ -98,7 +110,7 @@ export class PENLayer extends foundry.canvas.layers.InteractionLayer {
         },
         resetEnc: {
           name: "resetEnc",
-          order: 5,
+          order: 6,
           icon: "fas fa-flag-pennant",
           title: "PEN.resetEnc",
           button: true,
@@ -109,7 +121,7 @@ export class PENLayer extends foundry.canvas.layers.InteractionLayer {
         },
         incYear: {
           name: "incYear",
-          order: 6,
+          order: 7,
           icon: "fas fa-arrow-up",
           title: "PEN.incYear",
           button: true,
@@ -120,7 +132,7 @@ export class PENLayer extends foundry.canvas.layers.InteractionLayer {
         },
         decYear: {
           name: "decYear",
-          order: 7,
+          order: 8,
           icon: "fas fa-arrow-down",
           title: "PEN.decYear",
           button: true,

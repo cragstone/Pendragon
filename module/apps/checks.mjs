@@ -375,7 +375,7 @@ export class PENCheck {
     switch (config.action) {
       case "mounted":
         let horsemanship = (
-          await particActor.items.filter((itm) => itm.flags.Pendragon.pidFlag.id === "i.skill.horsemanship")
+          await particActor.items.filter((itm) => itm.flags.Pendragon?.pidFlag?.id === "i.skill.horsemanship")
         )[0];
         if (!horsemanship) {
           if (particActor.type != "npc") {
@@ -388,7 +388,9 @@ export class PENCheck {
         }
         break;
       case "charge":
-        let charge = (await particActor.items.filter((itm) => itm.flags.Pendragon.pidFlag.id === "i.skill.charge"))[0];
+        let charge = (
+          await particActor.items.filter((itm) => itm.flags.Pendragon?.pidFlag?.id === "i.skill.charge")
+        )[0];
         if (!charge) {
           if (particActor.type != "npc") {
             config.targetScore = 0;
@@ -504,7 +506,7 @@ export class PENCheck {
       ],
     };
 
-    //If there is an Open Chat Card for this role to be added to then go to the Add option
+    //If there is an Open Chat Card for this roll to be added to then go to the Add option
     if (config.checkMsgId != false) {
       //Trigger adding check to the card.
       await OPCard.OPAdd(chatMsgData, config.checkMsgId);
@@ -647,7 +649,7 @@ export class PENCheck {
       chatData.blind = true;
       chatData.rollMode = "blindroll";
     }
-    if (["NO", "OP", "RE"].includes(chatMsgData.cardType)) {
+    if (["NO", "RE"].includes(chatMsgData.cardType)) {
       chatData.rolls = [chatMsgData.rolls];
     }
     let msg = await ChatMessage.create(chatData);

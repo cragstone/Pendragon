@@ -101,7 +101,11 @@ export class COCard {
       }
 
       newchatCards.push(chatCards[cCount]);
-      await OPCard.showDiceRoll(chatCards[cCount]);
+      if (cCount === 0) {
+        await OPCard.showDiceRoll(chatCards[cCount], false);
+      } else {
+        await OPCard.showDiceRoll(chatCards[cCount], true);
+      }
       if (game.settings.get("Pendragon", "autoXP") && chatCards[cCount].resultLevel != 1) {
         await PENCheck.tickXP(chatCards[cCount]);
       }

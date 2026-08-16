@@ -7,6 +7,13 @@
       <a class="large-icon" data-tooltip="{{localize 'PEN.addHistory'}}"><i class="item-control fas fa-plus"></i></a>
     </div> 
 
+    {{#if manualGlory}}
+      <div class="grid-item-bottom stat-name centre"></div>
+      <div class="grid-item-bottom stat-name">{{localize 'PEN.Settings.manualGlory'}}</div>
+      <div class="grid-item-bottom dam-name-input centre"><input name="system.manualGlory" type="number" value="{{system.manualGlory}}"/></div>
+      <div class="item grid-item-bottom centre"></div>
+    {{/if}}
+
     {{#each history as |historical key|}}
       <div class="grid-item-bottom stat-name centre">{{historical.system.year}}</div>
       <div class="grid-item-bottom stat-name">{{historical.name}}</div>

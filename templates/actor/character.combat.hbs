@@ -74,15 +74,21 @@
         <div class="stat-name stat-name-input centre"><input name="system.aggravDam" type="number" value="{{actor.system.aggravDam}}"/></div>
         <div class="stat-name left bold">{{localize 'PEN.deterior'}}</div>
         <div class="stat-name stat-name-input centre"><input name="system.deterDam" type="number" value="{{actor.system.deterDam}}" /></div>
-        <div></div>
+        {{#if horseSkillId}}
+          <div class="stat-name left bold rollable skill-name new-row" data-itemid="{{horseSkillId}}" > {{localize 'PEN.horsemanship'}}</div>
+        {{else}}  
+          <div class="stat-name left bold new-row"> {{localize 'PEN.horsemanship'}}</div>        
+        {{/if}}
+        <div class="stat-name centre">{{horsemanship}}</div>
         {{#if statuses.debilitated}}
-          <div class="stat-name left bold new-row">{{localize 'PEN.chirurgery'}}</div>
+          <div class="stat-name left bold">{{localize 'PEN.chirurgery'}}</div>
           <div class="stat-name centre">
             <a class="item-control large-icon" data-action="toggleActor" data-property="chirurgery" data-tooltip="{{localize 'PEN.chirurgeryHint'}}"><i class="{{#if system.status.chirurgery}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a>
           </div>
         {{else}}
           <div></div>
         {{/if}}
+
       </div>
       <br>
       <ol class="weapon-list">

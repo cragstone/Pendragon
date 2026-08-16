@@ -267,6 +267,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     context.isDevelopment = game.settings.get("Pendragon", "development");
     context.isCreation = game.settings.get("Pendragon", "creation");
     context.useRelation = game.settings.get("Pendragon", "useRelation");
+    context.manualGlory = game.settings.get("Pendragon", "manualGlory");
     context.hasName = true;
     if (this.actor.name.toUpperCase() === game.i18n.localize("TYPES.Actor.character").toUpperCase()) {
       context.hasName = false;
@@ -290,13 +291,21 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     if (this.actor.system.religionID != "") {
       context.hasReligion = true;
     }
-    if (actorData.items.filter((itm) => itm.type === "skill" && itm.system.family > 0).length > 0) {
+    if (this.actor.items.filter((itm) => itm.type === "skill" && itm.system.family > 0).length > 0) {
       context.hasFamily = true;
     }
-    if (actorData.system.beauty > 0) {
+    let horsemanshipSkill = await this.actor.items.find(
+      (itm) => itm.flags.Pendragon?.pidFlag?.id === "i.skill.horsemanship",
+    );
+    context.horsemanship = 0;
+    if (horsemanshipSkill) {
+      context.horsemanship = horsemanshipSkill.system.total;
+      context.horseSkillId = horsemanshipSkill._id;
+    }
+    if (this.actor.system.beauty > 0) {
       context.hasFamily = true;
     }
-    context.statTotal = actorData.system.statTotal;
+    context.statTotal = this.actor.system.statTotal;
     context.battlePosType = await PENSelectLists.getBattlePos();
     context.fieldPosType = await PENSelectLists.getFieldPos();
     context.sizLabel = game.i18n.localize("PEN.sizInc." + actorData.system.stats.siz.growth);
@@ -394,6 +403,22 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
         if (i.system.horseName != "") {
           i.system.label = i.system.horseName;
         }
+        i.system.moveLabel =
+          game.i18n.localize("PEN.walk") +
+          ":" +
+          i.system.move +
+          ", " +
+          game.i18n.localize("PEN.trot") +
+          ":" +
+          i.system.move * 2 +
+          ", " +
+          game.i18n.localize("PEN.canter") +
+          ":" +
+          i.system.move * 3 +
+          ", " +
+          game.i18n.localize("PEN.gallop") +
+          ":" +
+          i.system.move * 6;
         horses.push(i);
       } else if (i.type === "squire") {
         i.system.squireType = game.i18n.localize("PEN." + i.system.category);

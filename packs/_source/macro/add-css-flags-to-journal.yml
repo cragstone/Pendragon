@@ -1,0 +1,43 @@
+name: Add CSS Flags to Journal
+type: script
+command: |-
+  const data = await foundry.applications.api.DialogV2.input({
+    window: { title: "Journal UUID" },
+    content: `<input type="text" name="jnluuid">`,
+    ok: {
+      label: "Save",
+      icon: "fa-solid fa-floppy-disk",
+    }
+  })
+  let journal = await fromUuid(data.jnluuid)
+
+  if (!journal) {
+    
+  } else if (journal.type === 'actor') {
+      
+  } else {
+
+  await journal.update({
+            'flags.Pendragon.css-adventure-entry': true,
+            'flags.Pendragon.fixed-adventure-heading': true     
+          })
+  }
+img: icons/svg/book.svg
+_id: CR8Wo9HkfQPeJfNi
+author: fJaZRxqzwKDvRnNd
+scope: global
+folder: null
+ownership:
+  default: 0
+flags: {}
+_stats:
+  coreVersion: '14.365'
+  systemId: Pendragon
+  systemVersion: '14.7'
+  createdTime: 1786880634667
+  modifiedTime: 1786880634667
+  lastModifiedBy: pendragonBuilder
+  duplicateSource: null
+  exportSource: null
+sort: 0
+_key: '!macros!CR8Wo9HkfQPeJfNi'

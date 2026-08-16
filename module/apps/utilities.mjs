@@ -161,4 +161,89 @@ export class PENUtilities {
     }
     return tableResults;
   }
+
+  //GM triggered Glory award dialog
+  static async gloryAward(event) {
+    //Get all in world characters
+    let chars = await game.actors
+      .filter((c) => c.type === "character")
+      .map((c) => {
+        return {
+          id: c.id,
+          name: c.name,
+          glory: c.system.glory,
+        };
+      });
+
+    //Get awards in Dialog
+    let data = { chars };
+    const html = await foundry.applications.handlebars.renderTemplate(
+      "systems/Pendragon/templates/dialog/gloryAward.hbs",
+      data,
+    );
+    const awards = await PENDialog.input({
+      window: {
+        title: game.i18n.localize("PEN.gloryAward"),
+      },
+      position: {
+        width: 500,
+      },
+      content: html,
+    });
+    if (!awards) {
+      return;
+    }
+
+    let count = 0;
+    for (let award of awards.gloryAward) {
+      if (award != 0) {
+        console.log(chars[count].id);
+        let actor = await game.actors.get(chars[count].id);
+        //Create the event
+        const itemData = {
+          name: awards.awardTitle,
+          type: "history",
+          system: {
+            year: game.time.components.year,
+            description: awards.awardTitle,
+            glory: award,
+          },
+          flags: {
+            Pendragon: {
+              pidFlag: {
+                id: "i.history.gmAward",
+                lang: game.i18n.lang,
+                priority: 0,
+              },
+            },
+          },
+        };
+        await Item.create(itemData, { parent: actor });
+      }
+      count++;
+    }
+    //Trigger updates to players
+    game.socket.emit("system.rol", {
+      type: "updatechar",
+    });
+    //Update if GM
+    this.updateCharSheets();
+  }
+
+  //Update character sheet for all players---------------------------------------------------------------------------
+  static updateCharSheets() {
+    if (game.user.isGM) {
+      for (const a of game.actors) {
+        if (a?.type === "character" && a?.sheet && a?.sheet?.rendered) {
+          a.render(false);
+        }
+      }
+    } else {
+      for (const a of game.actors) {
+        if (a.isOwner) {
+          a.render(false);
+        }
+      }
+    }
+  }
 }

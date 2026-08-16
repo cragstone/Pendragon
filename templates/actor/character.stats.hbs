@@ -1,18 +1,18 @@
 <section class='character tab stats {{tab.cssClass}}' data-group='primary' data-tab='stats'>
   <ol class="stats-list">
     <div class="stats-tab-grid">
-      <div class="stat-name bold centre grid-item-left grid-item-top">{{ localize 'PEN.stat'}}</div>
-      <div class="stat-name bold centre grid-item-top">{{ localize 'PEN.base'}}</div>
-      <div class="stat-name bold centre grid-item-top">{{ localize 'PEN.culture'}}</div>  
-      <div class="stat-name bold centre grid-item-top">{{ localize 'PEN.trainingShort'}}</div>
-      <div class="stat-name bold centre grid-item-top" >{{ localize 'PEN.poison'}}</div>
-      <div class="stat-name bold centre grid-item-top">{{ localize 'PEN.disease'}}</div>
-      <div class="stat-name bold centre grid-item-top" title="{{ localize 'PEN.sol'}}">{{ localize 'PEN.solShort'}}</div>
-      <div class="stat-name bold centre grid-item-top" title="{{ localize 'PEN.mjrWnd'}}">{{ localize 'PEN.major'}}</div>
-      <div class="stat-name bold centre grid-item-top">{{ localize 'PEN.aging'}}</div>
-      <div class="stat-name bold centre grid-item-top">{{ localize 'PEN.winter'}}</div>
-      <div class="stat-name bold centre grid-item-top">{{ localize 'PEN.total'}}</div>
-      <div class="stat-name bold centre grid-item-top">{{ localize 'PEN.max'}}</div>
+      <div class="stat-name bold centre grid-item-left grid-item-top" data-tooltip="{{localize 'PEN.statistic'}}">{{ localize 'PEN.statAbbr'}}</div>
+      <div class="stat-name bold centre grid-item-top" data-tooltip="{{localize 'PEN.base'}}">{{ localize 'PEN.baseAbbr'}}</div>
+      <div class="stat-name bold centre grid-item-top" data-tooltip="{{localize 'PEN.culture'}}">{{ localize 'PEN.cultureAbbr'}}</div>  
+      <div class="stat-name bold centre grid-item-top" data-tooltip="{{localize 'PEN.training'}}">{{ localize 'PEN.trainingAbbr'}}</div>
+      <div class="stat-name bold centre grid-item-top" data-tooltip="{{localize 'PEN.poison'}}">{{ localize 'PEN.poisonAbbr'}}</div>
+      <div class="stat-name bold centre grid-item-top" data-tooltip="{{localize 'PEN.disease'}}">{{ localize 'PEN.diseaseAbbr'}}</div>
+      <div class="stat-name bold centre grid-item-top"  data-tooltip="{{localize 'PEN.sol'}}">{{ localize 'PEN.solAbbr'}}</div>
+      <div class="stat-name bold centre grid-item-top"  data-tooltip="{{localize 'PEN.mjrWnd'}}">{{ localize 'PEN.mjrWndAbbr'}}</div>
+      <div class="stat-name bold centre grid-item-top" data-tooltip="{{localize 'PEN.aging'}}">{{ localize 'PEN.agingAbbr'}}</div>
+      <div class="stat-name bold centre grid-item-top" data-tooltip="{{localize 'PEN.winterPhase'}}">{{ localize 'PEN.winterAbbr'}}</div>
+      <div class="stat-name bold centre grid-item-top" data-tooltip="{{localize 'PEN.total'}}">{{ localize 'PEN.totalAbbr'}}</div>
+      <div class="stat-name bold centre grid-item-top" data-tooltip="{{localize 'PEN.max'}}">{{ localize 'PEN.maxAbbr'}}</div>
       {{#if isCreation}}
         <div class="centre"><a class="large-icon {{#if actor.system.create.stats}}result-fail{{else}}fade{{/if}}" data-action="statRoll"><i title="{{localize 'PEN.roll'}}" class="fas fa-dice"></i></a></div>
       {{/if}}
@@ -31,6 +31,7 @@
           <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.disease" type="number" value="{{stat.disease}}"/></div>
           <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.sol" type="number" value="{{stat.sol}}"/></div>
           <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.major" type="number" value="{{stat.major}}"/></div>
+          <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.age" type="number" value="{{stat.age}}"/></div>          
           <div class="dam-name-input centre grid-item-bottom"><input name="system.stats.{{key}}.winter" type="number" value="{{stat.winter}}"/></div>
         {{else}}
           <div class="stat-item centre grid-item-bottom">{{stat.value}}</div>
@@ -50,12 +51,12 @@
         <div class ="stat-item centre bold grid-item-bottom" title="{{stat.labelShort}}">{{stat.total}}</div>
         <div class ="stat-item centre grid-item-bottom">{{stat.max}}</div>
       {{/each}}
-      <div class="stat-name bold centre grid-item-bottom grid-item-left new-row" grid-item>{{ localize 'PEN.total'}}</div>
+      <div class="stat-name bold centre grid-item-bottom grid-item-left new-row"  data-tooltip="{{localize 'PEN.total'}}" >{{ localize 'PEN.totalAbbr'}}</div>
       <div class="stat-name bold centre grid-item-bottom">{{statTotal}}</div>
     </div>
     <br>
 
-    <div class="hp-grid">
+    <div class="adj-grid">
       {{#if isGM}}
         <div class="stat-item">{{localize 'PEN.hpAdj'}}</div>
         <div class="stat-item centre {{#if (eq actor.system.hp.adj null)}} input-border {{/if}}"><input name="system.hp.adj" type="number" value="{{system.hp.adj}}"/></div>

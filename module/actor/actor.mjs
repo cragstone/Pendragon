@@ -412,6 +412,10 @@ export class PendragonActor extends Actor {
     if (game.settings.get("Pendragon", "trackWnd")) {
       systemData.hp.value = systemData.hp.max - (systemData.woundTotal ? systemData.woundTotal : 0);
     }
+    //If Manual Glory used, add to Glory total
+    if (game.settings.get("Pendragon", "manualGlory")) {
+      glory = glory + systemData.manualGlory;
+    }
     if (glory < 3000) {
       systemData.reputation = game.i18n.localize("PEN.unproven");
     } else if (glory < 4000) {
@@ -490,6 +494,9 @@ export class PendragonActor extends Actor {
     let vision = game.settings.get("Pendragon", "tokenVision");
     //When creating an actor set basics including tokenlink, bars, displays sight
     if (data.type === "character") {
+      if (typeof data.img === "undefined") {
+        data.img = "systems/Pendragon/assets/Icons/default_actor.webp";
+      }
       data.prototypeToken = foundry.utils.mergeObject(
         {
           actorLink: true,
@@ -510,6 +517,9 @@ export class PendragonActor extends Actor {
         data.prototypeToken || {},
       );
     } else if (data.type === "npc") {
+      if (typeof data.img === "undefined") {
+        data.img = "systems/Pendragon/assets/Icons/default_actor.webp";
+      }
       data.prototypeToken = foundry.utils.mergeObject(
         {
           actorLink: false,

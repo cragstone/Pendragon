@@ -1,0 +1,19 @@
+<form class="Pendragon" id="gloryAward">
+  <br>
+
+  <div class="gloryAward">
+     <div class="bold stat-name new-row">{{localize 'PEN.awardTitle'}}</div>   
+    <div class="dam-name-input centre" style="grid-column: span 2;"><input name="awardTitle" type="text" value="GM Award"></div>       
+
+    <br>
+    <div class="bold stat-name new-row">{{localize 'PEN.name'}}</div>
+    <div class="bold centre stat-name">{{localize 'PEN.glory'}}</div>
+    <div class="bold centre stat-name">{{localize 'PEN.gloryAward'}}</div>
+    {{#each chars as |char id|}}
+    <div class="stat-name new-row">{{char.name}}</div>
+    <div class="stat-name centre">{{char.glory}}</div>
+    <div class="dam-name-input centre"><input name="gloryAward" type="number" value=0></div>        
+    {{/each}}    
+  </div>
+  <br>
+</form>

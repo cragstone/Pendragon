@@ -108,6 +108,8 @@ export class PendragonRollTableConfig extends foundry.applications.sheets.RollTa
     let formula = table.formula;
     let askMod = table.flags.Pendragon?.penTable?.penModRoll ?? false;
 
+    if (!askMod) return formula;
+
     const available = table.results;
     if (!available) {
       return formula;
@@ -115,16 +117,25 @@ export class PendragonRollTableConfig extends foundry.applications.sheets.RollTa
     const availableRange = available.reduce(
       (range, result) => {
         const r = result.range;
-        if (!range[0] || r[0] < range[0]) range[0] = r[0];
-        if (!range[1] || r[1] > range[1]) range[1] = r[1];
+        if (r[0] <= range[0]) range[0] = r[0];
+        if (r[1] >= range[1]) range[1] = r[1];
         return range;
       },
       [null, null],
     );
 
     let roll = Roll.create(formula);
-    let minMod = availableRange[0] - (await roll.reroll({ minimize: true })).total;
-    let maxMod = availableRange[1] - (await roll.reroll({ maximize: true })).total;
+    let min = (await roll.reroll({ minimize: true })).total;
+    let max = (await roll.reroll({ maximize: true })).total;
+    if (availableRange[0] === null) {
+      availableRange[0] = min;
+    }
+    if (availableRange[1] === null) {
+      availableRange[1] = max;
+    }
+
+    let minMod = availableRange[0] - min;
+    let maxMod = availableRange[1] - max;
 
     if (minMod === 0 && maxMod === 0) {
       return formula;
