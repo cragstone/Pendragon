@@ -14,7 +14,8 @@ pages:
       content: >-
         <p>The current game settings options
         are:</p><ul><li><p>@UUID[.ty31IeGwbI6DR5cM]</p></li><li><p>@UUID[.k4EAubcSwrqtCWCs]{Combat/Damage
-        Options}</p></li><li><p>@UUID[.WyR6m6LOKiF3HVmB]</p></li><li><p>@UUID[.8JRDCc5CePLRMFxN]</p></li><li><p>@UUID[.yCbdGRto5p6ReXOg]</p></li><li><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.7U9pKyQCsPrhgwnl.JournalEntryPage.qEZbHtdNgLaa37pV]{Child
+        Options}</p></li><li><p>@UUID[.WyR6m6LOKiF3HVmB]</p></li><li><p>@UUID[.8JRDCc5CePLRMFxN]</p></li><li><p>@UUID[.ioJEGkzKwjKh9mR6]{Manual
+        Glory}</p></li><li><p>@UUID[.yCbdGRto5p6ReXOg]</p></li><li><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.7U9pKyQCsPrhgwnl.JournalEntryPage.qEZbHtdNgLaa37pV]{Child
         Mortality}</p></li><li><p>@UUID[.DSedYGFfcELhYENQ]</p></li><li><p>@UUID[.bfXTt8IYHlChzhqc]{Allow
         Relationships}</p></li><li><p>@UUID[Compendium.Pendragon.instructions.JournalEntry.7U9pKyQCsPrhgwnl.JournalEntryPage.BGPNYU1lP7NF3mmV]{Show
         Players Party
@@ -30,15 +31,15 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "14.364"
+      coreVersion: '14.365'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: 1783594487601
-      modifiedTime: 1783594738193
+      modifiedTime: 1786881004158
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!7U9pKyQCsPrhgwnl.sIDjhqsdi0cmQUm9"
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.sIDjhqsdi0cmQUm9'
   - sort: 100000
     name: Game Year (GM only)
     type: text
@@ -55,7 +56,7 @@ pages:
         calendar. You can use the
         @UUID[Compendium.Pendragon.instructions.JournalEntry.CJhCwQigLrJhBBQF]{GM
         tools} to alter the year or alternatively in the console (F12) you can
-        enterr</p><p><br>await game.time.set({year: 510})</p><p></p><p>you can
+        enter</p><p><br>await game.time.set({year: 510})</p><p></p><p>you can
         change 510 for your desired year.</p><p></p><p>When creating a new world
         the Game Year will be set to 510 by default.</p><p></p><p><strong>Up to
         v14.4</strong></p><p>Enter the year of the game.</p><p></p><p>As you
@@ -72,15 +73,15 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "14.364"
+      coreVersion: '14.365'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: 1783594007288
-      modifiedTime: 1783594536029
+      modifiedTime: 1786880784552
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!7U9pKyQCsPrhgwnl.ty31IeGwbI6DR5cM"
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.ty31IeGwbI6DR5cM'
   - sort: 200000
     name: XP Check Options
     type: text
@@ -125,7 +126,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "14.364"
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: 1783594571266
@@ -133,7 +134,7 @@ pages:
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!7U9pKyQCsPrhgwnl.WyR6m6LOKiF3HVmB"
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.WyR6m6LOKiF3HVmB'
   - sort: 300000
     name: Dice Roll Options
     type: text
@@ -162,7 +163,10 @@ pages:
         with Sword Skills of 20 (+3) and 20 (+5) would see their Skills reduced
         to 20 and 20 (+2), respectively. This rule has the effect of putting
         equally-proficient characters on a more even footing with fewer critical
-        successes overall.</p>
+        successes overall.</p><p></p><p><strong>Finish Dice
+        Rolls</strong></p><p>When activated the Combat and Opposed Chat Cards
+        will not update until the dice animations have finished if using Dice So
+        Nice</p>
     video:
       controls: true
       volume: 0.5
@@ -173,15 +177,15 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "14.364"
+      coreVersion: '14.365'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: 1783594605989
-      modifiedTime: 1783594652801
+      modifiedTime: 1786880858955
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!7U9pKyQCsPrhgwnl.8JRDCc5CePLRMFxN"
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.8JRDCc5CePLRMFxN'
   - sort: 500000
     name: Tooltip Delay (GM only)
     type: text
@@ -206,7 +210,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '13.345'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: null
@@ -214,7 +218,7 @@ pages:
       lastModifiedBy: null
       exportSource: null
     category: null
-    _key: "!journal.pages!7U9pKyQCsPrhgwnl.yCbdGRto5p6ReXOg"
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.yCbdGRto5p6ReXOg'
   - sort: 600000
     name: Character Token Vision (GM only)
     type: text
@@ -238,7 +242,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '13.345'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: null
@@ -246,7 +250,7 @@ pages:
       lastModifiedBy: null
       exportSource: null
     category: null
-    _key: "!journal.pages!7U9pKyQCsPrhgwnl.DSedYGFfcELhYENQ"
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.DSedYGFfcELhYENQ'
   - sort: 700000
     name: Use Relationships
     type: text
@@ -271,7 +275,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '13.345'
       systemId: Pendragon
       systemVersion: 12.1.16
       createdTime: null
@@ -279,7 +283,7 @@ pages:
       lastModifiedBy: null
       exportSource: null
     category: null
-    _key: "!journal.pages!7U9pKyQCsPrhgwnl.bfXTt8IYHlChzhqc"
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.bfXTt8IYHlChzhqc'
   - sort: 450000
     name: Child Mortality
     type: text
@@ -305,13 +309,13 @@ pages:
     _stats:
       duplicateSource: null
       exportSource: null
-      coreVersion: "13.350"
+      coreVersion: '13.350'
       systemId: Pendragon
       systemVersion: 13.1.42
       createdTime: 1762881879063
       modifiedTime: 1762882237421
       lastModifiedBy: pendragonBuilder
-    _key: "!journal.pages!7U9pKyQCsPrhgwnl.qEZbHtdNgLaa37pV"
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.qEZbHtdNgLaa37pV'
   - sort: 800000
     name: Show Party Details
     type: text
@@ -343,13 +347,13 @@ pages:
     _stats:
       duplicateSource: null
       exportSource: null
-      coreVersion: "13.350"
+      coreVersion: '13.350'
       systemId: Pendragon
       systemVersion: 13.1.42
       createdTime: 1762881949343
       modifiedTime: 1762882231445
       lastModifiedBy: pendragonBuilder
-    _key: "!journal.pages!7U9pKyQCsPrhgwnl.BGPNYU1lP7NF3mmV"
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.BGPNYU1lP7NF3mmV'
   - sort: 900000
     name: When Creating NPC (GM)
     type: text
@@ -380,13 +384,13 @@ pages:
     _stats:
       duplicateSource: null
       exportSource: null
-      coreVersion: "13.351"
+      coreVersion: '13.351'
       systemId: Pendragon
       systemVersion: 13.1.46
       createdTime: 1765438314866
       modifiedTime: 1765438447476
       lastModifiedBy: pendragonBuilder
-    _key: "!journal.pages!7U9pKyQCsPrhgwnl.EG80uuwz8hOXkuUN"
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.EG80uuwz8hOXkuUN'
   - sort: 150000
     name: Combat/Damage Options
     type: text
@@ -419,15 +423,50 @@ pages:
       default: -1
     flags: {}
     _stats:
-      coreVersion: "14.364"
+      coreVersion: '14.364'
       systemId: Pendragon
-      systemVersion: "14.5"
+      systemVersion: '14.5'
       createdTime: 1783594218406
       modifiedTime: 1783594540037
       lastModifiedBy: pendragonBuilder
       duplicateSource: null
       exportSource: null
-    _key: "!journal.pages!7U9pKyQCsPrhgwnl.k4EAubcSwrqtCWCs"
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.k4EAubcSwrqtCWCs'
+  - sort: 375000
+    name: Manual Glory
+    type: text
+    _id: ioJEGkzKwjKh9mR6
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <p>When activated this setting will add a permanent line at the top of
+        the History table where you can manually enter a Glory Adjustment.  The
+        score is persistent so you don't add +10, or -20 - just the current
+        total adjustment.</p><p>This is aimed at GMs who don't want to have
+        history items for each award.</p>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    ownership:
+      default: -1
+    flags: {}
+    _stats:
+      coreVersion: '14.365'
+      systemId: Pendragon
+      systemVersion: '14.7'
+      createdTime: 1786880881426
+      modifiedTime: 1786880969927
+      lastModifiedBy: pendragonBuilder
+      duplicateSource: null
+      exportSource: null
+    _key: '!journal.pages!7U9pKyQCsPrhgwnl.ioJEGkzKwjKh9mR6'
 folder: null
 flags:
   Pendragon:
@@ -439,9 +478,9 @@ flags:
     fixed-adventure-heading: true
 _stats:
   duplicateSource: null
-  coreVersion: "14.364"
+  coreVersion: '14.364'
   systemId: Pendragon
-  systemVersion: "14.1"
+  systemVersion: '14.1'
   createdTime: 1719597783187
   modifiedTime: 1781499123913
   lastModifiedBy: pendragonBuilder
@@ -450,4 +489,4 @@ sort: -50000
 ownership:
   default: 0
 categories: []
-_key: "!journal!7U9pKyQCsPrhgwnl"
+_key: '!journal!7U9pKyQCsPrhgwnl'

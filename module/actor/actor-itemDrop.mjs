@@ -128,7 +128,7 @@ export class PENactorItemDrop {
     let traitTotal = 0;
     let traits = await ideal.system.traitGroup.map((itm) => itm.pid);
     let scores = await actor.items
-      .filter((itm) => traits.includes(itm.flags.Pendragon.pidFlag.id))
+      .filter((itm) => traits.includes(itm.flags.Pendragon?.pidFlag?.id))
       .map((itm) => itm.system.total);
     for (let score of scores) {
       traitTotal = traitTotal + Number(score);
@@ -138,7 +138,7 @@ export class PENactorItemDrop {
     }
     //Test requirements
     for (let rItm of ideal.system.require) {
-      let actItm = actor.items.filter((itm) => itm.flags.Pendragon.pidFlag.id === rItm.pid)[0];
+      let actItm = actor.items.filter((itm) => itm.flags.Pendragon?.pidFlag?.id === rItm.pid)[0];
       if (!actItm) {
         return { outcome: false, msg: game.i18n.format("PEN.notEnoughReq", { name: ideal.name }) };
       }

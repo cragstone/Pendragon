@@ -9,9 +9,9 @@
     <div class="item-armour-grid">
       <div class="stat-name left bold">{{localize 'PEN.yearAvailable'}}</div>
       {{#if isGM}}
-        <div class="stat-name-input "><input name="system.yearAvailable" type="number" value="{{item.system.yearAvailable}}"/></div>
+        <div class="stat-name-input " style="width: 350px;"><input name="system.yearAvailable" type="number" value="{{item.system.yearAvailable}}"/></div>
       {{else}}
-        <div class="stat-name">{{item.system.yearAvailable}}</div>
+        <div class="stat-name" style="width: 350px;">{{item.system.yearAvailable}}</div>
       {{/if}}
       <div class="stat-name left bold"></div>
       <div class="stat-name">{{period}}</div>

@@ -16,6 +16,15 @@ const SETTINGS = {
     type: Boolean,
     default: true,
   },
+
+  delayDice: {
+    name: "PEN.Settings.delayDice",
+    hint: "PEN.Settings.delayDiceHint",
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: false,
+  },
 };
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;

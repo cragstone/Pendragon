@@ -162,16 +162,6 @@ body.theme-dark .application.Pendragon.sheet,
   cursor: pointer;
 }
 
-.journal-entry-content {
-  background-image: url("../assets/kap_background.webp");
-  background-size: cover;
-}
-
-.journal-entry-page .window-content {
-  background-image: url("../assets/kap_background.webp");
-  background-size: cover;
-}
-
 .Pendragon:not(.party) .window-content {
   background-image: url("../assets/parchment.jpg");
   background-size: cover;
@@ -490,6 +480,15 @@ body.theme-dark .application.Pendragon.sheet,
   margin-bottom: 0px;
 }
 
+.Pendragon .adj-grid {
+  display: grid;
+  grid-template-columns: max-content 90px;
+  column-gap: 20px;
+  grid-template-rows: repeat(5, 23px);
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
 .Pendragon .hp2-grid {
   display: grid;
   grid-template-columns: 180px 60px 160px 60px;
@@ -733,7 +732,7 @@ body.theme-dark .application.Pendragon.sheet,
 
 .Pendragon .money-grid {
   display: grid;
-  grid-template-columns: 180px 30px 30px 30px;
+  grid-template-columns: 180px 50px 30px 50px;
   gap: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -1898,4 +1897,11 @@ body.theme-dark .application.Pendragon.sheet,
   table tbody tr:last-child {
     border-bottom: 1px solid black;
   }
+}
+
+.Pendragon .gloryAward {
+  display: grid;
+  grid-template-columns: 250px 100px 100px;
+  column-gap: 5px;
+  margin: 0px;
 }

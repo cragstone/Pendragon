@@ -93,6 +93,7 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
       moveAdj: new NumberField({ ...requiredInteger, initial: 0 }),
       armourAdj: new NumberField({ ...requiredInteger, initial: 0 }),
       impoverished: new NumberField({ ...requiredInteger, initial: 0 }),
+      manualGlory: new NumberField({ ...requiredInteger, initial: 0 }),
       lord: new StringField({ required: true, blank: true, initial: "" }),
       class: new StringField({ required: true, blank: true, initial: "" }),
       parentclass: new StringField({ required: true, blank: true, initial: "" }),

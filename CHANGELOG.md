@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## 14.8
+
+- Added some PIDs as registered keys (mostly tables, but also Horsemanship)
+- Fixed pidflag error for Mounted and Charge combat attacks (testing for i.skill.horsemanship/i.skill.charge)
+- Misc journal css updates
+- Modified roll tables now work properly where the minimum result value is zero
+- Cost of horses on the description tab have been fixed
+- Stats tab on character sheet tweaked to add back "age" values in
+- New default icon for Characters and NPCs with a better Pendragon flavour (thanks to Ossi for the art)
+- Horsemanship skill score is shown on the Combat tab as an aide memoire, under the healing section. You can roll the skill from here
+- There is a new "Manual Glory" game setting (default is off). When activated a "Manual Glory" adjustment line is available at the top of the History tab allowing you to adjust Glory.
+- There is a new GM tool which allows the GM to issue Glory Awards to characters (you get to enter the title and then the value for each character). History events are created for non-zero awards
+- Another new game setting under "Dice". Dice Delay, when activated, will not update the Chat Card for Opposed/Combat rolls until the Dice So Nice animations have finished.
+- Fixed an issue where a random dice roll happened on the first opposed roll being added to a chat card
+- Armour notes and disadvantages are now displayed on the character sheet gear tab
+- Tooltip on the horse MOV on the Squires tab shows the various move rates for the horse
+- Default journals now work in dark mode.
+- Macro added in Systems Macro to add "Pendragon" css flags so you can make your journals look like the books. Copy and paste the journal UUID in to the dialog box
+
 ## 14.7
 
 - French language pack updated to more align with the official French translation of Pendtagon (Tontione)
@@ -8,7 +27,7 @@
 - New worlds should once again have the correct background image appearing
 - The system battle scene should now have the correct background image
 - Adding tokens to a scene via the Encounter card should now add dynamic rings/relevant artwork
-- CCI Instructions noew refer to Pendragon, not Rivers of London
+- CCI Instructions now refer to Pendragon, not Rivers of London
 
 ## 14.6
 

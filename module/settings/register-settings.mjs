@@ -51,6 +51,16 @@ export function registerSettings() {
   });
   PENDiceSettings.registerSettings();
 
+  //Allow Manual Glory Adj
+  game.settings.register("Pendragon", "manualGlory", {
+    name: "PEN.Settings.manualGlory",
+    hint: "PEN.Settings.manualGloryHint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
   game.settings.register("Pendragon", "toolTipDelay", {
     name: "PEN.Settings.toolTipDelay",
     hint: "PEN.Settings.toolTipDelayHint",

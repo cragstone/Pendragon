@@ -13,13 +13,13 @@ pages:
       format: 1
       content: >-
         <p>The character sheet is made up of three main
-        sections.</p><p><strong>Stats Section</strong></p><p>This is the section
-        at the top of the character sheet. It is always visible whilst the
-        character sheet is open (unless you make the window very small). It
+        sections.</p><p></p><p><strong>Stats Section</strong></p><p>This is the
+        section at the top of the character sheet. It is always visible whilst
+        the character sheet is open (unless you make the window very small). It
         shows your character's name, characteristics, status (e.g. Debilitated),
         other important information (e.g. Armour) and an image for your
-        character.<br /><br />If Character Creation is turned on then it will
-        also show a Quartered Shield icon above the character
+        character.<br><br>If Character Creation is turned on then it will also
+        show a Quartered Shield icon above the character
         image</p><p></p><p><strong>Tab Bar</strong></p><p>This is in the middle
         of the sheet and has a grey background. This lists the available tabs.
         Please note the "padlock" icon at the far right. <span
@@ -39,15 +39,15 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '14.365'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: null
-      lastModifiedBy: null
+      createdTime: 1786881254976
+      modifiedTime: 1786881254976
+      lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.0DpvKuF4Ur2jqNTK"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.0DpvKuF4Ur2jqNTK'
   - sort: 400000
     name: Editing a character
     type: text
@@ -81,7 +81,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "14.364"
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: 1783595587745
@@ -89,7 +89,7 @@ pages:
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.FElHOQiryTfX4zxc"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.FElHOQiryTfX4zxc'
   - sort: 500000
     name: Combat Tab
     type: text
@@ -107,9 +107,11 @@ pages:
         and Deterioration Damage that you can edit at any time. Clicking on the
         "Natural Healing" icon applies the healing rules - see
         @UUID[Compendium.Pendragon.instructions.JournalEntry.nK2HPwEm6y15GqKh.JournalEntryPage.Rh5w3CHEaLoAfkOf]{Natural
-        Healing}</p><p>There is also a selection field for Battles - where you
-        set the characters Battle Posture and Field Position.</p><p></p><p>Below
-        this are two grids.</p><p><strong>Wounds </strong>- only used/visible if
+        Healing}</p><p>You will also see the score of the characters
+        horsemanship skill (this is based off the Pendragon ID)</p><p>There is
+        also a selection field for Battles - where you set the characters Battle
+        Posture and Field Position.</p><p></p><p>Below this are two
+        grids.</p><p><strong>Wounds </strong>- only used/visible if
         @UUID[Compendium.Pendragon.instructions.JournalEntry.7U9pKyQCsPrhgwnl.JournalEntryPage.k4EAubcSwrqtCWCs]{Track
         Wounds }is on</p><p>The left hand grid shows all the wounds your
         character has taken. To add a wound click on the "+" icon and a wound
@@ -137,15 +139,15 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "14.364"
+      coreVersion: '14.365'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: 1783595713850
-      modifiedTime: 1783595713850
+      modifiedTime: 1786881307671
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.0YxsvVe0d1sSzu6F"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.0YxsvVe0d1sSzu6F'
   - sort: 600000
     name: Traits Tab
     type: text
@@ -184,7 +186,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '13.345'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: null
@@ -192,7 +194,7 @@ pages:
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.PmCNQJ0LXo1AeVVt"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.PmCNQJ0LXo1AeVVt'
   - sort: 700000
     name: Passions Tab
     type: text
@@ -230,7 +232,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '13.345'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: null
@@ -238,7 +240,7 @@ pages:
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.dY9bwgsZV3XBq1Le"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.dY9bwgsZV3XBq1Le'
   - sort: 800000
     name: Skills Tab
     type: text
@@ -272,7 +274,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '13.345'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: null
@@ -280,7 +282,7 @@ pages:
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.8v47GsMzyfnsL7qo"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.8v47GsMzyfnsL7qo'
   - sort: 900000
     name: Equip Tab
     type: text
@@ -301,11 +303,11 @@ pages:
         name</p></li><li><p>AP - Armour Points. Note that the AP for shields can
         be edited as your shield takes damage from Axes</p></li><li><p>Pen -
         this is the missile penalty related to the
-        shield</p></li><li><p>Disadvantage - you will see "View Details" if the
-        armour has a disadvantage - use the "Eye" icon to view the
-        details</p></li><li><p>Notes - you will see "View Details" if the armour
-        has any notes- use the "Eye" icon to view the details</p></li><li><p>Eye
-        icon - lets you view details and edit the
+        shield</p></li><li><p>Disadvantage - the armour disadvantages are
+        displayed but truncated if it's long text.  A tooltip shows the full
+        narrative.</p></li><li><p>Notes - the armour notes are displayed but
+        truncated if it's long text.  A tooltip shows the full
+        narrative.</p></li><li><p>Eye icon - lets you view details and edit the
         notes</p></li></ul><p></p><p>The second grid is for equipment. The +
         icon at the right of the grid lets you add a new piece of equipment and
         a pop up box will ask for the relevant information. The layout of the
@@ -324,15 +326,15 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '14.365'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: null
-      lastModifiedBy: null
+      createdTime: 1786881373769
+      modifiedTime: 1786881391207
+      lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.TK3AJJwLFtTGA2mH"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.TK3AJJwLFtTGA2mH'
   - sort: 1000000
     name: Squires Tab
     type: text
@@ -346,7 +348,7 @@ pages:
       content: >-
         <p>There are four section to this tab</p><ul><li><p>Squires - click the
         "+" icon to add a new squire. Use the "Eye" icon to view the details and
-        edit them.<br />Clicking on the squire's name will cause a Squire Skill
+        edit them.<br>Clicking on the squire's name will cause a Squire Skill
         roll to be made using the squire skill
         @UUID[Compendium.Pendragon.instructions.JournalEntry.Q8neofTu7Ubvxqzn.JournalEntryPage.G4jBCfNAtg74xkB5]{Squire
         Rolls}.</p><p>Clicking on the squire's age will cause a specific squire
@@ -356,8 +358,9 @@ pages:
         to add a new steed or click the "+" icon. Only HP are editable in the
         grid. The Health and Care ratings affect Horse Survival in the Winter
         Phase. Use the "Eye" icon to view the details of the horse or unlock the
-        character sheet to show the "Broom" icon and delete a
-        horse.</p><p>Toggle the "ride" box on to show which horse you are riding
+        character sheet to show the "Broom" icon and delete a horse.  A tooltip
+        over the "MOV" value will show the horses varoius Movement
+        rates.</p><p>Toggle the "ride" box on to show which horse you are riding
         - this will determine some weapon damage in the
         @UUID[.0YxsvVe0d1sSzu6F]</p><p>See
         @UUID[Compendium.Pendragon.instructions.JournalEntry.CJOK9y9zaz3G50kC.JournalEntryPage.HW6JQrGlDvPURzrF]{Horse
@@ -374,15 +377,15 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '14.365'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: 1749775887225
+      createdTime: 1786881435895
+      modifiedTime: 1786881435895
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.sEG9oOq3L4kqF5uB"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.sEG9oOq3L4kqF5uB'
   - sort: 1006250
     name: Events Tab
     type: text
@@ -395,8 +398,10 @@ pages:
       format: 1
       content: >-
         <p>This page has three
-        sections</p><p></p><p><strong>Events</strong></p><p>Click on the "+"
-        icon to add an event. The "Eye" icon will let you view and edit the
+        sections</p><p></p><p><strong>Events</strong></p><p>If you have
+        activated the Manual Glory Award game setting the first row allows you
+        to enter a manual glory adjustment.</p><p></p><p>Click on the "+" icon
+        to add an event. The "Eye" icon will let you view and edit the
         details.</p><p>Unlocking the character sheet will let you delete events
         with the "Broom" icon.</p><p>Some events may be created during character
         generation that will need you to edit the details.</p><p>If you want to
@@ -404,18 +409,17 @@ pages:
         either an event for the current year and edit the Glory score as you go
         along or add additional events. See Passive Glory below if you want to
         only add Glory at the Winter
-        Phase.</p><p><strong>Ideals</strong></p><p>You can drag ideals from the
-        items menu to the character sheet (it will check you meet the
+        Phase.</p><p></p><p><strong>Ideals</strong></p><p>You can drag ideals
+        from the items menu to the character sheet (it will check you meet the
         requirements) and these will be displayed here. If you no longer meet
         the minimum requirements then the ideal will not be active. Active
         ideals will automatically updated for benefits (e.g. Glory, Armour
         etc).</p><p></p><p><strong>Passive Glory</strong></p><p>Most of the
         values shown are automatically calculated for you. Enter the "Estate"
-        and "Other" values manually.<br /><br />If you want to add Glory at the
-        end of the year during Winter Phase, rather than as the events occur,
-        add the Glory award to the "Earned in Year" passive score. As
-        WinterPhase is turned off this "Earned in Year" value will be set back
-        to zero.</p>
+        and "Other" values manually.<br><br>If you want to add Glory at the end
+        of the year during Winter Phase, rather than as the events occur, add
+        the Glory award to the "Earned in Year" passive score. As WinterPhase is
+        turned off this "Earned in Year" value will be set back to zero.</p>
     video:
       controls: true
       volume: 0.5
@@ -426,15 +430,15 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.351"
+      coreVersion: '14.365'
       systemId: Pendragon
       systemVersion: 12.1.11
-      createdTime: null
-      modifiedTime: 1764087892642
+      createdTime: 1786881482510
+      modifiedTime: 1786881482510
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.8390AvE66aRvM5fJ"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.8390AvE66aRvM5fJ'
   - sort: 1037500
     name: Bio Tab
     type: text
@@ -484,7 +488,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.348"
+      coreVersion: '13.348'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: null
@@ -492,7 +496,7 @@ pages:
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.jLkjoTOmE5GIIuJW"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.jLkjoTOmE5GIIuJW'
   - sort: 450000
     name: Stats Section
     type: text
@@ -543,7 +547,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "14.364"
+      coreVersion: '14.364'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: 1783595658282
@@ -551,7 +555,7 @@ pages:
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.Ra9PK638R24cc31A"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.Ra9PK638R24cc31A'
   - sort: 1300000
     name: Winter Tab
     type: text
@@ -577,7 +581,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '13.345'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: null
@@ -585,7 +589,7 @@ pages:
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.7IY9RyzovHwzf5jS"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.7IY9RyzovHwzf5jS'
   - sort: 1050000
     name: Stats Tab
     type: text
@@ -622,7 +626,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '13.345'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: null
@@ -630,7 +634,7 @@ pages:
       lastModifiedBy: null
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.qLYS7miTa5T31GYn"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.qLYS7miTa5T31GYn'
   - sort: 1012500
     name: House Tab
     type: text
@@ -665,7 +669,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '13.345'
       systemId: Pendragon
       systemVersion: 12.1.11
       createdTime: null
@@ -673,7 +677,7 @@ pages:
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.fRLDTfqAgmiltXyr"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.fRLDTfqAgmiltXyr'
   - sort: 1400000
     name: Follower Tab
     type: text
@@ -707,7 +711,7 @@ pages:
     flags: {}
     _stats:
       duplicateSource: null
-      coreVersion: "13.345"
+      coreVersion: '13.345'
       systemId: Pendragon
       systemVersion: 12.1.16
       createdTime: null
@@ -715,7 +719,7 @@ pages:
       lastModifiedBy: pendragonBuilder
       exportSource: null
     category: null
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.956N6gsBXB5T09Ka"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.956N6gsBXB5T09Ka'
   - sort: 1500000
     name: Getting Knighted Later
     type: text
@@ -747,13 +751,13 @@ pages:
     _stats:
       duplicateSource: null
       exportSource: null
-      coreVersion: "13.351"
+      coreVersion: '13.351'
       systemId: Pendragon
       systemVersion: 13.1.53
       createdTime: 1769185801944
       modifiedTime: 1769185986609
       lastModifiedBy: pendragonBuilder
-    _key: "!journal.pages!b5d7Ha8LOeLSNvul.zwhncS51yaecGzfd"
+    _key: '!journal.pages!b5d7Ha8LOeLSNvul.zwhncS51yaecGzfd'
 folder: null
 flags:
   Pendragon:
@@ -765,9 +769,9 @@ flags:
     fixed-adventure-heading: true
 _stats:
   duplicateSource: null
-  coreVersion: "14.364"
+  coreVersion: '14.364'
   systemId: Pendragon
-  systemVersion: "14.1"
+  systemVersion: '14.1'
   createdTime: 1719597783187
   modifiedTime: 1781499153730
   lastModifiedBy: pendragonBuilder
@@ -776,4 +780,4 @@ sort: 25000
 ownership:
   default: 0
 categories: []
-_key: "!journal!b5d7Ha8LOeLSNvul"
+_key: '!journal!b5d7Ha8LOeLSNvul'

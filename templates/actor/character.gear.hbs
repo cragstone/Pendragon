@@ -24,13 +24,13 @@
       {{#if (eq armour.system.disadvantage '')}}
         <div class="grid-item"></div>
       {{else}}
-        <div class="stat-name centre grid-item">{{localize 'PEN.view'}}</div>
+        <div class="stat-name centre grid-item truncate" data-tooltip="{{armour.system.disadvantage}}">{{armour.system.disadvantage}}</div>
       {{/if}}
       
       {{#if (eq armour.system.notes '')}}
         <div class="grid-item"></div>
       {{else}}
-        <div class="stat-name centre grid-item">{{localize 'PEN.view'}}</div>
+        <div class="stat-name centre grid-item truncate" data-tooltip="{{armour.system.notes}}">{{armour.system.notes}}</div>
       {{/if}}
       <div class="centre item grid-item" data-itemid ="{{armour._id}}">
         <a class="item-control large-icon fade" data-action="viewDoc"><i data-tooltip="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>

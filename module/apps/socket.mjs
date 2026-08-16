@@ -1,5 +1,6 @@
 import { PENCheck } from "./checks.mjs";
 import { OPCard } from "../cards/opposed-card.mjs";
+import { PENUtilities } from "./utilities.mjs";
 
 export class PENSystemSocket {
   static async callSocket(data) {
@@ -20,6 +21,9 @@ export class PENSystemSocket {
         break;
       case "toggleMapNotes":
         game.settings.set("core", NotesLayer.TOGGLE_SETTING, data.toggle === true);
+        break;
+      case "updatechar":
+        PENUtilities.updateCharSheets();
         break;
     }
   }

@@ -117,6 +117,7 @@ export class OPCard {
     }
 
     //Now work out the result for each chatcard
+    let count = 0;
     for (let i of chatCards) {
       if (i.resultLevel === 3 && bestCount === 1) {
         i.outcome = "W";
@@ -139,7 +140,11 @@ export class OPCard {
       }
       i.outcomeLabel = game.i18n.localize("PEN.comRoll" + i.outcome);
       newchatCards.push(i);
-      await OPCard.showDiceRoll(i);
+      if (count === chatCards.length - 1) {
+        await OPCard.showDiceRoll(i, true);
+      } else {
+        await OPCard.showDiceRoll(i, false);
+      }
 
       //Check for auto XP improvement
       if (game.settings.get("Pendragon", "autoXP") && i.resultLevel != 1) {
@@ -147,6 +152,7 @@ export class OPCard {
           await PENCheck.tickXP(i);
         }
       }
+      count++;
     }
 
     //Update and rerend the chat card
@@ -194,7 +200,7 @@ export class OPCard {
     return;
   }
 
-  static async showDiceRoll(chatCard) {
+  static async showDiceRoll(chatCard, delay) {
     //If this is an Opposed or Combat roll then for the dice to roll if Dice so Nice used
     if (game.modules.get("dice-so-nice")?.active) {
       const diceData = {
@@ -212,7 +218,12 @@ export class OPCard {
           },
         ],
       };
-      game.dice3d.show(diceData, game.users.get(chatCard.userID), true, null, false); //Dice Data,user,sync,whispher,blind
+      if (delay && game.settings.get("Pendragon", "delayDice")) {
+        await game.dice3d.show(diceData, game.users.get(chatCard.userID), true, null, false); //Dice Data,user,sync,whispher,blind
+      } else {
+        game.dice3d.show(diceData, game.users.get(chatCard.userID), true, null, false); //Dice Data,user,sync,whispher,blind
+      }
     }
+    return;
   }
 }
