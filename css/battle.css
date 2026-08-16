@@ -6,6 +6,34 @@
     background-color: var(--background-color);
     background-image: none;
     background-size: auto;
+    overflow: visible;
+    .main-sheet {
+      anchor-name: --battle;
+    }
+
+    .battle-notes-section {
+      position: fixed;
+      min-width: 355px;
+      border: 1px solid var(--pendragon-black);
+      position-anchor: --battle;
+      right: calc(anchor(left) + 0.5em);
+      top: calc(anchor(top) - 0.5em);
+      bottom: anchor(bottom);
+      background-color: var(--notes-background);
+      color: var(--notes-text);
+    }
+
+    .battle-results-section {
+      position: fixed;
+      min-width: 355px;
+      border: 1px solid var(--pendragon-black);
+      position-anchor: --battle;
+      left: calc(anchor(right) + 0.5em);
+      top: calc(anchor(top) - 0.5em);
+      bottom: anchor(bottom);
+      background-color: var(--notes-background);
+      color: var(--notes-text);
+    }
   }
 
   .enc-title {
@@ -25,6 +53,55 @@
     padding-top: 5px;
     color: black;
     text-align: center;
+    position: relative;
+
+    .enc-notes-icon {
+      display: block;
+      position: absolute;
+      left: 6px;
+      top: 6px;
+      font-size: 1rem;
+    }
+
+    .enc-lock-icon {
+      display: block;
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      font-size: 1rem;
+    }
+
+    .enc-result-icon {
+      display: block;
+      position: absolute;
+      right: 6px;
+      top: calc(50% - 0.5rem);
+      font-size: 1rem;
+    }
+
+    .enc-clear-icon {
+      display: block;
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .enc-res-icon {
+      display: block;
+      position: absolute;
+      left: 6px;
+      bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .enc-combat-icon {
+      display: block;
+      position: absolute;
+      left: calc(50% - 0.5rem);
+      bottom: 6px;
+      font-size: 1rem;
+    }
   }
 
   .encBack {
@@ -65,88 +142,17 @@
     box-shadow: none;
   }
 
-  .enc-notes-icon {
-    display: block;
-    position: absolute;
-    left: 13px;
-    top: 63px;
-    font-size: 1rem;
-  }
-
-  .enc-lock-icon {
-    display: block;
-    position: absolute;
-    right: 12px;
-    top: 63px;
-    font-size: 1rem;
-  }
-
-  .enc-result-icon {
-    display: block;
-    position: absolute;
-    right: 12px;
-    top: 118px;
-    font-size: 1rem;
-  }
-
-  .enc-clear-icon {
-    display: block;
-    position: absolute;
-    right: 12px;
-    top: 170px;
-    font-size: 1rem;
-  }
-
-  .enc-res-icon {
-    display: block;
-    position: absolute;
-    left: 13px;
-    top: 170px;
-    font-size: 1rem;
-  }
-
-  .enc-combat-icon {
-    display: block;
-    position: absolute;
-    left: 192px;
-    top: 170px;
-    font-size: 1rem;
-  }
-
   .battle-turn {
     display: grid;
     grid-template-columns: 125px auto 125px;
     padding-top: 8px;
     min-height: 86px;
+    color: var(--heading-color);
   }
 
   .battle-turn-grid {
     display: grid;
     grid-template-columns: 20px 35px 17px 40px 20px;
-  }
-
-  .battle-notes-section {
-    position: absolute;
-    min-width: 355px;
-    min-height: 674px;
-    border: 1px solid var(--pendragon-black);
-    color: var(--pendragon-black);
-    top: 35px;
-    left: -355px;
-    background-color: var(--notes-background);
-    color: black;
-  }
-
-  .battle-results-section {
-    position: absolute;
-    min-width: 355px;
-    min-height: 674px;
-    border: 1px solid var(--pendragon-black);
-    color: var(--pendragon-black);
-    top: 35px;
-    right: -355px;
-    background-color: var(--notes-background);
-    color: black;
   }
 
   .battle-turns {
@@ -155,17 +161,12 @@
     column-gap: 4px;
     padding-top: 5px;
     height: 65px;
-    color: var(--pendragon-black);
   }
 
   .enc-display {
     height: 1.2em;
     border: 1px transparent solid;
     font-weight: bold;
-  }
-
-  .black {
-    color: var(--pendragon-black);
   }
 
   .enc-input input {
