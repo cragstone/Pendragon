@@ -47,7 +47,7 @@ export class PENCombat {
     if (!confirm) {
       return;
     }
-    this.applyNaturalHealing(this.actor);
+    PENCombat.applyNaturalHealing(this.actor);
   }
   static async applyNaturalHealing(actor, deterioration = 0, markSuccessfulChirurgery = false) {
     const currentHealth = actor.system.hp.value;
@@ -88,7 +88,7 @@ export class PENCombat {
     //If not tracking Wounds then just apply Healing Rate to HP value
     if (!game.settings.get("Pendragon", "trackWnd")) {
       let newHP = Math.min(actor.system.hp.value + healing, actor.system.hp.max);
-      await this.actor.update({
+      await actor.update({
         "system.hp.value": newHP,
       });
       return;
@@ -262,7 +262,7 @@ export class PENCombat {
     if (damAmount < 1) {
       return;
     }
-    applyDamage(this.actor, damType, damAmount, statImpact);
+    PENCombat.applyDamage(this.actor, damType, damAmount, statImpact);
   }
 
   //Add Wound Form
