@@ -1,0 +1,101 @@
+/*
+ * Core layer
+ * Global defaults go in here, they will be overridden by any other rules
+ */
+/* Global styles */
+.window-app {
+  font-family: "Roboto", sans-serif;
+}
+
+@font-face {
+  font-family: "Herb";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../assets/jaf-herb-regular.ttf") format("woff2");
+}
+
+@font-face {
+  font-family: "AGaramondPro";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../assets/AGaramondPro-Regular.otf") format("woff2");
+}
+
+@font-face {
+  font-family: "Basteleur";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../assets/Basteleur-Bold.otf") format("woff2");
+}
+
+@font-face {
+  font-family: "IMFell";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../assets/IMFeGPrm29C.otf") format("woff2");
+}
+
+@font-face {
+  font-family: "Messiri";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../assets/ElMessiri-VariableFont_wght.ttf") format("woff2");
+}
+
+:root {
+  --pendragon-blue: oklch(0.545 0.14 248.1);
+  --pendragon-red: #ab0f14;
+  --pendragon-gold: oklch(0.873 0.179 92.2);
+  --pendragon-black: black;
+  --pendragon-grey: #918987;
+  --pendragon-darkred: darkred;
+  --pendragon-darkblue: #034694;
+  --header-row: #240202;
+  --background-color: #fffde7;
+  --sec-background-color: rgb(56, 78, 30);
+  --exalted-color: rebeccapurple;
+  --font-h2: Messiri, Signika, sans-serif;
+  --pd-light-row: #e5dbd488;
+  --pd-dark-row: #4507072b;
+  --pd-first-row: #180202e7;
+  --pill-size: var(--font-size-11);
+  --pss-table-row-colour-even: rgba(0, 0, 0, 0.1);
+  --pss-table-row-colour-odd: transparent;
+  --notes-background: rgb(177, 168, 168);
+  --notes-text: var(--pendragon-black);
+  --frame-border-color: #240202;
+  --heading-color: var(--pendragon-darkred);
+}
+
+.theme-light {
+  --icon-img-filter: invert(1);
+  --char-background-image: url("../assets/backgrounds/arches.png");
+  --pill-bg: #f8f4f1;
+  --rollable-highlight: var(--pendragon-gold);
+  --frame-border-color: #240202;
+  & .prose-frame {
+    --input-background-color: rgba(0, 0, 0, 0.1);
+    --input-placeholder-color: var(--color-dark-4);
+    --input-border-color: var(--color-dark-6);
+    --input-box-shadow: inset 0 0 6px var(--input-background-color);
+    --input-text-color: var(--color-dark-2);
+    --input-focus-outline-color: var(--color-warm-2);
+  }
+  --heading-color: var(--pendragon-darkred);
+}
+.theme-dark {
+  --icon-img-filter: none;
+  --char-background-image: url("../assets/backgrounds/black-paper.png");
+  --pill-bg: #240202;
+  --exalted-color: oklch(0.637 0.185 295);
+  --rollable-highlight: oklch(0.473 0.179 92.2);
+  --background-color: #1e1e1c;
+  --pd-light-row: #ada5a088;
+  --pd-dark-row: #396da775;
+  --pd-first-row: #1e5a69e7;
+  --frame-border-color: antiquewhite;
+  --heading-color: oklch(from var(--pendragon-red) l 0.3 h);
+  .sheet section.window-content {
+    backdrop-filter: none;
+  }
+}

@@ -6,6 +6,23 @@
     background-color: var(--background-color);
     background-image: none;
     background-size: auto;
+    overflow: visible;
+    .main-sheet {
+      anchor-name: --encounter;
+    }
+
+    .enc-notes-section {
+      position: fixed;
+      min-width: 355px;
+      min-height: 514px;
+      border: 1px solid var(--pendragon-black);
+      position-anchor: --encounter;
+      right: calc(anchor(left) + 0.5em);
+      top: calc(anchor(top) - 0.5em);
+      bottom: anchor(bottom);
+      background-color: var(--notes-background);
+      color: var(--notes-text);
+    }
   }
 
   .enc-main-sheet {
@@ -24,6 +41,39 @@
     padding-top: 5px;
     color: cornsilk;
     text-align: center;
+    position: relative;
+
+    .enc-notes-icon {
+      display: block;
+      position: absolute;
+      left: 6px;
+      top: 6px;
+      font-size: 1rem;
+    }
+
+    .enc-lock-icon {
+      display: block;
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      font-size: 1rem;
+    }
+
+    .enc-opp-icon {
+      display: block;
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .enc-used-icon {
+      display: block;
+      position: absolute;
+      left: 6px;
+      bottom: 6px;
+      font-size: 1rem;
+    }
   }
 
   .enc-title {
@@ -54,25 +104,12 @@
     box-shadow: none;
   }
 
-  .enc-notes-section {
-    position: absolute;
-    min-width: 355px;
-    min-height: 514px;
-    border: 1px solid var(--pendragon-black);
-    color: var(--pendragon-black);
-    top: 35px;
-    left: -355px;
-    background-color: var(--notes-background);
-    color: black;
-  }
-
   .enc-npc-section {
     position: absolute;
     min-width: 355px;
     max-width: 355px;
     min-height: 514px;
     border: 1px solid var(--pendragon-black);
-    color: var(--pendragon-black);
     top: 35px;
     right: -355px;
     background-color: var(--background-color);
@@ -87,45 +124,12 @@
     background-color: var(--pendragon-blue);
   }
 
-  .enc-notes-icon {
-    display: block;
-    position: absolute;
-    left: 13px;
-    top: 63px;
-    font-size: 1rem;
-  }
-
-  .enc-lock-icon {
-    display: block;
-    position: absolute;
-    right: 12px;
-    top: 63px;
-    font-size: 1rem;
-  }
-
-  .enc-opp-icon {
-    display: block;
-    position: absolute;
-    right: 12px;
-    top: 170px;
-    font-size: 1rem;
-  }
-
-  .enc-used-icon {
-    display: block;
-    position: absolute;
-    left: 13px;
-    top: 170px;
-    font-size: 1rem;
-  }
-
   .morale-loss {
     display: grid;
     grid-template-columns: 100px 85px 100px 85px;
     column-gap: 4px;
     padding-top: 5px;
     height: 25px;
-    color: var(--pendragon-black);
   }
 
   .enc-display {
@@ -152,7 +156,6 @@
     height: 105px;
     border: 1px solid var(--pendragon-black);
     padding: 3px;
-    color: var(--pendragon-black);
     background-color: var(--pendragon-grey);
   }
 
@@ -167,12 +170,13 @@
     grid-template-columns: 125px auto 125px;
     padding-top: 8px;
     min-height: 86px;
+    color: var(--heading-color);
   }
 
   .npc-title {
     text-transform: uppercase;
     text-align: center;
-    color: var(--pendragon-darkred);
+    color: var(--heading-color);
     border-bottom: 2px solid var(--sec-background-color);
     font-weight: bold;
   }
@@ -181,7 +185,7 @@
     display: grid;
     grid-template-columns: repeat(4, 60px);
     text-align: center;
-    color: var(--pendragon-darkred);
+    color: var(--heading-color);
     padding: 8px 53px 0 52px;
   }
 
@@ -195,7 +199,7 @@
 
   .attacks {
     text-transform: uppercase;
-    color: var(--pendragon-darkred);
+    color: var(--heading-color);
     font-weight: bold;
   }
 
@@ -280,7 +284,6 @@
   min-height: 470px;
   height: 100%;
   width: 335px;
-  color: black;
 }
 
 .enc-notes .prosemirror .editor-content,
