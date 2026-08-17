@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 14.9
+- Parents Glory corrected to 2D6 & 3D6 (not 2D6 for both)
+
 ## 14.8
 
 - Added some PIDs as registered keys (mostly tables, but also Horsemanship)
