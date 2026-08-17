@@ -137,6 +137,7 @@ export class PENCheck {
       fixedOpp: options.fixedOpp ?? 0,
       inquiry: options.inquiry ?? "no",
       action: options.action ?? "attack",
+      itemDamage: options.itemDamage,
       userID: game.user._id,
       gmRollScore: options.gmRollScore ?? 0,
       neutralRoll: options.neutralRoll ?? false,
@@ -243,6 +244,11 @@ export class PENCheck {
           } else {
             config.rollFormula = tempItem.system.dmgForm;
           }
+        }
+        // v2 pre-calculates this formula for us,
+        // so we use this value when available
+        if (config.itemDamage) {
+          config.rollFormula = config.itemDamage;
         }
         if (config.damCrit) {
           if (tempItem.system.damageChar === "b") {

@@ -221,7 +221,14 @@ export class PendragonActor extends Actor {
           damageFlatMod = Number(damageFlatMod) + Number(i.system.damageBonus) + Number(systemData.damageMod);
 
           damageDice = Math.min(Number(damageDice) + Number(i.system.damageMod), Number(i.system.damageMax));
-          damageFormula = damageDice + "D6+" + damageFlatMod;
+          // make this mildly nicer
+          damageFormula = `${damageDice}D6`;
+          if (damageFlatMod > 0) {
+            damageFormula = `${damageDice}D6+${damageFlatMod}`;
+          }
+          if (damageFlatMod < 0) {
+            damageFormula = `${damageDice}D6${damageFlatMod}`;
+          }
         }
         i.system.damage = damageFormula;
       }
