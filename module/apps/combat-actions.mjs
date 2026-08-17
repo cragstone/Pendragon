@@ -159,9 +159,12 @@ export class CombatAction {
       // effective charge skill is lower of charge or weapon skill
       const chargeSkillTotal = actor.getSkillTotal("i.skill.charge");
       currentWeapon.total = Math.min(chargeSkillTotal, weapon.system.total);
-      // if dmgChar = "h" weapon damage already set properly
+      // if dmgChar = "h" use the horse's charge damage
       // TODO: special case spear as lance
-      if (weapon.system.damageChar != "h") {
+      if (weapon && weapon.system.damageChar == "h") {
+        currentWeapon.damage = horseDamage;
+      }
+      if (weapon && weapon.system.damageChar != "h") {
         const weaponDamageDice = actor.system.damage + Number(weapon.system.damageMod) + 1;
         const dmgDice = Math.min(weaponDamageDice, Number.parseInt(horseDamage));
         const dmgModifier = Number(weapon.system.damageBonus) + Number(actor.system.damageMod);
@@ -179,11 +182,12 @@ export class CombatAction {
     const options = {
       ...this.defaultOptions(actor, action),
       ...this.calcTargets(targetScore, modifier),
-      itemId: currentWeapon?.id,
+      itemId: currentWeapon.id,
       flatMod: modifier,
       label: currentWeapon.name,
       rawScore: currentWeapon.total,
       skillId: currentWeapon.skillId,
+      itemDamage: currentWeapon.damage,
     };
     return options;
   }
@@ -726,6 +730,7 @@ export class CombatAction {
           fixedOpp: config.fixedOpp,
           action: config.action,
           actionLabel: game.i18n.localize(`PEN.actions.${config.action}`),
+          itemDamage: config.itemDamage,
           userID: config.userID,
           neutralRoll: config.neutralRoll,
         },

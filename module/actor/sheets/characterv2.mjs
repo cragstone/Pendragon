@@ -10,7 +10,7 @@ import { WoundTrackerDialog } from "./actor-wound-tracker.mjs";
 import { CardType, PENCheck, RollType } from "../../apps/checks.mjs";
 import { CombatAction } from "../../apps/combat-actions.mjs";
 
-const { api } = foundry.applications;
+const { api, ux } = foundry.applications;
 
 export class PendragonCharacterSheetv2 extends PendragonActorSheet {
   constructor(options = {}) {
@@ -384,6 +384,8 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     const conditionIds = CONFIG.statusEffects.map((c) => c.id);
     const effects = [];
     for (const e of effectList) {
+      // TODO: should be based on id, not name, may be some leftover
+      // migration shenanigans...
       if (!conditionIds.includes(e.name)) effects.push(e);
     }
     context.effects = effects;
@@ -406,7 +408,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     // trait tab has ideals which has special prep steps
     context.tab = context.tabs.traits;
     for (const i of context.ideals) {
-      i.description = await TextEditor.enrichHTML(i.system.description, {
+      i.description = await ux.TextEditor.implementation.enrichHTML(i.system.description, {
         async: true,
         secrets: false,
         relativeTo: i,
@@ -478,7 +480,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
 
   async _prepareBioTab(context) {
     context.tab = context.tabs.biography;
-    context.enrichedBackgroundValue = await TextEditor.enrichHTML(this.actor.system.background, {
+    context.enrichedBackgroundValue = await ux.TextEditor.implementation.enrichHTML(this.actor.system.background, {
       async: true,
       secrets: context.editable,
       relativeTo: this.actor,
@@ -506,9 +508,15 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
         total: weapon.system.total,
         damage: weapon.system.damage,
       };
+      if (weapon.system.damageChar == "h" && horse) {
+        context.currentWeapon.damage = horse.system.chargeDmg;
+      }
     } else {
       context.currentWeapon = this.#unarmed();
     }
+    // use higher of shield or parry
+    // TODO: double-check we are calculating correctly
+    context.shield = Math.max(this.actor.system.shield, weapon?.system.parry ?? 0);
     context.battlePosType = await PENSelectLists.getBattlePos();
     context.fieldPosType = await PENSelectLists.getFieldPos();
     return context;
