@@ -1742,7 +1742,7 @@ export class PENCharCreate {
   static async gloryRoll(parentName, actor) {
     let results = [];
     let roll1 = await PENUtilities.complexDiceRoll("2D6");
-    let roll2 = await PENUtilities.complexDiceRoll("2D6");
+    let roll2 = await PENUtilities.complexDiceRoll("3D6");
     let glory = Number(roll1.total) * 100 + 2000 + Number(roll2.total) * 100 + 500;
     let heroic = Math.floor((Number(roll2.total) * 100 + 500) / 500);
     let result = { glory, heroic };
