@@ -89,7 +89,7 @@
   --pill-bg: #240202;
   --exalted-color: oklch(0.637 0.185 295);
   --rollable-highlight: oklch(0.473 0.179 92.2);
-  --pendragon-darkred: #cf1f1f;
+  --pendragon-darkred: oklch(from var(--pendragon-red) l 0.3 h);
   --background-color: #1e1e1c;
   --pd-light-row: #ada5a088;
   --pd-dark-row: #396da775;

@@ -2,6 +2,7 @@
 
 ## 14.9
 - Parents Glory corrected to 2D6 & 3D6 (not 2D6 for both)
+- Ideal damage changed to a string (to allow for Wodinic Knight damage bonus of +1D6)
 
 ## 14.8
 

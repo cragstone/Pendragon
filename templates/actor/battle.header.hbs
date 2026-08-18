@@ -69,7 +69,7 @@
 
     <ol class="enc-list">
       <div class="battle-enc">
-        <div class="enc-display black bold" style="margin-top: 8px;">{{localize 'PEN.encounters'}}</div>
+        <div class="enc-display bold" style="margin-top: 8px;">{{localize 'PEN.encounters'}}</div>
           {{#each encounters as |enc id|}}
             <li class="partic-grid partic-item" data-property="{{enc.uuid}}" data-pid="{{enc.pid}}" data-coll="encounters" data-index="{{@index}}">
               {{#if enc.actr.system.opportunity}}

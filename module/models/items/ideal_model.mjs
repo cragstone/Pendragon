@@ -13,7 +13,7 @@ export class IdealData extends foundry.abstract.TypeDataModel {
       armour: new NumberField({ ...requiredInteger, initial: 0 }),
       hp: new NumberField({ ...requiredInteger, initial: 0 }),
       hr: new NumberField({ ...requiredInteger, initial: 0 }),
-      dam: new NumberField({ ...requiredInteger, initial: 0 }),
+      dam: new StringField({ required: true, blank: true, initial: "" }), 
       move: new NumberField({ ...requiredInteger, initial: 0 }),
       protect: new BooleanField({ initial: false }),
       traitGroup: new ArrayField(new DataField(), { initial: [] }),
