@@ -2,6 +2,7 @@ import { PENactorDetails } from "./actorDetails.mjs";
 import { OPCard } from "../cards/opposed-card.mjs";
 import { COCard } from "../cards/combat-card.mjs";
 import PENDialog from "../setup/pen-dialog.mjs";
+import { CombatAction, CombatOutcome } from "./combat-actions.mjs";
 
 export class RollType {
   static CHARACTERISTIC = "CH";
@@ -135,7 +136,8 @@ export class PENCheck {
       damMod: options.damMod ?? "0",
       fixedOpp: options.fixedOpp ?? 0,
       inquiry: options.inquiry ?? "no",
-      action: "attack",
+      action: options.action ?? "attack",
+      itemDamage: options.itemDamage,
       userID: game.user._id,
       gmRollScore: options.gmRollScore ?? 0,
       neutralRoll: options.neutralRoll ?? false,
@@ -243,12 +245,23 @@ export class PENCheck {
             config.rollFormula = tempItem.system.dmgForm;
           }
         }
+        // v2 pre-calculates this formula for us,
+        // so we use this value when available
+        if (config.itemDamage) {
+          config.rollFormula = config.itemDamage;
+        }
         if (config.damCrit) {
           if (tempItem.system.damageChar === "b") {
             config.rollFormula = config.rollFormula + "+2D6";
+          } else if (config.action == CombatAction.RECKLESS) {
+            // reckless attack adds +6d6 on critical
+            config.rollFormula = config.rollFormula + "+6D6";
           } else {
             config.rollFormula = config.rollFormula + "+4D6";
           }
+        } else if (config.action == CombatAction.RECKLESS) {
+          // reckless attack adds +2d6 to normal attack
+          config.rollFormula = config.rollFormula + "+2D6";
         }
         break;
       case RollType.COMBAT:
@@ -306,11 +319,6 @@ export class PENCheck {
         } else {
           let targetMsg = await game.messages.get(config.checkMsgId);
           config.reflexMod = -targetMsg.flags.Pendragon.chatCard[0].reflexMod ?? 0;
-        }
-        if (!foundry.utils.isNewerVersion(game.version, "11")) {
-          config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER;
-        } else {
-          config.chatType = CONST.CHAT_MESSAGE_OTHER;
         }
 
         config.chatType = CONST.CHAT_MESSAGE_STYLES.OTHER;
@@ -388,9 +396,7 @@ export class PENCheck {
         }
         break;
       case "charge":
-        let charge = (
-          await particActor.items.filter((itm) => itm.flags.Pendragon?.pidFlag?.id === "i.skill.charge")
-        )[0];
+        let charge = await particActor.items.find((itm) => itm.flags.Pendragon?.pidFlag?.id === "i.skill.charge");
         if (!charge) {
           if (particActor.type != "npc") {
             config.targetScore = 0;
@@ -451,7 +457,7 @@ export class PENCheck {
     }
 
     //Format the data so it's in the same format as will be held in the Chat Message when saved
-    let chatMsgData = {
+    const chatMsgData = {
       rollType: config.rollType,
       cardType: config.cardType,
       chatType: config.chatType,
@@ -543,14 +549,14 @@ export class PENCheck {
       flatMod: options.flatMod,
     };
     const html = await foundry.applications.handlebars.renderTemplate(options.dialogTemplate, data);
-    const dlg = await PENDialog.input({
-      window: { title: game.i18n.localize("PEN.card.rollMods") },
+    const result = await foundry.applications.api.DialogV2.input({
+      window: { title: options.winTitle ?? "Roll Options" },
       content: html,
       ok: {
-        label: game.i18n.localize("PEN.rollDice"),
+        label: "Roll Dice",
       },
     });
-    return dlg;
+    return result;
   }
 
   //Call Dice Roll, calculate Result and store original results in rollVal
@@ -574,7 +580,7 @@ export class PENCheck {
       return;
     }
     //Get the level of Success
-    config.resultLevel = await PENCheck.successLevel(config);
+    config.resultLevel = PENCheck.successLevel(config);
 
     //If this is a decisionTrait roll and it was failed then consider activating the reverseRoll option
     if (config.rollType === RollType.DECISION && config.resultLevel === RollResult.FAIL && !config.reverseRoll) {
@@ -585,7 +591,7 @@ export class PENCheck {
   }
 
   // Calculate Success Level
-  static async successLevel(config) {
+  static successLevel(config) {
     let resultLevel = -1;
     //Calculate result level
     if (config.rollVal === config.targetScore) {
@@ -757,16 +763,14 @@ export class PENCheck {
         await OPCard.OPResolve(data);
         break;
       case "resolve-co-card":
-        await COCard.COResolve(data);
+        await COCard.resolveCombatRolls(data);
         break;
       case "reverseRoll":
         await PENCheck.reverseTrait(targetMsg);
         return;
-        break;
       case "dam-co-card":
         await COCard.combatDamageRoll(data);
         return;
-        break;
 
       default:
         return;

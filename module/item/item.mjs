@@ -61,6 +61,14 @@ export class PendragonItem extends Item {
     return rollData;
   }
 
+  // Specifically for horses (though should really subclass)
+  getName() {
+    if (this.type == "horse") {
+      return this.system.label == this.name ? `Unnamed ${this.name}` : this.system.label;
+    }
+    return this.name;
+  }
+
   //Handle clickable rolls.
   async roll() {
     const item = this;

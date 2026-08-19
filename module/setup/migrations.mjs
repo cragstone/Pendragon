@@ -133,7 +133,7 @@ export async function migrateItems_13136() {
 
 export async function migrateItemData_13136(item) {
   //If categories already set then don't migrate
-  if (item.system.categories.length > 0) {
+  if ((item.system.categories ?? []).length > 0) {
     return;
   }
   const updateData = [];

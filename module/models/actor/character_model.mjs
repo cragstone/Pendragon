@@ -1,3 +1,4 @@
+import { PendragonStatusEffects } from "../../apps/status-effects.mjs";
 const { HTMLField, SchemaField, NumberField, StringField, FilePathField, ArrayField, BooleanField } =
   foundry.data.fields;
 
@@ -158,5 +159,49 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
         heirStat: new BooleanField({ initial: false }),
       }),
     };
+  }
+
+  prepareDerivedData() {
+    super.prepareDerivedData();
+
+    //Set Culture ID
+    const culture = this.parent.items.find((itm) => itm.type === "culture");
+    if (culture) {
+      this.cultureID = culture._id;
+      this.cultureName = culture.name;
+    }
+    //Set Homeland ID
+    const homeland = this.parent.items.find((itm) => itm.type === "homeland");
+    if (homeland) {
+      this.homelandID = homeland._id;
+      this.homelandName = homeland.name;
+    }
+
+    //Set Class ID
+    const actClass = this.parent.items.find((itm) => itm.type === "class");
+    if (actClass) {
+      this.classID = actClass._id;
+      this.className = actClass.name;
+    }
+
+    //Set Religion ID
+    const religion = this.parent.items.find((itm) => itm.type === "religion");
+    if (religion) {
+      this.religionID = religion._id;
+      this.religionName = religion.name;
+    }
+
+    this.age = game.time.components.year - this.born;
+    if (this.died > 0) {
+      this.age = this.died - this.born;
+    }
+
+    //Actor only Adjustments
+    this.damage = this.damage + this.damAdj;
+    this.move = this.move + this.moveAdj;
+    this.armour = this.armour + this.armourAdj;
+
+    this.hp.value = this.hp.max - this.totalWounds - this.aggravDam - this.deterDam;
+    this.hp.unconscious = Math.round(this.hp.max / 4);
   }
 }

@@ -69,7 +69,7 @@ export class OPCard {
         for (let i of chatCards) {
           i.critBonus = i.critBonus - minTarget;
           i.rollVal = i.rollVal - minTarget;
-          i.resultLevel = await PENCheck.successLevel({
+          i.resultLevel = PENCheck.successLevel({
             targetScore: i.targetScore,
             rollVal: i.rollVal,
           });

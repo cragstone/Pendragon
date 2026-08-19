@@ -59,6 +59,8 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       prestigeSkill: this._prestigeSkill,
       prestigePassion: this._prestigePassion,
       familyRoll: this._familyRoll,
+      switchSheet: this._onSwitchSheet,
+      toggleHorse: this._toggleHorse,
     },
     window: {
       resizable: true,
@@ -323,6 +325,11 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
 
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
+
+    // add the current horse
+    const horse = context.actor.currentHorse();
+    const mountedHorse = context.actor.isMounted() ? horse : undefined;
+    context.currentHorse = { _id: mountedHorse?._id };
 
     return context;
   }
@@ -700,7 +707,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   static _onEditPid(event, target) {
     event.stopPropagation(); // Don't trigger other events
     if (event.detail > 1) return; // Ignore repeated clicks
-    new PIDEditor({ document: this.document }, {}).render(true, {
+    new PIDEditor(this.document, {}).render(true, {
       focus: true,
     });
   }
@@ -958,6 +965,24 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     await PENWinter.familyRoll(this.actor);
   }
 
+  //Mount/dismount horse
+  static async _toggleHorse(event, target) {
+    const li = target.closest(".item");
+    console.log(li.dataset.itemId);
+    const item = this.actor.items.get(li.dataset.itemId);
+    const currentHorse = this.actor.currentHorse();
+    if (this.actor.isMounted() && currentHorse?.id == item.id) {
+      await this.actor.dismountCurrentHorse();
+    } else {
+      if (item.id != currentHorse?.id) await this.actor.setFlag("Pendragon", "currentHorse", item.id);
+      await this.actor.mountCurrentHorse();
+    }
+  }
+
+  static async _onSwitchSheet(event, target) {
+    const sheetClass = this.actor.getFlag("core", "sheetClass") ?? "";
+    this.actor.setFlag("core", "sheetClass", "Pendragon.PendragonCharacterSheetv2");
+  }
   // -----------------------------------LISTENERS-----------------------------------------
   //Activate event listeners using the prepared sheet HTML
   _onRender(context, _options) {
