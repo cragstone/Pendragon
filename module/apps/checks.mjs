@@ -670,7 +670,7 @@ export class PENCheck {
       return;
     }
     let actor = await PENactorDetails._getParticipant(chatCard.particId, chatCard.particType);
-    if (actor.type != "character") {
+    if (!["character", "backgroundnpc"].includes(actor.type)) {
       return;
     }
     let checkProp = "";

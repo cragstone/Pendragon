@@ -142,11 +142,11 @@ div.pen-adventure-entry {
       margin: -1px 0;
       white-space: nowrap;
       word-break: break-all;
-      color: purple;
+      color: var(--pendragon-hyperlink);
 
       i {
         display: inline;
-        color: purple;
+        color: var(--pendragon-hyperlink);
       }
 
       &.broken {
@@ -163,7 +163,7 @@ div.pen-adventure-entry {
       border: none;
       white-space: pre-wrap;
       word-break: normal;
-      color: purple;
+      color: var(--pendragon-hyperlink);
       padding: 0px;
 
       i {
@@ -172,6 +172,24 @@ div.pen-adventure-entry {
 
       &.broken {
         text-decoration: line-through;
+      }
+    }
+
+    .external a.content-link {
+      background: none;
+      border: none;
+      white-space: pre-wrap;
+      word-break: normal;
+      color: purple;
+      padding: 0px;
+
+      i {
+        display: none;
+      }
+
+      &.broken {
+        color: var(--pendragon-primary-text);
+        text-decoration: none;
       }
     }
 

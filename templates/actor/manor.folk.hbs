@@ -1,0 +1,30 @@
+<section class='character tab folk {{tab.cssClass}}' data-group='primary' data-tab='folk'>
+  <div class="droppable" data-collection = "npcs">
+    <table>
+        <tbody>
+          <tr>
+              <th>{{localize 'PEN.manor.folk'}}</th>
+              <th class="centre">{{localize 'PEN.type'}}</th>
+              <th class="centre"></th>
+              <th class="centre">{{localize 'PEN.manor.incomeShort'}}</th>
+              <th class="centre">{{localize 'PEN.manor.status'}}</th>     
+              <th class="centre">&nbsp</th>              
+          </tr>
+          {{#each folks as |folk key|}}
+          <tr data-itemid = "{{folk.uuid}}">
+            <td>{{folk.name}}</td>
+            <td class="centre">{{folk.typeLabel}}</td>
+            <td  class="centre"></td>
+            <td class="centre">{{folk.libra}} / {{folk.denarii}}</td>
+            <td class="centre"></td>               
+            <td>
+                <a class="item-control medium-icon fade" data-action="viewFolk"><i data-tooltip="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
+                <a class="item-control  medium-icon fade" data-action="deleteFolk"><i data-tooltip="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+    </table>
+  </div>
+
+</section>

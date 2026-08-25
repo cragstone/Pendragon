@@ -1,0 +1,144 @@
+<section class="tab mesnie {{tab.cssClass}}" data-group="primary" data-tab="mesnie">
+  <br>
+
+  <table>
+    <tbody>
+      <tr>
+        <th class="left indent new-row">{{localize 'PEN.manor.troop'}}</th>
+        <th class="left centre" data-tooltip="{{localize 'PEN.manor.entitlement'}}">{{localize 'PEN.manor.entitlementAbbr'}}</th>
+        <th class="left centre" data-tooltip="{{localize 'PEN.manor.employed'}}">{{localize 'PEN.manor.employedAbbr'}}</th>
+        <th class="left centre" data-tooltip="{{localize 'PEN.manor.totalTroops'}}">{{localize 'PEN.total'}}</th>    
+        <th class="left centre" colspan="3">{{localize 'PEN.manor.costPer'}}</th> 
+        <th class="left centre" colspan="3">{{localize 'PEN.manor.costTotal'}}</th>  
+      </tr>
+
+      <tr>
+        <td class="left indent new-row">{{localize 'PEN.manor.garrisonSoldier'}}</td>
+        <td class="centre">{{system.mesnie.garrisonSoldier.entitled}}</td>
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.garrisonSoldier.employed" type="number" value="{{system.mesnie.garrisonSoldier.employed}}"/>
+        </td>    
+        <td class="centre">{{system.mesnie.garrisonSoldier.total}}</td>   
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.garrisonSoldier.costPer.libra" type="number" value="{{system.mesnie.garrisonSoldier.costPer.libra}}"/>
+        </td>
+        <td class="centre">/</td>
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.garrisonSoldier.costPer.denarii" type="number" value="{{system.mesnie.garrisonSoldier.costPer.denarii}}"/>
+        </td>
+        <td class="centre">{{system.mesnie.garrisonSoldier.costTotal.libra}}</td>
+        <td class="centre">/</td>
+        <td class="centre">{{system.mesnie.garrisonSoldier.costTotal.denarii}}</td>        
+      </tr>
+
+      <tr>
+        <td class="left indent new-row">{{localize 'PEN.manor.spearman'}}</td>
+        <td class="centre">{{system.mesnie.spearman.entitled}}</td>
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.spearman.employed" type="number" value="{{system.mesnie.spearman.employed}}"/>
+        </td>    
+        <td class="centre">{{system.mesnie.spearman.total}}</td>   
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.spearman.costPer.libra" type="number" value="{{system.mesnie.spearman.costPer.libra}}"/>
+        </td>
+        <td class="centre">/</td>
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.spearman.costPer.denarii" type="number" value="{{system.mesnie.spearman.costPer.denarii}}"/>
+        </td>
+        <td class="centre">{{system.mesnie.spearman.costTotal.libra}}</td>
+        <td class="centre">/</td>
+        <td class="centre">{{system.mesnie.spearman.costTotal.denarii}}</td>       
+      </tr>
+      
+      <tr>
+        <td class="left indent new-row">{{localize 'PEN.manor.crossbowman'}}</td>
+        <td class="centre">{{system.mesnie.crossbowman.entitled}}</td>
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.crossbowman.employed" type="number" value="{{system.mesnie.crossbowman.employed}}"/>
+        </td>    
+        <td class="centre">{{system.mesnie.crossbowman.total}}</td>   
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.crossbowman.costPer.libra" type="number" value="{{system.mesnie.crossbowman.costPer.libra}}"/>
+        </td>
+        <td class="centre">/</td>
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.crossbowman.costPer.denarii" type="number" value="{{system.mesnie.crossbowman.costPer.denarii}}"/>
+        </td>
+        <td class="centre">{{system.mesnie.crossbowman.costTotal.libra}}</td>
+        <td class="centre">/</td>
+        <td class="centre">{{system.mesnie.crossbowman.costTotal.denarii}}</td>   
+      </tr>
+      
+      <tr>
+        <td class="left indent new-row">{{localize 'PEN.manor.householdKnight'}}</td>
+        <td class="centre">{{system.mesnie.houseKnights.entitled}}</td>
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.houseKnights.employed" type="number" value="{{system.mesnie.houseKnights.employed}}"/>
+        </td>    
+        <td class="centre">{{system.mesnie.houseKnights.total}}</td>   
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.houseKnights.costPer.libra" type="number" value="{{system.mesnie.houseKnights.costPer.libra}}"/>
+        </td>
+        <td class="centre">/</td>
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.houseKnights.costPer.denarii" type="number" value="{{system.mesnie.houseKnights.costPer.denarii}}"/>
+        </td>
+        <td class="centre">{{system.mesnie.houseKnights.costTotal.libra}}</td>
+        <td class="centre">/</td>
+        <td class="centre">{{system.mesnie.houseKnights.costTotal.denarii}}</td>    
+      </tr>
+      
+      <tr>
+        <td class="left indent new-row">{{localize 'PEN.manor.mercenaryKnight'}}</td>
+        <td class="centre">{{system.mesnie.mercKnights.entitled}}</td>
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.mercKnights.employed" type="number" value="{{system.mesnie.mercKnights.employed}}"/>
+        </td>    
+        <td class="centre">{{system.mesnie.mercKnights.total}}</td>   
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.mercKnights.costPer.libra" type="number" value="{{system.mesnie.mercKnights.costPer.libra}}"/>
+        </td>
+        <td class="centre">/</td>
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.mercKnights.costPer.denarii" type="number" value="{{system.mesnie.mercKnights.costPer.denarii}}"/>
+        </td>
+        <td class="centre">{{system.mesnie.mercKnights.costTotal.libra}}</td>
+        <td class="centre">/</td>
+        <td class="centre">{{system.mesnie.mercKnights.costTotal.denarii}}</td>        
+      </tr>
+      
+      <tr>
+        <td class="left indent new-row">{{localize 'PEN.manor.vetMercenaryKnight'}}</td>
+        <td class="centre">{{system.mesnie.vetmercKnights.entitled}}</td>
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.vetmercKnights.employed" type="number" value="{{system.mesnie.vetmercKnights.employed}}"/>
+        </td>    
+        <td class="centre">{{system.mesnie.vetmercKnights.total}}</td>   
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.vetmercKnights.costPer.libra" type="number" value="{{system.mesnie.vetmercKnights.costPer.libra}}"/>
+        </td>
+        <td class="centre">/</td>
+        <td class="stat-name-input">
+          <input class="centre" name="system.mesnie.vetmercKnights.costPer.denarii" type="number" value="{{system.mesnie.vetmercKnights.costPer.denarii}}"/>
+        </td>
+        <td class="centre">{{system.mesnie.vetmercKnights.costTotal.libra}}</td>
+        <td class="centre">/</td>
+        <td class="centre">{{system.mesnie.vetmercKnights.costTotal.denarii}}</td>  
+      </tr>
+    </tbody>  
+    <tfoot>
+      <tr>
+        <td class="left bold indent new-row">{{localize 'PEN.total'}}</td>
+        <td class="centre"></td>
+        <td class="centre"></td>
+        <td class="centre bold">{{system.armyTotal}}</td>        
+        <td class="centre"></td>
+        <td class="centre"></td>
+        <td class="centre"></td>
+        <td class="centre bold">{{system.armyCost.libra}}</td>
+        <td class="centre">/</td>
+        <td class="centre bold">{{system.armyCost.denarii}}</td>        
+      </tr>
+    </tfoot>
+  </table>
+</section>

@@ -25,6 +25,8 @@
             {{/if}}
           </div>
         </li>
+      {{else}}
+          <div class="centre stat-name italics">{{localize 'PEN.emptyList'}}</div> 
       {{/each}}
     </ol>
   </div>
@@ -48,6 +50,8 @@
             {{/if}}
           </div>
         </li>
+      {{else}}
+          <div class="centre stat-name italics">{{localize 'PEN.emptyList'}}</div> 
       {{/each}}
     </ol>
   </div>
@@ -71,6 +75,8 @@
             {{/if}}
           </div>
         </li>
+      {{else}}
+          <div class="centre stat-name italics">{{localize 'PEN.emptyList'}}</div>         
       {{/each}}
     </ol>
   </div>
@@ -80,9 +86,6 @@
   {{!-- Starting Equipment --}}
   <div class="horizontalboxed {{#if isGM}} droppable {{/if}} gear" data-collection = "gear">
     <ol class="item-list">
-      {{#if gearsisEmpty}}
-        <div class="stat-name">{{ localize "PEN.emptyList" }}</div>
-      {{/if}}
       {{#each gears as |gear|}}
         <li class="item flexrow" data-item-id="{{gear.uuid}}" data-pid = "{{gear.flags.Pendragon.pidFlag.id}}" data-collection = "gear">
           <div class="item-name flexrow">
@@ -98,6 +101,8 @@
             {{/if}}
           </div>
         </li>
+      {{else}}
+          <div class="centre stat-name italics">{{localize 'PEN.emptyList'}}</div>         
       {{/each}}
     </ol>
   </div>

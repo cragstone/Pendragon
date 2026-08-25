@@ -20,7 +20,9 @@
     "css/encounter.css",
     "css/battle.css",
     "css/journals.css",
-    "css/rolltable.css"
+    "css/rolltable.css",
+    "css/itemv2.css",
+    "css/actorv2.css"
   ],
   "scripts": [],
   "packFolders": [
@@ -98,7 +100,14 @@
         "htmlFields": ["description"],
         "filePathFields": { "coatOfArms": ["IMAGE"] }
       },
+      "manor": {
+        "htmlFields": ["description", "GMdescription"],
+        "filePathFields": { "mapImage": ["IMAGE"] }
+      },
       "follower": {
+        "htmlFields": ["description"]
+      },
+      "backgroundnpc": {
         "htmlFields": ["description"]
       },
       "party": {},
@@ -157,6 +166,9 @@
         "htmlFields": ["description", "GMdescription"]
       },
       "relationship": {
+        "htmlFields": ["description", "GMdescription"]
+      },
+      "manorImp": {
         "htmlFields": ["description", "GMdescription"]
       }
     },

@@ -1,0 +1,151 @@
+<section class="{{cssClass}}" autocomplete="off">
+
+  <section class="">
+
+      {{!-- Characteristics Header --}}
+    <section class="sheet-header">
+      <div class="background-title-section">
+        <div class="">  
+          <div class="stat-name-input"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></div>
+          <div class="new-row" style="display: flex;">
+            <div class="stat-name-input bold" style="padding-top: 7px;">{{ localize 'PEN.type'}}:&nbsp</div>
+            <div class="stat-name" style="width: 100%">
+              <select data-handle-change name="system.subtype">
+                {{selectOptions backgroundType selected=actor.system.subtype}}
+              </select>
+            </div>
+          </div>
+          {{#if (eq actor.system.subtype 'professional')}}
+            <div class="background-cost">
+              <div class="stat-name left bold new-row">{{localize 'PEN.manor.annualCost'}}</div>
+              <div class="stat-name-input"><input class="centre" name="system.annualCost.libra" type="number" value="{{system.annualCost.libra}}"/></div>    
+              <div class="stat-name centre">/</div>
+              <div class="stat-name-input  centre"><input class="centre" name="system.annualCost.denarii" type="number" value="{{system.annualCost.denarii}}"/></div>      
+            </div>
+          {{/if}}          
+        </div>  
+        {{!-- Image Section --}}
+        <div class="sheet-header">
+          <img class="profile-img" data-action="onEditImage" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="70" width="70"/>
+        </div>  
+      </div>
+    </section>
+
+    <br>
+
+    {{!--Skills Block --}}
+      <section class="background-skill-grid">
+        <div class="stat-name bold grey">{{ localize "PEN.skill" }}</div>  
+        <div class="stat-name bold centre grey">{{ localize "PEN.valueShort" }}</div>    
+        <div class="stat-name bold centre grey">{{ localize "PEN.xp" }}</div>
+        <div class="stat-name bold centre grey" data-document-class='Item' data-action="createDoc" data-type="skill">  
+          <a title="{{localize 'PEN.add'}}"><i class="item-control fas fa-plus"></i></a>
+        </div>
+  
+        {{#each skills as |skill key|}}
+          <div class="stat-name rollable skill-name" data-itemid="{{skill._id}}">{{skill.name}}</div> 
+          <div class="stat-name-input centre item" data-field ="value" data-itemid="{{skill._id}}"><input class="inline-edit" name="item.system.skill.{{key}}.value" type="number" value="{{skill.system.value}}"/></div>
+          <div class="centre">
+            <a class="item-control item-toggle large-icon" data-itemid ="{{skill._id}}" data-property="XP" data-tooltip="{{localize 'PEN.dblClickToggle'}}">
+              <i class="{{#if skill.system.XP}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+            </a>
+          </div>
+          <div class="stat-name centre item" data-document-class='Item' data-itemid ="{{skill._id}}">
+            <a class="item-control fade" data-action="viewDoc"><i title="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
+            <a class="item-control fade" data-action="deleteDoc"><i title="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
+          </div>
+        {{/each}}
+      </section>
+
+    {{!--Traits Block --}}
+      <section class="background-skill-grid">
+        <div class="stat-name bold grey">{{ localize "PEN.trait" }}</div>  
+        <div class="stat-name bold centre grey">{{ localize "PEN.valueShort" }}</div>    
+        <div class="stat-name bold centre grey">{{ localize "PEN.xp" }}</div>        
+        <div class="stat-name bold centre grey" data-document-class='Item' data-action="createDoc" data-type="trait">  
+          <a title="{{localize 'PEN.add'}}"><i class="item-control fas fa-plus"></i></a>
+        </div>
+
+        {{#each traits as |trait key|}}
+          <div class="stat-name rollable trait" data-type ="trait" data-itemid="{{trait._id}}">{{trait.name}}</div> 
+          <div class="stat-name-input centre item" data-field ="value" data-itemid="{{trait._id}}"><input class="inline-edit" name="item.system.trait.{{key}}.value" type="number" value="{{trait.system.value}}"/></div>
+          <div class="centre">
+            <a class="item-control item-toggle large-icon" data-itemid ="{{trait._id}}" data-property="XP" data-tooltip="{{localize 'PEN.dblClickToggle'}}">
+              <i class="{{#if trait.system.XP}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+            </a>
+          </div> 
+          <div class="stat-name centre item" data-document-class='Item' data-itemid ="{{trait._id}}">
+            <a class="item-control fade" data-action="viewDoc"><i title="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
+            <a class="item-control fade" data-action="deleteDoc"><i title="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
+          </div>
+        {{/each}}
+      </section>
+
+    {{!--Passions Block --}}
+      <section class="background-skill-grid">
+        <div class="stat-name bold grey">{{ localize "PEN.passion" }}</div>  
+        <div class="stat-name bold centre grey">{{ localize "PEN.valueShort" }}</div>    
+        <div class="stat-name bold centre grey">{{ localize "PEN.xp" }}</div>
+        <div class="stat-name bold centre grey" data-document-class='Item' data-action="createDoc" data-type="passion">  
+          <a title="{{localize 'PEN.add'}}"><i class="item-control fas fa-plus"></i></a>
+        </div>
+  
+        {{#each passions as |passion key|}}
+          <div class="stat-name rollable passion-name" data-itemid="{{passion._id}}">{{passion.name}}</div> 
+          <div class="stat-name-input centre item" data-field ="value" data-itemid="{{passion._id}}"><input class="inline-edit" name="item.system.passion.{{key}}.value" type="number" value="{{passion.system.value}}"/></div>
+          <div class="centre">
+            <a class="item-control item-toggle large-icon" data-itemid ="{{passion._id}}" data-property="XP" data-tooltip="{{localize 'PEN.dblClickToggle'}}">
+              <i class="{{#if passion.system.XP}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+            </a>
+          </div>          
+          <div class="stat-name centre item" data-document-class='Item' data-itemid ="{{passion._id}}">
+            <a class="item-control fade" data-action="viewDoc"><i title="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
+            <a class="item-control fade" data-action="deleteDoc"><i title="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
+          </div>
+        {{/each}}
+      </section>       
+
+    {{!--Notes Block --}}
+    <section class="follower-notes-grid">
+      <div class="stat-name bold grey">{{ localize "PEN.notes" }}</div>  
+      <div>
+      {{#if editable}}
+        <prose-mirror name="system.description" value="{{system.description}}" editable="{{editable}}" toggled="false">
+          {{{enrichedDescription}}}
+        </prose-mirror>
+      {{else}}
+        {{{enrichedDescription}}}
+      {{/if}}
+      </div>
+    </section>
+    <br>
+
+    <div class="item-improv-grid grey" style="margin-bottom: 10px";>
+      <div class="stat-name bold left">{{localize 'PEN.masterCopy'}}</div>
+      <div class="centre" data-action="toggleActor" data-property = "master"><a class="item-control actor-toggle large-icon" ><i class="{{#if actor.system.master}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+    </div>
+
+    {{#if system.master}}
+      <div class="stat-name bold grey">{{localize 'PEN.variableSkills'}}</div>
+      <ol class="item-list" style="padding: 0px;">
+        {{#unless hasRandoms}}
+        <div>{{localize 'PEN.dropHere'}}</div>
+        {{/unless}}
+        {{#each randoms as |item key|}}
+          <li class="item flexrow" data-itemid="{{item.uuid}}" data-pid="{{item.pid}}">
+              <div class="npc-name truncate" data-tooltip="{{item.name}}">{{item.name}}</div>
+              <div class="npc-name">{{item.value}}</div>
+              <div class="npc-name">{{item.type}}</div>              
+            <div class="item-controls">
+              {{#if ../isGM}}
+                <a class="item-control" data-action = "deleteRand" data-tooltip="{{localize 'PEN.deleteDoc' type=item.type }}"><i class="fas fa-trash"></i></a>
+              {{/if}}
+            </div>
+          </li>
+        {{/each}}
+      </ol>
+    {{/if}}
+
+  </section>
+  <br>
+</section>

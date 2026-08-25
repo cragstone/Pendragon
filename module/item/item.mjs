@@ -34,6 +34,8 @@ export class PendragonItem extends Item {
         data.img = "systems/Pendragon/assets/Icons/tabletop-players.svg";
       } else if (data.type === "squire") {
         data.img = "systems/Pendragon/assets/Icons/battle-gear.svg";
+      } else if (data.type === "manorImp") {
+        data.img = "systems/Pendragon/assets/Icons/anvil-impact.svg";
       }
     }
     super(data, context);

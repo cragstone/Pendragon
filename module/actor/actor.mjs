@@ -22,6 +22,8 @@ export class PendragonActor extends Actor {
     this._prepareCharacterData(actorData);
     this._prepareNpcData(actorData);
     this._prepareEncounterData(actorData);
+    this._prepareManorData(actorData);
+    this._prepareBackgroundNPCData(actorData);
   }
 
   // Prepare Character type specific data
@@ -317,6 +319,136 @@ export class PendragonActor extends Actor {
     if (!["encounter"].includes(actorData.type)) return;
   }
 
+  //Prepare Manor Data
+  _prepareManorData(actorData) {
+    if (!["manor"].includes(actorData.type)) return;
+
+    //Calcuate DV
+    actorData.dvLabel = "";
+    actorData.dvLabelHint = "";
+    let activeManorImp = actorData.items
+      .filter((i) => i.type === "manorImp")
+      .filter((i) => ["maintained", "unmaintained"].includes(i.system.status));
+
+    //Calculate Defense Value
+    for (let [key, dv] of Object.entries(actorData.system.dv)) {
+      dv.label = game.i18n.localize(`PEN.dv.${key}`);
+      if (key != "stronghold") {
+        dv.value = activeManorImp
+          .filter((i) => i.system.dv.value > 0 && i.system.dv.pos === key)
+          .map((i) => i.system.dv.value)
+          .reduce((total, current) => total + current, 0);
+      } else {
+        let strongBonus = activeManorImp
+          .filter((i) => i.system.dv.value > 0 && i.system.dv.pos === "strongBonus")
+          .map((i) => i.system.dv.value)
+          .reduce((total, current) => total + current, 0);
+        let strongMain = Math.max(
+          ...activeManorImp
+            .filter((i) => i.system.dv.value > 0 && i.system.dv.pos === "strongMain")
+            .map((i) => i.system.dv.value),
+        );
+        dv.value = strongBonus + strongMain;
+      }
+      if (dv.value > 0) {
+        actorData.dvLabel = actorData.dvLabel + dv.value + "/";
+        actorData.dvLabelHint = actorData.dvLabelHint + dv.label + ":" + dv.value + ", ";
+      }
+    }
+    actorData.dvLabel = actorData.dvLabel.slice(0, -1);
+    actorData.dvLabelHint = actorData.dvLabelHint.slice(0, -2);
+
+    //Calculate Current Value
+    let allManorImp = actorData.items.filter((i) => i.type === "manorImp").filter((i) => !i.system.starter);
+    let tempVal = 2400; //Starting Manor Value of £10
+    for (let itm of allManorImp) {
+      if (["maintained", "unmaintained"].includes(itm.system.status)) {
+        tempVal = tempVal + itm.system.cost.libra * 240 + itm.system.cost.denarii;
+      } else if (["ruined"].includes(itm.system.status)) {
+        tempVal = tempVal + itm.system.cost.libra * 120 + Math.floor(itm.system.cost.denarii / 2);
+      }
+    }
+    actorData.system.currVal.libra = Math.floor(tempVal / 240);
+    actorData.system.currVal.denarii = tempVal - 240 * actorData.system.currVal.libra;
+
+    //Mesnie Entitlement
+    let baseNum = Math.floor(actorData.system.rent.libra / 10);
+    let armyCost = 0;
+    let armyTotal = 0;
+    for (let [key, troop] of Object.entries(actorData.system.mesnie)) {
+      troop.entitled = 0;
+      if (key === "garrisonSoldier") troop.entitled = baseNum;
+      if (key === "spearman") troop.entitled = baseNum * 2;
+      troop.total = troop.entitled + troop.employed;
+      armyTotal = armyTotal + troop.total;
+      let tempVal = troop.costPer.libra * 240 * troop.employed + troop.costPer.denarii * troop.employed;
+      armyCost = armyCost + tempVal;
+      troop.costTotal.libra = Math.floor(tempVal / 240);
+      troop.costTotal.denarii = tempVal - troop.costTotal.libra * 240;
+    }
+    actorData.system.armyCost.libra = Math.floor(armyCost / 240);
+    actorData.system.armyCost.denarii = armyCost - 240 * actorData.system.armyCost.libra;
+    actorData.system.armyTotal = armyTotal;
+
+    //Calculate Folk Cost
+    let folkCost = 0;
+    for (let folk of actorData.system.npcs) {
+      let tempActor = game.actors.filter((itm) => itm.uuid === folk.uuid)[0];
+      if (tempActor) {
+        folkCost = folkCost + tempActor.system.annualCost.libra * 240 + tempActor.system.annualCost.denarii;
+      }
+    }
+    actorData.system.folkCost.libra = Math.floor(folkCost / 240);
+    actorData.system.folkCost.denarii = folkCost - 240 * actorData.system.folkCost.libra;
+
+    //Calculate Income
+    let incVal = 0;
+    let costVal = 0;
+    for (let itm of activeManorImp) {
+      if (itm.system.yearAcquired > actorData.system.yearAssized) {
+        incVal = incVal + itm.system.income.libra * 240 + itm.system.income.denarii;
+        costVal = costVal + itm.system.annualCost.libra * 240 + itm.system.annualCost.denarii;
+      }
+    }
+    actorData.system.income.libra = Math.floor(incVal / 240);
+    actorData.system.income.denarii = incVal - 240 * actorData.system.income.libra;
+    actorData.system.cost.libra = Math.floor(costVal / 240);
+    actorData.system.cost.denarii = costVal - 240 * actorData.system.cost.libra;
+  }
+
+  _prepareBackgroundNPCData(actorData) {
+    if (!["backgroundnpc"].includes(actorData.type)) return;
+    for (let i of actorData.items) {
+      if (i.type === "trait") {
+        let tempTotal = Number(i.system.value) + Number(i.system.religious) + Number(i.system.winter);
+        if (tempTotal > 20) {
+          i.system.total = tempTotal;
+          i.system.oppvalue = 0;
+        } else if (tempTotal < 0) {
+          i.system.total = 0;
+          i.system.oppvalue = 20 - tempTotal;
+        } else {
+          i.system.total = tempTotal;
+          i.system.oppvalue = 20 - tempTotal;
+        }
+      } else if (i.type === "passion") {
+        i.system.total =
+          Number(i.system.value) +
+          Number(i.system.inherit) +
+          Number(i.system.sol) +
+          Number(i.system.homeland) +
+          Number(i.system.winter);
+      } else if (i.type === "skill") {
+        i.system.total =
+          Number(i.system.value) +
+          Number(i.system.culture) +
+          Number(i.system.family) +
+          Number(i.system.create) +
+          Number(i.system.winter);
+      }
+    }
+  }
+
   // Prepare Common type specific data.
   _prepareCommonData(actorData) {
     if (!["npc", "character", "follower"].includes(actorData.type)) return;
@@ -495,7 +627,7 @@ export class PendragonActor extends Actor {
     //When creating an actor set basics including tokenlink, bars, displays sight
     if (data.type === "character") {
       if (typeof data.img === "undefined") {
-        data.img = "systems/Pendragon/assets/Icons/default_actor.webp";
+        data.img = "systems/Pendragon/assets/Icons/default_actor_dark.webp";
       }
       data.prototypeToken = foundry.utils.mergeObject(
         {
@@ -603,6 +735,26 @@ export class PendragonActor extends Actor {
           },
         ],
       });
+    } else if (data.type === "manor") {
+      data.img = "systems/Pendragon/assets/Icons/medieval-gate.svg";
+      data.prototypeToken = foundry.utils.mergeObject({
+        actorLink: true,
+        detectionModes: [
+          {
+            enabled: false,
+          },
+        ],
+      });
+    } else if (data.type === "backgroundnpc") {
+      data.img = "systems/Pendragon/assets/Icons/default_actor_dark.webp";
+      data.prototypeToken = foundry.utils.mergeObject({
+        actorLink: true,
+        detectionModes: [
+          {
+            enabled: false,
+          },
+        ],
+      });
     }
 
     let actor = await super.create(data, options);
@@ -654,7 +806,28 @@ export class PendragonActor extends Actor {
       }
 
       await actor.createEmbeddedDocuments("Item", newItems);
+    } else if (data.type === "manor") {
+      //If a manor now add all starter Improvements to the sheet
+      let newItems = [];
+      let impList = await game.system.api.pid.fromPIDRegexBest({
+        pidRegExp: /^i.manorImp\./,
+        type: "i",
+      });
+      let starterImpList = await impList.filter((itm) => itm.system.starter);
+      for (let itm of starterImpList) {
+        let nItm = itm.toObject();
+        nItm.system.paid.libra = nItm.system.cost.libra;
+        nItm.system.paid.denarii = nItm.system.cost.denarii;
+        let existing = actor.items.filter(
+          (citm) => citm.flags?.Pendragon?.pidFlag?.id === nItm.flags?.Pendragon?.pidFlag?.id,
+        );
+        if (existing.length < 1) {
+          newItems.push(nItm);
+        }
+      }
+      await actor.createEmbeddedDocuments("Item", newItems);
     }
+
     return actor;
   }
 

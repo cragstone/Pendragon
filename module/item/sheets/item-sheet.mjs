@@ -78,10 +78,40 @@ export class PendragonItemSheet extends api.HandlebarsApplicationMixin(sheets.It
         cssClass: this.tabGroups[group] === name ? "active" : "",
         group,
         id: name,
-        label: `PEN.${name}`,
+        label: `PEN.Tabs.${name}`,
       };
     });
     return tabs;
+  }
+
+  static _onCreateActiveEffect(event, target) {
+    if (event.detail === 0) {
+      return;
+    }
+    const cls = foundry.utils.getDocumentClass("ActiveEffect");
+    cls.createDialog({}, { parent: this.document });
+  }
+
+  static async _onEditActiveEffect(event, target) {
+    const { effectId } = target.closest("[data-effect-id]")?.dataset ?? {};
+    const effect = this.item.effects.get(effectId);
+    console.log(effectId, effect);
+    if (!effect) return;
+    effect.sheet.render(true);
+  }
+
+  static _onDeleteActiveEffect(event, target) {
+    const { effectId } = target.closest("[data-effect-id]")?.dataset ?? {};
+    const effect = this.item.effects.get(effectId);
+    if (!effect) return;
+    effect.delete();
+  }
+
+  static _onToggleActiveEffect(event, target) {
+    const { effectId } = target.closest("[data-effect-id]")?.dataset ?? {};
+    const effect = this.item.effects.get(effectId);
+    if (!effect) return;
+    effect.update({ disabled: !effect.disabled });
   }
 
   //Update Skill/Passion Name

@@ -1,0 +1,58 @@
+<section class="tab details {{tab.cssClass}} droppable" data-collection = "enfeoffed" data-group="primary" data-tab="details">
+  <br>
+  <div class="item-improv-grid droppable">
+    <div class="stat-name left indent new-row">{{localize 'PEN.manor.yearAssized'}}</div>
+    <div class="stat-name-input  centre"><input name="system.yearAssized" type="number" value="{{system.yearAssized}}"/></div>     
+    <div class="stat-name left indent new-row">{{localize 'PEN.manor.rent'}}</div>
+    <div class="cost-grid">
+      <div class="stat-name-input"><input class="centre" name="system.rent.libra" type="number" value="{{system.rent.libra}}"/></div>    
+      <div class="stat-name centre">/</div>
+      <div class="stat-name-input  centre"><input class="centre" name="system.rent.denarii" type="number" value="{{system.rent.denarii}}"/></div>      
+    </div> 
+    <div class="stat-name left indent new-row">{{localize 'PEN.manor.currVal'}}</div>
+    <div class="cost-grid">
+      <div class="stat-name centre">{{system.currVal.libra}}</div>    
+      <div class="stat-name centre">/</div>
+      <div class="stat-name centre">{{system.currVal.denarii}}</div>      
+    </div> 
+    <div class="stat-name left indent new-row">{{localize 'PEN.manor.income'}}</div>
+    <div class="cost-grid">
+      <div class="stat-name centre">{{system.income.libra}}</div>    
+      <div class="stat-name centre">/</div>
+      <div class="stat-name centre">{{system.income.denarii}}</div>      
+    </div>  
+    <div class="stat-name left indent new-row">{{localize 'PEN.manor.annualCost'}}</div>
+    <div class="cost-grid">
+      <div class="stat-name centre">{{system.cost.libra}}</div>    
+      <div class="stat-name centre">/</div>
+      <div class="stat-name centre">{{system.cost.denarii}}</div>      
+    </div>                   
+    <div class="stat-name left indent new-row">{{localize 'PEN.manor.armyCost'}}</div>
+    <div class="cost-grid">
+      <div class="stat-name centre">{{system.armyCost.libra}}</div>    
+      <div class="stat-name centre">/</div>
+      <div class="stat-name centre">{{system.armyCost.denarii}}</div>      
+    </div>  
+    <div class="stat-name left indent new-row">{{localize 'PEN.manor.folkCost'}}</div>
+    <div class="cost-grid">
+      <div class="stat-name centre">{{system.folkCost.libra}}</div>    
+      <div class="stat-name centre">/</div>
+      <div class="stat-name centre">{{system.folkCost.denarii}}</div>      
+    </div>                           
+    <div class="stat-name left indent new-row">{{localize 'PEN.dv.title'}}:</div>
+    <div class="stat-name-input centre" data-tooltip="{{actor.dvLabelHint}}">{{actor.dvLabel}}</div>    
+    <br>
+
+    <div class="stat-name left indent new-row">{{localize 'PEN.manor.enfeoffed'}}</div>
+    <div>
+    <div class="stat-name centre {{#unless system.enfeoffed.npc}}italics{{/unless}}">{{enfeoffedLabel}}
+      {{#if system.enfeoffed.npc}}
+        <span>
+          <a class="item-control medium-icon fade" data-action="viewEnf"><i data-tooltip="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
+          <a class="item-control  medium-icon fade" data-action="deleteEnf"><i data-tooltip="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
+        <span>          
+      {{/if}}  
+    </div>
+
+  </div>
+</section>

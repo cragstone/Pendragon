@@ -14,8 +14,36 @@ export class PENactorItemDrop {
         continue;
       }
 
+      //Only allow Manorial Improvements on Manors and Baronies
+      if (dropItm.type === "manorImp" && !["manor", "barony"].includes(actor.type)) {
+        ui.notifications.warn(
+          game.i18n.format("PEN.itemActormismatch", {
+            itemType: game.i18n.localize("TYPES.Item." + dropItm.type),
+            actorType: game.i18n.localize("TYPES.Actor." + actor.type),
+          }),
+        );
+        continue;
+      }
+
       //Don't drop complex items on Followers.  SHould just use the data entry
       if ((actor.type === "follower") & ["homeland", "culture", "class", "religion"].includes(dropItm.type)) {
+        ui.notifications.warn(
+          game.i18n.format("PEN.itemActormismatch", {
+            itemType: game.i18n.localize("TYPES.Item." + dropItm.type),
+            actorType: game.i18n.localize("TYPES.Actor." + actor.type),
+          }),
+        );
+        continue;
+      }
+
+      //If this is a Background Character only allow Skills, Traits and Passions
+      if ((actor.type === "backgroundnpc") & !["skill"].includes(dropItm.type)) {
+        ui.notifications.warn(
+          game.i18n.format("PEN.itemActormismatch", {
+            itemType: game.i18n.localize("TYPES.Item." + dropItm.type),
+            actorType: game.i18n.localize("TYPES.Actor." + actor.type),
+          }),
+        );
         continue;
       }
 
@@ -78,20 +106,23 @@ export class PENactorItemDrop {
         }
       } else {
         //If a skill calculate the base score
+        let score = 0;
         if (dropItm.type === "skill") {
-          let score = dropItm.system.base.mod;
-          if (dropItm.system.base.stat != "none" && dropItm.system.base.stat != "") {
-            score =
-              Number(score) +
-              Number(
-                Math.round(
-                  (actor.system.stats[dropItm.system.base.stat].value +
-                    actor.system.stats[dropItm.system.base.stat].culture) *
-                    dropItm.system.base.multi,
-                ),
-              );
+          if (!["backgroundnpc"].includes(actor.type)) {
+            score = dropItm.system.base.mod;
+            if (dropItm.system.base.stat != "none" && dropItm.system.base.stat != "") {
+              score =
+                Number(score) +
+                Number(
+                  Math.round(
+                    (actor.system.stats[dropItm.system.base.stat].value +
+                      actor.system.stats[dropItm.system.base.stat].culture) *
+                      dropItm.system.base.multi,
+                  ),
+                );
+            }
+            score = Math.max(score, 0);
           }
-          score = Math.max(score, 0);
           dropItm.system.value = score;
         }
 
