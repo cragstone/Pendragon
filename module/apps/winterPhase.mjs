@@ -657,7 +657,7 @@ export class PENWinter {
         //Reduce Clothing value
         clothing = await actor.items
           .filter((itm) => itm.type === "gear")
-          .filter((itm) => itm.flags.Pendragon.pidFlag.id === "i.gear.clothing")[0];
+          .filter((itm) => itm.flags?.Pendragon?.pidFlag?.id === "i.gear.clothing")[0];
         if (clothing) {
           await PENWinter.priceReduction(clothing);
         }
@@ -697,7 +697,7 @@ export class PENWinter {
         //Reduce Honour by 2 point
         let honour = actor.items
           .filter((itm) => itm.type === "passion")
-          .filter((itm) => itm.flags.Pendragon.pidFlag.id === "i.passion.honor")
+          .filter((itm) => itm.flags?.Pendragon?.pidFlag?.id === "i.passion.honor")
           .map((itm) => {
             return { _id: itm.id, "system.sol": itm.system.sol - 2 };
           });
@@ -705,7 +705,7 @@ export class PENWinter {
         //Reduce Clothing value
         clothing = await actor.items
           .filter((itm) => itm.type === "gear")
-          .filter((itm) => itm.flags.Pendragon.pidFlag.id === "i.gear.clothing")[0];
+          .filter((itm) => itm.flags?.Pendragon?.pidFlag?.id === "i.gear.clothing")[0];
         if (clothing) {
           await PENWinter.priceReduction(clothing);
         }
@@ -1152,7 +1152,7 @@ export class PENWinter {
   static async horsemanshipRoll(actor) {
     let skillId = await actor.items
       .filter((itm) => itm.type === "skill")
-      .filter((itm) => itm.flags.Pendragon.pidFlag.id === "i.skill.horsemanship")
+      .filter((itm) => itm.flags?.Pendragon?.pidFlag?.id === "i.skill.horsemanship")
       .map((itm) => {
         return itm.id;
       })[0];
