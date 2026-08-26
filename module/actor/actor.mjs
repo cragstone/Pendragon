@@ -495,7 +495,7 @@ export class PendragonActor extends Actor {
     //When creating an actor set basics including tokenlink, bars, displays sight
     if (data.type === "character") {
       if (typeof data.img === "undefined") {
-        data.img = "systems/Pendragon/assets/Icons/default_actor.webp";
+        data.img = "systems/Pendragon/assets/Icons/default_actor_dark.webp";
       }
       data.prototypeToken = foundry.utils.mergeObject(
         {
@@ -518,7 +518,7 @@ export class PendragonActor extends Actor {
       );
     } else if (data.type === "npc") {
       if (typeof data.img === "undefined") {
-        data.img = "systems/Pendragon/assets/Icons/default_actor.webp";
+        data.img = "systems/Pendragon/assets/Icons/default_actor_dark.webp";
       }
       data.prototypeToken = foundry.utils.mergeObject(
         {

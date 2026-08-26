@@ -75,6 +75,7 @@ command: |-
     }
   }
   (new CoC7TestLights()).render({ force: true })
+_id: IItSoW5eUe1GXHsq
 author: fJaZRxqzwKDvRnNd
 scope: global
 folder: null
@@ -82,14 +83,13 @@ ownership:
   default: 0
 flags: {}
 _stats:
+  coreVersion: "14.367"
+  systemId: Pendragon
+  systemVersion: "14.9"
+  createdTime: 1787730352002
+  modifiedTime: 1787730352002
+  lastModifiedBy: pendragonBuilder
   duplicateSource: null
   exportSource: null
-  coreVersion: '13.351'
-  systemId: Pendragon
-  systemVersion: 13.1.44
-  createdTime: 1763734334516
-  modifiedTime: 1774338958314
-  lastModifiedBy: pendragonBuilder
-_id: U0AbdV6Yf1XnKXfi
-sort: 300000
-_key: '!macros!U0AbdV6Yf1XnKXfi'
+sort: 0
+_key: "!macros!IItSoW5eUe1GXHsq"

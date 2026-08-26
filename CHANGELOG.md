@@ -1,6 +1,14 @@
 # CHANGELOG
 
+## 14.10
+
+- Fixed some rolls not working where items don't have a PID (Mr Primate)
+- French language pack updated (Tontione)
+- Default character art updated with version for dark mode. This will be used as default going forward
+- Included a macro that checks for Game World Actors and Items without PIDs and offers the chance to automatically create them
+
 ## 14.9
+
 - Parents Glory corrected to 2D6 & 3D6 (not 2D6 for both)
 - Ideal damage changed to a string (to allow for Wodinic Knight damage bonus of +1D6)
 

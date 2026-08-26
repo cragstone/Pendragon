@@ -1,0 +1,85 @@
+name: Check In Game Actors and Items for PIDs
+type: script
+command: |-
+  console.log("Checking Game Actors & their items for PIDs")
+
+  const data = await foundry.applications.api.DialogV2.confirm({
+    window: { title: "Identify Actors & Items without PIDs" },
+    content: "Do you wish to have missing PIDs automatically added?",
+  })
+  if (data === null) {return}
+
+  let actorCount = 0
+  let actorItemCount = 0
+  let itemCount = 0
+
+  for (let actor of game.actors) {
+    let pid = actor.flags?.Pendragon?.pidFlag?.id
+    let priority = actor.flags?.Pendragon?.pidFlag?.priority ?? 0
+    if (!pid) {
+      console.log ("Actor", actor.name, actor.uuid)
+      actorCount++
+      if (data) {
+        let key = await game.system.api.pid.guessId(actor)
+        await actor.update({
+          "flags.Pendragon.pidFlag.id": key,
+          "flags.Pendragon.pidFlag.lang": game.i18n.lang,
+          "flags.Pendragon.pidFlag.priority": 0,
+        });
+      }
+    }
+    for (let item of actor.items) {
+      let pid = item.flags?.Pendragon?.pidFlag?.id
+      if (!pid) {
+        console.log ("Actor-Item", actor.name, item.name, item.uuid)
+        actorItemCount++
+       if (data) {
+        let key = await game.system.api.pid.guessId(item)
+        await item.update({
+          "flags.Pendragon.pidFlag.id": key,
+          "flags.Pendragon.pidFlag.lang": game.i18n.lang,
+          "flags.Pendragon.pidFlag.priority": priority,
+        });
+      }
+      }    
+    }
+  }
+  console.log("Checking Game Items for PIDs")
+  for (let item of game.items) {
+    let pid = item.flags?.Pendragon?.pidFlag?.id
+    if (!pid) {
+      console.log ("Item", item.name, item.uuid)
+      itemCount
+      if (data) {
+        let key = await game.system.api.pid.guessId(item)
+        await item.update({
+          "flags.Pendragon.pidFlag.id": key,
+          "flags.Pendragon.pidFlag.lang": game.i18n.lang,
+          "flags.Pendragon.pidFlag.priority": 0,
+        });
+      }
+    }
+  }
+  console.log("Actors without PID:", actorCount)
+  console.log("Actor Items without PID:", actorItemCount)
+  console.log("Items without PID:", itemCount)
+  console.log("Checks Finished")
+img: icons/svg/tower-flag.svg
+_id: seXjkQDx6vwKaXSG
+author: fJaZRxqzwKDvRnNd
+scope: global
+folder: null
+ownership:
+  default: 0
+flags: {}
+_stats:
+  coreVersion: "14.367"
+  systemId: Pendragon
+  systemVersion: "14.9"
+  createdTime: 1787730236320
+  modifiedTime: 1787730236320
+  lastModifiedBy: pendragonBuilder
+  duplicateSource: null
+  exportSource: null
+sort: 0
+_key: "!macros!seXjkQDx6vwKaXSG"

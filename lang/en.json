@@ -4,13 +4,11 @@
   "PENDRAGON.StatDex": "Dexterity",
   "PENDRAGON.StatSiz": "Size",
   "PENDRAGON.StatApp": "Appeal",
-
   "PENDRAGON.StatStrAbbr": "STR",
   "PENDRAGON.StatConAbbr": "CON",
   "PENDRAGON.StatDexAbbr": "DEX",
   "PENDRAGON.StatSizAbbr": "SIZ",
   "PENDRAGON.StatAppAbbr": "APP",
-
   "PENDRAGON.TraitChaste": "Chaste",
   "PENDRAGON.TraitEnergetic": "Energetic",
   "PENDRAGON.TraitForgiving": "Forgiving",
@@ -24,7 +22,6 @@
   "PENDRAGON.TraitTemperate": "Temperate",
   "PENDRAGON.TraitTrusting": "Trusting",
   "PENDRAGON.TraitValorous": "Valorous",
-
   "PENDRAGON.OppTraitChaste": "Lustful",
   "PENDRAGON.OppTraitEnergetic": "Lazy",
   "PENDRAGON.OppTraitForgiving": "Vengeful",
@@ -38,7 +35,6 @@
   "PENDRAGON.OppTraitTemperate": "Indulgent",
   "PENDRAGON.OppTraitTrusting": "Suspicious",
   "PENDRAGON.OppTraitValorous": "Cowardly",
-
   "PEN": {
     "activate": "Activate",
     "active": "Active",
@@ -378,6 +374,7 @@
     "improved": "Improved",
     "improvised": "Improvised",
     "inclClass": "Includes starting Class",
+    "inclPass": "Include Passions",
     "initial": "Initial",
     "incomplete": "Incomplete",
     "increased": "Increased",
@@ -662,6 +659,7 @@
     "senesence": "{senes} characteristic loss rolls",
     "shield": "Shield",
     "short": "Short",
+    "singleTrain": "Add a point to a feature or skill of 15 or higher",
     "sizInc": {
       "0": "",
       "1": "Heavyset",
@@ -678,6 +676,7 @@
     "sol": "Standard of Living",
     "soloScenarios": "Solo Scenarios",
     "solAbbr": "SOL",
+    "solShort": "Standard of Living",
     "source": "Dmg Source",
     "spear": "Spear",
     "special": "Special",
@@ -686,6 +685,7 @@
     "specify": "Specify",
     "spendPoints": "Spend Points",
     "spendPrestige": "Spend Prestige",
+    "spreadTrain": "Spread training across all skills",
     "spouse": "Spouse",
     "squireMaidenRoll": "Squire and Maiden-in-waiting Roll",
     "squire": "Squire",
@@ -698,6 +698,7 @@
     "starterSkill": "Starting Skill",
     "startingEquip": "Starting Equipment",
     "startingFormula": "Enter Starting Score Formula",
+    "stat": "Stat",
     "statAbbr": "Stat",
     "statistic": "Statistic",
     "statLost": "CON/STR/SIZ lost",
@@ -752,6 +753,7 @@
     "training": "Training",
     "trainPrac": "Training Year {curr} of {max}.  Please select one improvement:",
     "trainingAbbr": "Train",
+    "trainingShort": "Train",
     "trait": "Trait",
     "traitGroup": "Trait Group",
     "traits": "Traits",
@@ -797,6 +799,7 @@
     "weapon": "Weapon",
     "weaponType": "Weapon Type",
     "wins": "Wins",
+    "winter": "Winter",
     "winterAbbr": "Winter",
     "winterPhase": "Winter Phase",
     "winterPhaseEnd": "Winter Phase ended",
@@ -813,7 +816,6 @@
     "year": "Year",
     "yearAvailable": "Year Available",
     "yes": "Yes",
-
     "card": {
       "NO": "Regular",
       "OP": "Opposed",
@@ -822,7 +824,6 @@
       "IN": "Inquiry",
       "rollMods": "Roll Modifiers"
     },
-
     "create": {
       "step1": "Creation method set",
       "step2": "Parents added",
@@ -847,7 +848,6 @@
       "addHeir": "Heir status set",
       "addEquip": "Starting equipment added"
     },
-
     "undo": {
       "step1": "Creation method reset",
       "step2": "Parents removed",
@@ -872,7 +872,6 @@
       "addHeir": "Heir status reset",
       "addEquip": "Starting equipment removed"
     },
-
     "Settings": {
       "autoXP": "Automate XP",
       "autoXPHint": "Automatically grants XP checks for Success or Critical",
@@ -919,14 +918,12 @@
       "xpOptions": "XP Check Options",
       "xpOptionsHint": "Change settings for XP Checks"
     },
-
     "resultLevel": {
       "0": "Fumble",
       "1": "Fail",
       "2": "Success",
       "3": "Critical"
     },
-
     "Entities": {
       "Armour": "Armor",
       "Character": "Character",
@@ -951,7 +948,6 @@
       "Wound": "Wound",
       "List": ""
     },
-
     "PIDFlag": {
       "documents-in-world": "{count} documents in the world",
       "documents-in-compendiums": "{count} documents in compendiums",
@@ -1156,7 +1152,6 @@
       "summary": "Set a group identifier that can be used to find the most up to date version of this {type}. The System ID should use the English translation of the {type} to support localization across all languages.",
       "title": "Edit System ID (PID)"
     },
-
     "skillcat": {
       "combat": "Combat",
       "courtly": "Courtly",
@@ -1173,7 +1168,6 @@
       "Rolled": "{name} characteristics rolled",
       "Title": "NPC Token Creation"
     },
-
     "ChaosiumCanvasInterface": {
       "Actions": {
         "Hide": "Hide",
@@ -1402,7 +1396,6 @@
         }
       }
     },
-
     "Tabs": {
       "biography": "Bio",
       "charcreate": "Create",
@@ -1419,7 +1412,6 @@
       "winter": "Winter"
     }
   },
-
   "TYPES": {
     "Actor": {
       "battle": "Battle",
