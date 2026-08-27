@@ -396,6 +396,15 @@
     "knighted": "Knighted",
     "knightedUnqual": "Not ready to be knighted",
     "knightedUnqualHint": "You don't have the requisite skill or Honor levels to be knighted",
+    "knightly": {
+      "brawling": "Brawling Skill",
+      "charge": "Charge Skill",
+      "fail": "Fail",
+      "honor": "Honor Passion",
+      "knightlySkills": "Knightly Skills",
+      "pass": "Pass",
+      "sword": "Sword Skill"
+    },
     "knightlySkill": "Knightly Skill",
     "knightVal": "Knight Value",
     "knightlyMod": "Knightly Skill Modifier",

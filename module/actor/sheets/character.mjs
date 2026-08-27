@@ -272,7 +272,10 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     if (this.actor.name.toUpperCase() === game.i18n.localize("TYPES.Actor.character").toUpperCase()) {
       context.hasName = false;
     }
-    context.knightly = await PendragonCharacterSheet.testKnightly(this.actor);
+
+    let knightly = await PendragonCharacterSheet.testKnightly(this.actor);
+    context.knightly = knightly.pass;
+    context.knightlyLabel = knightly.label;
     // Use a safe clone of the actor data for further operations.
     const actorData = this.actor.toObject(false);
     if (this.actor.system.cultureID != "") {
@@ -1104,30 +1107,65 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   //Does the Character qualify for Knighthood
   static async testKnightly(actor) {
     //    let pass = 0;
+    let pass = game.i18n.localize("PEN.knightly.pass");
+
+    let skillCount = game.i18n.localize("PEN.knightly.pass");
+    let swordCheck = game.i18n.localize("PEN.knightly.pass");
+    let chargeCheck = game.i18n.localize("PEN.knightly.pass");
+    let brawlingCheck = game.i18n.localize("PEN.knightly.pass");
+    let honorCheck = game.i18n.localize("PEN.knightly.pass");
+    let knightly = game.i18n.localize("PEN.knightly.pass");
     let skills = await actor.items
       .filter((i) => i.type === "skill")
       .filter((j) => j.system.total >= 10 && j.system.weaponType === "")
       .filter((k) => k.system.categories.find((m) => m === "knightly"));
     if (skills.length < 2) {
-      return false;
+      skillCount = game.i18n.localize("PEN.knightly.fail");
+      knightly = false;
     }
     let sword = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.sword");
     if (sword.length === 0 || sword[0].system.total < 10) {
-      return false;
+      swordCheck = game.i18n.localize("PEN.knightly.fail");
+      knightly = false;
     }
     let charge = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.charge");
     if (charge.length === 0 || charge[0].system.total < 10) {
-      return false;
+      chargeCheck = game.i18n.localize("PEN.knightly.fail");
+      knightly = false;
     }
     let brawling = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.brawling");
     if (brawling.length === 0 || brawling[0].system.total < 10) {
-      return false;
+      brawlingCheck = game.i18n.localize("PEN.knightly.fail");
+      knightly = false;
     }
     let honor = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.passion.honor");
     if (honor.length === 0 || honor[0].system.total < 5) {
-      return false;
+      honorCheck = game.i18n.localize("PEN.knightly.fail");
+      knightly = false;
     }
-    return true;
+    let knightlyLabel =
+      "<p>" +
+      game.i18n.localize("PEN.knightly.knightlySkills") +
+      ": " +
+      skillCount +
+      "</p><p>" +
+      game.i18n.localize("PEN.knightly.sword") +
+      ": " +
+      swordCheck +
+      "</p><p>" +
+      game.i18n.localize("PEN.knightly.charge") +
+      ": " +
+      chargeCheck +
+      "</p><p>" +
+      game.i18n.localize("PEN.knightly.brawling") +
+      ": " +
+      brawlingCheck +
+      "</p><p>" +
+      game.i18n.localize("PEN.knightly.honor") +
+      ": " +
+      honorCheck +
+      "</p>";
+    return { pass: knightly, label: knightlyLabel };
   }
 
   //Get Embedded Document

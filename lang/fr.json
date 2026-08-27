@@ -396,6 +396,15 @@
     "knighted": "Adoubé",
     "knightedUnqual": "Pas prêt à être adoubé",
     "knightedUnqualHint": "Vous n'avez pas le niveau de compétence ou d'honneur requis pour être adoubé",
+    "knightly": {
+      "brawling": "Compétence Rixe",
+      "charge": "Compétence Charge",
+      "fail": "Échec",
+      "honor": "Passion Honneur",
+      "knightlySkills": "Compétences de chevalier",
+      "pass": "Passer",
+      "sword": "Compétence Épée"
+    }, 
     "knightlySkill": "Compétence de Chevalier",
     "knightVal": "Valeur du Chevalier",
     "knightlyMod": "Modificateur de Compétence de Chevalier",
