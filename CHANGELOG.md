@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 14.11
+
+- Skill Selection Score dialog window is now resizeable and scrollable
+- Added a tooltip on Character Creation if the character is not ready to be knighted saying which tests are passed/failed
+
 ## 14.10
 
 - Fixed some rolls not working where items don't have a PID (Mr Primate)
