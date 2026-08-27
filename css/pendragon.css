@@ -1788,3 +1788,9 @@
 .Pendragon.item-select-sheet .window-content {
   overflow-y: auto;
 }
+
+.Pendragon.stats-input {
+  font-family: "AGaramondPro";
+  font-size: 20px;
+  color: var(--pendragon-black);
+}

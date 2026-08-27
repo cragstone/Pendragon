@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 14.12
+- Character Creation dialog box text etc now visible in Dark Mode.
+
 ## 14.11
 
 - Skill Selection Score dialog window is now resizeable and scrollable
