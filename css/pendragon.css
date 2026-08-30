@@ -1117,6 +1117,13 @@
   grid-template-columns: 150px 50px 50px 50px 50px;
 }
 
+.Pendragon .statsCreate:not(.header) {
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
 #help-tooltip {
   z-index: 509;
   position: absolute;
@@ -1407,8 +1414,11 @@
 
 /* skill training - assign skill points */
 .Pendragon .skill-point-grid {
-  columns: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   column-gap: 1lh;
+  max-height: 60vh;
+  overflow-x: hidden;
 
   li {
     display: grid;
