@@ -15,3 +15,5 @@ export { ClassData } from "./class_model.mjs";
 export { HomelandData } from "./homeland_model.mjs";
 export { IdealData } from "./ideal_model.mjs";
 export { RelationshipData } from "./relationship_model.mjs";
+export { ManorImprovementData } from "./manorImprovement_model.mjs";
+export { BackgroundData } from "./background_model.mjs";

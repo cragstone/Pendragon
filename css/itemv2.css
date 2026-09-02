@@ -1,0 +1,287 @@
+.Pendragon.item2 {
+  font-family: Messiri;
+  font-size: var(--font-size-16);
+  overflow: visible;
+  .window-content {
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  --header-row: oklch(0.169 0.061 26.9);
+  --font-h2: Messiri, Signika, sans-serif;
+  --pill-border: grey;
+  --pill-size: var(--font-size-11);
+  &.theme-light {
+    --icon-img-filter: invert(1);
+    --background-color: #fffde7;
+    --exalted-color: rebeccapurple;
+    --pill-bg: #f8f4f1;
+    --pd-light-row: #e5dbd488;
+    --rollable-highlight: var(--pendragon-gold);
+    --frame-border-color: #240202;
+  }
+  &.theme-dark {
+    --background-color: black;
+    --pill-bg: #240202;
+    --pd-light-row: #30283166;
+    --exalted-color: oklch(0.637 0.185 295);
+    --rollable-highlight: oklch(0.473 0.179 92.2);
+    --frame-border-color: antiquewhite;
+    input[type="checkbox"]::before {
+      font-weight: normal;
+      --checkbox-background-color: var(--checkbox-checked-color);
+    }
+    input[type="text"] {
+      background-color: var(--color-cool-5);
+      box-shadow: none;
+      border: 1px solid var(--color-cool-4);
+    }
+  }
+  & .large-icon {
+    color: var(--color-text-primary);
+  }
+
+  & .prose-frame {
+    min-height: 10lh;
+    height: fit-content;
+    padding: 0 0.5rem;
+    background: var(--input-background-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    box-shadow: var(--input-box-shadow);
+  }
+  & .prosemirror .editor-content {
+    color: var(--color-text-primary);
+  }
+  & h2 {
+    color: var(--heading-color);
+    text-shadow: none;
+    border-block-end: none;
+    margin: 1rem 0 0.5rem;
+    display: flex;
+    gap: 1em;
+    button.inline-control {
+      align-self: center;
+      justify-self: end;
+    }
+  }
+
+  &.theme-dark .window-content {
+    background-color: var(--item-background-color);
+    background-image: var(--item-background-image);
+    background-size: auto;
+  }
+  & .window-content {
+    background-color: var(--item-background-color);
+    background-image: var(--item-background-image);
+    background-size: auto;
+  }
+
+  & .sheet-header {
+    display: flex;
+    gap: 0.5em;
+    & .header-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25em;
+      & label {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0 0.5rem;
+        align-items: center;
+      }
+    }
+  }
+  & .sheet-tabs {
+    margin-top: 2px;
+    font-family: Messiri, Signika, sans-serif;
+    background-color: var(--pendragon-blue);
+    color: var(--background-color);
+    height: 1.8em;
+    border: none;
+  }
+  & nav.tabs [data-tab] {
+    color: var(--background-color);
+  }
+  & .sheet-tabs .active[data-tab] {
+    color: var(--pendragon-gold);
+  }
+
+  & section.tab {
+    overflow: hidden auto;
+    scrollbar-gutter: stable;
+  }
+
+  & .sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & img {
+      height: 64px;
+    }
+  }
+
+  & .stat-name {
+    font-family: Messiri;
+    font-size: 1em;
+    color: var(--pendragon-primary-text);
+    &.button {
+      display: flex;
+      gap: 3em;
+      button.inline-control {
+        align-self: center;
+        justify-self: end;
+        padding-bottom: 5px;
+      }
+    }
+  }
+
+  & .stat-name select {
+    font-size: inherit;
+    color: var(--pendragon-primary-text);
+    background: transparent;
+    border: 1px solid var(--frame-border-color);
+    height: 1.5em;
+    & option,
+    optgroup {
+      background-color: var(--background-color);
+    }
+  }
+
+  & .stat-name-input input {
+    font-family: Messiri;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 2px 0px 0px 0px;
+    margin: 0px;
+    color: var(--pendragon-secondary-text);
+    height: 20px;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid var(--pendragon-secondary-text);
+    border-radius: 0px;
+    background: none;
+    box-shadow: none;
+  }
+
+  & .charname-input input {
+    font-family: "Messiri";
+    font-weight: bold;
+    font-size: 2.5em;
+    height: fit-content;
+    color: var(--pendragon-secondary-text);
+    border: 0px;
+    border-radius: 0px;
+    background: none;
+    box-shadow: none;
+  }
+
+  & .item-improv-grid {
+    display: grid;
+    grid-template-columns: 180px 220px;
+    column-gap: 0px;
+    row-gap: 2px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  & .background-doc {
+    background-image: none;
+    font-size: 1em;
+    padding-left: 10px;
+    padding-right: 10px;
+    min-height: 300px;
+    height: fit-content;
+    border: 1px var(--frame-border-color) solid;
+
+    & p {
+      font-family: "Messiri";
+      font-size: 1em;
+      color: var(--pendragon-primary-text);
+    }
+  }
+
+  & .horizontalboxed {
+    border-top: 2px var(--pendragon-secondary-text) solid;
+    border-bottom: 2px var(--pendragon-secondary-text) solid;
+  }
+
+  & .heading {
+    color: var(--pendragon-secondary-text);
+  }
+
+  & .result-success {
+    color: var(--pendragon-success);
+  }
+
+  & .conditions {
+    list-style: none;
+    padding: 0;
+    column-count: 1;
+    margin: 0 0 1em;
+    li {
+      display: grid;
+      grid-template-columns: 2em 2em 1fr;
+      gap: 0em 0.5em;
+      & label {
+        display: grid;
+        grid-column: 1/-1;
+        grid-template-columns: subgrid;
+        align-items: center;
+      }
+    }
+    li:nth-child(even) {
+      background-color: var(--pd-light-row);
+    }
+    li:first-child {
+      background-color: var(--pd-first-row);
+      color: oklch(0.9773 0.03715 95.458);
+      line-height: 1.6em;
+      button.inline-control {
+        color: oklch(0.9773 0.03715 95.458);
+      }
+    }
+
+    & .right {
+      text-align: right;
+      justify-self: end;
+    }
+    &.effects li {
+      grid-template-columns: 1fr 1.5em 1.5em 1.5em;
+      padding-inline-start: 0.5em;
+      margin-bottom: 0px;
+    }
+  }
+
+  & .aura-img {
+    margin: auto;
+    content: var(--active-effect-aura);
+  }
+
+  & .background-skill-grid {
+    display: grid;
+    width: 402px;
+    border-bottom: 1px gray solid;
+    grid-template-columns: 232px 70px 50px 50px;
+    gap: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  & .background-cost {
+    display: grid;
+    grid-template-columns: 155px 70px 30px 70px;
+    column-gap: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }  
+
+  & .small-cost-grid {
+    display: grid;
+    grid-template-columns: 95px 30px 95px;
+    gap: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }  
+}

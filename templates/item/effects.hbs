@@ -1,0 +1,23 @@
+<div class="tab effects {{tab.cssClass}}" data-group="primary" data-tab="effects">
+    <br>
+    <ul class="conditions effects">
+    <li class="stat-name bold button">{{localize 'PEN.activeEffects'}} <button class="inline-control icon fa-regular fa-square-plus" data-action="addEffect"></button></li>
+    {{#each effects}}
+      <li data-effect-id="{{ id }}">
+        {{#if effMain}}
+          <span style="padding-top: 3px;">{{ name }} {{#if origin}}{{ sourceName }}{{/if}}</span>
+          <div class="centre" data-action="toggleEffect" data-tooltip="{{#if disabled}}{{localize 'PEN.inactive'}}{{else}}{{localize 'PEN.active'}}{{/if}}">
+            <img class="aura-img {{#if disabled}}fade{{/if}}" style="margin-top: 3px;"  height="18" width="18" />
+          </div>
+          <button class="inline-control icon fa-regular fa-pen-to-square" data-action="editEffect"></button>
+          <button class="inline-control icon fa-regular fa-trash" data-action="removeEffect"></button>
+        {{else}}
+          <span style="padding-left:20px;">{{ key }} : {{type}} {{ value }}</span>
+          <div class="centre" data-tooltip="{{#if effect.disabled}}{{localize 'PEN.inactive'}}{{else}}{{localize 'PEN.active'}}{{/if}}">
+            <img class="aura-img {{#if effect.disabled}}fade{{/if}}" style="margin-top: 3px;"  height="18" width="18" />
+          </div>          
+        {{/if}}
+      </li>
+    {{/each}}
+    </ul>
+</div>

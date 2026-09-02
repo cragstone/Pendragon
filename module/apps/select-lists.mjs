@@ -155,12 +155,37 @@ export class PENSelectLists {
     return options;
   }
 
-  //Follwer Type
+  //Follower Type
   static getFollowerType() {
     let options = {
       squire: game.i18n.localize("PEN.squire"),
       family: game.i18n.localize("PEN.family"),
       retainer: game.i18n.localize("PEN.retainer"),
+    };
+    return options;
+  }
+
+  //Background Character Type
+  static getBackgroundType() {
+    let options = {
+      professional: game.i18n.localize("PEN.manor.professional"),
+      officer: game.i18n.localize("PEN.manor.officer")
+    };
+    return options;
+  }
+
+  //Career Paths Type
+  static getFollowerType() {
+    let options = {
+      familycourtier: game.i18n.localize("PEN.path.familycourtier"),
+      familyladies: game.i18n.localize("PEN.path.familyladies"),
+      monk: game.i18n.localize("PEN.path.monk"),
+      nun: game.i18n.localize("PEN.path.nun"),
+      religionchristianmen: game.i18n.localize("PEN.path.religionchristianmen"),
+      religionpaganmen: game.i18n.localize("PEN.path.religionpaganmen"),
+      religionpaganwomen: game.i18n.localize("PEN.path.religionpaganwomen"),
+      service: game.i18n.localize("PEN.path.service"),
+      sword: game.i18n.localize("PEN.path.sword"),
     };
     return options;
   }
@@ -184,6 +209,51 @@ export class PENSelectLists {
       1: game.i18n.localize("PEN.fieldPos.1"),
       2: game.i18n.localize("PEN.fieldPos.2"),
       3: game.i18n.localize("PEN.fieldPos.3"),
+    };
+    return options;
+  }
+
+  //Manor Improvement Sub-types
+  static getImprovType() {
+    let options = {
+      def: game.i18n.localize("PEN.manor.def"),
+      enh: game.i18n.localize("PEN.manor.enh"),
+      manImp: game.i18n.localize("PEN.manor.manImp"),
+      inv: game.i18n.localize("PEN.manor.inv"),
+      not: game.i18n.localize("PEN.manor.not"),
+      barInv: game.i18n.localize("PEN.manor.barInv"),
+    };
+    return options;
+  }
+
+  //Manor DV Improvement Sub-types
+  static getDVImprovType() {
+    let options = {
+      citywalls: game.i18n.localize("PEN.dv.citywalls"),
+      outworks: game.i18n.localize("PEN.dv.outworks"),
+      outerbailey1: game.i18n.localize("PEN.dv.outerbailey1"),
+      outerbailey2: game.i18n.localize("PEN.dv.outerbailey2"),      
+      outerbailey3: game.i18n.localize("PEN.dv.outerbailey3"),      
+      innerbailey1: game.i18n.localize("PEN.dv.innerbailey1"),
+      innerbailey2: game.i18n.localize("PEN.dv.innerbailey2"),
+      innerbailey3: game.i18n.localize("PEN.dv.innerbailey3"),
+      motte1: game.i18n.localize("PEN.dv.motte1"),
+      motte2: game.i18n.localize("PEN.dv.motte2"),
+      motte3: game.i18n.localize("PEN.dv.motte3"),            
+      stronghold1: game.i18n.localize("PEN.dv.stronghold1"),
+      stronghold2: game.i18n.localize("PEN.dv.stronghold2"),
+      stronghold3: game.i18n.localize("PEN.dv.stronghold3"),            
+    };
+    return options;
+  }
+
+  //Manor Maintenance
+  static getMaintType() {
+    let options = {
+      maintained: game.i18n.localize("PEN.manor.maintained"),
+      unmaintained: game.i18n.localize("PEN.manor.unmaintained"),
+      ruined: game.i18n.localize("PEN.manor.ruined"),
+      unavail: game.i18n.localize("PEN.manor.unavail"),
     };
     return options;
   }

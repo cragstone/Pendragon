@@ -1,5 +1,5 @@
 import { PendragonStatusEffects } from "../../apps/status-effects.mjs";
-const { HTMLField, SchemaField, NumberField, StringField, FilePathField, ArrayField, BooleanField } =
+const { HTMLField, SchemaField, NumberField, StringField, FilePathField, ArrayField, BooleanField, DocumentUUIDField } =
   foundry.data.fields;
 
 export class CharacterData extends foundry.abstract.TypeDataModel {
@@ -121,6 +121,7 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
       homelandName: new StringField({required: true, blank: true, initial: "", persisted: false}),
       religionID: new StringField({required: true, blank: true, initial: "", persisted: false}),
       religionName: new StringField({required: true, blank: true, initial: "", persisted: false}),                        
+      estates: new ArrayField(new DocumentUUIDField({ type: "Actor" })),
       background: new HTMLField({ initial: "" }),
       money: new SchemaField({
         libra: new NumberField({ ...requiredInteger, initial: 0 }),

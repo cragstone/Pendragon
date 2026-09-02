@@ -142,11 +142,11 @@ div.pen-adventure-entry {
       margin: -1px 0;
       white-space: nowrap;
       word-break: break-all;
-      color: purple;
+      color: var(--pendragon-hyperlink);
 
       i {
         display: inline;
-        color: purple;
+        color: var(--pendragon-hyperlink);
       }
 
       &.broken {
@@ -163,7 +163,7 @@ div.pen-adventure-entry {
       border: none;
       white-space: pre-wrap;
       word-break: normal;
-      color: purple;
+      color: var(--pendragon-hyperlink);
       padding: 0px;
 
       i {
@@ -172,6 +172,25 @@ div.pen-adventure-entry {
 
       &.broken {
         text-decoration: line-through;
+      }
+    }
+
+    .external a.content-link {
+      background: none;
+      border: none;
+      white-space: pre-wrap;
+      word-break: normal;
+      color: purple;
+      padding: 0px;
+
+      i {
+        display: none;
+      }
+
+      &.broken {
+        color: var(--pendragon-primary-text);
+        text-decoration: none;
+        font-weight: normal;
       }
     }
 
@@ -262,6 +281,8 @@ div.pen-adventure-entry {
     }
 
     .redbox {
+      margin-left: auto;
+      margin-right: auto;
       border-top: 1px solid black;
       border-left: 1px solid black;
       border-right: 1px solid black;
@@ -282,8 +303,8 @@ div.pen-adventure-entry {
     }
 
     .yellowbox {
-      margin-left: 0px;
-      margin-right: 0px;
+      margin-left: auto;
+      margin-right: auto;
       border-radius: 0px;
     }
 
@@ -381,9 +402,10 @@ div.pen-adventure-entry {
     }
 
     table td {
-      padding: 0px 0px 0px 5px;
+      padding: 0px 10px 0px 5px;
       border-left: 1px solid white;
       border-right: 1px solid white;
+      text-align: left;
       &.merged {
         vertical-align: middle;
       }
@@ -453,6 +475,10 @@ div.pen-adventure-entry {
     .bookdesc {
       padding-left: 20px;
       color: darkred;
+    }
+
+    figure.content-embed figcaption {
+      display: none;
     }
   }
 }
