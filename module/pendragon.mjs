@@ -14,7 +14,16 @@ import { migrateWorld } from "./setup/migrations.mjs";
 import { PendragonCombatTracker } from "./apps/combat-tracker.mjs";
 import { PendragonStatusEffects } from "./apps/status-effects.mjs";
 import { PIDEditor } from "./pid/pid-editor.mjs";
-import { CharacterData, NpcData, FollowerData, PartyData, EncounterData, BattleData } from "./models/actor/index.mjs";
+import {
+  CharacterData,
+  NpcData,
+  FollowerData,
+  PartyData,
+  EncounterData,
+  BattleData,
+  ManorData,
+  BaronyData,
+} from "./models/actor/index.mjs";
 import {
   WoundData,
   GearData,
@@ -31,12 +40,13 @@ import {
   ReligionData,
   ClassData,
   HomelandData,
+  ManorImprovementData,
   IdealData,
   RelationshipData,
+  BackgroundData,
 } from "./models/items/index.mjs";
 import drawNote from "./hooks/draw-note.mjs";
 import RenderNoteConfig from "./hooks/render-note-config.mjs";
-//import ChaosiumCanvasInterfaceInit from "./apps/chaosium-canvas-interface-init.mjs";
 import PENClickableEvents from "./apps/clickable-events.mjs";
 import RenderRegionBehaviorConfig from "./hooks/render-region-behavior-config.mjs";
 import RenderRegionConfig from "./hooks/render-region-config.mjs";
@@ -82,6 +92,8 @@ Hooks.once("init", async function () {
   // define data models
   CONFIG.Actor.dataModels.character = CharacterData;
   CONFIG.Actor.dataModels.npc = NpcData;
+  CONFIG.Actor.dataModels.manor = ManorData;
+  CONFIG.Actor.dataModels.barony = BaronyData;  
   CONFIG.Actor.dataModels.follower = FollowerData;
   CONFIG.Actor.dataModels.party = PartyData;
   CONFIG.Actor.dataModels.encounter = EncounterData;
@@ -95,6 +107,7 @@ Hooks.once("init", async function () {
   CONFIG.Item.dataModels.history = HistoryData;
   CONFIG.Item.dataModels.passion = PassionData;
   CONFIG.Item.dataModels.horse = HorseData;
+  CONFIG.Item.dataModels.manorImp = ManorImprovementData;
   CONFIG.Item.dataModels.squire = SquireData;
   CONFIG.Item.dataModels.armour = ArmourData;
   CONFIG.Item.dataModels.weapon = WeaponData;
@@ -105,6 +118,7 @@ Hooks.once("init", async function () {
   CONFIG.Item.dataModels.homeland = HomelandData;
   CONFIG.Item.dataModels.ideal = IdealData;
   CONFIG.Item.dataModels.relationship = RelationshipData;
+  CONFIG.Item.dataModels.background = BackgroundData;  
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = PendragonActor;

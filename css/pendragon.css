@@ -49,7 +49,7 @@
   cursor: pointer;
 }
 
-.Pendragon:not(.party) .window-content {
+.Pendragon:not(.party, .actor2) .window-content {
   background-image: url("../assets/parchment.jpg");
   background-size: cover;
   padding: 0.5em;
@@ -154,8 +154,8 @@
 }
 
 .Pendragon .sheet-tabs {
-  border-top: 1px gray solid !important;
-  border-bottom: 1px gray solid !important;
+  border-top: 1px gray solid;
+  border-bottom: 1px gray solid;
   height: 45px;
   background-color: rgba(128, 128, 128, 0.3);
   font-family: "Herb";
@@ -237,7 +237,8 @@
   font-size: inherit;
   color: black;
   background: transparent;
-  border: 1px solid black;
+  border: 1px solid var(--frame-border-color);
+  height: 25px;
 }
 
 .Pendragon input .inline-edit {
@@ -516,6 +517,17 @@
   border-left: 1px gray solid;
 }
 
+.Pendragon .estate-grid {
+  display: grid;
+  width: 471px;
+  grid-template-columns: 280px 130px 60px;
+  gap: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border-top: 1px gray solid;
+  border-left: 1px gray solid;
+}
+
 .Pendragon .armour-grid {
   display: grid;
   width: 791px;
@@ -603,7 +615,7 @@
 
 .Pendragon .item-trait-grid {
   display: grid;
-  grid-template-columns: 180px 190px;
+  grid-template-columns: 180px 220px;
   gap: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -620,6 +632,14 @@
 .Pendragon .money-grid {
   display: grid;
   grid-template-columns: 180px 50px 30px 50px;
+  gap: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.Pendragon .cost-grid {
+  display: grid;
+  grid-template-columns: 110px 30px 110px;
   gap: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -757,7 +777,7 @@
 
 .Pendragon .background-doc p {
   font-family: AGaramondPro;
-  font-size: 20px !important;
+  font-size: 20px;
   color: black;
 }
 
@@ -1238,7 +1258,6 @@
 }
 
 .Pendragon .droppable .item-list:not(:has(li)):before {
-  content: "Add items by dropping them here";
   text-align: center;
   margin-block-end: 1lh;
   display: block;
@@ -1794,3 +1813,21 @@
   font-size: 20px;
   color: var(--pendragon-black);
 }
+
+.Pendragon .external a.content-link {
+    background: none;
+    border: none;
+    white-space: pre-wrap;
+    word-break: normal;
+    color: var(--pendragon-hyperlink);
+    padding: 0px;
+
+    i {
+      display: none;
+    }
+
+    &.broken {
+      color: var(--pendragon-primary-text);
+      text-decoration: none;
+    }
+  }

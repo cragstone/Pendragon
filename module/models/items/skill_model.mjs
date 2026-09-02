@@ -29,6 +29,7 @@ export class SkillData extends foundry.abstract.TypeDataModel {
         mod: new NumberField({ ...requiredInteger, initial: 0 }),
       }),
       categories: new ArrayField(new DataField(), { initial: [] }),
+      npcSource: new StringField({ required: true, blank: true, initial: "" }),
     };
   }
 }

@@ -51,4 +51,22 @@
       </div>
     {{/each}}
   </div>
+  <br>
+
+  <div class="estate-grid droppable" data-collection = "estates" >
+    <div class="stat-name grid-item-bottom bold">{{localize 'PEN.estate'}}</div>
+    <div class="stat-name grid-item-bottom bold centre">{{localize 'PEN.type'}}</div>
+    <div class="stat-name grid-item-bottom bold centre"></div>
+    
+    {{#each estates as |estate key|}}
+      <div class="stat-name grid-item-bottom">{{estate.name}}</div>
+      <div class="stat-name centre grid-item-bottom"></div>
+      <div class="centre grid-item-bottom" data-itemid ="{{estate.uuid}}">
+        <a class="item-control large-icon fade" data-action="viewEstate"><i data-tooltip="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
+      {{#unless ../system.lock}}
+        <a class="item-control large-icon fade" data-action="deleteEstate"><i data-tooltip="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
+      {{/unless}}
+      </div>
+    {{/each}}
+  </div>
 </section>
