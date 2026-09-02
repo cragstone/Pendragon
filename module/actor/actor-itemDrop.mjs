@@ -1,5 +1,6 @@
 import { PENCharCreate } from "../apps/charCreate.mjs";
 import { PENUtilities } from "../apps/utilities.mjs";
+import PENDialog from "../setup/pen-dialog.mjs";
 
 export class PENactorItemDrop {
   // Change default on Drop Item Create routine for requirements (single items and folder drop)-----------------------------------------------------------------
@@ -14,8 +15,58 @@ export class PENactorItemDrop {
         continue;
       }
 
+      //Barony & Manors are only allowed to have Skills, Manorial Improvements or Background NPCs
+      if (!["manorImp","background", "skill"].includes(dropItm.type) && ["manor", "barony"].includes(actor.type)) {
+        ui.notifications.warn(
+          game.i18n.format("PEN.itemActormismatch", {
+            itemType: game.i18n.localize("TYPES.Item." + dropItm.type),
+            actorType: game.i18n.localize("TYPES.Actor." + actor.type),
+          }),
+        );
+        continue;
+      }
+
+      //Only allow Manorial Improvements or Background NPCs on Manors and Baronies
+      if (['manorImp','background'].includes(dropItm.type) && !["manor", "barony"].includes(actor.type)) {
+        ui.notifications.warn(
+          game.i18n.format("PEN.itemActormismatch", {
+            itemType: game.i18n.localize("TYPES.Item." + dropItm.type),
+            actorType: game.i18n.localize("TYPES.Actor." + actor.type),
+          }),
+        );
+        continue;
+      }
+
+      //Don't allow Baronial Improvements on a Manor
+      if (dropItm.type === "manorImp" && ["manor"].includes(actor.type)) {      
+        if (["barInv"].includes(dropItm.system.subtype)) {
+          ui.notifications.warn(game.i18n.format("PEN.itemActormismatch",{
+            itemType: game.i18n.localize ('PEN.manor.'+dropItm.system.subtype),
+            actorType: game.i18n.localize('TYPES.Actor.manor')
+          }));          
+          continue;
+        }
+      }  
+
+      //Only allow Baronial Improvements or Defenses on a barony
+      if (dropItm.type === "manorImp" && ["barony"].includes(actor.type)) {      
+        if (!["barInv","def"].includes(dropItm.system.subtype)) {
+          ui.notifications.warn(game.i18n.format("PEN.itemActormismatch",{
+            itemType: game.i18n.localize ('PEN.manor.'+dropItm.system.subtype),
+            actorType: game.i18n.localize('TYPES.Actor.barony')
+          }));          
+          continue;
+        }
+      } 
+
       //Don't drop complex items on Followers.  SHould just use the data entry
       if ((actor.type === "follower") & ["homeland", "culture", "class", "religion"].includes(dropItm.type)) {
+        ui.notifications.warn(
+          game.i18n.format("PEN.itemActormismatch", {
+            itemType: game.i18n.localize("TYPES.Item." + dropItm.type),
+            actorType: game.i18n.localize("TYPES.Actor." + actor.type),
+          }),
+        );
         continue;
       }
 
@@ -53,13 +104,26 @@ export class PENactorItemDrop {
 
         //Test for a duplicate named item for certain types
         if (["skill", "trait", "passion"].includes(dropItm.type)) {
-          if (actor.items.filter((aItm) => aItm.type === dropItm.type && aItm.name === dropItm.name).length > 0) {
-            reqResult = 0;
-            errMsg = game.i18n.format("PEN.dupItemName", {
-              name: dropItm.name,
-              type: game.i18n.localize("PEN.Entities." + `${dropItm.type.capitalize()}`),
-            });
-          }
+          if (['manor','barony'].includes (actor.type) && dropItm.type === 'skill') {
+            if (actor.items
+              .filter((aItm) => aItm.type === dropItm.type && aItm.name === dropItm.name)
+              .filter((aItm) => aItm.system.npcSource === "")
+              .length > 0) {
+              reqResult = 0;
+              errMsg = game.i18n.format("PEN.dupItemName", {
+                name: dropItm.name,
+                type: game.i18n.localize("PEN.Entities." + `${dropItm.type.capitalize()}`),
+              });              
+            }
+          } else {  
+            if (actor.items.filter((aItm) => aItm.type === dropItm.type && aItm.name === dropItm.name).length > 0) {
+                reqResult = 0;
+                errMsg = game.i18n.format("PEN.dupItemName", {
+                  name: dropItm.name,
+                  type: game.i18n.localize("PEN.Entities." + `${dropItm.type.capitalize()}`),
+                });
+            }
+          }      
         }
 
         //If an Ideal then check if requirements met
@@ -78,8 +142,9 @@ export class PENactorItemDrop {
         }
       } else {
         //If a skill calculate the base score
-        if (dropItm.type === "skill") {
-          let score = dropItm.system.base.mod;
+        let score = 0;
+        if (dropItm.type === "skill" && !['manor','barony'].includes(actor.type)) {
+          score = dropItm.system.base.mod;
           if (dropItm.system.base.stat != "none" && dropItm.system.base.stat != "") {
             score =
               Number(score) +
@@ -106,6 +171,18 @@ export class PENactorItemDrop {
           }
         }
 
+        //If Baronial Improvement, add any associated staff
+        if (["manorImp"].includes(dropItm.type)) {
+          if (dropItm.system.subtype === "barInv") {
+            for (let newBack of dropItm.system.npcs) {
+              let nItm = await game.system.api.pid.fromPIDBest({ pid: newBack.pid });
+              if (nItm.legnth<1) {continue}
+              let cloneData = nItm[0].toObject();
+              newItemData.push(cloneData)  
+            }
+          }
+        }
+
         newItemData.push(dropItm);
         //If succesfully pushed are there any special rules needed to be applied
         if (dropItm.type === "culture") {
@@ -128,7 +205,7 @@ export class PENactorItemDrop {
     let traitTotal = 0;
     let traits = await ideal.system.traitGroup.map((itm) => itm.pid);
     let scores = await actor.items
-      .filter((itm) => traits.includes(itm.flags?.Pendragon?.pidFlag?.id))
+       .filter((itm) => traits.includes(itm.flags?.Pendragon?.pidFlag?.id))
       .map((itm) => itm.system.total);
     for (let score of scores) {
       traitTotal = traitTotal + Number(score);
@@ -221,5 +298,38 @@ export class PENactorItemDrop {
     }
 
     return choice;
+  }
+
+  static async _addBackgroundSkill(actor, background) {
+    let newSkills=[]
+    let maxScore = 0;
+    for (let newSkill of background.system.skills) {
+      let nItm = await game.system.api.pid.fromPIDBest({ pid: newSkill.pid });
+      if (nItm.legnth<1) {continue}
+      let cloneData = nItm[0].toObject();
+      cloneData.system.npcSource = background.uuid
+      let roll = new Roll(newSkill.score);
+      await roll.evaluate();
+      cloneData.system.value = roll.total
+      newSkills.push(cloneData)
+      if(roll.total>maxScore) {maxScore = roll.total}
+    }  
+    //Add the new skills with the random rolled scores 
+    if (newSkills.length > 0) {
+      const list = await actor.createEmbeddedDocuments("Item", newSkills)
+    }
+    return
+  }
+
+  static async _addAcquiredYear(improvement) {
+    //If a ManorImp where there is income ask for the year of creation  
+    let inpVal = await PENDialog.input({
+      window: { title: game.i18n.localize("PEN.manor.enterYear") },
+      content: `<input class="centre" type="number" name="inpvalue">`,
+    });
+    if (inpVal) {
+      await improvement.update({'system.yearAcquired':inpVal.inpvalue })
+    }
+    return
   }
 }
