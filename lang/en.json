@@ -250,6 +250,7 @@
     "conception": "Conception",
     "conditions": "Conditions",
     "confirm": "Confirm",
+    "conditions": "Conditions",
     "construct": "Select",
     "constructed": "Constructed",
     "constructionHint": "Resetting this will also reset Religion, Characteristics, Traits, Passions and Family Characteristic",
@@ -358,7 +359,7 @@
     "economicCirc": "Economic Circumstance",
     "economicConfirm": "This has a significant impact",
     "effects": "Effects",
-    "emptyList": "Add items by dropping them here",
+    "emptyList": "No Items",
     "encounterMax": "You are only allowed 4 NPCs in an encounter",
     "encounters": "Encounters",
     "encounterSwitchFeast": "Change to Feast",
@@ -468,7 +469,7 @@
     "footvMount": "Foot or Mounted",
     "formulaError": "Invlaid Roll Formula: {formula}",
     "from": "From",
-
+    
     "gallop": "Gallop",
     "gender": "Gender",
     "genderResult": "Gender Result",
@@ -708,6 +709,7 @@
     "map": "Map",
     "mapNoteNoBackground": "Hide background",
     "marries": "Marries",
+    "masterCopy": "Master Copy",
     "material": "Material",
     "max": "Maximum",
     "maxAbbr": "Max",

@@ -78,6 +78,7 @@
   --active-effect-aura: url("../assets/icons/inverse-aura.svg");
   --help-icon-colur: oklch(0.79268 0.17097 70.665);
   --tbkred: oklch(0.51 0.18 26.4);
+  --active-effect-aura: url("../assets/icons/inverse-aura.svg");
 }
 
 .theme-light {

@@ -127,7 +127,6 @@ export class BaronyData extends PENActorData {
         libra: new NumberField({ ...requiredInteger, min: 0, initial: 0, persisted: false }),
         denarii: new NumberField({ ...requiredInteger, min: 0, initial: 0, persisted: false }),
       }),
-
       yearAssized: new NumberField({ ...requiredInteger, initial: 0 }),
       mapImage: new FilePathField({
         required: true,
