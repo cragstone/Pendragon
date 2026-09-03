@@ -360,6 +360,10 @@ export class PendragonActor extends Actor {
           //Otherwise type = false then add AP to shield
           shield = shield + Number(i.system.ap);
         }
+      } else if (i.type === "horse" && i.id === actorData.flags?.Pendragon?.currentHorse) {
+        //Get horse damage from an equipped horse,
+        systemData.horseDam = i.system.damage;
+        systemData.horseChgDam = i.system.chargeDmg;
       }
     }
     //Calculate current HP then check for Near Death

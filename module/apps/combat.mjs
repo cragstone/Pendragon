@@ -1,6 +1,7 @@
 import { PENUtilities } from "../apps/utilities.mjs";
 import { PENSelectLists } from "./select-lists.mjs";
 import { PendragonStatusEffects } from "./status-effects.mjs";
+import PENDialog from "../setup/pen-dialog.mjs";
 
 export class PENCombat {
   //
@@ -49,6 +50,7 @@ export class PENCombat {
     }
     PENCombat.applyNaturalHealing(this.actor);
   }
+
   static async applyNaturalHealing(actor, deterioration = 0, markSuccessfulChirurgery = false) {
     const currentHealth = actor.system.hp.value;
     if (deterioration >= currentHealth) {
@@ -88,28 +90,28 @@ export class PENCombat {
     //If not tracking Wounds then just apply Healing Rate to HP value
     if (!game.settings.get("Pendragon", "trackWnd")) {
       let newHP = Math.min(actor.system.hp.value + healing, actor.system.hp.max);
+      healing = healing - (newHP - actor.system.hp.value);
       await actor.update({
         "system.hp.value": newHP,
       });
-      return;
-    }
+    } else {
+      //Put wounds in array and sort lowest to highest damage
+      const wounds = actor.items.filter((itm) => itm.type === "wound");
+      wounds.sort((a, b) => a.system.value - b.system.value);
 
-    //Put wounds in array and sort lowest to highest damage
-    const wounds = actor.items.filter((itm) => itm.type === "wound");
-    wounds.sort((a, b) => a.system.value - b.system.value);
-
-    for (const i of wounds) {
-      const woundHeal = Math.min(healing, i.system.value);
-      const item = actor.items.get(i._id);
-      if (woundHeal > 0) {
-        await item.update({
-          "system.value": i.system.value - woundHeal,
-          "system.treated": true,
-        });
-        healing = healing - woundHeal;
-      } else {
-        // existing wounds can no longer be treated by first aid
-        await item.update({ "system.treated": true });
+      for (const i of wounds) {
+        const woundHeal = Math.min(healing, i.system.value);
+        const item = actor.items.get(i._id);
+        if (woundHeal > 0) {
+          await item.update({
+            "system.value": i.system.value - woundHeal,
+            "system.treated": true,
+          });
+          healing = healing - woundHeal;
+        } else {
+          // existing wounds can no longer be treated by first aid
+          await item.update({ "system.treated": true });
+        }
       }
     }
     // check to see if we remove the debilitation
