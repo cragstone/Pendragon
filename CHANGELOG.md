@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 14.13
+- Character Sheet V2 has arrived, and it has Dark Mode.  This is all down to Johnny B who has delivered an absolute blinder.
+- There are some basic instructions and info available on the wiki - https://github.com/cragstone/Pendragon/wiki/Character-Sheet-Version-2
+- To toggle between the V1 and V2 sheets please use the button at the top right of the character sheet.
+- There is some functionality on V1 that isn't available on V2 but also additional functionality on V2.
+- Once we have migrated the V1 functionality across entirely we will remove the V1 sheet (no timeframe on this).
+- Please feel free to give us feedback on the V2 sheet to help develop it - https://github.com/cragstone/Pendragon/issues
+- We will use the V2 scheme (colours, fonts etc) for new Actor and Item types and will look to migrate the existing sheets across to V2
+- Despite what I may have said previously - the manual Glory and track Wound options are embedded within V2.
+- Again, a huge thanks to Johnny for all his hard work and a shout out to Mr Primate who has helped review and and make edits.
+
 ## 14.12
 - Character Creation dialog box text etc now visible in Dark Mode.
 
