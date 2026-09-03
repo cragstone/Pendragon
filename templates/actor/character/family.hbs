@@ -12,9 +12,9 @@
           {{#each house.family.parents as |parent key|}}
           <tr>
             <td>{{#if parent.uuid}}<a>{{parent.name}}</a>{{else}}{{parent.name}}{{/if}}</td>
-            <td><strong>{{localize 'PEN.born'}}:</strong> {{parent.born}}
+            <td>{{localize 'PEN.born'}}: {{parent.born}}
                 {{#if (gt parent.died 0)}}
-                {{localize 'PEN.died'}}: {{parent.died}},  {{localize 'PEN.age'}}: {{parent.age}}
+                {{localize 'PEN.died'}}: {{parent.died}}
                 {{else}}
                 <strong>{{localize 'PEN.age'}}:</strong> {{parent.age}}
                 {{/if}}
@@ -77,7 +77,7 @@
 <h2>{{localize 'PEN.station'}}</h2>
 <label><strong>{{localize 'PEN.lord'}}:</strong><input name="system.lord" type="text" value="{{system.lord}}"/></label>
 <label><strong>{{localize 'PEN.class'}}:</strong><input type="text" value="{{system.className}}" readonly/></label>
-<label><strong>{{localize 'PEN.sol'}}:</strong> <input style="flex:1;" type="text" value="{{system.sol}}" readonly/></label>
+<label><strong>{{localize 'PEN.sol'}}:</strong> <input style="flex:1;" type="text" value="{{solLabel}}" readonly/></label>
 <p>
 <strong style="padding-inline-end:1em;">{{localize 'PEN.money'}}:</strong><input name="system.money.libra" type="text" value="{{system.money.libra}}" style="width:3em;display:inline-block;"/>
 <strong style="padding:0 1em;">/</strong><input name="system.money.denarii" type="text" value="{{system.money.denarii}}" style="width:3em;display:inline-block;" />

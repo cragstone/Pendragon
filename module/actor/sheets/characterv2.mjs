@@ -167,6 +167,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
       tabs: this._prepareTabs("primary"),
       manualGlory: game.settings.get("Pendragon", "manualGlory"),
       trackWnd: game.settings.get("Pendragon", "trackWnd"),
+      solLabel: game.i18n.localize('PEN.'+this.actor.system.sol)
     };
     // now organize the items belonging to the character
     await this._prepareItems(sheetData);
@@ -231,8 +232,10 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
           household.push(i);
         }
       } else if (i.type === "armour") {
-        armours.push(i);
+        i.materialLabel = game.i18n.localize('PEN.' + i.system.material)
+        armours.push(i); 
       } else if (i.type === "weapon") {
+        i.mountedLabel = game.i18n.localize('PEN.' + i.system.mounted)      
         weapons.push(i);
       } else if (i.type === "family") {
         i.system.typeName = game.i18n.localize("PEN." + i.system.relation);

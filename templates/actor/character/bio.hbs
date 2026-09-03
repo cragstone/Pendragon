@@ -3,8 +3,8 @@
   <div class="bio-layout">
     <div class="flexrow">
       <label class="bold"><span>{{localize 'PEN.age'}}:</span><input style="flex:1;" type="text" value="{{age}}" readonly/></label>
-      <label class="bold"><span>{{localize 'PEN.born'}}:</span><input style="flex:1;" type="text" value="{{system.born}}" data-dtype="Number" readonly/></label>
-      <label class="bold"><span>{{localize 'PEN.died'}}:</span><input style="flex:1;" name="system.died" type="text" value="{{system.died}}" data-dtype="Number"/></label>
+      <label class="bold"><span>{{localize 'PEN.born'}}:</span><input style="flex:1;" name="system.born" type="number" value="{{system.born}}"/></label>
+      <label class="bold"><span>{{localize 'PEN.died'}}:</span><input style="flex:1;" name="system.died" type="number" value="{{system.died}}"/></label>
     </div>
     <div class="flexrow">
       <label class="bold"><input type="checkbox" {{#if system.heir}}checked{{/if}} /><span>{{localize 'PEN.heir'}}</span></label>
