@@ -29,10 +29,6 @@ export class PendragonActor extends Actor {
     if (actorData.type !== "character") return;
     const systemData = actorData.system;
     //Set basic object IDs
-    systemData.cultureID = "";
-    systemData.homelandID = "";
-    systemData.classID = "";
-    systemData.religionID = "";
     systemData.statTotal = 0;
     systemData.fidelitas = 0;
     systemData.fervor = 0;
@@ -41,17 +37,9 @@ export class PendragonActor extends Actor {
     systemData.honor = 0;
     systemData.winter = 0;
 
-    systemData.age = game.time.components.year - systemData.born;
-    if (systemData.died > 0) {
-      systemData.age = systemData.died - systemData.born;
-    }
+    //Set stats max
+    const culture = actorData.items.find((itm) => itm.type === "culture");
 
-    //Set Culture ID and add stats max
-    let culture = actorData.items.filter((itm) => itm.type === "culture")[0];
-    if (culture) {
-      systemData.cultureID = culture._id;
-      systemData.cultureName = culture.name;
-    }
     for (let [key, stat] of Object.entries(actorData.system.stats)) {
       stat.max = 18 + stat.culture;
       if (culture) {
@@ -60,32 +48,6 @@ export class PendragonActor extends Actor {
       stat.total = Math.min(stat.total, stat.max);
       systemData.statTotal = systemData.statTotal + Number(stat.value);
     }
-
-    //Set Homeland ID
-    let homeland = actorData.items.filter((itm) => itm.type === "homeland")[0];
-    if (homeland) {
-      systemData.homelandID = homeland._id;
-      systemData.homelandName = homeland.name;
-    }
-
-    //Set Class ID
-    let actClass = actorData.items.filter((itm) => itm.type === "class")[0];
-    if (actClass) {
-      systemData.classID = actClass._id;
-      systemData.className = actClass.name;
-    }
-
-    //Set Religion ID
-    let religion = actorData.items.filter((itm) => itm.type === "religion")[0];
-    if (religion) {
-      systemData.religionID = religion._id;
-      systemData.religionName = religion.name;
-    }
-
-    //Actor only Adjustments
-    systemData.damage = systemData.damage + systemData.damAdj;
-    systemData.move = systemData.move + systemData.moveAdj;
-    systemData.armour = systemData.armour + systemData.armourAdj;
 
     //Calculate passive Glory
     systemData.appeal = 0;
@@ -190,7 +152,7 @@ export class PendragonActor extends Actor {
       if (i.type === "ideal") {
         i.system.active = true;
         for (let rItm of i.system.require) {
-          let actItm = actorData.items.filter((itm) => itm.flags?.Pendragon?.pidFlag?.id === rItm.pid)[0];
+          let actItm = actorData.items.filter((itm) => itm.flags.Pendragon?.pidFlag?.id === rItm.pid)[0];
           if (rItm.score < 0) {
             if (actItm.system.total > 20 + rItm.score) {
               i.system.active = false;
@@ -204,12 +166,12 @@ export class PendragonActor extends Actor {
         if (i.system.active) {
           systemData.passglory.ideals = systemData.passglory.ideals + i.system.glory;
           systemData.armour = systemData.armour + i.system.armour;
-          let damAdj = i.system.dam.toUpperCase();
+          /*let damAdj = i.system.dam.toUpperCase();
           if (damAdj.split("D").length > 1) {
             systemData.damage = systemData.damage + Number(damAdj.split("D")[0]);
           } else {
             systemData.damageMod = systemData.damageMod + i.system.dam;
-          }
+          }*/
           systemData.move = systemData.move + i.system.move;
           systemData.hp.max = systemData.hp.max + i.system.hp;
           systemData.healRate = systemData.healRate + i.system.hr;
@@ -259,7 +221,14 @@ export class PendragonActor extends Actor {
           damageFlatMod = Number(damageFlatMod) + Number(i.system.damageBonus) + Number(systemData.damageMod);
 
           damageDice = Math.min(Number(damageDice) + Number(i.system.damageMod), Number(i.system.damageMax));
-          damageFormula = damageDice + "D6+" + damageFlatMod;
+          // make this mildly nicer
+          damageFormula = `${damageDice}D6`;
+          if (damageFlatMod > 0) {
+            damageFormula = `${damageDice}D6+${damageFlatMod}`;
+          }
+          if (damageFlatMod < 0) {
+            damageFormula = `${damageDice}D6${damageFlatMod}`;
+          }
         }
         i.system.damage = damageFormula;
       }
@@ -283,17 +252,6 @@ export class PendragonActor extends Actor {
     // If hp <=0 we probably should do something
     // code used to set DYING/DEBILITATED/UNCONSCIOUS etc here but creating effects during prepare can end up with duplicates or cycles
     // TOR2E emits a warning to chat 'actor expected to have STATUS' which if we don't spam chat at wrong time may be useful
-
-    //Check debilitated status
-    if (
-      this.statuses.has(PendragonStatusEffects.DEBILITATED) &&
-      systemData.status.chirurgery &&
-      systemData.hp.value >= Math.floor(systemData.hp.max / 2)
-    ) {
-      //TODO - review in case deleting effect during prepare is a problem
-      this.removeStatus(PendragonStatusEffects.DEBILITATED);
-      systemData.status.chirurgery = false;
-    }
   }
 
   // Prepare NPC and follower type specific data.
@@ -402,7 +360,7 @@ export class PendragonActor extends Actor {
           //Otherwise type = false then add AP to shield
           shield = shield + Number(i.system.ap);
         }
-      } else if (i.type === "horse" && i.system.equipped) {
+      } else if (i.type === "horse" && i.id === actorData.flags?.Pendragon?.currentHorse) {
         //Get horse damage from an equipped horse,
         systemData.horseDam = i.system.damage;
         systemData.horseChgDam = i.system.chargeDmg;
@@ -495,7 +453,7 @@ export class PendragonActor extends Actor {
     //When creating an actor set basics including tokenlink, bars, displays sight
     if (data.type === "character") {
       if (typeof data.img === "undefined") {
-        data.img = "systems/Pendragon/assets/Icons/default_actor_dark.webp";
+        data.img = "systems/Pendragon/assets/Icons/default_actor.webp";
       }
       data.prototypeToken = foundry.utils.mergeObject(
         {
@@ -518,7 +476,7 @@ export class PendragonActor extends Actor {
       );
     } else if (data.type === "npc") {
       if (typeof data.img === "undefined") {
-        data.img = "systems/Pendragon/assets/Icons/default_actor_dark.webp";
+        data.img = "systems/Pendragon/assets/Icons/default_actor.webp";
       }
       data.prototypeToken = foundry.utils.mergeObject(
         {
@@ -658,6 +616,42 @@ export class PendragonActor extends Actor {
     return actor;
   }
 
+  //get the current horse, if any
+  currentHorse() {
+    const currentHorse = this.getFlag("Pendragon", "currentHorse");
+    if (currentHorse) {
+      return this.items.find((i) => i.id === currentHorse);
+    }
+    return null;
+  }
+
+  //get the current weapon, if any
+  currentWeapon() {
+    const currentWeapon = this.getFlag("Pendragon", "currentWeapon");
+    if (currentWeapon) {
+      return this.items.find((i) => i.id === currentWeapon);
+    }
+    return null;
+  }
+
+  isMounted() {
+    return this.statuses.has(PendragonStatusEffects.MOUNTED);
+  }
+
+  async mountCurrentHorse() {
+    if (this.isMounted()) return;
+    const horse = this.currentHorse();
+    if (horse) {
+      await this.update({ "system.horseDam": horse.system.damage, "system.horseChgDam": horse.system.chargeDmg });
+      await this.addStatus(PendragonStatusEffects.MOUNTED);
+    }
+  }
+
+  async dismountCurrentHorse() {
+    if (!this.isMounted()) return;
+    this.removeStatus(PendragonStatusEffects.MOUNTED);
+  }
+
   async addStatus(statusId) {
     // if we already have the status, nothing to do
     if (this.statuses.has(statusId)) return;
@@ -727,6 +721,15 @@ export class PendragonActor extends Actor {
     }
   }
 
+  getSkillTotal(pid) {
+    const skill = this.items.find((citm) => citm.flags?.Pendragon?.pidFlag?.id === pid);
+    if (skill && skill.type == "skill") {
+      return skill.system.total;
+    }
+  }
+  getItemByPid(pid) {
+    return this.items.find((citm) => citm.flags?.Pendragon?.pidFlag?.id === pid);
+  }
   //Used for Rolling NPCs when token dropped
   get hasRollableCharacteristics() {
     for (const [, value] of Object.entries(this.system.stats)) {
@@ -796,7 +799,7 @@ export class PendragonActor extends Actor {
     //Check random traits, skills, passions
     for (let random of this.system.random) {
       for (let item of this.items) {
-        if (item.flags?.Pendragon?.pidFlag?.id === random.pid) {
+        if (item.flags.Pendragon?.pidFlag?.id === random.pid) {
           if (random.value && !random.value.startsWith("@")) {
             const r = await new Roll(random.value);
             await r.evaluate();

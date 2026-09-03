@@ -93,11 +93,7 @@ export class ItemsSelectDialog extends PENDialog {
 
     return new Promise((resolve) => {
       const dlg = ItemsSelectDialog.wait({
-        window: {
-          title: winTitle,
-          resizable: true,
-        },
-        classes: ["Pendragon", "item-select-sheet", "theme-light"],
+        window: { title: winTitle },
         form: { closeOnSubmit: false },
         content: html,
         data,

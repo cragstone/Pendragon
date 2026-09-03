@@ -14,4 +14,10 @@ export class HistoryData extends foundry.abstract.TypeDataModel {
       favour: new BooleanField({ initial: false }),
     };
   }
+
+  static _preCleanData(data, options, _state) {
+    if (_state.modelSource.name.startsWith(data.description)) {
+      data.description = "";
+    }
+  }
 }

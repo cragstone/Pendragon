@@ -338,7 +338,7 @@ export class PendragonFollowerSheet extends api.HandlebarsApplicationMixin(sheet
   static _onEditPid(event) {
     event.stopPropagation(); // Don't trigger other events
     if (event.detail > 1) return; // Ignore repeated clicks
-    new PIDEditor({ document: this.document }, {}).render(true, { focus: true });
+    new PIDEditor(this.document, {}).render(true, { focus: true });
   }
 
   //Toggle Actor
@@ -433,7 +433,7 @@ export class PendragonFollowerSheet extends api.HandlebarsApplicationMixin(sheet
     //Check to see if the item is already on the actor in some circumstances to add it to base stats tab
     if (["skill", "passion", "trait"].includes(item.type)) {
       let list = await this.actor.items.filter(
-        (i) => i.flags?.Pendragon?.pidFlag?.id === item.flags?.Pendragon?.pidFlag?.id,
+        (i) => i.flags.Pendragon?.pidFlag?.id === item.flags.Pendragon?.pidFlag?.id,
       );
       if (list.length > 0) {
         await this._addVariable(item);

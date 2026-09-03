@@ -116,7 +116,7 @@ export class PENRollType {
     let skillId = event.currentTarget.dataset.itemid;
     let flatMod = 0;
     let passion = this.actor.items.get(skillId);
-    if (passion?.flags?.Pendragon?.pidFlag?.id === "i.passion.honor") {
+    if (passion.flags.Pendragon.pidFlag.id === "i.passion.honor") {
       flatMod = passion.system.dishonour;
     }
     if (event.altKey) {
@@ -216,13 +216,13 @@ export class PENRollType {
   static async _onTraitCheck(event) {
     let ctrlKey = isCtrlKey(event ?? false);
     let shiftKey = event?.shiftKey;
-    let cardType = "NO";
+    let cardType = CardType.UNOPPOSED;
     let subType = event.currentTarget.dataset.type;
     let skillId = event.currentTarget.dataset.itemid;
     if (event.altKey) {
-      cardType = "OP";
+      cardType = CardType.OPPOSED;
     } else if (ctrlKey) {
-      cardType = "RE";
+      cardType = CardType.FIXED;
     }
     if (game.settings.get("Pendragon", "switchShift")) {
       shiftKey = !event.shiftKey;
@@ -240,7 +240,7 @@ export class PENRollType {
 
   //Start a Decision Trait Check
   static async _onDecisionCheck(event) {
-    let cardType = "NO";
+    let cardType = CardType.UNOPPOSED;
     let shiftKey = event?.shiftKey;
     let skillId = event.currentTarget.dataset.itemid;
     if (game.settings.get("Pendragon", "switchShift")) {

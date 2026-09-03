@@ -33,4 +33,11 @@ export class WeaponData extends foundry.abstract.TypeDataModel {
       yearAvailable: new NumberField({ ...requiredInteger, initial: 0 }),
     };
   }
+
+  get usableMounted() {
+    return this.mounted == "mounted" || this.mounted == "both";
+  }
+  get canCharge() {
+    return this.usableMounted && this.damageChar != "b" && this.skill != "brawling";
+  }
 }

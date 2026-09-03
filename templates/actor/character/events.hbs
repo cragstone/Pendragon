@@ -1,0 +1,41 @@
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="events">
+  <h2>{{localize 'PEN.personalEvents'}}<button class="inline-control icon fa-regular fa-square-plus" data-item-type="history" data-action="addItem"></button></h2>
+  <div class="pills">
+    <span class="pill">{{localize 'PEN.born'}} {{system.born}}</span>
+    {{#if system.died}}
+      <span class="pill">{{localize 'PEN.died'}} {{system.died}}</span>
+    {{/if}}
+  </div>
+  <table class="events">
+    <tbody>
+      <tr>
+        <th>{{localize 'PEN.year'}}</th>
+        <th>{{localize 'PEN.event'}}</th>
+        <th></th>
+        <th><p class="right">{{localize 'PEN.glory'}}</p></th>
+      </tr>
+      {{#if manualGlory}}
+        <tr>
+          <td></td>
+          <td>{{localize 'PEN.Settings.manualGlory'}}</td>
+          <td></td>
+          <td style="padding-right: 5px;">
+            <p><input class="right" name="system.manualGlory" type="number" value="{{system.manualGlory}}"/></p>
+          </td>
+        </tr>
+      {{/if}}  
+      {{#each history as |historical key|}}
+      <tr data-itemid="{{historical._id}}">
+        <td>{{historical.system.year}}</td>
+        <td>{{historical.name}}{{#if historical.system.label}}: {{historical.system.label}}{{/if}}</td>
+        <td>
+        <button class="inline-control icon fa-regular fa-pen-to-square" data-action="editItem"></button>
+        </td>
+        <td class="right">
+        {{#if historical.system.glory}}{{formatNumber historical.system.glory}}{{/if}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</section>

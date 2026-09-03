@@ -59,6 +59,8 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       prestigeSkill: this._prestigeSkill,
       prestigePassion: this._prestigePassion,
       familyRoll: this._familyRoll,
+      switchSheet: this._onSwitchSheet,
+      toggleHorse: this._toggleHorse,
     },
     window: {
       resizable: true,
@@ -272,10 +274,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     if (this.actor.name.toUpperCase() === game.i18n.localize("TYPES.Actor.character").toUpperCase()) {
       context.hasName = false;
     }
-
-    let knightly = await PendragonCharacterSheet.testKnightly(this.actor);
-    context.knightly = knightly.pass;
-    context.knightlyLabel = knightly.label;
+    context.knightly = await PendragonCharacterSheet.testKnightly(this.actor);
     // Use a safe clone of the actor data for further operations.
     const actorData = this.actor.toObject(false);
     if (this.actor.system.cultureID != "") {
@@ -326,6 +325,11 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
 
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
+
+    // add the current horse
+    const horse = context.actor.currentHorse();
+    const mountedHorse = context.actor.isMounted() ? horse : undefined;
+    context.currentHorse = { _id: mountedHorse?._id };
 
     return context;
   }
@@ -703,7 +707,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   static _onEditPid(event, target) {
     event.stopPropagation(); // Don't trigger other events
     if (event.detail > 1) return; // Ignore repeated clicks
-    new PIDEditor({ document: this.document }, {}).render(true, {
+    new PIDEditor(this.document, {}).render(true, {
       focus: true,
     });
   }
@@ -961,6 +965,23 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     await PENWinter.familyRoll(this.actor);
   }
 
+  //Mount/dismount horse
+  static async _toggleHorse(event, target) {
+    const li = target.closest(".item");
+    const item = this.actor.items.get(li.dataset.itemId);
+    const currentHorse = this.actor.currentHorse();
+    if (this.actor.isMounted() && currentHorse?.id == item.id) {
+      await this.actor.dismountCurrentHorse();
+    } else {
+      if (item.id != currentHorse?.id) await this.actor.setFlag("Pendragon", "currentHorse", item.id);
+      await this.actor.mountCurrentHorse();
+    }
+  }
+
+  static async _onSwitchSheet(event, target) {
+    const sheetClass = this.actor.getFlag("core", "sheetClass") ?? "";
+    this.actor.setFlag("core", "sheetClass", "Pendragon.PendragonCharacterSheetv2");
+  }
   // -----------------------------------LISTENERS-----------------------------------------
   //Activate event listeners using the prepared sheet HTML
   _onRender(context, _options) {
@@ -1107,65 +1128,30 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   //Does the Character qualify for Knighthood
   static async testKnightly(actor) {
     //    let pass = 0;
-    let pass = game.i18n.localize("PEN.knightly.pass");
-
-    let skillCount = game.i18n.localize("PEN.knightly.pass");
-    let swordCheck = game.i18n.localize("PEN.knightly.pass");
-    let chargeCheck = game.i18n.localize("PEN.knightly.pass");
-    let brawlingCheck = game.i18n.localize("PEN.knightly.pass");
-    let honorCheck = game.i18n.localize("PEN.knightly.pass");
-    let knightly = game.i18n.localize("PEN.knightly.pass");
     let skills = await actor.items
       .filter((i) => i.type === "skill")
       .filter((j) => j.system.total >= 10 && j.system.weaponType === "")
       .filter((k) => k.system.categories.find((m) => m === "knightly"));
     if (skills.length < 2) {
-      skillCount = game.i18n.localize("PEN.knightly.fail");
-      knightly = false;
+      return false;
     }
     let sword = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.sword");
     if (sword.length === 0 || sword[0].system.total < 10) {
-      swordCheck = game.i18n.localize("PEN.knightly.fail");
-      knightly = false;
+      return false;
     }
     let charge = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.charge");
     if (charge.length === 0 || charge[0].system.total < 10) {
-      chargeCheck = game.i18n.localize("PEN.knightly.fail");
-      knightly = false;
+      return false;
     }
     let brawling = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.skill.brawling");
     if (brawling.length === 0 || brawling[0].system.total < 10) {
-      brawlingCheck = game.i18n.localize("PEN.knightly.fail");
-      knightly = false;
+      return false;
     }
     let honor = await actor.items.filter((i) => i.flags.Pendragon?.pidFlag?.id === "i.passion.honor");
     if (honor.length === 0 || honor[0].system.total < 5) {
-      honorCheck = game.i18n.localize("PEN.knightly.fail");
-      knightly = false;
+      return false;
     }
-    let knightlyLabel =
-      "<p>" +
-      game.i18n.localize("PEN.knightly.knightlySkills") +
-      ": " +
-      skillCount +
-      "</p><p>" +
-      game.i18n.localize("PEN.knightly.sword") +
-      ": " +
-      swordCheck +
-      "</p><p>" +
-      game.i18n.localize("PEN.knightly.charge") +
-      ": " +
-      chargeCheck +
-      "</p><p>" +
-      game.i18n.localize("PEN.knightly.brawling") +
-      ": " +
-      brawlingCheck +
-      "</p><p>" +
-      game.i18n.localize("PEN.knightly.honor") +
-      ": " +
-      honorCheck +
-      "</p>";
-    return { pass: knightly, label: knightlyLabel };
+    return true;
   }
 
   //Get Embedded Document
