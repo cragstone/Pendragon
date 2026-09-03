@@ -5,6 +5,16 @@ export function addChatListeners(html) {
   html.on("click", ".cardbutton", PENCheck.triggerChatButton);
 }
 
+export class ChatCardTemplate {
+  static COMBAT = "systems/Pendragon/templates/chat/roll-combat.hbs";
+  static OPPOSED = "systems/Pendragon/templates/chat/roll-opposed.hbs";
+  static UNOPPOSED = "systems/Pendragon/templates/chat/roll-result.hbs";
+  static DECLARE = "systems/Pendragon/templates/chat/declare-action.hbs";
+}
+export class ChatCardState {
+  static OPEN = "open";
+  static CLOSED = "closed";
+}
 export class PENChat {
   //
   //Hides Owner-Only sections of chat message from anyone other than the owner and the GM

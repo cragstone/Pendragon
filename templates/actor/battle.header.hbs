@@ -116,7 +116,7 @@
 
     <div class="battle-turn">
       <img class="" src= "systems/Pendragon/assets/curled_dragon.webp" width="125"/>
-      <div class="darkred bold">
+      <div class="bold">
         <div class="centre" style="padding-top: 19px;" >{{localize 'PEN.battleTurn'}}</div>
         <div class="battle-turn-grid">
           {{#if isGM}}
@@ -125,11 +125,11 @@
             <div></div>
           {{/if}}
           {{#if isGM}}
-            <div class="enc-display darkred centre">{{system.currTurn}}</div>
+            <div class="enc-display centre">{{system.currTurn}}</div>
             <div class="enc-display centre">/</div>
             <div class="enc-input"><input class="centre" name='system.maxTurns' type='number' value='{{actor.system.maxTurns}}' /></div>
           {{else}}
-            <div class="enc-display darkred centre" style="grid-column:2 / span 3">{{system.currTurn}}</div>
+            <div class="enc-display centre" style="grid-column:2 / span 3">{{system.currTurn}}</div>
           {{/if}}
           {{#if isGM}}
             <div class="right"><a data-tooltip="{{ localize 'PEN.nextTurn' }}" data-action="battleTurn" data-property=1><i class="fas fa-solid fa-right-long"></i></a></div>

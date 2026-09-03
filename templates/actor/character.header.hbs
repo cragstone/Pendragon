@@ -5,7 +5,9 @@
     <section class="title-section">
       {{!-- Characteristics Header --}}
         <div class="charname-input" style="grid-column: 1 / span 2"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></div>
-        <div class="right"><a class="large-icon" data-action="toggleActor" data-property="lock" data-tooltip='{{localize "PEN.lock"}}'><i class="fas {{#if isLocked}}fa-lock{{else}}fa-lock-open{{/if}}"></i></a></div>        
+        <div class="right">
+        <button type="button" data-action="switchSheet" data-tooltip="Click to preview v2 sheet" style="display:inline-flex;">v2</button>
+        <a class="large-icon" data-action="toggleActor" data-property="lock" data-tooltip='{{localize "PEN.lock"}}'><i class="fas {{#if isLocked}}fa-lock{{else}}fa-lock-open{{/if}}"></i></a></div>
         <div class="new-row">
           <img class="profile-img" src="{{actor.system.coatOfArms}}" data-action="onEditImage" data-edit="system.coatOfArms" data-tooltip="{{actor.system.heraldry}}" height="140" width="140"/>
         </div>
@@ -39,7 +41,7 @@
             {{#if trackWnd}}
                 <div class="stat-name centre">{{system.hp.value}} / {{system.hp.max}}</div>
             {{else}}
-              <div class="trackWnd-grid"> 
+              <div class="trackWnd-grid">
                 <div class="stat-name-input centre"><input name="system.hp.value" type="number" value="{{system.hp.value}}"/></div>
                 <div class="stat-name-input centre"> /</div>
                 <div class="stat-name centre">{{system.hp.max}}</div>
@@ -53,14 +55,14 @@
               <div class="stat-name centre">{{system.damage}}</div>
               <div class="stat-name left bold">{{localize 'PEN.armour'}}</div>
               <div class="stat-name centre" title = "{{localize 'PEN.armourShield'}}">{{system.armour}} / {{system.shield}}</div>
-            </div>  
+            </div>
             <div class="cash-grid">
               <div class="stat-name left bold">{{localize 'PEN.money'}}</div>
               <div class="stat-name-input centre"><input name="system.money.libra" type="text" value="{{system.money.libra}}"/></div>
               <div class="stat-name-input centre"> /</div>
               <div class="stat-name-input centre"><input name="system.money.denarii" type="text" value="{{system.money.denarii}}"/></div>
             </div>
-          </div>    
+          </div>
         </div>
       </section>
 
@@ -69,8 +71,7 @@
         <div class="">
           <img class="profile-img" src="{{actor.img}}" data-action="onEditImage" data-edit="img" data-tooltip="{{actor.name}}" height="140" width="140"/>
         </div>
-      </section>  
+      </section>
     </section>
   </section>
 </header>
-
