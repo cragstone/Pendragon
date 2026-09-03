@@ -21,8 +21,8 @@
         {{#if currentHorse}}
         <p><i class= "fa-solid fa-horse-head"></i>{{currentHorse.name}}</p>
         <p>{{currentHorse.classification}}{{#if currentHorse.system.combat}} - War-Trained{{/if}}</p>
-        <p>Hit Points: {{currentHorse.system.hp}} / {{currentHorse.system.maxHP}}</p>
-        <p>Move: {{currentHorse.system.move}} / Knockdown: {{currentHorse.system.siz}}</p>
+        <p>{{localize 'PEN.hp'}}: {{currentHorse.system.hp}} / {{currentHorse.system.maxHP}}</p>
+        <p>{{localize 'PEN.move'}}: {{currentHorse.system.move}} / {{localize 'PEN.knockdown'}}: {{currentHorse.system.siz}}</p>
         {{/if}}
         <button type="button" data-action="switchHorse">Change Horse</button>
         <label class="condition">
@@ -32,17 +32,17 @@
         </label>
       </div>
       <div>
-        <p>Knockdown: {{system.hp.knockdown}}</p>
-        <p>Major Wound: {{system.hp.majorWnd}}</p>
-        <p>Unconscious: {{system.hp.unconscious}}</p>
+        <p>{{localize 'PEN.knockdown'}}: {{system.hp.knockdown}}</p>
+        <p>{{localize 'PEN.mjrWnd'}}: {{system.hp.majorWnd}}</p>
+        <p>{{localize 'PEN.unconscious'}}: {{system.hp.unconscious}}</p>
         <p style="font-weight: bold;font-size:larger"><i class= "fa-solid fa-swords"></i> Weapon</p>
         <p>{{currentWeapon.name}} {{currentWeapon.total}}</p>
-        <p>Damage: {{currentWeapon.damage}}</p>
+        <p>{{localize 'PEN.damage'}}: {{currentWeapon.damage}}</p>
         <button type="button" data-action="switchWeapon">Change Weapon</button>
       </div>
       <div style="border-radius: 0.25rem;padding: 0.5rem;background-color: var(--pd-light-row);">
-        <p>Armour Points: {{system.armour}} + {{shield}} <i class="fa-solid fa-shield"></i></p>
-        <p>Move: {{system.move}}</p>
+        <p>{{localize 'PEN.armourPoints'}}: {{system.armour}} + {{shield}} <i class="fa-solid fa-shield"></i></p>
+        <p>{{localize 'PEN.move'}}: {{system.move}}</p>
         <label class="condition">
         <input type="checkbox" {{#if statuses.debilitated.active}}checked{{/if}} disabled/>
         <img src="{{statuses.debilitated.img}}" class="icon-img" />
@@ -58,58 +58,58 @@
         <img src="{{statuses.dying.img}}" class="icon-img" />
         <span>{{ statuses.dying.name }}</span>
         </label>
-        <button type="button" data-action="showWounds">Wounds and Healing</button>
+        <button type="button" data-action="showWounds">{{localize 'PEN.woundsHealing'}}</button>
       </div>
     </div>
-    <h2>Combat Actions</h2>
+    <h2>{{localize 'PEN.combatActions.title'}}</h2>
     <div class="actions">
-      <button type="button" data-action="combatAction" data-combat-action="attack">Attack</button>
-      <button type="button" data-action="combatAction" data-combat-action="reckless">Reckless Attack</button>
-      <button type="button" data-action="combatAction" data-combat-action="callSquire">Call Squire</button>
-      <button type="button" data-action="combatAction" data-combat-action="claimPrisoner">Claim a Prisoner</button>
-      <button type="button" data-action="combatAction" data-combat-action="defend">Defend</button>
-      <button type="button" data-action="combatAction" data-combat-action="disarm">Disarm</button>
-      <button type="button" data-action="combatAction" data-combat-action="evade">Evade</button>
-      <button type="button" data-action="combatAction" data-combat-action="pickUp">Pick Up</button>
-      <button type="button" data-action="combatAction" data-combat-action="selfSacrifice">Self-sacrifice</button>
-      <button type="button" data-action="combatAction" data-combat-action="study">Study</button>
-      <button type="button" data-action="combatAction" data-combat-action="withholdDamage">Withhold Damage</button>
-      <button type="button" data-action="combatAction" data-combat-action="zigzag">Zigzag</button>
+      <button type="button" data-action="combatAction" data-combat-action="attack">{{localize 'PEN.combatActions.attack'}}</button>
+      <button type="button" data-action="combatAction" data-combat-action="reckless">{{localize 'PEN.combatActions.reckless'}}</button>
+      <button type="button" data-action="combatAction" data-combat-action="callSquire">{{localize 'PEN.combatActions.callSquire'}}</button>
+      <button type="button" data-action="combatAction" data-combat-action="claimPrisoner">{{localize 'PEN.combatActions.claimPrisoner'}}</button>
+      <button type="button" data-action="combatAction" data-combat-action="defend">{{localize 'PEN.combatActions.defend'}}</button>
+      <button type="button" data-action="combatAction" data-combat-action="disarm">{{localize 'PEN.combatActions.disarm'}}</button>
+      <button type="button" data-action="combatAction" data-combat-action="evade">{{localize 'PEN.combatActions.evade'}}</button>
+      <button type="button" data-action="combatAction" data-combat-action="pickUp">{{localize 'PEN.combatActions.pickUp'}}</button>
+      <button type="button" data-action="combatAction" data-combat-action="selfSacrifice">{{localize 'PEN.combatActions.selfSacrifice'}}</button>
+      <button type="button" data-action="combatAction" data-combat-action="study">{{localize 'PEN.combatActions.study'}}</button>
+      <button type="button" data-action="combatAction" data-combat-action="withholdDamage">{{localize 'PEN.combatActions.withholdDamage'}}</button>
+      <button type="button" data-action="combatAction" data-combat-action="zigzag">{{localize 'PEN.combatActions.zigzag'}}</button>
     </div>
     <div class="action-tabs">
       <details name="cond-actions" {{#if statuses.mounted.active}}open{{/if}}>
-        <summary>Mounted</summary>
+        <summary>{{localize 'PEN.mounted'}}</summary>
         <div class="actions">
-        <button type="button" data-action="combatAction" data-combat-action="charge">Mounted Charge</button>
-        <button type="button" data-action="combatAction" data-combat-action="controlMount">Control Mount</button>
-        <button type="button" data-action="combatAction" data-combat-action="trample">Trample</button>
-        <button type="button" data-action="combatAction" data-combat-action="dismount">Dismount</button>
-        <button type="button" data-action="combatAction" data-combat-action="quickDismount">Quick Dismount</button>
+        <button type="button" data-action="combatAction" data-combat-action="charge">{{localize 'PEN.combatActions.charge'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="controlMount">{{localize 'PEN.combatActions.controlMount'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="trample">{{localize 'PEN.combatActions.trample'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="dismount">{{localize 'PEN.combatActions.dismount'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="quickDismount">{{localize 'PEN.combatActions.quickDismount'}}</button>
         </div>
       </details>
       <details name="cond-actions" {{#unless statuses.mounted.active}}open{{/unless}}>
-        <summary>On Foot</summary>
+        <summary>{{localize 'PEN.combatActions.onFoot'}}</summary>
         <div class="actions">
-        <button type="button" data-action="combatAction" data-combat-action="dodge">Dodge</button>
-        <button type="button" data-action="combatAction" data-combat-action="donArmor">Don Armour</button>
-        <button type="button" data-action="combatAction" data-combat-action="hook">Hook</button>
-        <button type="button" data-action="combatAction" data-combat-action="setSpear">Set Spear</button>
-        <button type="button" data-action="combatAction" data-combat-action="mount">Leap into Saddle</button>
-        <button type="button" data-action="combatAction" data-combat-action="mount">Mount Up</button>
+        <button type="button" data-action="combatAction" data-combat-action="dodge">{{localize 'PEN.combatActions.dodge'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="donArmor">{{localize 'PEN.combatActions.donArmor'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="hook">{{localize 'PEN.combatActions.hook'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="setSpear">{{localize 'PEN.combatActions.setSpear'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="mount">{{localize 'PEN.combatActions.leap'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="mount">{{localize 'PEN.combatActions.mount'}}</button>
         </div>
       </details>
       <details name="cond-actions">
-        <summary>Brawling</summary>
+        <summary>{{localize 'PEN.combatActions.brawling'}}</summary>
         <div class="actions">
-        <button type="button" data-action="combatAction" data-combat-action="punch">Punch</button>
-        <button type="button" data-action="combatAction" data-combat-action="slap">Slap</button>
-        <button type="button" data-action="combatAction" data-combat-action="escape">Escape</button>
-        <button type="button" data-action="combatAction" data-combat-action="grapple">Grapple</button>
-        <button type="button" data-action="combatAction" data-combat-action="slam">Slam</button>
+        <button type="button" data-action="combatAction" data-combat-action="punch">{{localize 'PEN.combatActions.punch'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="slap">{{localize 'PEN.combatActions.slap'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="escape">{{localize 'PEN.combatActions.escape'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="grapple">{{localize 'PEN.combatActions.grapple'}}</button>
+        <button type="button" data-action="combatAction" data-combat-action="slam">{{localize 'PEN.combatActions.slam'}}</button>
         </div>
       </details>
       <details name="cond-actions">
-        <summary>Battle</summary>
+        <summary>{{localize 'PEN.combatActions.battle'}}</summary>
         <div class="actions">
           <label>{{localize 'PEN.battlePosture'}}</label>
           <select class="centre" data-handle-change name="system.battlePos">

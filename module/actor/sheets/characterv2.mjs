@@ -165,6 +165,8 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
       useRelation: game.settings.get("Pendragon", "useRelation"),
       items: this.actor.items,
       tabs: this._prepareTabs("primary"),
+      manualGlory: game.settings.get("Pendragon", "manualGlory"),
+      trackWnd: game.settings.get("Pendragon", "trackWnd"),
     };
     // now organize the items belonging to the character
     await this._prepareItems(sheetData);

@@ -2,7 +2,7 @@
 <section class="tab skills {{tab.cssClass}}" data-group="primary" data-tab="skills">
   <div class="skill-layout">
   <div>
-  <h2>Non-Combat Skills <button class="inline-control icon fa-regular fa-square-plus" data-item-type="skill" data-action="addItem"></button></h2>
+  <h2>{{localize 'PEN.nonCombatSkills'}}<button class="inline-control icon fa-regular fa-square-plus" data-item-type="skill" data-action="addItem"></button></h2>
   <ol class="skill-list">
     {{#each skills as |skill key|}}
       {{#unless skill.system.combat}}
@@ -24,7 +24,7 @@
   </ol>
   </div>
   <div>
-  <h2>Combat Skills</h2>
+  <h2>{{localize 'PEN.combatSkills'}}</h2>
   <ol class="skill-list">
     {{#each skills as |skill key|}}
       {{#if skill.system.combat}}

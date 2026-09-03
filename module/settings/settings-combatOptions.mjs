@@ -6,6 +6,7 @@ const SETTINGS = {
     config: false,
     type: Boolean,
     default: true,
+    requiresReload: true,
   },
 };
 

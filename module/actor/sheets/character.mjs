@@ -971,7 +971,6 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   //Mount/dismount horse
   static async _toggleHorse(event, target) {
     const li = target.closest(".item");
-    console.log(li.dataset.itemId);
     const item = this.actor.items.get(li.dataset.itemId);
     const currentHorse = this.actor.currentHorse();
     if (this.actor.isMounted() && currentHorse?.id == item.id) {

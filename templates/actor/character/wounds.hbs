@@ -1,36 +1,59 @@
 <section class="wound-tracker">
-  <p class="center">HP: {{system.hp.value}} / {{system.hp.max}}</p>
+  {{#if trackWnd}}
+    <p class="center">{{localize 'PEN.hpShort'}}: {{system.hp.value}} / {{system.hp.max}}</p>
+  {{else}}
+    <div class="wound-sheet-track">
+      <div>{{localize 'PEN.hpShort'}}: </div> 
+      <div class="trackWnd-grid">
+        <div class="centre track-wound"><input name="newhp" type="number" value="{{system.hp.value}}"/></div>
+        <div class="centre"> /</div>
+        <div class="centre">{{system.hp.max}}</div>
+      </div>
+    </div>  
+  {{/if}}
   <p>
-    <button data-action="directDamage">Direct damage</button>
+    <button data-action="directDamage">{{localize 'PEN.directDamage'}}</button>
     <input name="dmg" type="number" data-dType="Number" placeholder="0" style="flex:1;text-align:right;" />
-    <button data-action="addWound">Create wound</button>
+    {{#if trackWnd}}
+      <button data-action="addWound">{{localize 'PEN.createWound'}}</button>
+    {{/if}}
   </p>
   <div>
-  <h2>Wounds</h2>
-  <p>Major Wound: {{system.hp.majorWnd}}</p>
+  <h2>{{localize 'PEN.wounds'}}</h2>
+  <p>{{localize 'PEN.mjrWnd'}}: {{system.hp.majorWnd}}</p>
   <ol class="wounds">
-  {{#each wounds as |wound key|}}
-    <li data-itemid="{{wound._id}}">
-      <span>{{wound.name}}</span>
-      <span class="right">{{wound.system.value}}</span>
-      {{#unless wound.system.treated}}<button data-action="applyFirstAid">First Aid</button>{{/unless}}
-    </li>
-  {{/each}}
+  {{#if trackWnd}}
+    {{#each wounds as |wound key|}}
+      <li data-itemid="{{wound._id}}">
+        <span>{{wound.name}}</span>
+        <span class="right">{{wound.system.value}}</span>
+        {{#unless wound.system.treated}}<button data-action="applyFirstAid">{{localize 'PEN.firstAid'}}</button>{{/unless}}
+      </li>
+    {{/each}}
+  {{/if}}
   <li>
-    <i>Aggravation</i>
-    <span class="right">{{system.aggravDam}}</span>
+    <i>{{localize 'PEN.aggravation'}}</i>
+    {{#if trackWnd}}
+      <span class="right">{{system.aggravDam}}</span>
+    {{else}}
+      <span class="right"><input class="centre" name="aggravation" type="number" value={{system.aggravDam}} style="flex:1;text-align:right;"/></span>
+    {{/if}}
   </li>
   <li>
-    <i>Deterioration</i>
-    <span class="right">{{system.deterDam}}</span>
+    <i>{{localize 'PEN.deterioration'}}</i>
+    {{#if trackWnd}}
+      <span class="right">{{system.deterDam}}</span>
+    {{else}}
+      <span class="right"><input class="centre" name="deterioration" type="number" value={{system.deterDam}} style="flex:1;text-align:right;"/></span>
+    {{/if}}
   </li>
   </ol>
   </div>
   <div>
-    <h2>Healing</h2>
-    <p>Healing Rate: {{system.healRate}}</p>
-    <button data-action="naturalHealing">One week</button>
-    <button>Multiple weeks</button>
+    <h2>{{localize 'PEN.healthResult.label'}}</h2>
+    <p>{{localize 'PEN.healRate'}}: {{system.healRate}}</p>
+    <button data-action="naturalHealing">{{localize 'PEN.oneWeek'}}</button>
+    <button>{{localize 'PEN.multipleWeeks'}}</button>
     <label class="condition">
     <input type="checkbox" {{#if conditions.debilitated.active}}checked{{/if}} disabled/>
     <img src="{{conditions.debilitated.img}}" class="icon-img" />

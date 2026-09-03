@@ -2,7 +2,7 @@
   <div style="max-width: 125px;text-align:center;">
     <img src="{{actor.system.coatOfArms}}" title="{{actor.system.heraldry}}" data-edit="system.coatOfArms" data-action="onEditImage" style="width:100%;height:auto;"/>
     <div data-action="rollGlory">
-    <div>Glory</div>
+    <div>{{localize 'PEN.glory'}}</div>
     <div>{{system.reputation}}</div>
     <div>{{formatNumber system.glory}}</div>
     </div>
@@ -27,7 +27,16 @@
   </div>
   <div style="max-width: 125px;text-align:center;">
   <img class="profile-img" src="{{actor.img}}" data-edit="img" data-action="onEditImage" title="{{actor.name}}" style="width:100%;height:auto;"/>
-  <div>Hit Points</div>
-  <div>{{system.hp.value}} / {{system.hp.max}}</div>
+
+  <div>{{localize 'PEN.hp'}}</div>
+  {{#if trackWnd}}
+    <div>{{system.hp.value}} / {{system.hp.max}}</div>
+  {{else}}
+    <div class="trackWnd-grid">
+      <div class="centre track-wound"><input name="system.hp.value" type="number" value="{{system.hp.value}}"/></div>
+      <div class="centre"> /</div>
+      <div class="centre">{{system.hp.max}}</div>
+    </div>
+  {{/if}}  
   </div>
 </header>

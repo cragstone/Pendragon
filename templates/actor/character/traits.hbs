@@ -1,7 +1,7 @@
 <section class="tab {{tab.cssClass}}" data-group="primary" data-tab="traits">
   <div class="col-equal">
     <div>
-      <h2>Traits</h2>
+      <h2>{{localize 'PEN.traits'}}</h2>
       <ol class="trait-grid2">
         {{#each traits as |trait key|}}
         <li data-itemid="{{trait._id}}">
@@ -17,7 +17,7 @@
       </ol>
     </div>
     <div>
-      <h2>Ideals</h2>
+      <h2>{{localize 'PEN.ideals'}}</h2>
       {{#each ideals as |ideal key|}}
           <details class="ideal" open>
               <summary>{{ideal.name}}</summary>

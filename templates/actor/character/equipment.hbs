@@ -1,18 +1,18 @@
 <section class="tab equipment {{tab.cssClass}}" data-group="primary" data-tab="equipment">
-    <h2>Armour</h2>
+    <h2>{{localize 'PEN.armour'}}</h2>
     <table>
         <tbody>
           <tr>
               <th>{{localize 'PEN.armour'}}</th>
               <th>{{localize 'PEN.available'}}</th>
               <th>{{localize 'PEN.ap'}}</th>
-              <th>Padding</th>
+              <th>{{localize 'PEN.padding'}}</th>
               <th>{{localize 'PEN.eqpd'}}</th>
           </tr>
           {{#each armours as |armour key|}}
           <tr data-itemid ="{{armour._id}}">
             <td>{{armour.name}}</td>
-            <td>All Periods</td>
+            <td>{{localize 'PEN.period.all'}}</td>
             <td>{{armour.system.ap}}</td>
             <td>{{armour.system.material}} {{armour.system.padding}}</td>
             <td><a class="item-control large-icon" data-action="toggleEquip"><i class="{{#if armour.system.equipped}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></td>
@@ -21,13 +21,13 @@
         </tbody>
     </table>
 
-    <h2>Weapons</h2>
+    <h2>{{localize 'PEN.weapons'}}</h2>
     <table>
         <tbody>
           <tr>
               <th>{{localize 'PEN.weapon'}}</th>
               <th>{{localize 'PEN.available'}}</th>
-              <th>Foot or Mounted</th>
+              <th>{{localize 'PEN.footvMount'}}</th>
               <th>{{localize 'PEN.skill'}}</th>
               <th>{{localize 'PEN.value'}}</th>
               <th>{{localize 'PEN.parry'}}</th>
@@ -37,7 +37,7 @@
           {{#if weapon.system.melee}}
           <tr>
             <td>{{weapon.name}}</td>
-            <td>All Periods</td>
+            <td>{{localize 'PEN.period.all'}}</td>
             <td>{{weapon.system.mounted}}</td>
             <td>{{weapon.system.skillName}}</td>
             <td>{{weapon.system.total}}</td>
@@ -53,7 +53,7 @@
           <tr>
               <th>{{localize 'PEN.weapon'}}</th>
               <th>{{localize 'PEN.available'}}</th>
-              <th>Foot or Mounted</th>
+              <th>{{localize 'PEN.footvMount'}}</th>
               <th>{{localize 'PEN.skill'}}</th>
               <th>{{localize 'PEN.value'}}</th>
               <th>{{localize 'PEN.range'}}</th>
@@ -63,7 +63,7 @@
           {{#unless weapon.system.melee}}
           <tr>
             <td>{{weapon.name}}</td>
-            <td>All Periods</td>
+            <td>{{localize 'PEN.period.all'}}</td>
             <td>{{weapon.system.mounted}}</td>
             <td>{{weapon.system.skillName}}</td>
             <td>{{weapon.system.total}}</td>
@@ -74,7 +74,7 @@
           {{/each}}
         </tbody>
     </table>
-    <h2>Gear</h2>
+    <h2>{{localize 'TYPES.Item.gear'}}</h2>
     <table>
         <tbody>
           <tr>

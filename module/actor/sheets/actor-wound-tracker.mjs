@@ -135,24 +135,24 @@ export class WoundTrackerDialog extends api.HandlebarsApplicationMixin(api.Docum
       // let healing = 0;
       // const healingRate = this.actor.system.healRate;
       const result = await api.DialogV2.wait({
-        window: { title: "Chirurgery" },
-        content: "<p>What is the result of this week's Chirurgery check?</p>",
+        window: { title: game.i18n.localize("PEN.chirurgery") },
+        content: "<p>" + game.i18n.localize("PEN.chirurgeryCheck") + "</p>",
         buttons: [
           {
-            label: "Critical",
+            label: game.i18n.localize("PEN.resultLevel.3"),
             action: "critical",
           },
           {
-            label: "Success",
+            label: game.i18n.localize("PEN.resultLevel.2"),
             action: "success",
           },
           {
-            label: "Failure",
+            label: game.i18n.localize("PEN.resultLevel.1"),
             action: "fail",
             default: true,
           },
           {
-            label: "Fumble",
+            label: game.i18n.localize("PEN.resultLevel.0"),
             action: "fumble",
           },
         ],
@@ -200,7 +200,17 @@ export class WoundTrackerDialog extends api.HandlebarsApplicationMixin(api.Docum
   }
 
   // save the point spend
-  static async #savePointSpend(event, form, formData) {}
+  static async #savePointSpend(event, form, formData) {
+    if (formData?.object?.aggravation) {
+      await this.actor.update({ "system.aggravDam": formData.object.aggravation });
+    }
+    if (formData?.object?.deterioration) {
+      await this.actor.update({ "system.deterDam": formData.object.deterioration });
+    }
+    if (formData?.object?.newhp && !game.settings.get("Pendragon", "trackWnd")) {
+      await this.actor.update({ "system.hp.value": formData.object.newhp });
+    }
+  }
 
   async _prepareContext(options) {
     const context = {
@@ -208,6 +218,7 @@ export class WoundTrackerDialog extends api.HandlebarsApplicationMixin(api.Docum
       system: this.actor.system,
       wounds: this.actor.items.filter((itm) => itm.type === "wound"),
       buttons: [{ type: "submit", label: "PEN.spendPoints" }],
+      trackWnd: game.settings.get("Pendragon", "trackWnd"),
     };
     context.conditions = CONFIG.statusEffects
       .map((c) => {

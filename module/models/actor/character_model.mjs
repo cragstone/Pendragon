@@ -201,7 +201,9 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
     this.move = this.move + this.moveAdj;
     this.armour = this.armour + this.armourAdj;
 
-    this.hp.value = this.hp.max - this.totalWounds - this.aggravDam - this.deterDam;
+    if (game.settings.get("Pendragon", "trackWnd")) {
+      this.hp.value = this.hp.max - this.totalWounds - this.aggravDam - this.deterDam;
+    }
     this.hp.unconscious = Math.round(this.hp.max / 4);
   }
 }
