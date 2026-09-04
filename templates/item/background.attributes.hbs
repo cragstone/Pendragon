@@ -1,0 +1,73 @@
+<section class="tab attributes {{tab.cssClass}}" data-group="primary" data-tab="attributes">
+
+  {{!-- Characteristics Header --}}
+  <section class="item-improv-grid" style="padding-top: 10px;">
+      <div class="stat-name-input bold" style="padding-top:2px;">{{ localize 'PEN.type'}}:&nbsp</div>
+      <div class="stat-name">
+        <select class="centre" data-handle-change name="system.subtype">
+          {{selectOptions backgroundType selected=item.system.subtype}}
+        </select>
+      </div>
+      <div class="stat-name left bold new-row">{{localize 'PEN.manor.baseAnnCost'}}</div>
+      <div class="small-cost-grid">
+        <div class="stat-name-input"><input class="centre" name="system.annualCost.libra" type="number" value="{{system.annualCost.libra}}"/></div>    
+        <div class="stat-name centre" style="padding-top: 3px;">/</div>
+        <div class="stat-name-input  centre"><input class="centre" name="system.annualCost.denarii" type="number" value="{{system.annualCost.denarii}}"/></div>      
+      </div>
+      {{#if hasOwner}}
+      <div class="stat-name left bold new-row">{{localize 'PEN.manor.skillCost'}}</div>
+      <div class="small-cost-grid">
+        <div class="stat-name centre">{{system.skillCost.libra}}</div>    
+        <div class="stat-name centre">/</div>
+        <div class="stat-name centre">{{system.skillCost.denarii}}</div>      
+      </div>
+      <div class="stat-name left bold new-row">{{localize 'PEN.manor.totalAnnCost'}}</div>
+      <div class="small-cost-grid">
+        <div class="stat-name centre bold">{{system.totalCost.libra}}</div>    
+        <div class="stat-name centre bold">/</div>
+        <div class="stat-name centre bold">{{system.totalCost.denarii}}</div>      
+      </div>      
+      {{/if}}
+      <div class="stat-name bold left">{{localize 'PEN.manor.baronyStart'}}</div>
+      <div class="centre"><a class="item-control large-icon" data-action="itemToggle" data-property = "starting"><i class="{{#if item.system.starting}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>      
+      {{#if hasOwner}}
+        <br>
+        <div class="stat-name left bold new-row">{{localize 'PEN.born'}}</div>
+        <div class="stat-name-input  centre"><input class="centre" name="system.born" type="number" value="{{system.born}}"/></div> 
+        <div class="stat-name left bold new-row">{{localize 'PEN.died'}}</div>
+        <div class="stat-name-input  centre"><input class="centre" name="system.died" type="number" value="{{system.died}}"/></div>         
+      {{/if}}
+  </section>
+
+
+
+  <br>
+
+  {{!--Skills Block --}}
+  <div class="horizontalboxed {{#if isGM}} droppable {{/if}}" data-collection = "skills" >
+    <div class="stat-name indent bold">{{ localize "PEN.skills"}}</div>
+    <ol class="item-list">
+      {{#each skills as |skill|}}
+        <li class="item flexrow" data-item-id="{{skill.uuid}}" data-pid = "{{skill.pid}}" >
+          <div class="item-name flexrow">
+            {{#if skill.valid}}
+              <div class="stat-name heading">{{skill.name}}</div>
+            {{else}}
+              <div class="stat-name result-success italics">{{skill.name}} [{{localize 'PEN.invalid'}}]</div>
+            {{/if}}
+          </div>
+          <div>{{skill.score}}</div>
+          <div class="item-controls">
+            {{#if ../isGM}}
+              <a class="item-control item-delete" title="{{localize 'PEN.deleteItem'}}" data-action="deleteItem"><i class="fas fa-trash"></i></a>
+            {{/if}}
+          </div>
+        </li>
+      {{else}}
+        <div class="centre stat-name italics">{{localize 'PEN.emptyList'}}</div>              
+      {{/each}}
+    </ol>
+  </div>      
+  <br>
+
+</section>

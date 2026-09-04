@@ -1,0 +1,58 @@
+<section class='character tab improvements {{tab.cssClass}}' data-group='primary' data-tab='improvements'>
+
+    <table>
+        <tbody>
+          <tr>
+              <th>{{localize 'PEN.manor.improvement'}}</th>
+              <th class="centre">{{localize 'PEN.type'}}</th>
+              <th class="centre">{{localize 'PEN.manor.incomeShort'}}</th>
+              <th class="centre">{{localize 'PEN.manor.status'}}</th>     
+              <th class="centre">&nbsp</th>              
+          </tr>
+          {{#each improvements as |improv key|}}
+          <tr data-itemid ="{{improv._id}}">
+            <td>{{improv.name}}</td>
+            <td class="centre">{{improv.label}}</td>
+            {{#if improv.assized}}
+                <td class="centre"></td>
+            {{else}}
+                <td class="centre">{{improv.system.income.libra}} / {{improv.system.income.denarii}}</td>
+            {{/if}}
+            <td class="centre">{{improv.statusLabel}}</td>               
+            <td>
+                <a class="item-control medium-icon fade" data-action="viewDoc"><i data-tooltip="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
+                <a class="item-control  medium-icon fade" data-action="deleteDoc"><i data-tooltip="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+          <tr>
+              <th>{{localize 'PEN.manor.defenses'}}</th>
+              <th class="centre">{{localize 'PEN.type'}}</th>
+              <th class="centre">{{localize 'PEN.manor.dvAbbr'}}</th>
+              <th class="centre">{{localize 'PEN.manor.status'}}</th>     
+              <th class="centre">&nbsp</th>              
+          </tr>
+          {{#each defenses as |improv key|}}
+          <tr data-itemid ="{{improv._id}}">
+            <td>{{improv.name}}</td>
+            <td class="centre">{{improv.label}}</td>
+            <td  class="centre" data-tooltip="{{improv.system.dv.label}}">{{improv.system.dv.value}}</td>
+            <td class="centre">{{improv.statusLabel}}</td>               
+            <td>
+                <a class="item-control medium-icon fade" data-action="viewDoc"><i data-tooltip="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
+                <a class="item-control  medium-icon fade" data-action="deleteDoc"><i data-tooltip="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+    </table>
+    <div class="stat-name" data-tooltip="{{actor.dvLabelHint}}">{{localize 'PEN.manor.dvAbbr'}}: {{actor.dvLabel}}</div>
+
+</section>

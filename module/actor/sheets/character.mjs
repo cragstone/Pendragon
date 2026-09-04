@@ -61,6 +61,8 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       familyRoll: this._familyRoll,
       switchSheet: this._onSwitchSheet,
       toggleHorse: this._toggleHorse,
+      viewEstate: this._viewEstate,
+      deleteEstate: this._deleteEstate,
     },
     window: {
       resizable: true,
@@ -274,7 +276,6 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     if (this.actor.name.toUpperCase() === game.i18n.localize("TYPES.Actor.character").toUpperCase()) {
       context.hasName = false;
     }
-
     let knightly = await PendragonCharacterSheet.testKnightly(this.actor);
     context.knightly = knightly.pass;
     context.knightlyLabel = knightly.label;
@@ -323,6 +324,24 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       },
     );
 
+    const estates = [];
+    for (let a of this.document.system.estates) {
+      let tempActor = await fromUuid(a)
+      if (tempActor) {
+        estates.push ({
+          uuid: a,
+          name: tempActor.name
+        })
+      } else {
+        estates.push ({
+          uuid: a,
+          name: "Invalid"
+        })        
+      }
+    }
+    context.estates = estates.sort(function (a, b) {
+      return a.name.localeCompare(b.name);
+    });
     this._prepareItems(context);
     this._prepareEffects(context);
 
@@ -1130,9 +1149,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
 
   //Does the Character qualify for Knighthood
   static async testKnightly(actor) {
-    //    let pass = 0;
     let pass = game.i18n.localize("PEN.knightly.pass");
-
     let skillCount = game.i18n.localize("PEN.knightly.pass");
     let swordCheck = game.i18n.localize("PEN.knightly.pass");
     let chargeCheck = game.i18n.localize("PEN.knightly.pass");
@@ -1204,6 +1221,23 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     } else return console.warn("Could not find document class");
   }
 
+  //View Estate Actor
+  static async _viewEstate(event, target) {
+    const { itemid } = target.closest("[data-itemid]")?.dataset ?? {};
+    const estateActor = await fromUuid(itemid);
+    if (!estateActor) return;
+    estateActor.sheet.render(true);
+  }
+
+  //Delete an Actor from the collection
+  static async _deleteEstate(event, target) {
+    if (event.detail === 2) {
+      const { itemid } = target.closest("[data-itemid]")?.dataset ?? {};
+      const coll = this.actor.system.estates ?? [];
+      await this.actor.update({ "system.estates": coll.filter((itm) => itm != itemid) });
+    }
+  }
+
   //-------------Drag and Drop--------------
 
   // Define whether a user is able to begin a dragstart workflow for a given drag selector
@@ -1258,64 +1292,88 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   //Dropping an actor on to character
   async _onDropActor(event, data) {
     event.preventDefault();
-    if (!game.settings.get("Pendragon", "useRelation")) {
-      ui.notifications.warn(game.i18n.localize("PEN.noRelation"));
-      return;
-    }
-    const dataList = await PENUtilities.getDataFromDropEvent(event, "Actor");
-    for (const companion of dataList) {
-      let present = this.actor.items
-        .filter((itm) => itm.type === "relationship")
-        .filter((nitm) => nitm.system.sourceUuid === companion.uuid).length;
-      if (present > 0) {
-        ui.notifications.warn(game.i18n.format("PEN.relationPresent", { name: companion.name }));
-        continue;
-      }
+    let collectionName = event.target.closest("[data-collection]")?.dataset.collection ?? "";
 
-      let actr1 = companion.uuid;
-      let actr2 = this.actor.uuid;
-      if (actr1 === actr2) {
-        continue;
+    //If adding a relationship
+    if (collectionName === "relationship") {
+      if (!game.settings.get("Pendragon", "useRelation")) {
+        ui.notifications.warn(game.i18n.localize("PEN.noRelation"));
+        return;
       }
-      let name = companion.name + "-" + this.actor.name;
-      let typeLabel = companion.type;
-      let born = 0;
-      let squire = 0;
-      if (companion.type == "follower") {
-        typeLabel = companion.system.subtype;
-        born = companion.system.born;
-        if (companion.system.subtype === "squire") {
-          squire = companion.system.squire;
+      const dataList = await PENUtilities.getDataFromDropEvent(event, "Actor");
+      for (const companion of dataList) {
+        //Only allow certain actor types to be added
+        if (!['character','follower'].includes(companion.type)) {continue}
+        let present = this.actor.items
+          .filter((itm) => itm.type === "relationship")
+          .filter((nitm) => nitm.system.sourceUuid === companion.uuid).length;
+        if (present > 0) {
+          ui.notifications.warn(game.i18n.format("PEN.relationPresent", { name: companion.name }));
+          continue;
         }
-      } else if (companion.type === "character") {
-        born = companion.system.born;
+
+        let actr1 = companion.uuid;
+        let actr2 = this.actor.uuid;
+        if (actr1 === actr2) {
+          continue;
+        }
+        let name = companion.name + "-" + this.actor.name;
+        let typeLabel = companion.type;
+        let born = 0;
+        let squire = 0;
+        if (companion.type == "follower") {
+          typeLabel = companion.system.subtype;
+          born = companion.system.born;
+          if (companion.system.subtype === "squire") {
+            squire = companion.system.squire;
+          }
+        } else if (companion.type === "character") {
+          born = companion.system.born;
+        }
+
+        const itemData = {
+          name: name,
+          type: "relationship",
+          system: {
+            sourceUuid: actr1,
+            targetUuid: actr2,
+            person1Name: companion.name,
+            person2Name: this.actor.name,
+            typeLabel: typeLabel,
+            born: born,
+            squire: squire,
+          },
+        };
+
+        // Finally, create the item!
+        let item = await Item.create(itemData, { parent: this.actor });
+        let key = await game.system.api.pid.guessId(item);
+        await item.update({
+          "flags.Pendragon.pidFlag.id": key,
+          "flags.Pendragon.pidFlag.lang": game.i18n.lang,
+          "flags.Pendragon.pidFlag.priority": 0,
+        });
+        item.sheet.render(true);
       }
-
-      const itemData = {
-        name: name,
-        type: "relationship",
-        system: {
-          sourceUuid: actr1,
-          targetUuid: actr2,
-          person1Name: companion.name,
-          person2Name: this.actor.name,
-          typeLabel: typeLabel,
-          born: born,
-          squire: squire,
-        },
-      };
-
-      // Finally, create the item!
-      let item = await Item.create(itemData, { parent: this.actor });
-      let key = await game.system.api.pid.guessId(item);
-      await item.update({
-        "flags.Pendragon.pidFlag.id": key,
-        "flags.Pendragon.pidFlag.lang": game.i18n.lang,
-        "flags.Pendragon.pidFlag.priority": 0,
-      });
-      item.sheet.render(true);
+      return false;
+      
+      //If adding an Estate
+    } else if (collectionName === "estates") {
+      const dataList = await PENUtilities.getDataFromDropEvent(event, "Actor");
+      const collection = this.actor.system[collectionName] ? foundry.utils.duplicate(this.actor.system[collectionName]): [];  
+      if (!dataList) {return};
+      for (let estate of dataList) {
+        if (!["manor"].includes(estate.type)) {
+          continue;
+        }
+        if (this.actor.system.estates.includes(estate.uuid)) {
+          continue
+        };
+        collection.push(estate.uuid);        
+      }      
+      await this.actor.update({ [`system.${collectionName}`]: collection });
+      return
     }
-    return false;
   }
 
   //Handle dropping of an item reference or item data onto an Actor Sheet

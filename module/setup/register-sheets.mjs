@@ -4,6 +4,7 @@ import { PendragonFollowerSheet } from "../actor/sheets/follower.mjs";
 import { PendragonPartySheet } from "../actor/sheets/party.mjs";
 import { PendragonEncounterSheet } from "../actor/sheets/encounter.mjs";
 import { PendragonBattleSheet } from "../actor/sheets/battle.mjs";
+import { PendragonManorSheet } from "../actor/sheets/manor.mjs";
 import { PendragonSkillSheet } from "../item/sheets/skill.mjs";
 import { PendragonTraitSheet } from "../item/sheets/trait.mjs";
 import { PendragonHistorySheet } from "../item/sheets/history.mjs";
@@ -23,6 +24,9 @@ import { PendragonIdealSheet } from "../item/sheets/ideal.mjs";
 import { PendragonRelationshipSheet } from "../item/sheets/relationship.mjs";
 import { PendragonRollTableConfig } from "./pen-roll-table-config.mjs";
 import { PendragonCharacterSheetv2 } from "../actor/sheets/characterv2.mjs";
+import { PendragonManorimpSheet } from "../item/sheets/manorImp.mjs";
+import { PendragonBaronySheet } from "../actor/sheets/barony.mjs";
+import { PendragonBackgroundSheet } from "../item/sheets/background.mjs";
 
 export function registerSheets() {
   const { sheets } = foundry.applications;
@@ -59,6 +63,16 @@ export function registerSheets() {
 
   collections.Actors.registerSheet("Pendragon", PendragonBattleSheet, {
     types: ["battle"],
+    makeDefault: true,
+  });
+
+  collections.Actors.registerSheet("Pendragon", PendragonManorSheet, {
+    types: ["manor"],
+    makeDefault: true,
+  });
+
+  collections.Actors.registerSheet("Pendragon", PendragonBaronySheet, {
+    types: ["barony"],
     makeDefault: true,
   });
 
@@ -145,6 +159,16 @@ export function registerSheets() {
 
   collections.Items.registerSheet("Pendragon", PendragonRelationshipSheet, {
     types: ["relationship"],
+    makeDefault: true,
+  });
+
+  collections.Items.registerSheet("Pendragon", PendragonManorimpSheet, {
+    types: ["manorImp"],
+    makeDefault: true,
+  });
+
+  collections.Items.registerSheet("Pendragon", PendragonBackgroundSheet, {
+    types: ["background"],
     makeDefault: true,
   });
 

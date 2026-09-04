@@ -1,4 +1,4 @@
-<section class='character tab follower {{tab.cssClass}}' data-group='primary' data-tab='follower'>
+<section class='character tab follower {{tab.cssClass}}'  data-collection="relationship" data-group='primary' data-tab='follower'>
   <div class="follower-list-grid">
     <div class="stat-name grid-item bold">{{localize 'PEN.person'}}</div>
     <div class="stat-name grid-item bold centre">{{localize 'PEN.type'}}</div>
@@ -9,7 +9,7 @@
   </div>  
 
   {{#each followers as |follower key|}}
-    <li class="item follower-list-grid" data-drag='true' data-document-class='Item' data-item-id="{{follower._id}}">
+    <li class="item follower-list-grid droppable" data-drag='true' data-document-class='Item' data-item-id="{{follower._id}}">
       <div class="stat-name grid-item new-row rollable" data-action="openActor" data-actoruuid = {{follower.system.sourceUuid}}>{{follower.system.person1Name}}</div>
       <div class="stat-name centre grid-item">{{follower.system.typeName}}</div>
       <div class="stat-name centre grid-item">{{follower.system.connection}}</div>
