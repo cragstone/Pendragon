@@ -326,17 +326,17 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
 
     const estates = [];
     for (let a of this.document.system.estates) {
-      let tempActor = await fromUuid(a)
+      let tempActor = await fromUuid(a);
       if (tempActor) {
-        estates.push ({
+        estates.push({
           uuid: a,
-          name: tempActor.name
-        })
+          name: tempActor.name,
+        });
       } else {
-        estates.push ({
+        estates.push({
           uuid: a,
-          name: "Invalid"
-        })        
+          name: "Invalid",
+        });
       }
     }
     context.estates = estates.sort(function (a, b) {
@@ -1303,7 +1303,9 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       const dataList = await PENUtilities.getDataFromDropEvent(event, "Actor");
       for (const companion of dataList) {
         //Only allow certain actor types to be added
-        if (!['character','follower'].includes(companion.type)) {continue}
+        if (!["character", "follower"].includes(companion.type)) {
+          continue;
+        }
         let present = this.actor.items
           .filter((itm) => itm.type === "relationship")
           .filter((nitm) => nitm.system.sourceUuid === companion.uuid).length;
@@ -1356,23 +1358,27 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
         item.sheet.render(true);
       }
       return false;
-      
+
       //If adding an Estate
     } else if (collectionName === "estates") {
       const dataList = await PENUtilities.getDataFromDropEvent(event, "Actor");
-      const collection = this.actor.system[collectionName] ? foundry.utils.duplicate(this.actor.system[collectionName]): [];  
-      if (!dataList) {return};
+      const collection = this.actor.system[collectionName]
+        ? foundry.utils.duplicate(this.actor.system[collectionName])
+        : [];
+      if (!dataList) {
+        return;
+      }
       for (let estate of dataList) {
         if (!["manor"].includes(estate.type)) {
           continue;
         }
         if (this.actor.system.estates.includes(estate.uuid)) {
-          continue
-        };
-        collection.push(estate.uuid);        
-      }      
+          continue;
+        }
+        collection.push(estate.uuid);
+      }
       await this.actor.update({ [`system.${collectionName}`]: collection });
-      return
+      return;
     }
   }
 

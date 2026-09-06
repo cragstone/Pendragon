@@ -71,6 +71,7 @@
   --frame-border-color: #240202;
   --heading-color: var(--pendragon-darkred);
   --active-effect-aura: url("../assets/icons/inverse-aura.svg");
+  --help-icon-colur: oklch(0.79268 0.17097 70.665);
 }
 
 .theme-light {

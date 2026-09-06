@@ -93,7 +93,7 @@ Hooks.once("init", async function () {
   CONFIG.Actor.dataModels.character = CharacterData;
   CONFIG.Actor.dataModels.npc = NpcData;
   CONFIG.Actor.dataModels.manor = ManorData;
-  CONFIG.Actor.dataModels.barony = BaronyData;  
+  CONFIG.Actor.dataModels.barony = BaronyData;
   CONFIG.Actor.dataModels.follower = FollowerData;
   CONFIG.Actor.dataModels.party = PartyData;
   CONFIG.Actor.dataModels.encounter = EncounterData;
@@ -118,7 +118,7 @@ Hooks.once("init", async function () {
   CONFIG.Item.dataModels.homeland = HomelandData;
   CONFIG.Item.dataModels.ideal = IdealData;
   CONFIG.Item.dataModels.relationship = RelationshipData;
-  CONFIG.Item.dataModels.background = BackgroundData;  
+  CONFIG.Item.dataModels.background = BackgroundData;
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = PendragonActor;
@@ -159,17 +159,14 @@ Hooks.on("renderSettingsConfig", (app, html, options) => {
   const systemTab = $(app.form).find(".tab[data-tab=system]");
 
   systemTab
-    .find("input[name=Pendragon\\.autoXP]")
+    .find("button[data-key=Pendragon\\.combatOptions]")
     .closest("div.form-group")
-    .before('<h3 class="setting-header">' + game.i18n.localize("PEN.Settings.xpCheck") + "</h3>");
+    .before(
+      "<div style='font-size: 20px; text-align: right'><a href='https://github.com/cragstone/Pendragon/wiki/Game-Settings'><i class='fas fa-circle-question'></i></a></div>",
+    );
 
   systemTab
-    .find("input[name=Pendragon\\.switchShift]")
-    .closest("div.form-group")
-    .before('<h3 class="setting-header">' + game.i18n.localize("PEN.Settings.diceRolls") + "</h3>");
-
-  systemTab
-    .find("input[name=Pendragon\\.tokenVision]")
+    .find("input[name=Pendragon\\.manualGlory]")
     .closest("div.form-group")
     .before('<h3 class="setting-header">' + game.i18n.localize("PEN.Settings.other") + "</h3>");
 });

@@ -33,6 +33,7 @@ export class PendragonManorimpSheet extends PendragonItemSheet {
       editEffect: this._onEditActiveEffect,
       removeEffect: this._onDeleteActiveEffect,
       toggleEffect: this._onToggleActiveEffect,
+      openWiki: this._openWiki,
     },
     dragDrop: [{ dropSelector: ".droppable" }],
   };
@@ -108,7 +109,7 @@ export class PendragonManorimpSheet extends PendragonItemSheet {
     const tempRolls = this.item.system.annrolls ?? [];
     const tempOptChecks = this.item.system.optchecks ?? [];
     const tempOptRolls = this.item.system.optrolls ?? [];
-    const tempFolks = this.item.system.npcs ?? [];    
+    const tempFolks = this.item.system.npcs ?? [];
     const annualChecks = [];
     const annualRolls = [];
     const optChecks = [];
@@ -128,7 +129,7 @@ export class PendragonManorimpSheet extends PendragonItemSheet {
     });
     tempFolks.sort(function (a, b) {
       return a.name.localeCompare(b.name);
-    });    
+    });
 
     for (let pItm of tempChecks) {
       let valid = true;
@@ -210,7 +211,7 @@ export class PendragonManorimpSheet extends PendragonItemSheet {
     sheetData.annualRolls = annualRolls;
     sheetData.optChecks = optChecks;
     sheetData.optRolls = optRolls;
-    sheetData.folks = folks;    
+    sheetData.folks = folks;
 
     // these two values could be set during _preparePartContext
     sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
@@ -303,71 +304,71 @@ export class PendragonManorimpSheet extends PendragonItemSheet {
 
     //If dropping an Actor add the background character PID
 
-      let type = ["passion", "skill", "trait","background"];
-      const collectionName = event.currentTarget.dataset.collection ?? "annchecks";
-      const dataList = await PENUtilities.getDataFromDropEvent(event, "Item");
-      const collection = this.item.system[collectionName]
-        ? foundry.utils.duplicate(this.item.system[collectionName])
-        : [];
+    let type = ["passion", "skill", "trait", "background"];
+    const collectionName = event.currentTarget.dataset.collection ?? "annchecks";
+    const dataList = await PENUtilities.getDataFromDropEvent(event, "Item");
+    const collection = this.item.system[collectionName]
+      ? foundry.utils.duplicate(this.item.system[collectionName])
+      : [];
 
-      for (const item of dataList) {
-        if (!item || !item.system) continue;
-        if (!type.includes(item.type)) {
+    for (const item of dataList) {
+      if (!item || !item.system) continue;
+      if (!type.includes(item.type)) {
+        continue;
+      }
+
+      //If no PID then give warning and move to next item
+      if (typeof item.flags?.Pendragon?.pidFlag?.id === "undefined") {
+        ui.notifications.warn(game.i18n.format("PEN.PIDFlag.noPID", { type: item.name }));
+        continue;
+      }
+
+      let opposed = false;
+      let tempName = item.name;
+
+      //If a trait check to see if opposed is selected
+      if (item.type === "trait") {
+        let confirmation = await PENDialog.wait({
+          window: { title: "Select Trait?" },
+          content: '<br><div class="stat-name centre bold">Please select the trait to add</div><div></div><br>',
+          buttons: [
+            { label: item.name, action: false },
+            { label: item.system.oppName, action: true },
+          ],
+        });
+        if (confirmation === null) {
           continue;
         }
-
-        //If no PID then give warning and move to next item
-        if (typeof item.flags?.Pendragon?.pidFlag?.id === "undefined") {
-          ui.notifications.warn(game.i18n.format("PEN.PIDFlag.noPID", { type: item.name }));
-          continue;
+        if (confirmation) {
+          tempName = item.system.oppName;
+          opposed = true;
         }
+      }
 
-        let opposed = false;
-        let tempName = item.name;
-
-        //If a trait check to see if opposed is selected
-        if (item.type === "trait") {
-          let confirmation = await PENDialog.wait({
-            window: { title: "Select Trait?" },
-            content: '<br><div class="stat-name centre bold">Please select the trait to add</div><div></div><br>',
-            buttons: [
-              { label: item.name, action: false },
-              { label: item.system.oppName, action: true },
-            ],
-          });
-          if (confirmation === null) {
-            continue;
-          }
-          if (confirmation) {
-            tempName = item.system.oppName;
-            opposed = true;
-          }
-        }
-
-        //If Duplicate item then give warning and move to next item
-        if (item.type != "trait") {
-          if (collection.find((el) => el.pid === item.flags?.Pendragon?.pidFlag?.id)) {
-            ui.notifications.warn(item.name + " : " + game.i18n.localize("PEN.dupItem"));
-            continue;
-          }
-        } else if (collection.find((el) => el.pid === item.flags?.Pendragon?.pidFlag?.id && el.opposed === opposed)) {
+      //If Duplicate item then give warning and move to next item
+      if (item.type != "trait") {
+        if (collection.find((el) => el.pid === item.flags?.Pendragon?.pidFlag?.id)) {
           ui.notifications.warn(item.name + " : " + game.i18n.localize("PEN.dupItem"));
           continue;
         }
-
-        //Add item to collection
-        collection.push({
-          name: tempName,
-          opposed: opposed,
-          uuid: item.uuid,
-          pid: item.flags.Pendragon.pidFlag.id,
-          subType: item.type,
-        });
+      } else if (collection.find((el) => el.pid === item.flags?.Pendragon?.pidFlag?.id && el.opposed === opposed)) {
+        ui.notifications.warn(item.name + " : " + game.i18n.localize("PEN.dupItem"));
+        continue;
       }
-      await this.item.update({ [`system.${collectionName}`]: collection });
-      //Empty Array
-      collection.length = 0;
-      return;
+
+      //Add item to collection
+      collection.push({
+        name: tempName,
+        opposed: opposed,
+        uuid: item.uuid,
+        pid: item.flags.Pendragon.pidFlag.id,
+        subType: item.type,
+      });
+    }
+    await this.item.update({ [`system.${collectionName}`]: collection });
+    //Empty Array
+    collection.length = 0;
+    return;
   }
 
   //Delete an trait from the collection
@@ -377,11 +378,9 @@ export class PendragonManorimpSheet extends PendragonItemSheet {
       const { collection } = target.closest("[data-collection]").dataset ?? {};
       const { opptest } = target.closest("[data-opptest]")?.dataset ?? {};
       const coll = this.item.system[collection] ?? [];
-      if (collection === 'npcs') {
+      if (collection === "npcs") {
         await this.item.update({
-          [`system.${collection}`]: coll.filter(
-            (itm) => itm.uuid != itemId
-          ),
+          [`system.${collection}`]: coll.filter((itm) => itm.uuid != itemId),
         });
       } else {
         await this.item.update({
@@ -392,5 +391,5 @@ export class PendragonManorimpSheet extends PendragonItemSheet {
       }
     }
     return;
-  }  
+  }
 }

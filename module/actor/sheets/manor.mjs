@@ -34,6 +34,7 @@ export class PendragonManorSheet extends api.HandlebarsApplicationMixin(sheets.A
       viewEnf: this._viewEnf,
       deleteEnf: this._deleteEnf,
       itemToggle: this._itemToggle,
+      openWiki: this._openWiki,
     },
   };
 
@@ -72,7 +73,7 @@ export class PendragonManorSheet extends api.HandlebarsApplicationMixin(sheets.A
     skills: {
       template: "systems/Pendragon/templates/actor/manor/manor.skills.hbs",
       scrollable: [""],
-    },    
+    },
     gmTab: {
       template: "systems/Pendragon/templates/actor/gmtab.hbs",
       scrollable: [""],
@@ -137,12 +138,13 @@ export class PendragonManorSheet extends api.HandlebarsApplicationMixin(sheets.A
     context.isGM = game.user.isGM;
     context.system = this.actor.system;
     context.enfeoffedLabel = game.i18n.localize("PEN.manor.dropActor");
+    context.showHelp = game.settings.get("Pendragon", "showHelp");
     if (this.actor.system.enfeoffed.npc) {
       context.enfeoffedLabel = game.i18n.localize("PEN.invalid");
       let tempActor = await fromUuid(this.actor.system.enfeoffed.npc);
       if (tempActor) {
         context.enfeoffedLabel = tempActor.name;
-      } 
+      }
     }
     context.tabs = this._getTabs(options.parts);
 
@@ -166,56 +168,63 @@ export class PendragonManorSheet extends api.HandlebarsApplicationMixin(sheets.A
     );
 
     await this._prepareItems(context);
-    if (this.actor.system.enfeoffed.npc != null) {context.showOption = false}
+    if (this.actor.system.enfeoffed.npc != null) {
+      context.showOption = false;
+    }
     return context;
   }
 
   async _prepareItems(context) {
     // Initialize containers.
     const improvements = [];
-    const defenses = [];    
+    const defenses = [];
     const folks = [];
     const skills = [];
-    let options = {none:game.i18n.localize("PEN.manor.selectFrom"),}
+    const traits = [];
+    let options = { none: game.i18n.localize("PEN.manor.selectFrom") };
     context.showOption = false;
-    let newOption = {}
+    let newOption = {};
     for (let item of this.actor.items) {
       if (item.type === "manorImp") {
         item.label = game.i18n.localize("PEN.manor." + item.system.subtype);
         item.system.dv.label = game.i18n.localize("PEN.dv." + item.system.dv.pos);
         if (item.system.subtype === "def") {
-          item.label = item.system.dv.label
-        }        
+          item.label = item.system.dv.label;
+        }
         item.statusLabel = game.i18n.localize("PEN.manor." + item.system.status);
         item.assized = false;
         if (item.system.yearAcquired <= this.actor.system.yearAssized) {
           item.assized = true;
         }
         if (item.system.subtype === "def") {
-          item.pos = this.actor.system.dv[item.system.dv.pos].pos
-          defenses.push(item)
+          item.pos = this.actor.system.dv[item.system.dv.pos].pos;
+          defenses.push(item);
         } else {
           improvements.push(item);
         }
       } else if (item.type === "background") {
-        item.typeLabel = game.i18n.localize('PEN.manor.'+item.system.subtype)
-        newOption = { [item.id]: item.name, };
-        options = Object.assign(options, newOption)
+        item.typeLabel = game.i18n.localize("PEN.manor." + item.system.subtype);
+        newOption = { [item.id]: item.name };
+        options = Object.assign(options, newOption);
         context.showOption = true;
         folks.push(item);
-      } else if (item.type === "skill") {
+      } else if (["skill", "trait"].includes(item.type)) {
         if (!item.system.npcSource) {
-          item.sourceLabel = ""
-        } else {  
-          let tempID = item.system.npcSource.split("Item.")[1]
-          let tempName = this.actor.items.get(tempID)
+          item.sourceLabel = "";
+        } else {
+          let tempID = item.system.npcSource.split("Item.")[1];
+          let tempName = this.actor.items.get(tempID);
           if (tempName) {
-            item.sourceLabel = tempName.name
+            item.sourceLabel = tempName.name;
           } else {
-            item.sourceLabel = game.i18n.localize("PEN.invalid")
+            item.sourceLabel = game.i18n.localize("PEN.invalid");
           }
         }
-        skills.push(item);
+        if (item.type === "skill") {
+          skills.push(item);
+        } else {
+          traits.push(item);
+        }
       }
     }
     context.folkList = options;
@@ -224,12 +233,16 @@ export class PendragonManorSheet extends api.HandlebarsApplicationMixin(sheets.A
     });
     context.improvements = improvements.sort(function (a, b) {
       return a.name.localeCompare(b.name);
-    });  
-    context.defenses = defenses.sort((a, b) => a.pos - b.pos);  
+    });
+    context.defenses = defenses.sort((a, b) => a.pos - b.pos);
 
     context.skills = skills.sort(function (a, b) {
       return a.name.localeCompare(b.name);
-    });       
+    });
+
+    context.traits = traits.sort(function (a, b) {
+      return a.name.localeCompare(b.name);
+    });
   }
 
   /** @override */
@@ -324,9 +337,12 @@ export class PendragonManorSheet extends api.HandlebarsApplicationMixin(sheets.A
       const item = this.actor.items.get(itemid);
       if (!item) return;
 
-      if (item.type ===  'background') {
-        let backItems = await this.actor.items.filter(itm => itm.system.npcSource === item.uuid).map((itm) => itm.id);
-        this.actor.deleteEmbeddedDocuments("Item",backItems)
+      if (item.type === "background") {
+        let backItems = await this.actor.items
+          .filter((itm) => ["skill", "trait"].includes(itm.type))
+          .filter((itm) => itm.system.npcSource === item.uuid)
+          .map((itm) => itm.id);
+        this.actor.deleteEmbeddedDocuments("Item", backItems);
         if (this.actor.system.enfeoffed.background === item.id) {
           await this.actor.update({
             "system.enfeoffed.background": "none",
@@ -357,6 +373,11 @@ export class PendragonManorSheet extends api.HandlebarsApplicationMixin(sheets.A
     }
   }
 
+  //Open Wiki Help Page
+  static async _openWiki(event, target) {
+    const url = target.dataset.property ?? "https://github.com/cragstone/Pendragon/wiki";
+    window.open(url, "_blank");
+  }
 
   // -----------------------------------LISTENERS-----------------------------------------
   //Activate event listeners using the prepared sheet HTML
@@ -364,7 +385,7 @@ export class PendragonManorSheet extends api.HandlebarsApplicationMixin(sheets.A
     this._dragDrop.forEach((d) => d.bind(this.element));
     this.element
       .querySelectorAll(".rollable.skill-name")
-      .forEach((n) => n.addEventListener("click", PENRollType._onSkillCheck.bind(this)));    
+      .forEach((n) => n.addEventListener("click", PENRollType._onSkillCheck.bind(this)));
   }
 
   //-------------Drag and Drop--------------
@@ -429,13 +450,13 @@ export class PendragonManorSheet extends api.HandlebarsApplicationMixin(sheets.A
       return false;
     }
     if (collectionName === "enfeoffed") {
-      if (!['character','npc','follower'].includes(dataList[0].type)) {
+      if (!["character", "npc", "follower"].includes(dataList[0].type)) {
         ui.notifications.warn(
           game.i18n.format("PEN.itemActormismatch", {
             itemType: game.i18n.localize("TYPES.Actor." + dataList[0].type),
             actorType: game.i18n.localize("TYPES.Actor." + this.actor.type),
           }),
-        );        
+        );
         return false;
       }
       if (this.actor.system.enfeoffed.npc) {
@@ -479,8 +500,8 @@ export class PendragonManorSheet extends api.HandlebarsApplicationMixin(sheets.A
 
     //If a background npc added then update add the skills and calculate background cost
     for (let newItm of list) {
-      if (newItm.type === 'background') {
-        await PENactorItemDrop._addBackgroundSkill(this.actor, newItm)
+      if (newItm.type === "background") {
+        await PENactorItemDrop._addBackgroundSkill(this.actor, newItm);
       }
     }
     return list;

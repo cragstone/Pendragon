@@ -1,11 +1,23 @@
 # CHANGELOG
 
+## 14.15
+
+- Functionality for the Nobles Handbook is being implemented in stages. A premium module will hopefully be out in due course with all the content already created for you.
+- Manors, Baronies, Background Characters and Estate Improvements have been added to the game.
+- Manors and Baroniess are Actors but you can drop them on to a character sheet https://github.com/cragstone/Pendragon/wiki/Manor https://github.com/cragstone/Pendragon/wiki/Barony
+- Background Characters are actually Items - they are the court/retinue for Manors and Baroniess - https://github.com/cragstone/Pendragon/wiki/Background-Character
+- Estate Improvements are Items used to improve a Manor or Barony
+- Migration of Game Instructions to the Github wiki has started. This should make it easier/quicker to update game instructions - https://github.com/cragstone/Pendragon/wiki
+- You will start to see an orange icon with a question mark on some part of Actor/Item sheets - clicking on it will open a browser window taking you to the relevant wiki page
+- There is a game setting (under Display Options) so users can turn this help icon off so it won't be displayed
+- Fixed an issue with ideals where the relevant skill, trait etc isn't on the character sheet
+
 ## 14.14
 - Fixed an issue where character creation was incorrectly flagging certain steps as completed
 
 ## 14.13
 
-- Character Sheet V2 has arrived, and it has Dark Mode.  This is all down to Johnny B who has delivered an absolute blinder.
+- Character Sheet V2 has arrived, and it has Dark Mode. This is all down to Johnny B who has delivered an absolute blinder.
 - There are some basic instructions and info available on the wiki - https://github.com/cragstone/Pendragon/wiki/Character-Sheet-Version-2
 - To toggle between the V1 and V2 sheets please use the button at the top right of the character sheet.
 - There is some functionality on V1 that isn't available on V2 but also additional functionality on V2.
@@ -16,6 +28,7 @@
 - Again, a huge thanks to Johnny for all his hard work and a shout out to Mr Primate who has helped review and and make edits.
 
 ## 14.12
+
 - Character Creation dialog box text etc now visible in Dark Mode.
 
 ## 14.11

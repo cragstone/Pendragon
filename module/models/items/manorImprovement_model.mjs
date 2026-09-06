@@ -1,14 +1,14 @@
-const { 
-  HTMLField, 
-  SchemaField, 
-  NumberField, 
-  StringField, 
-  FilePathField, 
-  ArrayField, 
-  BooleanField, 
+const {
+  HTMLField,
+  SchemaField,
+  NumberField,
+  StringField,
+  FilePathField,
+  ArrayField,
+  BooleanField,
   DataField,
   ObjectField,
-} =  foundry.data.fields;
+} = foundry.data.fields;
 
 export class ManorImprovementData extends foundry.abstract.TypeDataModel {
   static defineSchema() {

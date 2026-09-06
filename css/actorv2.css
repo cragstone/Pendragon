@@ -201,6 +201,7 @@
     background-color: rgba(0, 0, 0, 0);
     border: none;
     table-layout: fixed;
+    margin-top: 5px;
     p {
       padding-right: 5px;
     }
@@ -248,8 +249,18 @@
   }
 
   & ul.p6e li::marker {
-      content: "✠ ";
-      font-size: 15px;
-      color: var(--pendragon-darkred);
-    }
+    content: "✠ ";
+    font-size: 15px;
+    color: var(--pendragon-darkred);
+  }
+
+  & .rollable:hover {
+    cursor: pointer;
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    background-color: var(--rollable-highlight);
+    transform: scale(1.2);
+    padding-inline: 1rem;
+    border-color: var(--color-text-primary);
+    text-shadow: none;
+  }
 }

@@ -1,5 +1,12 @@
 <section class="tab mesnie {{tab.cssClass}}" data-group="primary" data-tab="mesnie">
-  <br>
+  <div class="helpicon">
+    {{#if showHelp}}
+      <a class="" data-action="openWiki" data-property="https://github.com/cragstone/Pendragon/wiki/Manor#mesnie-tab" data-tooltip='{{localize "PEN.openWiki"}}'>
+        <i class="fas fa-circle-question"></i>
+      </a>  
+    {{/if}}
+  </div>     
+
 
   <table>
     <tbody>

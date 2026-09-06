@@ -1,5 +1,12 @@
 <section class="tab details {{tab.cssClass}} droppable" data-collection = "enfeoffed" data-group="primary" data-tab="details">
-  <br>
+  <div class="helpicon">
+    {{#if showHelp}}
+      <a class="" data-action="openWiki" data-property="https://github.com/cragstone/Pendragon/wiki/Barony#details-tab" data-tooltip='{{localize "PEN.openWiki"}}'>
+        <i class="fas fa-circle-question"></i>
+      </a>  
+    {{/if}}
+  </div> 
+    
   <div class="barony-improv-grid droppable">
     <div class="stat-name left indent new-row">{{localize 'PEN.manor.county'}}</div>
     <div class="stat-name-input  centre"><input name="system.county" type="text" value="{{system.county}}"/></div>  
@@ -11,7 +18,9 @@
     <div class="stat-name-input  centre"><input name="system.yearAssized" type="number" value="{{system.yearAssized}}"/></div>     
     <div class="stat-name left indent new-row">{{localize 'PEN.manor.rent'}}{{localize 'PEN.manor.l'}}</div>
     <div class="stat-name-input"><input class="centre" name="system.rent.libra" type="number" value="{{system.rent.libra}}"/></div>    
-    
+    <div class="stat-name left indent new-row">{{localize 'PEN.manor.income'}}{{localize 'PEN.manor.l'}}</div>
+    <div class="stat-name centre">{{system.income.libra}}</div>      
+
     <div class="stat-name left indent new-row">{{localize 'PEN.manor.sol'}}</div>
     <div class="stat-name left indent new-row" style="padding-left:20px;">{{localize 'PEN.manor.solExpect'}}</div>
     <div class="stat-name centre">{{system.solCalc.libra}}</div>    

@@ -108,7 +108,7 @@
       "barony": {
         "htmlFields": ["description", "GMdescription"],
         "filePathFields": { "mapImage": ["IMAGE"] }
-      },      
+      },
       "follower": {
         "htmlFields": ["description"]
       },
@@ -123,7 +123,7 @@
     "Item": {
       "background": {
         "htmlFields": ["description"]
-      },      
+      },
       "gear": {
         "htmlFields": ["description", "GMdescription"]
       },
