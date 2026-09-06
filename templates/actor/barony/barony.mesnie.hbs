@@ -1,5 +1,11 @@
 <section class="tab mesnie {{tab.cssClass}}" data-group="primary" data-tab="mesnie">
-  <br>
+  <div class="helpicon">
+    {{#if showHelp}}
+      <a class="" data-action="openWiki" data-property="https://github.com/cragstone/Pendragon/wiki/Barony#mesnie-tab" data-tooltip='{{localize "PEN.openWiki"}}'>
+        <i class="fas fa-circle-question"></i>
+      </a>  
+    {{/if}}
+  </div> 
 
   <table>
     <tbody>
@@ -110,20 +116,14 @@
       <tr>
         <td class="left indent new-row">{{localize 'PEN.manor.vassalKnight'}}</td>
         <td class="centre">{{system.mesnie.vassalKnights.entitled}}</td>
-        <td class="stat-name-input">
-          <input class="centre" name="system.mesnie.vassalKnights.employed" type="number" value="{{system.mesnie.vassalKnights.employed}}"/>
-        </td>    
+        <td></td>    
         <td class="centre">{{system.mesnie.vassalKnights.total}}</td>   
-        <td class="stat-name-input">
-          <input class="centre" name="system.mesnie.vassalKnights.costPer.libra" type="number" value="{{system.mesnie.vassalKnights.costPer.libra}}"/>
-        </td>
-        <td class="centre">/</td>
-        <td class="stat-name-input">
-          <input class="centre" name="system.mesnie.vassalKnights.costPer.denarii" type="number" value="{{system.mesnie.vassalKnights.costPer.denarii}}"/>
-        </td>
-        <td class="centre">{{system.mesnie.vassalKnights.costTotal.libra}}</td>
-        <td class="centre">/</td>
-        <td class="centre">{{system.mesnie.vassalKnights.costTotal.denarii}}</td>    
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>  
       </tr>
 
       <tr>

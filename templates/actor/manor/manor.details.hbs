@@ -1,5 +1,12 @@
 <section class="tab details {{tab.cssClass}} droppable" data-collection = "enfeoffed" data-group="primary" data-tab="details">
-  <br>
+  <div class="helpicon">
+    {{#if showHelp}}
+      <a class="" data-action="openWiki" data-property="https://github.com/cragstone/Pendragon/wiki/Manor#details-tab" data-tooltip='{{localize "PEN.openWiki"}}'>
+        <i class="fas fa-circle-question"></i>
+      </a>  
+    {{/if}}
+  </div>     
+
   <div class="item-improv-grid droppable">
     <div class="stat-name left indent new-row">{{localize 'PEN.manor.yearAssized'}}</div>
     <div class="stat-name-input  centre"><input name="system.yearAssized" type="number" value="{{system.yearAssized}}"/></div>     

@@ -1,5 +1,11 @@
 <section class="tab attributes {{tab.cssClass}}" data-group="primary" data-tab="attributes">
-
+  <div class="helpicon">
+    {{#if showHelp}}
+      <a class="" data-action="openWiki" data-property="https://github.com/cragstone/Pendragon/wiki/Background-Character" data-tooltip='{{localize "PEN.openWiki"}}'>
+        <i class="fas fa-circle-question"></i>
+      </a>  
+    {{/if}}
+  </div>  
   {{!-- Characteristics Header --}}
   <section class="item-improv-grid" style="padding-top: 10px;">
       <div class="stat-name-input bold" style="padding-top:2px;">{{ localize 'PEN.type'}}:&nbsp</div>
@@ -45,7 +51,7 @@
 
   {{!--Skills Block --}}
   <div class="horizontalboxed {{#if isGM}} droppable {{/if}}" data-collection = "skills" >
-    <div class="stat-name indent bold">{{ localize "PEN.skills"}}</div>
+    <div class="stat-name indent bold">{{ localize "PEN.skillsTraits"}}</div>
     <ol class="item-list">
       {{#each skills as |skill|}}
         <li class="item flexrow" data-item-id="{{skill.uuid}}" data-pid = "{{skill.pid}}" >

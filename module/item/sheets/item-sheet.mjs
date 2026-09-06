@@ -35,6 +35,7 @@ export class PendragonItemSheet extends api.HandlebarsApplicationMixin(sheets.It
       isGM: game.user.isGM,
       fields: this.document.schema.fields,
       period: yearToPeriodName(this.item.system.yearAvailable),
+      showHelp: game.settings.get("Pendragon", "showHelp"),
     };
   }
 
@@ -136,5 +137,11 @@ export class PendragonItemSheet extends api.HandlebarsApplicationMixin(sheets.It
         "system.specName": specialName,
       });
     }
+  }
+
+  //Open Wiki Help Page
+  static async _openWiki(event, target) {
+    const url = target.dataset.property ?? "https://github.com/cragstone/Pendragon/wiki";
+    window.open(url, "_blank");
   }
 }

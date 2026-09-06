@@ -1,5 +1,12 @@
 <section class='character tab folk {{tab.cssClass}}' data-group='primary' data-tab='folk'>
   <div class="droppable" data-collection = "npcs">
+    <div class="helpicon">
+      {{#if showHelp}}
+        <a class="" data-action="openWiki" data-property="https://github.com/cragstone/Pendragon/wiki/Manor#people-tab" data-tooltip='{{localize "PEN.openWiki"}}'>
+          <i class="fas fa-circle-question"></i>
+        </a>  
+      {{/if}}
+    </div>     
     <table>
         <tbody>
           <tr>

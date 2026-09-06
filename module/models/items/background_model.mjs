@@ -23,11 +23,11 @@ export class BackgroundData extends PENItemData {
         //Total Annual maintenance cost
         libra: new NumberField({ ...requiredInteger, min: 0, initial: 0, persisted: false }),
         denarii: new NumberField({ ...requiredInteger, min: 0, initial: 0, persisted: false }),
-      }),            
+      }),
       skills: new ArrayField(new ObjectField()),
       starting: new BooleanField({ initial: false }),
-      born: new NumberField({ ...requiredInteger, min: 0, initial: 0}),
-      died: new NumberField({ ...requiredInteger, min: 0, initial: 0}),
+      born: new NumberField({ ...requiredInteger, min: 0, initial: 0 }),
+      died: new NumberField({ ...requiredInteger, min: 0, initial: 0 }),
     };
   }
 }

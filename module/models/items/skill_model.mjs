@@ -23,6 +23,7 @@ export class SkillData extends foundry.abstract.TypeDataModel {
       family: new NumberField({ ...requiredInteger, initial: 0 }),
       create: new NumberField({ ...requiredInteger, initial: 0 }),
       winter: new NumberField({ ...requiredInteger, initial: 0 }),
+      total: new NumberField({ ...requiredInteger, initial: 0, persisted: false }),
       base: new SchemaField({
         stat: new StringField({ required: true, blank: true, initial: "" }),
         multi: new NumberField({ required: true, nullable: false, min: 0, initial: 1 }),
@@ -31,5 +32,10 @@ export class SkillData extends foundry.abstract.TypeDataModel {
       categories: new ArrayField(new DataField(), { initial: [] }),
       npcSource: new StringField({ required: true, blank: true, initial: "" }),
     };
+  }
+
+  prepareDerivedData() {
+    super.prepareDerivedData();
+    this.total = this.value + this.culture + this.family + this.winter + this.create;
   }
 }

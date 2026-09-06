@@ -1,4 +1,11 @@
 <section class='character tab improvements {{tab.cssClass}}' data-group='primary' data-tab='improvements'>
+    <div class="helpicon">
+      {{#if showHelp}}
+        <a class="" data-action="openWiki" data-property="https://github.com/cragstone/Pendragon/wiki/Manor#improvements-tab" data-tooltip='{{localize "PEN.openWiki"}}'>
+          <i class="fas fa-circle-question"></i>
+        </a>  
+      {{/if}}
+    </div>     
 
     <table>
         <tbody>
@@ -43,7 +50,11 @@
           <tr data-itemid ="{{improv._id}}">
             <td>{{improv.name}}</td>
             <td class="centre">{{improv.label}}</td>
-            <td  class="centre" data-tooltip="{{improv.system.dv.label}}">{{improv.system.dv.value}}</td>
+            {{#isOr (eq improv.system.status 'maintained') (eq improv.system.status 'unmaintained')}}
+              <td  class="centre" data-tooltip="{{improv.system.dv.label}}">{{improv.system.dv.value}}</td>
+            {{else}}
+              <td></td>
+            {{/isOr}} 
             <td class="centre">{{improv.statusLabel}}</td>               
             <td>
                 <a class="item-control medium-icon fade" data-action="viewDoc"><i data-tooltip="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>

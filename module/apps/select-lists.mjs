@@ -169,7 +169,11 @@ export class PENSelectLists {
   static getBackgroundType() {
     let options = {
       professional: game.i18n.localize("PEN.manor.professional"),
-      officer: game.i18n.localize("PEN.manor.officer")
+      officer: game.i18n.localize("PEN.manor.officer"),
+      academic: game.i18n.localize("PEN.manor.academic"),
+      companion: game.i18n.localize("PEN.manor.companion"),
+      entertainer: game.i18n.localize("PEN.manor.entertainer"),
+      healer: game.i18n.localize("PEN.manor.healer"),
     };
     return options;
   }
@@ -232,17 +236,17 @@ export class PENSelectLists {
       citywalls: game.i18n.localize("PEN.dv.citywalls"),
       outworks: game.i18n.localize("PEN.dv.outworks"),
       outerbailey1: game.i18n.localize("PEN.dv.outerbailey1"),
-      outerbailey2: game.i18n.localize("PEN.dv.outerbailey2"),      
-      outerbailey3: game.i18n.localize("PEN.dv.outerbailey3"),      
+      outerbailey2: game.i18n.localize("PEN.dv.outerbailey2"),
+      outerbailey3: game.i18n.localize("PEN.dv.outerbailey3"),
       innerbailey1: game.i18n.localize("PEN.dv.innerbailey1"),
       innerbailey2: game.i18n.localize("PEN.dv.innerbailey2"),
       innerbailey3: game.i18n.localize("PEN.dv.innerbailey3"),
       motte1: game.i18n.localize("PEN.dv.motte1"),
       motte2: game.i18n.localize("PEN.dv.motte2"),
-      motte3: game.i18n.localize("PEN.dv.motte3"),            
+      motte3: game.i18n.localize("PEN.dv.motte3"),
       stronghold1: game.i18n.localize("PEN.dv.stronghold1"),
       stronghold2: game.i18n.localize("PEN.dv.stronghold2"),
-      stronghold3: game.i18n.localize("PEN.dv.stronghold3"),            
+      stronghold3: game.i18n.localize("PEN.dv.stronghold3"),
     };
     return options;
   }

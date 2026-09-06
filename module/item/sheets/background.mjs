@@ -36,6 +36,7 @@ export class PendragonBackgroundSheet extends PendragonItemSheet {
       removeEffect: this._onDeleteActiveEffect,
       toggleEffect: this._onToggleActiveEffect,
       itemToggle: PendragonBackgroundSheet.#onItemToggle,
+      openWiki: this._openWiki,
     },
     dragDrop: [{ dropSelector: ".droppable" }],
   };
@@ -105,20 +106,28 @@ export class PendragonBackgroundSheet extends PendragonItemSheet {
 
     for (let pItm of tempSkills) {
       let valid = true;
-      let tempItm = (await game.system.api.pid.fromPIDBest({ pid: pItm.pid }))[0]
-      let tempName = game.i18n.localize ('invalid')
+      let tempItm = (await game.system.api.pid.fromPIDBest({ pid: pItm.pid }))[0];
+      let tempName = game.i18n.localize("invalid");
       if (tempItm) {
-        tempName = tempItm.name 
+        tempName = tempItm.name;
       } else {
-        tempName = pItm.name
-        valid = false
+        tempName = pItm.name;
+        valid = false;
+      }
+
+      let tempScore = pItm.score;
+      if (tempScore[0] === "-") {
+        tempScore = tempScore.slice(1);
+        if (tempItm.type === "trait") {
+          tempName = tempItm.system.oppName;
+        }
       }
       skills.push({
         name: tempName,
         uuid: pItm.uuid,
         pid: pItm.pid,
         valid: valid,
-        score: pItm.score,
+        score: tempScore,
       });
     }
     skills.sort(function (a, b) {
@@ -213,7 +222,7 @@ export class PendragonBackgroundSheet extends PendragonItemSheet {
     event.preventDefault();
     event.stopPropagation();
 
-    let type = ["skill"];
+    let type = ["skill", "trait"];
     const collectionName = event.currentTarget.dataset.collection ?? "skills";
     const dataList = await PENUtilities.getDataFromDropEvent(event, "Item");
     const collection = this.item.system[collectionName]
@@ -243,15 +252,20 @@ export class PendragonBackgroundSheet extends PendragonItemSheet {
         content: `<input class="centre" type="text" name="inpvalue">`,
       });
 
-        //Add item to collection
-        collection.push({
-          name: item.name,
-          uuid: item.uuid,
-          pid: item.flags.Pendragon.pidFlag.id,
-          score: inpVal.inpvalue,
-          subType: item.type,
-        });
-      
+      let itemName = item.name;
+      if (item.type === "trait" && inpVal.inpvalue[0] === "-") {
+        itemName = item.system.oppName;
+      }
+
+      //Add item to collection
+      collection.push({
+        name: itemName,
+        uuid: item.uuid,
+        pid: item.flags.Pendragon.pidFlag.id,
+        score: inpVal.inpvalue,
+        subType: item.type,
+      });
+
       await this.item.update({ [`system.${collectionName}`]: collection });
       //Empty Array
       collection.length = 0;
@@ -267,10 +281,9 @@ export class PendragonBackgroundSheet extends PendragonItemSheet {
       const { opptest } = target.closest("[data-opptest]")?.dataset ?? {};
       const coll = this.item.system[collection] ?? [];
       await this.item.update({
-        [`system.${collection}`]: coll.filter(
-        (itm) => itm.uuid != itemId),
+        [`system.${collection}`]: coll.filter((itm) => itm.uuid != itemId),
       });
     }
     return;
-  }  
+  }
 }

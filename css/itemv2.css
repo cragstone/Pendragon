@@ -275,7 +275,7 @@
     column-gap: 0px;
     margin-top: 0px;
     margin-bottom: 0px;
-  }  
+  }
 
   & .small-cost-grid {
     display: grid;
@@ -283,5 +283,5 @@
     gap: 0px;
     margin-top: 0px;
     margin-bottom: 0px;
-  }  
+  }
 }
