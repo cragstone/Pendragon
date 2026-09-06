@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 14.14
+- Fixed an issue where character creation was incorrectly flagging certain steps as completed
+
 ## 14.13
 
 - Character Sheet V2 has arrived, and it has Dark Mode.  This is all down to Johnny B who has delivered an absolute blinder.
