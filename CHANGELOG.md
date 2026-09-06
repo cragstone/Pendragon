@@ -1,7 +1,7 @@
 # CHANGELOG
 
+## 14.15
 
-## Unreleased
 - Functionality for the Nobles Handbook is being implemented in stages. A premium module will hopefully be out in due course with all the content already created for you.
 - Manors, Baronies, Background Characters and Estate Improvements have been added to the game.
 - Manors and Baroniess are Actors but you can drop them on to a character sheet https://github.com/cragstone/Pendragon/wiki/Manor https://github.com/cragstone/Pendragon/wiki/Barony

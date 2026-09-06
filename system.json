@@ -183,14 +183,6 @@
           ]
         }
       },
-      "manor": {
-        "htmlFields": ["description", "GMdescription"],
-        "filePathFields": { "mapImage": ["IMAGE"] }
-      },
-      "barony": {
-        "htmlFields": ["description", "GMdescription"],
-        "filePathFields": { "mapImage": ["IMAGE"] }
-      },      
       "follower": {
         "htmlFields": [
           "description"
