@@ -519,8 +519,8 @@
 
 .Pendragon .estate-grid {
   display: grid;
-  width: 471px;
-  grid-template-columns: 280px 130px 60px;
+  width: 671px;
+  grid-template-columns: 280px 130px 200px 60px;
   gap: 0px;
   margin-top: 0px;
   margin-bottom: 0px;

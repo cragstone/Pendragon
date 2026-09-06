@@ -331,11 +331,17 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
         estates.push({
           uuid: a,
           name: tempActor.name,
+          typeLabel: game.i18n.localize('TYPES.Actor.' + tempActor.type),
+          dvLabel: tempActor.dvLabel,
+          dvLabelHint: tempActor.dvLabelHint,          
         });
       } else {
         estates.push({
           uuid: a,
-          name: "Invalid",
+          name: game.i18n.localize('PEN.invalid'),
+          typeLabel: "",
+          dvLabel: "",
+          dvLabelHint: "",
         });
       }
     }
@@ -1369,7 +1375,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
         return;
       }
       for (let estate of dataList) {
-        if (!["manor"].includes(estate.type)) {
+        if (!["manor","barony"].includes(estate.type)) {
           continue;
         }
         if (this.actor.system.estates.includes(estate.uuid)) {
