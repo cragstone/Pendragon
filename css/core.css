@@ -50,6 +50,7 @@
   --pendragon-grey: #918987;
   --pendragon-darkred: darkred;
   --pendragon-darkblue: #034694;
+  --pendragon-white: cornsilk;
   --pendragon-success: oklch(0.51976 0.17685 142.511);
   --pendragon-primary-text: oklch(0 0 0);
   --pendragon-secondary-text: oklch(0.39984 0.16408 29.223);
@@ -76,6 +77,7 @@
   --pendragon-geneality-back: oklch(.82344 0.00009 271.152);
   --active-effect-aura: url("../assets/icons/inverse-aura.svg");
   --help-icon-colur: oklch(0.79268 0.17097 70.665);
+  --nhbred: oklch(0.51 0.18 26.4);
 }
 
 .theme-light {
