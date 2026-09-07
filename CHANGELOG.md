@@ -11,8 +11,10 @@
 - You will start to see an orange icon with a question mark on some part of Actor/Item sheets - clicking on it will open a browser window taking you to the relevant wiki page
 - There is a game setting (under Display Options) so users can turn this help icon off so it won't be displayed
 - Fixed an issue with ideals where the relevant skill, trait etc isn't on the character sheet
+- Thank you to Tontione for updating the French language translations
 
 ## 14.14
+
 - Fixed an issue where character creation was incorrectly flagging certain steps as completed
 
 ## 14.13

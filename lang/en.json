@@ -160,6 +160,8 @@
     "care": "Care",
     "changeClass": "Changing the Character's Class",
     "changeClassHint": "This will only change the name and add Class Items, it will not reset passions.  Do you wish to proceed?",
+    "changeHorse": "Change Horse",
+    "changeWeapon": "Change Weapon",
     "character": "Character",
     "characteristic": "Characteristic",
     "characteristics": "Characteristics",

@@ -4,34 +4,68 @@
   "description": "Pendragon system for FoundryVTT!",
   "version": "14.14",
   "compatibility": {
-    "minimum": 14,
-    "verified": "14.366",
-    "maximum": 14
+    "minimum": "14",
+    "verified": "14.367",
+    "maximum": "14"
   },
   "authors": [
-    { "name": "jbowtie" },
-    { "name": "Dangermouse" },
-    { "name": "JamesB" },
-    { "name": "MrPrimate" }
+    {
+      "name": "jbowtie",
+      "flags": {}
+    },
+    {
+      "name": "Dangermouse",
+      "flags": {}
+    },
+    {
+      "name": "JamesB",
+      "flags": {}
+    },
+    {
+      "name": "MrPrimate",
+      "flags": {}
+    }
   ],
-  "esmodules": ["module/pendragon.mjs", "module/setup/load.mjs"],
+  "esmodules": [
+    "module/pendragon.mjs",
+    "module/setup/load.mjs"
+  ],
   "styles": [
-    "css/pendragon.css",
-    "css/encounter.css",
-    "css/battle.css",
-    "css/journals.css",
-    "css/rolltable.css",
-    "css/charv2.css",
-    "css/itemv2.css",
-    "css/actorv2.css"
+    {
+      "src": "css/pendragon.css"
+    },
+    {
+      "src": "css/encounter.css"
+    },
+    {
+      "src": "css/battle.css"
+    },
+    {
+      "src": "css/journals.css"
+    },
+    {
+      "src": "css/rolltable.css"
+    },
+    {
+      "src": "css/charv2.css"
+    },
+    {
+      "src": "css/itemv2.css"
+    },
+    {
+      "src": "css/actorv2.css"
+    }
   ],
-  "scripts": [],
   "packFolders": [
     {
       "name": "Pendragon System",
       "sorting": "m",
       "color": "#1274bd",
-      "packs": ["instructions", "macro", "scenes"],
+      "packs": [
+        "instructions",
+        "macro",
+        "scenes"
+      ],
       "folders": []
     }
   ],
@@ -43,7 +77,11 @@
       "path": "packs/instructions",
       "system": "Pendragon",
       "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     },
     {
       "label": "Macros",
@@ -52,7 +90,11 @@
       "path": "packs/macro",
       "system": "Pendragon",
       "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     },
     {
       "label": "Scenes",
@@ -61,19 +103,25 @@
       "path": "packs/scenes",
       "system": "Pendragon",
       "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     }
   ],
   "languages": [
     {
       "lang": "en",
       "name": "English",
-      "path": "lang/en.json"
+      "path": "lang/en.json",
+      "flags": {}
     },
     {
       "lang": "fr",
       "name": "French",
-      "path": "lang/fr.json"
+      "path": "lang/fr.json",
+      "flags": {}
     }
   ],
   "background": "systems/Pendragon/assets/knight_pendragon.webp",
@@ -81,100 +129,187 @@
     {
       "type": "setup",
       "url": "systems/Pendragon/assets/PEN Logo Blue.jpg",
-      "thumbnail": "systems/Pendragon/assets/PEN Logo Blue.jpg"
+      "thumbnail": "systems/Pendragon/assets/PEN Logo Blue.jpg",
+      "loop": false,
+      "flags": {}
     }
   ],
   "grid": {
-    "distance": 1,
     "units": "yd"
   },
   "primaryTokenAttribute": "hp",
   "secondaryTokenAttribute": "",
-
   "documentTypes": {
     "Actor": {
       "character": {
-        "htmlFields": ["background"],
-        "filePathFields": { "coatOfArms": ["IMAGE"] }
+        "htmlFields": [
+          "background"
+        ],
+        "filePathFields": {
+          "coatOfArms": [
+            "IMAGE"
+          ]
+        }
       },
       "npc": {
-        "htmlFields": ["description"],
-        "filePathFields": { "coatOfArms": ["IMAGE"] }
+        "htmlFields": [
+          "description"
+        ],
+        "filePathFields": {
+          "coatOfArms": [
+            "IMAGE"
+          ]
+        }
       },
       "manor": {
-        "htmlFields": ["description", "GMdescription"],
-        "filePathFields": { "mapImage": ["IMAGE"] }
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ],
+        "filePathFields": {
+          "mapImage": [
+            "IMAGE"
+          ]
+        }
       },
       "barony": {
-        "htmlFields": ["description", "GMdescription"],
-        "filePathFields": { "mapImage": ["IMAGE"] }
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ],
+        "filePathFields": {
+          "mapImage": [
+            "IMAGE"
+          ]
+        }
       },
       "follower": {
-        "htmlFields": ["description"]
+        "htmlFields": [
+          "description"
+        ]
       },
       "party": {},
       "encounter": {
-        "htmlFields": ["description", "notes"]
+        "htmlFields": [
+          "description",
+          "notes"
+        ]
       },
       "battle": {
-        "htmlFields": ["description", "notes"]
+        "htmlFields": [
+          "description",
+          "notes"
+        ]
       }
     },
     "Item": {
       "background": {
-        "htmlFields": ["description"]
+        "htmlFields": [
+          "description"
+        ]
       },
       "gear": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "skill": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "trait": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "wound": {},
       "history": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "passion": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "horse": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "squire": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "armour": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "weapon": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "family": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "culture": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "religion": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "class": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "homeland": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "ideal": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "relationship": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       },
       "manorImp": {
-        "htmlFields": ["description", "GMdescription"]
+        "htmlFields": [
+          "description",
+          "GMdescription"
+        ]
       }
     },
     "RegionBehavior": {
@@ -187,11 +322,11 @@
       "ChaosiumCanvasInterfaceTileToggle": {}
     }
   },
-
   "url": "https://github.com/cragstone/Pendragon",
   "manifest": "https://github.com/cragstone/Pendragon/releases/latest/download/system.json",
   "download": "https://github.com/cragstone/Pendragon/releases/download/14.14/Pendragon.zip",
   "socket": true,
   "license": "LICENSE.txt",
-  "changelog": "CHANGELOG.md"
+  "changelog": "CHANGELOG.md",
+  "flags": {}
 }

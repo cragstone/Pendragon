@@ -20,11 +20,11 @@
       <div style="border-radius: 0.25rem;padding: 0.5rem;background-color: var(--pd-light-row);">
         {{#if currentHorse}}
         <p><i class= "fa-solid fa-horse-head"></i>{{currentHorse.name}}</p>
-        <p>{{currentHorse.classification}}{{#if currentHorse.system.combat}} - War-Trained{{/if}}</p>
+        <p>{{currentHorse.classification}}{{#if currentHorse.system.combat}} - {{localize 'PEN.warTrained'}}{{/if}}</p>
         <p>{{localize 'PEN.hp'}}: {{currentHorse.system.hp}} / {{currentHorse.system.maxHP}}</p>
         <p>{{localize 'PEN.move'}}: {{currentHorse.system.move}} / {{localize 'PEN.knockdown'}}: {{currentHorse.system.siz}}</p>
         {{/if}}
-        <button type="button" data-action="switchHorse">Change Horse</button>
+        <button type="button" data-action="switchHorse">{{localize 'PEN.changeHorse'}}</button>
         <label class="condition">
         <input type="checkbox" {{#if statuses.mounted.active}}checked{{/if}} disabled/>
         <img src="{{statuses.mounted.img}}" class="icon-img" />
@@ -35,10 +35,10 @@
         <p>{{localize 'PEN.knockdown'}}: {{system.hp.knockdown}}</p>
         <p>{{localize 'PEN.mjrWnd'}}: {{system.hp.majorWnd}}</p>
         <p>{{localize 'PEN.unconscious'}}: {{system.hp.unconscious}}</p>
-        <p style="font-weight: bold;font-size:larger"><i class= "fa-solid fa-swords"></i> Weapon</p>
+        <p style="font-weight: bold;font-size:larger"><i class= "fa-solid fa-swords"></i> {{localize 'PEN.weapon'}}</p>
         <p>{{currentWeapon.name}} {{currentWeapon.total}}</p>
         <p>{{localize 'PEN.damage'}}: {{currentWeapon.damage}}</p>
-        <button type="button" data-action="switchWeapon">Change Weapon</button>
+        <button type="button" data-action="switchWeapon">{{localize 'PEN.changeWeapon'}}</button>
       </div>
       <div style="border-radius: 0.25rem;padding: 0.5rem;background-color: var(--pd-light-row);">
         <p>{{localize 'PEN.armourPoints'}}: {{system.armour}} + {{shield}} <i class="fa-solid fa-shield"></i></p>
