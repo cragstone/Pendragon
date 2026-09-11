@@ -1785,6 +1785,13 @@
   margin: 0px;
 }
 
+.Pendragon .feastGlory {
+  display: grid;
+  grid-template-columns: 220px repeat(5, 70px);
+  column-gap: 5px;
+  margin: 0px;
+}
+
 .Pendragon.item-select-sheet .window-content {
   overflow-y: auto;
 }

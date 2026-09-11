@@ -1,4 +1,5 @@
 import { PENCheck, RollType, CardType, RollResult } from "../apps/checks.mjs";
+import { FeastGlory } from "../apps/feast-glory.mjs";
 
 export class PendragonCombat extends Combat {
   // suggested rounds, geniality threshold and bonus glory by feast size
@@ -158,10 +159,13 @@ export class PendragonCombat extends Combat {
   }
 
   async endCombat() {
-    // TODO: for a feast, similar confirmation
-    // then show glory award window
-    //   allow GM to adjust rounds present, feast name,
-    //   final geniality, bonus glory
-    super.endCombat();
+    // GMH p. 44: award Feasting Glory before ending a feast
+    if (this.isFeast()) {
+      const awarded = await FeastGlory.showDialog(this);
+      if (!awarded) {
+        return this;
+      }
+    }
+    return super.endCombat();
   }
 }

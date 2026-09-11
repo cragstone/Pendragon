@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Ending a feast now opens an end-of-feast Feasting Glory award dialog (GMH p. 44), prefilled from APP, Event Geniality and rounds attended, with bonus Glory for the most notable attendee (ryak2)
 - Added a feast size setting (Small/Medium/Large/Royal) to the feast tracker, suggesting minimum rounds per GMH Table 3.2 and driving the end-of-feast geniality threshold and bonus Glory per GMH Table 3.7 (ryak2)
 - Feast combatants now start with Geniality derived from their Standard of Living clothing (GMH Table 3.1) instead of a fixed value. Geniality gains are capped at the character's APP, and geniality gained from Feast Events is now tracked separately (ryak2)
 
