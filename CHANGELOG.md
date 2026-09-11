@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added French translations and tooltips for the feast tracker, Feast Deck event cards and end-of-feast glory award (ryak2)
 - Added Feast Deck event cards (GMH pp. 41-42): players draw cards up to their Total APP limit (GMH Tables 3.4/3.5), posting card faces to chat, with Play/Draw Again buttons, Host cards ending the Round, and per-card geniality entry feeding the end-of-feast threshold. Requires the Chaosium GM Handbook module; deck controls are hidden without it (ryak2)
 - Ending a feast now opens an end-of-feast Feasting Glory award dialog (GMH p. 44), prefilled from APP, Event Geniality and rounds attended, with bonus Glory for the most notable attendee (ryak2)
 - Added a feast size setting (Small/Medium/Large/Royal) to the feast tracker, suggesting minimum rounds per GMH Table 3.2 and driving the end-of-feast geniality threshold and bonus Glory per GMH Table 3.7 (ryak2)
