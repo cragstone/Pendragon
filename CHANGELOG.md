@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+- Feast combatants now start with Geniality derived from their Standard of Living clothing (GMH Table 3.1) instead of a fixed value. Geniality gains are capped at the character's APP, and geniality gained from Feast Events is now tracked separately (ryak2)
+
 ## 14.14
 - Fixed an issue where character creation was incorrectly flagging certain steps as completed
 
