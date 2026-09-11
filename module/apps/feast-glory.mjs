@@ -33,7 +33,8 @@ export class FeastGlory {
     }
     const data = {
       combatName: combat.name ?? "",
-      sizeLabel: game.i18n.localize("PEN.feast.feastSize." + combat.getFeastSize()),
+      sizeLabel: game.i18n.localize("PEN.feast.feastSizeName." + combat.getFeastSize()),
+      roundsHint: sizeData.rounds,
       threshold: sizeData.threshold,
       bonusGlory: sizeData.bonus,
       knights,
@@ -42,12 +43,12 @@ export class FeastGlory {
       "systems/Pendragon/templates/dialog/feastGlory.hbs",
       data,
     );
-    const awards = await PENDialog.input({
+    const awards = await foundry.applications.api.DialogV2.input({
       window: {
         title: game.i18n.localize("PEN.feast.feastGlory"),
       },
       position: {
-        width: 620,
+        width: 640,
       },
       content: html,
     });
@@ -58,18 +59,18 @@ export class FeastGlory {
     return true;
   }
 
-  // create history items with the awarded glory (same flow as the GM glory award)
   static async createAwards(awards, knights) {
-    const feastName = awards.feastName ?? game.i18n.localize("PEN.feast.feastGlory");
+    const feastName = (awards.feastName || game.i18n.localize("PEN.feast.feastGlory"));
+    const getVal = (prefix, id) => awards[`${prefix}.${id}`];
     let count = 0;
     for (let knight of knights) {
       const id = knight.combatantId;
-      const geniality = Number(awards.geniality?.[id] ?? knight.geniality);
-      const rounds = Number(awards.rounds?.[id] ?? knight.rounds);
+      const geniality = Number(getVal("geniality", id) ?? knight.geniality);
+      const rounds = Number(getVal("rounds", id) ?? knight.rounds);
       // unless the GM overrode the glory, recompute from geniality/rounds edits
-      const gloryInput = Number(awards.glory?.[id]);
+      const gloryInput = Number(getVal("glory", id));
       const glory = gloryInput === knight.glory ? Math.min(100, (knight.app + geniality) * rounds) : gloryInput;
-      const total = glory + Number(awards.bonus?.[id] ?? 0);
+      const total = glory + Number(getVal("bonus", id) ?? 0);
       if (!Number.isFinite(total) || total <= 0) {
         continue;
       }
@@ -77,25 +78,8 @@ export class FeastGlory {
       if (!actor) {
         continue;
       }
-      const itemData = {
-        name: feastName,
-        type: "history",
-        system: {
-          year: game.time.components.year,
-          description: feastName,
-          glory: total,
-        },
-        flags: {
-          Pendragon: {
-            pidFlag: {
-              id: "i.history.gmAward",
-              lang: game.i18n.lang,
-              priority: 0,
-            },
-          },
-        },
-      };
-      await Item.create(itemData, { parent: actor });
+      // use the actor's addHistoryEvent to ensure proper item creation
+      await actor.addHistoryEvent(feastName, feastName, total);
       count++;
     }
     if (count > 0) {

@@ -38,13 +38,6 @@ export class PendragonCombat extends Combat {
     return PendragonCombat.FEAST_SIZES[this.getFeastSize()] ?? PendragonCombat.FEAST_SIZES.medium;
   }
 
-  switchFeastSize() {
-    const sizes = Object.keys(PendragonCombat.FEAST_SIZES);
-    const next = sizes[(sizes.indexOf(this.getFeastSize()) + 1) % sizes.length];
-    this.setFlag("Pendragon", "feastSize", next);
-    ui.combat.viewed = this;
-  }
-
   async rollInitiative(ids, { formula = null, updateTurn = true, messageOptions = {} } = {}) {
     // special rules for a feast
     if (this.isFeast()) {
@@ -142,13 +135,29 @@ export class PendragonCombat extends Combat {
     this.combatants.forEach((c) => c.initGeniality());
     // fresh card drawing for the first Round
     FeastDeck.resetRound(this);
+    // post starting Geniality for each combatant so attendees can follow along
+    if (this.isFeast()) {
+      for (const c of this.combatants) {
+        const geniality = c.getGeniality();
+        if (geniality !== 0) {
+          await FeastDeck.postGenialityChange(c, {
+            reasons: [{
+              label: game.i18n.format("PEN.feast.startingGeniality", {
+                sol: (c.actor?.system?.sol || "").toLowerCase(),
+              }),
+              delta: geniality,
+            }],
+            newTotal: geniality,
+          });
+        }
+      }
+    }
     // update on next round / previous round
     super.startCombat();
   }
 
-  nextRound() {
+  async nextRound() {
     if (this.isFeast()) {
-      this.combatants.forEach((c) => c.addGeniality(Math.floor(c.initiative) - 1));
       // fresh card drawing for the new Round
       FeastDeck.resetRound(this);
     }

@@ -776,6 +776,7 @@ export class PENCheck {
         return;
       case "feastDraw":
       case "feastPlay":
+      case "feastGeniality":
         await FeastDeck.applyChatAction({
           presetType,
           dataset: data.dataset,

@@ -1,31 +1,36 @@
-<form class="Pendragon" id="feastGlory">
-  <br>
+<form class="feastGlory">
+  <div class="feastGlory-header">
+    <label class="feastGlory-name">
+      <span>{{localize 'PEN.feast.feastName'}}</span>
+      <input name="feastName" type="text" value="{{combatName}}">
+    </label>
+    <div class="feastGlory-info">
+      <span>{{localize 'PEN.feast.feastSize'}}: <b>{{sizeLabel}}</b></span>
+      <span>{{localize 'PEN.feast.threshold'}}: <b>{{threshold}}</b> ({{localize 'PEN.feast.bonusGlory'}} +{{bonusGlory}})</span>
+      <span class="feastGlory-rounds">{{localize 'PEN.feast.roundsHint' rounds=roundsHint}}</span>
+    </div>
+  </div>
 
-  <div class="feastGlory">
-     <div class="bold stat-name new-row">{{localize 'PEN.feast.feastName'}}</div>
-    <div class="dam-name-input centre" style="grid-column: span 5;"><input name="feastName" type="text" value="{{combatName}}"></div>
-
-    <br>
-    <div class="bold stat-name new-row">{{localize 'PEN.feast.feastSize'}}: {{sizeLabel}}</div>
-    <div class="bold centre stat-name" style="grid-column: span 5;">{{localize 'PEN.feast.threshold'}}: {{threshold}} ({{localize 'PEN.feast.bonusGlory'}} +{{bonusGlory}})</div>
-
-    <br>
-    <div class="bold stat-name new-row">{{localize 'PEN.name'}}</div>
-    <div class="bold centre stat-name">{{localize 'PENDRAGON.StatAppAbbr'}}</div>
-    <div class="bold centre stat-name">{{localize 'PEN.feast.eventGeniality'}}</div>
-    <div class="bold centre stat-name">{{localize 'PEN.feast.roundsAttended'}}</div>
-    <div class="bold centre stat-name">{{localize 'PEN.glory'}}</div>
-    <div class="bold centre stat-name">{{localize 'PEN.feast.bonusGlory'}}</div>
+  <div class="feastGlory-table">
+    <div class="feastGlory-row feastGlory-head">
+      <div class="feastGlory-name-col">{{localize 'PEN.name'}}</div>
+      <div class="feastGlory-num-col">{{localize 'PENDRAGON.StatAppAbbr'}}</div>
+      <div class="feastGlory-num-col">{{localize 'PEN.feast.eventGeniality'}}</div>
+      <div class="feastGlory-num-col">{{localize 'PEN.feast.roundsAttended'}}</div>
+      <div class="feastGlory-num-col">{{localize 'PEN.glory'}}</div>
+      <div class="feastGlory-num-col">{{localize 'PEN.feast.bonusGlory'}}</div>
+    </div>
     {{#each knights as |k id|}}
-    <div class="stat-name new-row">{{k.name}}</div>
-    <div class="stat-name centre">{{k.app}}</div>
-    <div class="dam-name-input centre"><input name="geniality.{{k.combatantId}}" type="number" value="{{k.geniality}}"></div>
-    <div class="dam-name-input centre"><input name="rounds.{{k.combatantId}}" type="number" value="{{k.rounds}}"></div>
-    <div class="dam-name-input centre"><input name="glory.{{k.combatantId}}" type="number" value="{{k.glory}}"></div>
-    <div class="dam-name-input centre"><input name="bonus.{{k.combatantId}}" type="number" value="{{k.bonus}}"></div>
+    <div class="feastGlory-row">
+      <div class="feastGlory-name-col">{{k.name}}</div>
+      <div class="feastGlory-num-col">{{k.app}}</div>
+      <div class="feastGlory-num-col"><input name="geniality.{{k.combatantId}}" type="number" value="{{k.geniality}}"></div>
+      <div class="feastGlory-num-col"><input name="rounds.{{k.combatantId}}" type="number" value="{{k.rounds}}"></div>
+      <div class="feastGlory-num-col"><input name="glory.{{k.combatantId}}" type="number" value="{{k.glory}}"></div>
+      <div class="feastGlory-num-col"><input name="bonus.{{k.combatantId}}" type="number" value="{{k.bonus}}"></div>
+    </div>
     {{/each}}
   </div>
-  <br>
-  <p class="flavor-text">{{localize 'PEN.feast.gloryHint'}}</p>
-  <br>
+
+  <p class="feastGlory-hint">{{localize 'PEN.feast.gloryHint'}}</p>
 </form>

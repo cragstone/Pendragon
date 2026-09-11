@@ -58,55 +58,59 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
     }
   }
   _onChangeInput(event) {
-    const input = event.target;
-    if (input.classList.contains("geniality-input")) {
-      return this.#onUpdateGeniality(event);
-    }
     return super._onChangeInput(event);
   }
   #addDrawControl(row, combatant) {
-    const init = row.querySelector(".token-initiative");
-    if (!init) {
+    const controls = row.querySelector(".combatant-controls");
+    if (!controls) {
       return;
     }
-    const button = document.createElement("button");
-    button.classList.add("feast-draw");
-    button.dataset.combatantId = combatant.id;
-    button.title = game.i18n.localize("PEN.feast.drawCard");
-    button.innerHTML = '<i class="fa-solid fa-clone"></i>';
-    button.addEventListener("click", () =>
-      FeastDeck.triggerTrackerAction({ combatId: this.viewed.id, combatantId: combatant.id }),
-    );
-    init.insertAdjacentElement("afterend", button);
+    const dataset = { combatId: this.viewed.id, combatantId: combatant.id };
+    for (const [action, icon, labelKey] of [
+      ["feastDraw", "fa-clone", "PEN.feast.drawCard"],
+      ["feastGeniality", "fa-plus-minus", "PEN.feast.adjustGeniality"],
+    ]) {
+      const button = document.createElement("button");
+      button.classList.add("combatant-control", "icon", "fa-solid", icon, "fa-fw");
+      button.dataset.tooltip = game.i18n.localize(labelKey);
+      button.setAttribute("aria-label", game.i18n.localize(labelKey));
+      button.addEventListener("click", () => FeastDeck.triggerTrackerAction(dataset, action));
+      controls.prepend(button);
+    }
   }
 
   #addGenialityVal(selectedElement, combatant) {
     const d = document.createElement("div");
     const geniality = combatant.getGeniality();
     d.classList.add("token-geniality");
-    d.innerHTML = `<input type="text" class="geniality-input" inputmode="numeric" pattern="^[+=\\-]?\\d*" value="${geniality}"
-                   aria-label="${game.i18n.localize("PEN.geniality")}" title="${game.i18n.localize("PEN.geniality")}" />`;
+    d.innerHTML = `<span class="geniality-value">${geniality}</span>`;
     selectedElement.insertAdjacentElement("afterend", d);
-  }
-  #onUpdateGeniality(event) {
-    const { combatantId } = event.target.closest("[data-combatant-id]")?.dataset ?? {};
-    const combatant = this.viewed.combatants.get(combatantId);
-    if (!combatant) return;
-    const raw = event.target.value;
-    const isDelta = /^[+-]/.test(raw);
-    if (!isDelta || raw[0] === "=") {
-      return combatant.update({ "flags.Pendragon.geniality": raw ? Number(raw.replace(/^=/, "")) : null });
-    }
-    const delta = parseInt(raw);
-    if (!isNaN(delta)) return combatant.addGeniality(delta);
   }
 
   #addFeastSize(list, combat) {
     const el = document.createElement("li");
     el.classList.add("feast-size");
     const sizeData = combat.getFeastSizeData();
-    el.innerHTML = `<h3 class="combat-tracker-header" data-tooltip="${game.i18n.format("PEN.feast.sizeHeaderTooltip", sizeData)}">
-                    ${game.i18n.format("PEN.feast.sizeHeader", { size: game.i18n.localize("PEN.feast.feastSize." + combat.getFeastSize()) })}</h3>`;
+    const size = combat.getFeastSize();
+    const selectTooltip = game.i18n.format("PEN.feast.sizeSelectTooltip", sizeData);
+    const selectLabel = game.i18n.localize("PEN.feast.sizeSelect");
+    const options = Object.keys(combat.constructor.FEAST_SIZES)
+      .map(
+        (key) =>
+          `<option value="${key}"${key === size ? " selected" : ""}>${game.i18n.localize("PEN.feast.feastSizeName." + key)}</option>`,
+      )
+      .join("");
+    el.innerHTML =
+      `<div>${game.i18n.localize("PEN.feast.feastSize")}: ` +
+      (game.user.isGM
+        ? `<select class="feast-size-select" aria-label="${selectLabel}" data-tooltip="${selectTooltip}">${options}</select>`
+        : `<strong>${game.i18n.localize("PEN.feast.feastSizeName." + size)}</strong>`) +
+      `</div>`;
+    if (game.user.isGM) {
+      el.querySelector(".feast-size-select")?.addEventListener("change", (event) => {
+        combat.setFlag("Pendragon", "feastSize", event.target.value);
+      });
+    }
     list.prepend(el);
   }
 

@@ -32,22 +32,21 @@ export class PendragonCombatant extends Combatant {
   getGeniality() {
     return this.getFlag("Pendragon", "geniality") || 0;
   }
-  addGeniality(val) {
+  async addGeniality(val) {
     const curr = this.getFlag("Pendragon", "geniality") || 0;
     let next = curr + val;
     // geniality can't exceed APP (GMH p. 39)
     const app = this.actor?.system?.stats?.app?.total;
-    if (Number.isInteger(app)) {
-      next = Math.min(next, app);
-    }
-    this.setFlag("Pendragon", "geniality", next);
+    if (Number.isInteger(app)) next = Math.min(next, app);
+    await this.setFlag("Pendragon", "geniality", next);
+    return { actual: next - curr, capped: next - curr < val };
   }
-  // geniality gained solely from feast events (GMH p. 44)
   getEventGeniality() {
-    return this.getFlag("Pendragon", "eventGeniality") || 0;
+    // derived: event geniality is everything gained since the feast started (GMH p. 44)
+    return this.getGeniality() - this.getStartingGeniality();
   }
-  addEventGeniality(val) {
-    const curr = this.getEventGeniality();
-    this.setFlag("Pendragon", "eventGeniality", curr + val);
+  getStartingGeniality() {
+    const sol = (this.actor?.system?.sol ?? "").toLowerCase();
+    return PendragonCombatant.SOL_GENIALITY[sol] ?? 1;
   }
 }

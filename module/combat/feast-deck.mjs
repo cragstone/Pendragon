@@ -48,6 +48,7 @@ export class FeastDeck {
 
   static async postCardMessage(combat, combatant, state) {
     const partic = await PENactorDetails._getParticipantId(combatant.token, combatant.actor);
+    const particImg = await PENactorDetails.getParticImg(partic?.particId, partic?.particType);
     const content = await foundry.applications.handlebars.renderTemplate(
       "systems/Pendragon/templates/chat/feast-card.hbs",
       {
@@ -55,6 +56,7 @@ export class FeastDeck {
         name: combatant.name,
         particId: partic?.particId,
         particType: partic?.particType,
+        particImg,
         canRedraw: !state.host && state.drawn < state.limit,
         data: { combatId: combat.id, combatantId: combatant.id, cardId: state.cardId },
       },
@@ -69,14 +71,14 @@ export class FeastDeck {
   }
 
   // the card's Geniality modifier (printed on the art) is entered at play time
-  static async promptGeniality() {
+  static async promptGeniality(titleKey, hintKey) {
     const html = await foundry.applications.handlebars.renderTemplate(
       "systems/Pendragon/templates/dialog/feast-geniality.hbs",
-      {},
+      { hint: game.i18n.localize(hintKey) },
     );
-    const result = await PENDialog.input({
+    const result = await foundry.applications.api.DialogV2.input({
       window: {
-        title: game.i18n.localize("PEN.feast.genialityPrompt"),
+        title: game.i18n.localize(titleKey),
       },
       position: {
         width: 300,
@@ -86,20 +88,9 @@ export class FeastDeck {
     return result ? Number(result.geniality) || 0 : null;
   }
 
-  static async triggerTrackerAction(dataset) {
-    if (game.user.isGM) {
-      return this.handleDraw(dataset);
-    }
-    const availableGM = game.users.find((d) => d.active && d.isGM)?.id;
-    if (!availableGM) {
-      ui.notifications.warn(game.i18n.localize("PEN.noAvailableGM"));
-      return;
-    }
-    game.socket.emit("system.Pendragon", {
-      type: "chatUpdate",
-      to: availableGM,
-      value: { presetType: "feastDraw", targetChatId: "", originGM: false, event: null, dataset },
-    });
+  // the tracker controls delegate here; players route to the GM via socket
+  static async triggerTrackerAction(dataset, presetType = "feastDraw") {
+    return this.triggerChatAction({ presetType, dataset, targetChatId: "" });
   }
 
   static async handleDraw(dataset) {
@@ -123,6 +114,10 @@ export class FeastDeck {
     }
     if (state?.cardId) {
       ui.notifications.warn(game.i18n.localize("PEN.feast.cardPending"));
+      return;
+    }
+    if (state?.complete) {
+      ui.notifications.warn(game.i18n.format("PEN.feast.roundComplete", { name: combatant.name }));
       return;
     }
     const drawn = state?.drawn ?? 0;
@@ -158,6 +153,19 @@ export class FeastDeck {
     combat.unsetFlag("Pendragon", "feastDraws");
   }
 
+  // a drawn card is no longer pending (played or skipped back to the deck)
+  static async clearPendingCard(combat, combatantId) {
+    const state = { ...this.getDrawState(combat, combatantId) };
+    if (!state.cardId) {
+      return;
+    }
+    state.cardId = null;
+    state.cardName = null;
+    state.cardImg = null;
+    state.host = false;
+    await this.setDrawState(combat, combatantId, state);
+  }
+
   // played cards are set aside until the deck is exhausted
   static async markPlayed(combat, cardId) {
     const played = foundry.utils.duplicate(combat.getFlag("Pendragon", "feastDeckPlayed") ?? []);
@@ -179,8 +187,12 @@ export class FeastDeck {
 
   // chat card action on the clicker's client; may need input before applying
   static async triggerChatAction({ presetType, dataset, targetChatId }) {
-    if (presetType === "feastPlay") {
-      const geniality = await this.promptGeniality();
+    if (presetType === "feastPlay" || presetType === "feastGeniality") {
+      const adjust = presetType === "feastGeniality";
+      const geniality = await this.promptGeniality(
+        adjust ? "PEN.feast.genialityAdjustPrompt" : "PEN.feast.genialityPrompt",
+        adjust ? "PEN.feast.genialityAdjustHint" : "PEN.feast.genialityPromptHint",
+      );
       if (geniality === null) {
         return;
       }
@@ -209,21 +221,80 @@ export class FeastDeck {
       return;
     }
     if (presetType === "feastDraw") {
+      // skip any pending card back to the deck and draw again
+      const pending = this.getDrawState(combat, combatant.id);
+      if (pending?.cardId) {
+        // snapshot before the pending state is cleared
+        const skipped = { cardName: pending.cardName, drawn: pending.drawn, limit: pending.limit };
+        await this.clearPendingCard(combat, combatant.id);
+        const message = targetChatId ? game.messages.get(targetChatId) : null;
+        if (message) {
+          await message.update({ content: await this.renderSkippedMessage(combat, combatant, skipped) });
+        }
+      }
       return this.handleDraw(dataset);
     }
-    if (presetType === "feastPlay") {
+    if (presetType === "feastGeniality") {
+      // outcome of the card's check, entered by the player/GM (GMH p. 42)
       const gained = Number(dataset.geniality) || 0;
-      combatant.addGeniality(gained);
-      combatant.addEventGeniality(gained);
-      await this.markPlayed(combat, dataset.cardId);
-      const state = this.getDrawState(combat, combatant.id);
-      // Host cards end drawing for the Round once played
-      if (state?.host) {
-        await this.clearDrawState(combat, combatant.id);
+      if (gained === 0) {
+        return;
       }
+      const { actual, capped } = await combatant.addGeniality(gained);
+      await this.postGenialityChange(combatant, {
+        reasons: [{ label: game.i18n.localize("PEN.feast.genialityChange"), delta: actual, capped }],
+        newTotal: combatant.getGeniality(),
+      });
+      return;
+    }
+    if (presetType === "feastPlay") {
+      const state = this.getDrawState(combat, combatant.id);
+      // the played card must still be pending
+      if (!state?.cardId || state.cardId !== dataset.cardId) {
+        return;
+      }
+      const seatLevel = Number.isFinite(combatant.initiative) ? Math.floor(combatant.initiative) : null;
+      const seatDelta = seatLevel !== null ? seatLevel - 1 : 0;
+      const cardDelta = Number(dataset.geniality) || 0;
+      const reasons = [];
+      // seating geniality at the start of the attendee's action (GMH p. 40)
+      if (seatDelta !== 0 && seatLevel !== null) {
+        const { actual, capped } = await combatant.addGeniality(seatDelta);
+        reasons.push({
+          label: game.i18n.format("PEN.feast.seatingGeniality", {
+            seat: game.i18n.localize("PEN.feast.resultLevel." + seatLevel),
+          }),
+          delta: actual,
+          capped,
+        });
+      }
+      // the card's printed Geniality modifier
+      if (cardDelta !== 0) {
+        const { actual, capped } = await combatant.addGeniality(cardDelta);
+        reasons.push({
+          label: game.i18n.format("PEN.feast.cardGeniality", { card: state.cardName }),
+          delta: actual,
+          capped,
+        });
+      }
+      const newTotal = combatant.getGeniality();
+      // snapshot for the played message before the pending state is cleared
+      const playedState = { ...state };
+      await this.markPlayed(combat, dataset.cardId);
+      // playing a card ends the knight's drawing for the Round (GMH p. 42)
+      state.complete = true;
+      state.cardId = null;
+      state.cardName = null;
+      state.cardImg = null;
+      state.host = false;
+      await this.setDrawState(combat, combatant.id, state);
       const message = targetChatId ? game.messages.get(targetChatId) : null;
       if (message) {
-        await message.update({ content: await this.renderPlayedMessage(combat, combatant, state, gained) });
+        await message.update({ content: await this.renderPlayedMessage(combat, combatant, playedState, cardDelta) });
+      }
+      // post the Geniality change to chat
+      if (reasons.length > 0) {
+        await this.postGenialityChange(combatant, { reasons, newTotal });
       }
     }
   }
@@ -234,10 +305,40 @@ export class FeastDeck {
       name: combatant.name,
       particId: combatant.actor?.id,
       particType: "actor",
+      particImg: combatant.actor?.img,
       card: state,
       gained,
-      canRedraw: !state?.host && (state?.drawn ?? 0) < (state?.limit ?? 0),
       data: { combatId: combat.id, combatantId: combatant.id },
+    });
+  }
+
+  static async renderSkippedMessage(combat, combatant, state) {
+    return foundry.applications.handlebars.renderTemplate("systems/Pendragon/templates/chat/feast-card.hbs", {
+      skipped: true,
+      name: combatant.name,
+      particId: combatant.actor?.id,
+      particType: "actor",
+      particImg: combatant.actor?.img,
+      card: { cardName: state.cardName, drawn: state.drawn, limit: state.limit },
+    });
+  }
+
+  // post a Geniality change to chat so attendees can follow along
+  static async postGenialityChange(combatant, { reasons, newTotal }) {
+    if (reasons.length === 0) return;
+    const content = [
+      `<strong>${foundry.utils.escapeHTML(combatant.name)}</strong>:`,
+      ...reasons.map((r) => {
+        const deltaStr = r.delta >= 0 ? `+${r.delta}` : `${r.delta}`;
+        const cappedStr = r.capped ? ` <em>(${game.i18n.localize("PEN.feast.capped")})</em>` : "";
+        return `  ${foundry.utils.escapeHTML(r.label)}: ${deltaStr}${cappedStr}`;
+      }),
+      game.i18n.format("PEN.feast.genialityNewTotal", { total: newTotal }),
+    ].join("<br>");
+    await ChatMessage.create({
+      author: game.user.id,
+      speaker: ChatMessage.getSpeaker({ actor: combatant.actor, token: combatant.token, alias: combatant.name }),
+      content,
     });
   }
 }
