@@ -229,7 +229,11 @@ export class PendragonManorimpSheet extends PendragonItemSheet {
         secrets: sheetData.editable,
       },
     );
-    sheetData.tabs = this._initTabs("primary", ["attributes", "description", "effects", "gmTab"]);
+    let parts = ["attributes", "description","effects"]
+    if (game.user.isGM) {
+      parts.push('gmTab')
+    }
+    sheetData.tabs = this._initTabs("primary", parts);
     return sheetData;
   }
 

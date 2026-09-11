@@ -68,8 +68,11 @@ export class PendragonTraitSheet extends PendragonItemSheet {
         secrets: sheetData.editable,
       },
     );
-    // this could be moved to a helper, review boilerplate code
-    sheetData.tabs = this._initTabs("primary", ["attributes", "description", "gmTab"]);
+    let parts = ["attributes", "description"]
+    if (game.user.isGM) {
+      parts.push('gmTab')
+    }
+    sheetData.tabs = this._initTabs("primary", parts);
     return sheetData;
   }
 
