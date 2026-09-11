@@ -1,6 +1,15 @@
 import { PENCheck, RollType, CardType, RollResult } from "../apps/checks.mjs";
 
 export class PendragonCombat extends Combat {
+  // suggested rounds, geniality threshold and bonus glory by feast size
+  // (GMH Tables 3.2 and 3.7)
+  static FEAST_SIZES = {
+    small: { rounds: 2, threshold: 5, bonus: 10 },
+    medium: { rounds: 3, threshold: 7, bonus: 25 },
+    large: { rounds: 4, threshold: 9, bonus: 50 },
+    royal: { rounds: 5, threshold: 11, bonus: 100 },
+  };
+
   // for now we use 'skirmish' for standard Combat
   // and 'feast' for feast rules
   isFeast() {
@@ -12,7 +21,25 @@ export class PendragonCombat extends Combat {
       this.setFlag("Pendragon", "encounterType", "skirmish");
     } else {
       this.setFlag("Pendragon", "encounterType", "feast");
+      if (!this.getFlag("Pendragon", "feastSize")) {
+        this.setFlag("Pendragon", "feastSize", "medium");
+      }
     }
+    ui.combat.viewed = this;
+  }
+
+  getFeastSize() {
+    return this.getFlag("Pendragon", "feastSize") ?? "medium";
+  }
+
+  getFeastSizeData() {
+    return PendragonCombat.FEAST_SIZES[this.getFeastSize()] ?? PendragonCombat.FEAST_SIZES.medium;
+  }
+
+  switchFeastSize() {
+    const sizes = Object.keys(PendragonCombat.FEAST_SIZES);
+    const next = sizes[(sizes.indexOf(this.getFeastSize()) + 1) % sizes.length];
+    this.setFlag("Pendragon", "feastSize", next);
     ui.combat.viewed = this;
   }
 

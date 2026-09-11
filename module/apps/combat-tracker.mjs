@@ -28,6 +28,7 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
       this.#addSeating(list, game.i18n.localize("PEN.feast.farSalt"), combatants, RollResult.FAIL);
       this.#addSeating(list, game.i18n.localize("PEN.feast.closeSalt"), combatants, RollResult.SUCCESS);
       this.#addSeating(list, game.i18n.localize("PEN.feast.aboveSalt"), combatants, RollResult.CRITICAL);
+      this.#addFeastSize(list, this.viewed);
 
       const combatantRows = html.querySelectorAll("li.combatant[data-combatant-id]");
       for (const row of combatantRows) {
@@ -77,6 +78,15 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
     }
     const delta = parseInt(raw);
     if (!isNaN(delta)) return combatant.addGeniality(delta);
+  }
+
+  #addFeastSize(list, combat) {
+    const el = document.createElement("li");
+    el.classList.add("feast-size");
+    const sizeData = combat.getFeastSizeData();
+    el.innerHTML = `<h3 class="combat-tracker-header" data-tooltip="${game.i18n.format("PEN.feast.sizeHeaderTooltip", sizeData)}">
+                    ${game.i18n.format("PEN.feast.sizeHeader", { size: game.i18n.localize("PEN.feast.feastSize." + combat.getFeastSize()) })}</h3>`;
+    list.prepend(el);
   }
 
   #addSeating(list, label, combatants, rollNeeded) {
