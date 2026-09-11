@@ -928,7 +928,7 @@
   display: grid;
   width: 402px;
   border-bottom: 1px gray solid;
-  grid-template-columns: 228px 50px 80px 44px;
+  grid-template-columns: 198px 30px  50px 80px 44px;
   gap: 0px;
   margin-top: 0px;
   margin-bottom: 0px;

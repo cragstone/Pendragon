@@ -12,6 +12,9 @@
 - There is a game setting (under Display Options) so users can turn this help icon off so it won't be displayed
 - Fixed an issue with ideals where the relevant skill, trait etc isn't on the character sheet
 - Thank you to Tontione for updating the French language translations
+- GM Tabs on Items hidden once again from players
+- NPCs have a new "Player Notes" section.  If you give Limited ownership of NPCs to players they will see the name, icons and player notes only (read only).  Owners and Observers see everything except GM Notes
+- NPC Notes have been remaned NPC GM Notes
 
 ## 14.14
 

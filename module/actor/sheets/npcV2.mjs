@@ -79,6 +79,7 @@ export class PendragonNPCSheetv2 extends api.HandlebarsApplicationMixin(sheets.A
       isLocked: this.actor.system.lock,
       displayNotes: this.actor.system.noteView,
       displayPlayerNotes: this.actor.system.playerNotesView,      
+      ownershipLevel: this.actor.permission
     };
 
     //context.tabs = this._getTabs(options.parts);

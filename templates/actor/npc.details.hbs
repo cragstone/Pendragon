@@ -1,5 +1,5 @@
   <section class="">
-    {{#if editable}}
+    {{#if (gt ownershipLevel 1)}}
 
       {{#if actor.system.baseStats}}
         {{!--BASE STATS SECTION --}}
@@ -141,7 +141,8 @@
         {{else}}
           <section class="npc-weapons-grid">
             <div class="npc-name bold grey" data-action="listExp" data-section="weaponExp">{{ localize "PEN.weapon" }}</div>  
-            <div class="npc-name bold centre grey">{{ localize "PEN.value" }}</div>    
+            <div class="npc-name bold centre grey"></div>            
+            <div class="npc-name bold centre grey">{{ localize "PEN.value" }}</div>
             <div class="npc-name bold centre grey">{{ localize "PEN.damage" }}</div>
             {{#unless system.lock}}     
               <div class="npc-name bold centre grey" data-action="createDoc" data-document-class='Item' data-type="weapon">  
@@ -161,11 +162,25 @@
               {{#each weapons as |weapon key|}}
                 {{#if ../system.lock}}
                 <div class="npc-name rollable combat truncate" data-tooltip="{{weapon.name}}" data-type ="weapon" data-sourceID = "{{weapon.system.sourceID}}" data-itemid="{{weapon._id}}">{{weapon.name}}</div> 
+                {{#if weapons.system.special}}
+                  <div class="npc-name centre" data-tooltip="{{ localize 'PEN.specialHint'}}">
+                    <a><i class="fa-solid fa-droplet"></i></a>
+                  </div> 
+                {{else}}
+                  <div></div>
+                {{/if}}                
                 <div class="npc-name centre">{{weapon.system.value}}</div>   
                 <div class="npc-name centre rollable damage" data-itemid="{{weapon._id}}">{{weapon.system.dmgForm}}</div>
                 <div></div>      
                 {{else}}
                   <div class="npc-name-input item truncate" data-tooltip="{{weapon.name}}" data-field ="name" data-itemid="{{weapon._id}}"><input class="inline-edit" name="item.weapon.{{key}}.name" type="text" value="{{weapon.name}}"/></div>
+                  {{#if weapon.system.special}}
+                    <div class="npc-name centre" data-tooltip="{{ localize 'PEN.specialHint'}}">
+                      <a><i class="fa-solid fa-droplet"></i></a>
+                    </div> 
+                  {{else}}
+                    <div></div>
+                  {{/if}}                    
                   <div class="npc-name-input centre item" data-field ="score" data-itemid="{{weapon._id}}"><input class="inline-edit" name="item.system.weapon.{{key}}.value" type="number" value="{{weapon.system.value}}"/></div>
                   <div class="npc-name-input centre item" data-field ="damage" data-itemid="{{weapon._id}}"><input class="inline-edit" name="item.system.weapon.{{key}}.dmgForm" type="text" value="{{weapon.system.dmgForm}}"/></div>
                   <div class="npc-name centre item" data-itemid ="{{weapon._id}}" data-document-class='Item'>
@@ -438,16 +453,11 @@
           </section>      
         {{/isAnd}}  
       {{/if}}
-    {{else}}
+    {{/if}}
+    {{#if (lt ownershipLevel 3)}}          
       <div class="npc-name bold grey" style="padding-left:10px;">{{ localize "PEN.notes" }}</div>  
       <div class="npcv2-playernotes-doc">
-        {{#if editable}}
-          <prose-mirror name="system.playerNotes" value="{{system.playerNotes}}" editable="{{editable}}" toggled="false">
-            {{{enrichedPlayerNotes}}}
-          </prose-mirror>
-        {{else}}
-          {{{enrichedPlayerNotes}}}
-        {{/if}}
+        {{{enrichedPlayerNotes}}}
       </div>
     {{/if}}
 
