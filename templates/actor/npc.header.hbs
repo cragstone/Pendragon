@@ -8,7 +8,7 @@
           <div class="npcname-input"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></div>
         
         <div class="npc-grid">
-          {{#if editable}}  
+          {{#if (gt ownershipLevel 1)}}  
             {{#each system.stats as |stat key|}}
               <div class="npc-name centre bold rollable stat" data-stat="{{key}}">{{stat.labelShort}}</div>
             {{/each}}             
@@ -29,24 +29,36 @@
         <img class="profile-img"  data-action='onEditImage' src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="70" width="70"/>
       </section>  
 
-      {{!-- Icone Section --}}      
+      {{!-- Icon Section --}}      
       <section class="bottom sheet-header">
-        {{#if editable}}
-          <div class="centre middle-icon"><a data-action="noteView" title="{{ localize 'PEN.toggleNotes' }}" ><i class="black fas fa-scroll-old"></i></a></div>
+        {{#if (gt ownershipLevel 2)}}
+          {{#if isGM}}
+            <div class="centre middle-icon"><a data-action="noteView" title="{{ localize 'PEN.toggleGMNotes' }}" ><i class="black fas fa-scroll-old"></i></a></div>
+          {{else}}
+            <div></div>  
+          {{/if}}  
           <div class="centre middle-icon"><a data-action="playerNotesView" title="{{ localize 'PEN.togglePlayerNotes' }}" ><i class="black fas fa-book-open"></i></a></div>        
           {{#if system.lock}}
             <div><a class=""><i class="fas"></i></a></div>
           {{else}}  
-            <div class="centre middle-icon"><a data-action="autoCalc" title="{{ localize 'PEN.calcNPC' }}"> <i class="black fas fa-dice"></i></a></div>
+            {{#if isGM}}
+              <div class="centre middle-icon"><a data-action="autoCalc" title="{{ localize 'PEN.calcNPC' }}"> <i class="black fas fa-dice"></i></a></div>
+            {{else}}
+              <div></div>  
+            {{/if}}  
           {{/if}}
         {{/if}}
       </section>
-      {{#if editable}}
-        <section class="bottom sheet-header">
+      <section class="bottom sheet-header">
+        {{#if (gt ownershipLevel 2)}}
           <div class="centre middle-icon"><a data-action="actorToggle" title="{{ localize 'PEN.lock' }}" data-property="lock"> <i class="black {{#if system.lock}}fas fa-lock{{else}}fas fa-lock-open{{/if}}"></i></a></div>
-          <div><a class=""><i class="fas"></i></a></div>
+        {{else}}
+          <div></div>
+        {{/if}}
+        <div><a class=""><i class="fas"></i></a></div>
+        {{#if isGM}}  
           <div class="centre middle-icon" data-action="baseStats"><a data-action="baseStats" title="{{ localize 'PEN.baseStats' }}"> <i class="black fas fa-user"></i></a></div>
-        </section>
-      {{/if}}
+        {{/if}}  
+      </section>
     </section>
   </section>
