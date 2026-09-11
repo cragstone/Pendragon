@@ -1455,6 +1455,18 @@
   }
 }
 
+.Pendragon .feast-card-face {
+  display: block;
+  margin: 0.5em auto;
+  max-width: 100%;
+}
+
+.Pendragon .feast-card-actions {
+  display: flex;
+  gap: 0.5em;
+  justify-content: center;
+}
+
 .system-Pendragon .token-geniality {
   max-width: 3em;
 
@@ -1462,6 +1474,11 @@
     color: var(--color-text-primary);
     text-align: end;
   }
+}
+
+.system-Pendragon .feast-draw {
+  line-height: 100%;
+  font-size: var(--font-size-12);
 }
 
 /* v13 tweaks */

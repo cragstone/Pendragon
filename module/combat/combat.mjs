@@ -1,5 +1,6 @@
 import { PENCheck, RollType, CardType, RollResult } from "../apps/checks.mjs";
 import { FeastGlory } from "../apps/feast-glory.mjs";
+import { FeastDeck } from "./feast-deck.mjs";
 
 export class PendragonCombat extends Combat {
   // suggested rounds, geniality threshold and bonus glory by feast size
@@ -139,6 +140,8 @@ export class PendragonCombat extends Combat {
   async startCombat() {
     // set combatants to initial geniality
     this.combatants.forEach((c) => c.initGeniality());
+    // fresh card drawing for the first Round
+    FeastDeck.resetRound(this);
     // update on next round / previous round
     super.startCombat();
   }
@@ -146,6 +149,8 @@ export class PendragonCombat extends Combat {
   nextRound() {
     if (this.isFeast()) {
       this.combatants.forEach((c) => c.addGeniality(Math.floor(c.initiative) - 1));
+      // fresh card drawing for the new Round
+      FeastDeck.resetRound(this);
     }
     // TODO: for combat
     //   advance phases each round

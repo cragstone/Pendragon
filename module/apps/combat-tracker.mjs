@@ -1,4 +1,5 @@
 import { RollResult } from "./checks.mjs";
+import { FeastDeck } from "../combat/feast-deck.mjs";
 
 export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs?.CombatTracker ?? CombatTracker) {
   /** @override */
@@ -49,6 +50,10 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
             controlIcon.classList.add("fa-signal-stream");
           }
         }
+        // card draw control for the feast deck (GM or the combatant's owner)
+        if (FeastDeck.isAvailable() && (game.user.isGM || combatant.isOwner)) {
+          this.#addDrawControl(row, combatant);
+        }
       }
     }
   }
@@ -59,6 +64,22 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
     }
     return super._onChangeInput(event);
   }
+  #addDrawControl(row, combatant) {
+    const init = row.querySelector(".token-initiative");
+    if (!init) {
+      return;
+    }
+    const button = document.createElement("button");
+    button.classList.add("feast-draw");
+    button.dataset.combatantId = combatant.id;
+    button.title = game.i18n.localize("PEN.feast.drawCard");
+    button.innerHTML = '<i class="fa-solid fa-clone"></i>';
+    button.addEventListener("click", () =>
+      FeastDeck.triggerTrackerAction({ combatId: this.viewed.id, combatantId: combatant.id }),
+    );
+    init.insertAdjacentElement("afterend", button);
+  }
+
   #addGenialityVal(selectedElement, combatant) {
     const d = document.createElement("div");
     const geniality = combatant.getGeniality();
