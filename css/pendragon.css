@@ -1015,6 +1015,18 @@
   max-height: 670px;
 }
 
+.Pendragon .npcv2-playernotes-doc {
+  background-image: none;
+  font-size: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 580px;
+  width: 360px;
+  font-family: AGaramondPro;
+  margin: 10px;
+}
+
+
 .Pendragon .result-success {
   color: green;
 }
@@ -1699,6 +1711,19 @@
   background-color: var(--notes-background);
   color: black;
 }
+
+.Pendragon .npc-playerNotes-section {
+  position: absolute;
+  min-width: 355px;
+  min-height: 714px;
+  border: 1px solid var(--pendragon-black);
+  color: var(--pendragon-black);
+  top: 35px;
+  left: -382px;
+  background-color: var(--notes-background);
+  color: black;
+}
+
 
 .Pendragon .actor-import {
   min-width: 640px;
