@@ -1,6 +1,7 @@
 import { PENCombatSettings } from "./settings-combatOptions.mjs";
 import { PENXPSettings } from "./settings-xpOptions.mjs";
 import { PENDiceSettings } from "./settings-diceOptions.mjs";
+import { PENDisplaySettings } from "./settings-displayOptions.mjs";
 
 export function registerSettings() {
   let tokenDropModeOptions = {
@@ -8,18 +9,6 @@ export function registerSettings() {
     roll: game.i18n.localize("PEN.Settings.tokenDropModeRoll"),
     ignore: game.i18n.localize("PEN.Settings.tokenDropModeIgnore"),
   };
-
-  //Game Settings
-
-  game.settings.register("Pendragon", "gameYear", {
-    name: "PEN.Settings.gameYear",
-    hint: "PEN.Settings.gameYearHint",
-    scope: "world",
-    requiresReload: true,
-    config: false,
-    type: Number,
-    default: 508,
-  });
 
   //Combat Settings Button
   game.settings.registerMenu("Pendragon", "combatOptions", {
@@ -51,6 +40,16 @@ export function registerSettings() {
   });
   PENDiceSettings.registerSettings();
 
+  //Display Settings Button
+  game.settings.registerMenu("Pendragon", "displayOptions", {
+    name: "PEN.Settings.displayOptionsHint",
+    label: "PEN.Settings.displayOptions",
+    icon: "fas fa-desktop",
+    type: PENDisplaySettings,
+    restricted: true,
+  });
+  PENDisplaySettings.registerSettings();
+
   //Allow Manual Glory Adj
   game.settings.register("Pendragon", "manualGlory", {
     name: "PEN.Settings.manualGlory",
@@ -59,15 +58,6 @@ export function registerSettings() {
     config: true,
     type: Boolean,
     default: false,
-  });
-
-  game.settings.register("Pendragon", "toolTipDelay", {
-    name: "PEN.Settings.toolTipDelay",
-    hint: "PEN.Settings.toolTipDelayHint",
-    scope: "world",
-    config: true,
-    type: Number,
-    default: 2000,
   });
 
   game.settings.register("Pendragon", "childMortality", {
@@ -157,5 +147,16 @@ export function registerSettings() {
     scope: "world",
     type: String,
     default: "",
+  });
+
+  //Game year stopped in v14.5  - can delete in due course.
+  game.settings.register("Pendragon", "gameYear", {
+    name: "PEN.Settings.gameYear",
+    hint: "PEN.Settings.gameYearHint",
+    scope: "world",
+    requiresReload: true,
+    config: false,
+    type: Number,
+    default: 508,
   });
 }

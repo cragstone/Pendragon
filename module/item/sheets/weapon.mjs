@@ -56,6 +56,7 @@ export class PendragonWeaponSheet extends PendragonItemSheet {
       damageType: PENSelectLists.getWeaponDmg(),
       usageType: PENSelectLists.getWeaponUse(),
       rangeType: PENSelectLists.getWeaponRange(),
+      npcOwner: this.actor.type === 'npc'
     };
 
     sheetData.skill = sheetData.skillType[this.item.system.skill];
@@ -79,7 +80,11 @@ export class PendragonWeaponSheet extends PendragonItemSheet {
         secrets: sheetData.editable,
       },
     );
-    sheetData.tabs = this._initTabs("primary", ["attributes", "description", "gmTab"]);
+    let parts = ["attributes", "description"]
+    if (game.user.isGM) {
+      parts.push('gmTab')
+    }
+    sheetData.tabs = this._initTabs("primary", parts);
     return sheetData;
   }
 
@@ -117,7 +122,7 @@ export class PendragonWeaponSheet extends PendragonItemSheet {
     event.preventDefault();
     const prop = event.currentTarget.closest(".item-toggle").dataset.property;
     let checkProp = {};
-    if (["melee", "improv"].includes(prop)) {
+    if (["melee", "improv","special"].includes(prop)) {
       checkProp = { [`system.${prop}`]: !this.item.system[prop] };
     } else {
       return;

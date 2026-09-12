@@ -19,6 +19,7 @@ export class WeaponData extends foundry.abstract.TypeDataModel {
       rate: new StringField({ required: true, blank: true, initial: "1" }),
       melee: new BooleanField({ initial: true }),
       improv: new BooleanField({ initial: false }),
+      special: new BooleanField({ initial: false }),      
       quantity: new NumberField({ ...requiredInteger, initial: 1 }),
       value: new NumberField({ ...requiredInteger, initial: 0 }),
       damageMax: new NumberField({ ...requiredInteger, initial: 99 }),

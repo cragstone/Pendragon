@@ -93,7 +93,11 @@ export class PendragonHomelandSheet extends PendragonItemSheet {
         secrets: sheetData.editable,
       },
     );
-    sheetData.tabs = this._initTabs("primary", ["attributes", "description", "gmTab"]);
+    let parts = ["attributes", "description"]
+    if (game.user.isGM) {
+      parts.push('gmTab')
+    }
+    sheetData.tabs = this._initTabs("primary", parts);
     return sheetData;
   }
 

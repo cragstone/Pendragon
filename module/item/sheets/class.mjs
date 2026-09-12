@@ -110,7 +110,6 @@ export class PendragonClassSheet extends PendragonItemSheet {
     sheetData.secondary = secondary;
     sheetData.tertiary = tertiary;
     sheetData.gears = gears;
-    sheetData.gearsisEmpty = sheetData.gears.length === 0;
 
     // these two values could be set during _preparePartContext
     sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
@@ -128,7 +127,11 @@ export class PendragonClassSheet extends PendragonItemSheet {
         secrets: sheetData.editable,
       },
     );
-    sheetData.tabs = this._initTabs("primary", ["attributes", "description", "gmTab"]);
+    let parts = ["attributes", "description"]
+    if (game.user.isGM) {
+      parts.push('gmTab')
+    }
+    sheetData.tabs = this._initTabs("primary", parts);
     return sheetData;
   }
 

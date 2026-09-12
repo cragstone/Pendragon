@@ -26,6 +26,7 @@ export class PendragonNPCSheetv2 extends api.HandlebarsApplicationMixin(sheets.A
       onEditImage: this._onEditImage,
       editPid: this._onEditPid,
       noteView: this._noteView,
+      playerNotesView: this._playerNotesView,      
       actorToggle: this._onActorToggle,
       autoCalc: this._onAutoCalc,
       listExp: this._onListExpand,
@@ -52,12 +53,16 @@ export class PendragonNPCSheetv2 extends api.HandlebarsApplicationMixin(sheets.A
       template: "systems/Pendragon/templates/actor/npc.notes.hbs",
       scrollable: [""],
     },
+    playerNotes: {
+      template: "systems/Pendragon/templates/actor/npc.playerNotes.hbs",
+      scrollable: [""],
+    },    
   };
 
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     //Common parts to the character - this is the order they are show on the sheet
-    options.parts = ["header", "details", "notes"];
+    options.parts = ["header", "details", "notes","playerNotes"];
   }
 
   _getTabs(parts) {}
@@ -73,6 +78,8 @@ export class PendragonNPCSheetv2 extends api.HandlebarsApplicationMixin(sheets.A
       system: this.actor.system,
       isLocked: this.actor.system.lock,
       displayNotes: this.actor.system.noteView,
+      displayPlayerNotes: this.actor.system.playerNotesView,      
+      ownershipLevel: this.actor.permission
     };
 
     //context.tabs = this._getTabs(options.parts);
@@ -84,6 +91,13 @@ export class PendragonNPCSheetv2 extends api.HandlebarsApplicationMixin(sheets.A
         secrets: context.editable,
       },
     );
+    context.enrichedPlayerNotes = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+      context.system.playerNotes,
+      {
+        async: true,
+        secrets: context.editable,
+      },
+    );    
     await this._prepareItems(context);
     return context;
   }
@@ -385,6 +399,15 @@ export class PendragonNPCSheetv2 extends api.HandlebarsApplicationMixin(sheets.A
     event.stopImmediatePropagation();
     await this.actor.update({ "system.noteView": !this.actor.system.noteView });
     await this.render["notes"];
+  }
+
+  //Show or hide playerNoteView
+  static async _playerNotesView(event, target) {
+    console.log("PING")
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    await this.actor.update({ "system.playerNotesView": !this.actor.system.playerNotesView });
+    await this.render["playerNotes"];
   }
 
   //Toggle Actor on Double

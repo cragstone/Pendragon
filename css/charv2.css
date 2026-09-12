@@ -511,7 +511,7 @@
       display: grid;
       grid-template-columns: 1fr 1em 1em;
       gap: 0em 0.5em;
-      padding-inline-start: 0.5em;      
+      padding-inline-start: 0.5em;
     }
     li:nth-child(even) {
       background-color: var(--pd-light-row);
@@ -520,7 +520,7 @@
       text-align: right;
       justify-self: end;
     }
-  }  
+  }
   & section.wound-tracker {
     display: grid;
     gap: 0.5em 1.5em;

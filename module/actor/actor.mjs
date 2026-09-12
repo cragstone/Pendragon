@@ -1,6 +1,7 @@
 import { PENSelectLists } from "../apps/select-lists.mjs";
 import { PendragonStatusEffects } from "../apps/status-effects.mjs";
 import { PENUtilities } from "../apps/utilities.mjs";
+import { PENactorItemDrop } from "./actor-itemDrop.mjs";
 
 //Extend the base Actor Class
 export class PendragonActor extends Actor {
@@ -22,6 +23,8 @@ export class PendragonActor extends Actor {
     this._prepareCharacterData(actorData);
     this._prepareNpcData(actorData);
     this._prepareEncounterData(actorData);
+    this._prepareManorData(actorData);
+    this._prepareBaronyData(actorData);
   }
 
   // Prepare Character type specific data
@@ -82,66 +85,17 @@ export class PendragonActor extends Actor {
 
     for (let i of actorData.items) {
       if (i.type === "trait") {
-        let tempTotal = Number(i.system.value) + Number(i.system.religious) + Number(i.system.winter);
-        if (tempTotal > 20) {
-          i.system.total = tempTotal;
-          i.system.oppvalue = 0;
-        } else if (tempTotal < 0) {
-          i.system.total = 0;
-          i.system.oppvalue = 20 - tempTotal;
-        } else {
-          i.system.total = tempTotal;
-          i.system.oppvalue = 20 - tempTotal;
-        }
-
         if (i.system.total > 19 || i.system.oppvalue > 19) {
           systemData.trait = systemData.trait + 25;
         } else if (i.system.total > 15 || i.system.oppvalue > 15) {
           systemData.trait = systemData.trait + 15;
         }
       } else if (i.type === "passion") {
-        i.system.total =
-          Number(i.system.value) +
-          Number(i.system.inherit) +
-          Number(i.system.sol) +
-          Number(i.system.homeland) +
-          Number(i.system.winter);
         systemData[i.system.court] = systemData[i.system.court] + Math.min(20, Number(i.system.total));
         if (i.system.total > 19) {
           systemData.passion = systemData.passion + 25;
         } else if (i.system.total > 15) {
           systemData.passion = systemData.passion + 15;
-        }
-      } else if (i.type === "skill") {
-        i.system.total =
-          Number(i.system.value) +
-          Number(i.system.culture) +
-          Number(i.system.family) +
-          Number(i.system.create) +
-          Number(i.system.winter);
-      }
-
-      if (["trait", "passion"].includes(i.type)) {
-        if (i.system.total < 5) {
-          i.system.flavour = game.i18n.localize("PEN.unsung");
-        } else if (i.system.total > 20) {
-          i.system.flavour = game.i18n.localize("PEN.exalted");
-        } else if (i.system.total > 15) {
-          i.system.flavour = game.i18n.localize("PEN.famous");
-        } else {
-          i.system.flavour = "";
-        }
-
-        if (i.type === "trait") {
-          if (i.system.oppvalue < 5) {
-            i.system.oppFlavour = game.i18n.localize("PEN.unsung");
-          } else if (i.system.oppvalue > 20) {
-            i.system.oppFlavour = game.i18n.localize("PEN.exalted");
-          } else if (i.system.oppvalue > 15) {
-            i.system.oppFlavour = game.i18n.localize("PEN.famous");
-          } else {
-            i.system.oppFlavour = "";
-          }
         }
       }
     }
@@ -153,13 +107,17 @@ export class PendragonActor extends Actor {
         i.system.active = true;
         for (let rItm of i.system.require) {
           let actItm = actorData.items.filter((itm) => itm.flags?.Pendragon?.pidFlag?.id === rItm.pid)[0];
-          if (rItm.score < 0) {
-            if (actItm.system.total > 20 + rItm.score) {
-              i.system.active = false;
-            }
+          if (!actItm) {
+            i.system.active = false;
           } else {
-            if (actItm.system.total < rItm.score) {
-              i.system.active = false;
+            if (rItm.score < 0) {
+              if (actItm.system.total > 20 + rItm.score) {
+                i.system.active = false;
+              }
+            } else {
+              if (actItm.system.total < rItm.score) {
+                i.system.active = false;
+              }
             }
           }
         }
@@ -257,22 +215,24 @@ export class PendragonActor extends Actor {
   // Prepare NPC and follower type specific data.
   _prepareNpcData(actorData) {
     if (!["npc", "follower"].includes(actorData.type)) return;
-
     // Make modifications to data here. For example:
-    for (let i of actorData.items) {
-      if (i.type === "trait") {
-        i.system.total = i.system.value;
-      } else if (i.type === "passion") {
-        i.system.total = i.system.value;
-      } else if (i.type === "skill") {
-        i.system.total = i.system.value;
-      }
-    }
   }
 
   //Prepare Encounter Dats
   _prepareEncounterData(actorData) {
     if (!["encounter"].includes(actorData.type)) return;
+  }
+
+  //Prepare Manor Data
+  _prepareManorData(actorData) {
+    if (!["manor"].includes(actorData.type)) return;
+    //All currently done in the data model, held here just in case.
+  }
+
+  //Prepare Barony Data
+  _prepareBaronyData(actorData) {
+    if (!["barony"].includes(actorData.type)) return;
+    //All currently done in the data model, held here just in case.
   }
 
   // Prepare Common type specific data.
@@ -504,6 +464,9 @@ export class PendragonActor extends Actor {
         data.prototypeToken || {},
       );
     } else if (data.type === "follower") {
+      if (typeof data.img === "undefined") {
+        data.img = "systems/Pendragon/assets/Icons/default_actor_dark.webp";
+      }
       data.prototypeToken = foundry.utils.mergeObject(
         {
           actorLink: true,
@@ -553,6 +516,26 @@ export class PendragonActor extends Actor {
       });
     } else if (data.type === "battle") {
       data.img = "systems/Pendragon/assets/Icons/swords-emblem.svg";
+      data.prototypeToken = foundry.utils.mergeObject({
+        actorLink: true,
+        detectionModes: [
+          {
+            enabled: false,
+          },
+        ],
+      });
+    } else if (data.type === "manor") {
+      data.img = "systems/Pendragon/assets/Icons/stone-tower.svg";
+      data.prototypeToken = foundry.utils.mergeObject({
+        actorLink: true,
+        detectionModes: [
+          {
+            enabled: false,
+          },
+        ],
+      });
+    } else if (data.type === "barony") {
+      data.img = "systems/Pendragon/assets/Icons/medieval-gate.svg";
       data.prototypeToken = foundry.utils.mergeObject({
         actorLink: true,
         detectionModes: [
@@ -612,7 +595,51 @@ export class PendragonActor extends Actor {
       }
 
       await actor.createEmbeddedDocuments("Item", newItems);
+    } else if (data.type === "manor") {
+      //If a manor now add all starter Improvements to the sheet
+      let newItems = [];
+      let impList = await game.system.api.pid.fromPIDRegexBest({
+        pidRegExp: /^i.manorImp\./,
+        type: "i",
+      });
+      let starterImpList = await impList.filter((itm) => itm.system.starter);
+      for (let itm of starterImpList) {
+        let nItm = itm.toObject();
+        nItm.system.paid.libra = nItm.system.cost.libra;
+        nItm.system.paid.denarii = nItm.system.cost.denarii;
+        let existing = actor.items.filter(
+          (citm) => citm.flags?.Pendragon?.pidFlag?.id === nItm.flags?.Pendragon?.pidFlag?.id,
+        );
+        if (existing.length < 1) {
+          newItems.push(nItm);
+        }
+      }
+      await actor.createEmbeddedDocuments("Item", newItems);
+    } else if (data.type === "barony") {
+      //If a manor now add all starter people to the sheet
+      let newItems = [];
+      let impList = await game.system.api.pid.fromPIDRegexBest({
+        pidRegExp: /^i.background\./,
+        type: "i",
+      });
+      let starterImpList = await impList.filter((itm) => itm.system.starting);
+      for (let itm of starterImpList) {
+        let nItm = itm.toObject();
+        nItm.system.annualCost.libra = 0;
+        nItm.system.annualCost.denarii = 0;
+        let existing = actor.items.filter(
+          (citm) => citm.flags?.Pendragon?.pidFlag?.id === nItm.flags?.Pendragon?.pidFlag?.id,
+        );
+        if (existing.length < 1) {
+          newItems.push(nItm);
+        }
+      }
+      let backgroundItems = await actor.createEmbeddedDocuments("Item", newItems);
+      for (let newItm of backgroundItems) {
+        await PENactorItemDrop._addBackgroundSkill(actor, newItm);
+      }
     }
+
     return actor;
   }
 
@@ -799,7 +826,7 @@ export class PendragonActor extends Actor {
     //Check random traits, skills, passions
     for (let random of this.system.random) {
       for (let item of this.items) {
-        if (item.flags?.Pendragon?.pidFlag?.id === random.pid) {
+        if (item.flags.Pendragon?.pidFlag?.id === random.pid) {
           if (random.value && !random.value.startsWith("@")) {
             const r = await new Roll(random.value);
             await r.evaluate();
@@ -826,5 +853,173 @@ export class PendragonActor extends Actor {
       "system.manMaxHP": 0,
       "system.manUnconscious": 0,
     });
+  }
+
+  //Calculate Defensive values
+  _calcDV(actorData) {
+    actorData.dvLabel = "";
+    actorData.dvLabelHint = "";
+    let citywallsLabel = "";
+    let outworksLabel = "";
+    let outerbaileyLabel = "";
+    let innerbaileyLabel = "";
+    let motteLabel = "";
+    let strongholdLabel = "";
+    let tempLabel = "";
+    let tempLabelHint = "";
+
+    let activeManorImp = actorData.items
+      .filter((i) => i.type === "manorImp")
+      .filter((i) => ["maintained", "unmaintained"].includes(i.system.status));
+    //Calculate Defense Value
+    for (let [key, dv] of Object.entries(actorData.system.dv)) {
+      dv.label = game.i18n.localize(`PEN.dv.${key}`);
+      dv.value = activeManorImp
+        .filter((i) => i.system.dv.value != 0 && i.system.dv.pos === key)
+        .map((i) => i.system.dv.value)
+        .reduce((total, current) => total + current, 0);
+      if (["motte1", "motte2", "motte3"].includes(key)) {
+        let motte = activeManorImp
+          .filter((i) => i.system.dv.value != 0 && i.system.dv.pos === key)
+          .filter((i) => i.flags?.Pendragon?.pidFlag?.id === "i.manorImp.motte");
+        if (motte.length < 1) {
+          dv.singlemotte = false;
+        }
+      }
+    }
+    //If Motte 1,2 or 3 have scores above 0 and are only single mottes then add the relevant stronghold score
+    if (actorData.system.dv.motte1.value > 0 && actorData.system.dv.motte1.singlemotte) {
+      actorData.system.dv.motte1.value = actorData.system.dv.motte1.value + actorData.system.dv.stronghold1.value;
+    }
+    if (actorData.system.dv.motte2.value > 0 && actorData.system.dv.motte2.singlemotte) {
+      actorData.system.dv.motte2.value = actorData.system.dv.motte2.value + actorData.system.dv.stronghold2.value;
+    }
+    if (actorData.system.dv.motte3.value > 0 && actorData.system.dv.motte3.singlemotte) {
+      actorData.system.dv.motte3.value = actorData.system.dv.motte3.value + actorData.system.dv.stronghold3.value;
+    }
+
+    for (let [key, dv] of Object.entries(actorData.system.dv)) {
+      if (dv.value != 0) {
+        let tempCase = key.slice(0, -1);
+        switch (tempCase) {
+          case "citywall":
+            citywallsLabel = dv.value;
+            break;
+          case "outwork":
+            outworksLabel = dv.value;
+            break;
+          case "outerbailey":
+            outerbaileyLabel = outerbaileyLabel + dv.value + "-";
+            break;
+          case "innerbailey":
+            innerbaileyLabel = innerbaileyLabel + dv.value + "-";
+            break;
+          case "motte":
+            motteLabel = motteLabel + dv.value + "-";
+            break;
+          case "stronghold":
+            strongholdLabel = strongholdLabel + dv.value + "-";
+            break;
+        }
+      }
+    }
+
+    if (citywallsLabel != "") {
+      tempLabel = tempLabel + citywallsLabel + "/";
+      tempLabelHint = tempLabelHint + "<p>" + game.i18n.localize("PEN.dv.citywalls") + ": " + citywallsLabel + "</p>";
+    }
+    if (outworksLabel != "") {
+      tempLabel = tempLabel + outworksLabel + "/";
+      tempLabelHint = tempLabelHint + "<p>" + game.i18n.localize("PEN.dv.outworks") + ": " + outworksLabel + "</p>";
+    }
+    if (outerbaileyLabel.length > 0) {
+      tempLabel = tempLabel + outerbaileyLabel.slice(0, -1) + "/";
+      tempLabelHint =
+        tempLabelHint +
+        "<p>" +
+        game.i18n.localize("PEN.dv.outerbailey") +
+        ": " +
+        outerbaileyLabel.slice(0, -1) +
+        "</p>";
+    }
+    if (innerbaileyLabel.length > 0) {
+      tempLabel = tempLabel + innerbaileyLabel.slice(0, -1) + "/";
+      tempLabelHint =
+        tempLabelHint +
+        "<p>" +
+        game.i18n.localize("PEN.dv.innerbailey") +
+        ": " +
+        innerbaileyLabel.slice(0, -1) +
+        "</p>";
+    }
+    if (motteLabel.length > 0) {
+      tempLabel = tempLabel + motteLabel.slice(0, -1) + "/";
+      tempLabelHint =
+        tempLabelHint + "<p>" + game.i18n.localize("PEN.dv.motte") + ": " + motteLabel.slice(0, -1) + "</p>";
+    }
+    if (strongholdLabel.length > 0) {
+      tempLabel = tempLabel + strongholdLabel.slice(0, -1) + "/";
+      tempLabelHint =
+        tempLabelHint + "<p>" + game.i18n.localize("PEN.dv.stronghold") + ": " + strongholdLabel.slice(0, -1) + "</p>";
+    }
+
+    actorData.dvLabel = tempLabel.slice(0, -1);
+    actorData.dvLabelHint = tempLabelHint;
+
+    if (actorData.dvLabel === "") {
+      actorData.dvLabel = 0;
+      actorData.dvLabelHint = game.i18n.localize("PEN.none");
+    }
+    return;
+  }
+
+  //Calculate Folk Costs
+  _calcFolkCost(actorData) {
+    //Calculate Skill Totals
+    for (let i of actorData.items) {
+      if (i.type === "skill") {
+        i.system.total =
+          Number(i.system.value) +
+          Number(i.system.culture) +
+          Number(i.system.family) +
+          Number(i.system.create) +
+          Number(i.system.winter);
+      }
+    }
+    //Calculate Skill Cost
+    let backList = actorData.items.filter((i) => i.type === "background");
+    let skillList = actorData.items.filter((i) => i.type === "skill").filter((i) => i.system.npcSource != "");
+    for (let backNPC of backList) {
+      //Skill Cost is based on the highest skill associated with the background npc
+      let theseSkills = skillList
+        .filter((i) => i.system.npcSource === backNPC.uuid)
+        .map((s) => {
+          return { name: s.name, total: s.system.total };
+        });
+      let maxSkill = Math.max(...theseSkills.map((s) => s.total));
+      backNPC.system.skillCost.libra = Math.max(0, maxSkill - 15) + Math.max(0, maxSkill - 19);
+      //Calculate Total Cost
+      let totalCost =
+        backNPC.system.annualCost.libra * 240 +
+        backNPC.system.skillCost.libra * 240 +
+        backNPC.system.annualCost.denarii +
+        backNPC.system.skillCost.denarii;
+      backNPC.system.totalCost.libra = Math.floor(totalCost / 240);
+      backNPC.system.totalCost.denarii = totalCost % 240;
+    }
+    //Calculate Total Folk Cost
+    let folkCost = 0;
+    let manorFolk = actorData.items.filter((i) => i.type === "background");
+    for (let folk of manorFolk) {
+      folkCost = folkCost + folk.system.totalCost.libra * 240 + folk.system.totalCost.denarii;
+    }
+    if (actorData.type === "manor") {
+      actorData.system.folkCost.libra = Math.floor(folkCost / 240);
+      actorData.system.folkCost.denarii = folkCost % 240;
+    } else {
+      actorData.system.folkCost.libra = Math.round(folkCost / 240);
+      actorData.system.folkCost.denarii = 0;
+    }
+    return;
   }
 }

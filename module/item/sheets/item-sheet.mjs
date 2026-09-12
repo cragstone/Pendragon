@@ -35,6 +35,7 @@ export class PendragonItemSheet extends api.HandlebarsApplicationMixin(sheets.It
       isGM: game.user.isGM,
       fields: this.document.schema.fields,
       period: yearToPeriodName(this.item.system.yearAvailable),
+      showHelp: game.settings.get("Pendragon", "showHelp"),
     };
   }
 
@@ -78,10 +79,39 @@ export class PendragonItemSheet extends api.HandlebarsApplicationMixin(sheets.It
         cssClass: this.tabGroups[group] === name ? "active" : "",
         group,
         id: name,
-        label: `PEN.${name}`,
+        label: `PEN.Tabs.${name}`,
       };
     });
     return tabs;
+  }
+
+  static _onCreateActiveEffect(event, target) {
+    if (event.detail === 0) {
+      return;
+    }
+    const cls = foundry.utils.getDocumentClass("ActiveEffect");
+    cls.createDialog({}, { parent: this.document });
+  }
+
+  static async _onEditActiveEffect(event, target) {
+    const { effectId } = target.closest("[data-effect-id]")?.dataset ?? {};
+    const effect = this.item.effects.get(effectId);
+    if (!effect) return;
+    effect.sheet.render(true);
+  }
+
+  static _onDeleteActiveEffect(event, target) {
+    const { effectId } = target.closest("[data-effect-id]")?.dataset ?? {};
+    const effect = this.item.effects.get(effectId);
+    if (!effect) return;
+    effect.delete();
+  }
+
+  static _onToggleActiveEffect(event, target) {
+    const { effectId } = target.closest("[data-effect-id]")?.dataset ?? {};
+    const effect = this.item.effects.get(effectId);
+    if (!effect) return;
+    effect.update({ disabled: !effect.disabled });
   }
 
   //Update Skill/Passion Name
@@ -107,5 +137,11 @@ export class PendragonItemSheet extends api.HandlebarsApplicationMixin(sheets.It
         "system.specName": specialName,
       });
     }
+  }
+
+  //Open Wiki Help Page
+  static async _openWiki(event, target) {
+    const url = target.dataset.property ?? "https://github.com/cragstone/Pendragon/wiki";
+    window.open(url, "_blank");
   }
 }
