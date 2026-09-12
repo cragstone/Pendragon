@@ -68,6 +68,7 @@
   --pendragon-primary-text: oklch(0 0 0);
   --pendragon-secondary-text: oklch(0.39984 0.16408 29.223);
   --pendragon-hyperlink: oklch(0.4209 0.19352 328.352);  
+  --pendragon-geneality-back: oklch(.82344 0.00009 271.152);
 }
 
 .theme-light {
@@ -105,4 +106,5 @@
   --pendragon-primary-text: oklch(0.9467 0.0311 75.22);
   --pendragon-secondary-text: oklch(0.62315 0.16929 268.592);
   --pendragon-hyperlink: oklch(0.7 0.32 328.352);
+  --pendragon-geneality-back: oklch(0.15096 0.0192 288.951);  
 }

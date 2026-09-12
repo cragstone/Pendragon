@@ -1822,7 +1822,7 @@
 .feastGlory-name input[type="text"] {
   flex: 1;
   color: var(--color-text-primary);
-  background-color: var(--color-cool-5);
+  background-color: var(--pendragon-geneality-back);
   border: 1px solid var(--color-cool-4);
 }
 
@@ -1868,7 +1868,7 @@
   width: 100%;
   text-align: center;
   color: var(--color-text-primary);
-  background-color: var(--color-cool-5);
+  background-color: var(--pendragon-geneality-back);
   border: 1px solid var(--color-cool-4);
 }
 
@@ -1891,13 +1891,13 @@
 .gloryAward input[type="text"],
 .gloryAward input[type="number"] {
   color: var(--color-text-primary);
-  background-color: var(--color-cool-5);
+  background-color: var(--color-);
   border: 1px solid var(--color-cool-4);
 }
 
-.dam-name-input input[type="number"] {
+.glory-name-input input[type="number"] {
   color: var(--color-text-primary);
-  background-color: var(--color-cool-5);
+  background-color: var(--pendragon-geneality-back);
   border: 1px solid var(--color-cool-4);
 }
 
