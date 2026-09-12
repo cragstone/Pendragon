@@ -1,4 +1,5 @@
 import { RollResult } from "./checks.mjs";
+import { FeastDeck } from "../combat/feast-deck.mjs";
 
 export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs?.CombatTracker ?? CombatTracker) {
   /** @override */
@@ -28,6 +29,7 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
       this.#addSeating(list, game.i18n.localize("PEN.feast.farSalt"), combatants, RollResult.FAIL);
       this.#addSeating(list, game.i18n.localize("PEN.feast.closeSalt"), combatants, RollResult.SUCCESS);
       this.#addSeating(list, game.i18n.localize("PEN.feast.aboveSalt"), combatants, RollResult.CRITICAL);
+      this.#addFeastSize(list, this.viewed);
 
       const combatantRows = html.querySelectorAll("li.combatant[data-combatant-id]");
       for (const row of combatantRows) {
@@ -48,35 +50,68 @@ export class PendragonCombatTracker extends (foundry.applications?.sidebar?.tabs
             controlIcon.classList.add("fa-signal-stream");
           }
         }
+        // card draw control for the feast deck (GM or the combatant's owner)
+        if (FeastDeck.isAvailable() && (game.user.isGM || combatant.isOwner)) {
+          this.#addDrawControl(row, combatant);
+        }
       }
     }
   }
   _onChangeInput(event) {
-    const input = event.target;
-    if (input.classList.contains("geniality-input")) {
-      return this.#onUpdateGeniality(event);
-    }
     return super._onChangeInput(event);
   }
+  #addDrawControl(row, combatant) {
+    const controls = row.querySelector(".combatant-controls");
+    if (!controls) {
+      return;
+    }
+    const dataset = { combatId: this.viewed.id, combatantId: combatant.id };
+    for (const [action, icon, labelKey] of [
+      ["feastDraw", "fa-clone", "PEN.feast.drawCard"],
+      ["feastGeniality", "fa-plus-minus", "PEN.feast.adjustGeniality"],
+    ]) {
+      const button = document.createElement("button");
+      button.classList.add("combatant-control", "icon", "fa-solid", icon, "fa-fw");
+      button.dataset.tooltip = game.i18n.localize(labelKey);
+      button.setAttribute("aria-label", game.i18n.localize(labelKey));
+      button.addEventListener("click", () => FeastDeck.triggerTrackerAction(dataset, action));
+      controls.prepend(button);
+    }
+  }
+
   #addGenialityVal(selectedElement, combatant) {
     const d = document.createElement("div");
     const geniality = combatant.getGeniality();
     d.classList.add("token-geniality");
-    d.innerHTML = `<input type="text" class="geniality-input" inputmode="numeric" pattern="^[+=\\-]?\\d*" value="${geniality}"
-                   aria-label="${game.i18n.localize("PEN.geniality")}" title="${game.i18n.localize("PEN.geniality")}" />`;
+    d.innerHTML = `<span class="geniality-value">${geniality}</span>`;
     selectedElement.insertAdjacentElement("afterend", d);
   }
-  #onUpdateGeniality(event) {
-    const { combatantId } = event.target.closest("[data-combatant-id]")?.dataset ?? {};
-    const combatant = this.viewed.combatants.get(combatantId);
-    if (!combatant) return;
-    const raw = event.target.value;
-    const isDelta = /^[+-]/.test(raw);
-    if (!isDelta || raw[0] === "=") {
-      return combatant.update({ "flags.Pendragon.geniality": raw ? Number(raw.replace(/^=/, "")) : null });
+
+  #addFeastSize(list, combat) {
+    const el = document.createElement("li");
+    el.classList.add("feast-size");
+    const sizeData = combat.getFeastSizeData();
+    const size = combat.getFeastSize();
+    const selectTooltip = game.i18n.format("PEN.feast.sizeSelectTooltip", sizeData);
+    const selectLabel = game.i18n.localize("PEN.feast.sizeSelect");
+    const options = Object.keys(combat.constructor.FEAST_SIZES)
+      .map(
+        (key) =>
+          `<option value="${key}"${key === size ? " selected" : ""}>${game.i18n.localize("PEN.feast.feastSizeName." + key)}</option>`,
+      )
+      .join("");
+    el.innerHTML =
+      `<div>${game.i18n.localize("PEN.feast.feastSize")}: ` +
+      (game.user.isGM
+        ? `<select class="feast-size-select" aria-label="${selectLabel}" data-tooltip="${selectTooltip}">${options}</select>`
+        : `<strong>${game.i18n.localize("PEN.feast.feastSizeName." + size)}</strong>`) +
+      `</div>`;
+    if (game.user.isGM) {
+      el.querySelector(".feast-size-select")?.addEventListener("change", (event) => {
+        combat.setFlag("Pendragon", "feastSize", event.target.value);
+      });
     }
-    const delta = parseInt(raw);
-    if (!isNaN(delta)) return combatant.addGeniality(delta);
+    list.prepend(el);
   }
 
   #addSeating(list, label, combatants, rollNeeded) {

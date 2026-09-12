@@ -1,0 +1,46 @@
+<form class="Pendragon">
+  <div class="actor-roll">
+    <img class="open-actor" src="{{particImg}}" width="50" title="{{name}}"/>
+    <div class="roll-details">
+      <div class="header">
+        <span class="name">{{name}}{{#if card}} - {{card.cardName}}{{/if}}{{#if played}} - {{localize 'PEN.feast.cardPlayedLabel'}}{{/if}}</span>
+      </div>
+      {{#if card}}
+      <div class="header">
+        <span class="tag">{{localize 'PEN.feast.cardsDrawn' drawn=card.drawn limit=card.limit}}</span>
+      </div>
+      {{/if}}
+    </div>
+  </div>
+  {{#if card}}
+  <div class="feast-card">
+    {{#if card.cardImg}}
+    <img class="feast-card-face" src="{{card.cardImg}}" title="{{card.cardName}}" width="266"/>
+    {{/if}}
+    {{#if played}}
+    <p class="flavor-text">{{localize 'PEN.feast.cardPlayed' name=name geniality=gained}}</p>
+    <p class="flavor-text">{{localize 'PEN.feast.roundComplete' name=name}}</p>
+    {{/if}}
+    {{#if skipped}}
+    <p class="flavor-text">{{localize 'PEN.feast.cardSkipped' name=name card=card.cardName}}</p>
+    {{/if}}
+    {{#unless played}}
+    {{#if card.host}}
+    <p class="flavor-text">{{localize 'PEN.feast.hostNote'}}</p>
+    {{/if}}
+    {{/unless}}
+    <div class="owner-only" data-partic-id="{{particId}}" data-partic-type="{{particType}}">
+      <div class="feast-card-actions">
+        {{#unless played}}
+        {{#unless skipped}}
+        <button class="cardbutton" data-preset="feastPlay" data-combat-id="{{data.combatId}}" data-combatant-id="{{data.combatantId}}" data-card-id="{{data.cardId}}" type="button">{{localize 'PEN.feast.playCard'}}</button>
+        {{#if canRedraw}}
+        <button class="cardbutton" data-preset="feastDraw" data-combat-id="{{data.combatId}}" data-combatant-id="{{data.combatantId}}" type="button">{{localize 'PEN.feast.drawAgain'}}</button>
+        {{/if}}
+        {{/unless}}
+        {{/unless}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
+</form>

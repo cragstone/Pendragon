@@ -3,6 +3,7 @@ import { OPCard } from "../cards/opposed-card.mjs";
 import { COCard } from "../cards/combat-card.mjs";
 import PENDialog from "../setup/pen-dialog.mjs";
 import { CombatAction, CombatOutcome } from "./combat-actions.mjs";
+import { FeastDeck } from "../combat/feast-deck.mjs";
 
 export class RollType {
   static CHARACTERISTIC = "CH";
@@ -724,6 +725,11 @@ export class PENCheck {
     let origin = game.user.id;
     let originGM = game.user.isGM;
 
+    // feast deck actions may need input on the clicker's client
+    if (presetType?.startsWith("feast")) {
+      return FeastDeck.triggerChatAction({ presetType, dataset, targetChatId });
+    }
+
     if (game.user.isGM) {
       PENCheck.handleChatButton({
         presetType,
@@ -767,6 +773,15 @@ export class PENCheck {
         break;
       case "reverseRoll":
         await PENCheck.reverseTrait(targetMsg);
+        return;
+      case "feastDraw":
+      case "feastPlay":
+      case "feastGeniality":
+        await FeastDeck.applyChatAction({
+          presetType,
+          dataset: data.dataset,
+          targetChatId: data.targetChatId,
+        });
         return;
       case "dam-co-card":
         await COCard.combatDamageRoll(data);

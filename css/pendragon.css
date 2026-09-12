@@ -1052,7 +1052,7 @@
 }
 
 .Pendragon .actor-roll .roll-details .header {
-  height: 16px;
+  min-height: 16px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -1442,6 +1442,13 @@
   border-bottom: 2px groove var(--color-dark-4);
 }
 
+.system-Pendragon .feast-size {
+  display: list-item;
+  margin: 0 0 0.5em;
+  font-size: var(--font-size-16);
+  color: var(--color-text-primary);
+}
+
 .system-Pendragon .pendragon-combat-extras {
   margin: 0;
   border-block: 2px groove var(--color-dark-4);
@@ -1455,12 +1462,25 @@
   }
 }
 
+.Pendragon .feast-card-face {
+  display: block;
+  margin: 0.5em auto;
+  max-width: 100%;
+}
+
+.Pendragon .feast-card-actions {
+  display: flex;
+  gap: 0.5em;
+  justify-content: center;
+}
+
 .system-Pendragon .token-geniality {
   max-width: 3em;
 
-  input {
+  .geniality-value {
     color: var(--color-text-primary);
     text-align: end;
+    display: block;
   }
 }
 
@@ -1778,11 +1798,107 @@
   }
 }
 
-.Pendragon .gloryAward {
+/* ── Feasting Glory dialog ── */
+.feastGlory {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  color: var(--color-text-primary);
+}
+
+.feastGlory-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.feastGlory-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+}
+
+.feastGlory-name input[type="text"] {
+  flex: 1;
+  color: var(--color-text-primary);
+  background-color: var(--color-cool-5);
+  border: 1px solid var(--color-cool-4);
+}
+
+.feastGlory-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.9em;
+  opacity: 0.85;
+}
+
+.feastGlory-rounds {
+  flex-basis: 100%;
+  font-style: italic;
+}
+
+.feastGlory-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.feastGlory-row {
+  display: grid;
+  grid-template-columns: 2fr repeat(5, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.feastGlory-head {
+  font-weight: bold;
+  border-bottom: 1px solid var(--color-cool-4);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.feastGlory-num-col {
+  text-align: center;
+}
+
+.feastGlory-num-col input[type="number"] {
+  width: 100%;
+  text-align: center;
+  color: var(--color-text-primary);
+  background-color: var(--color-cool-5);
+  border: 1px solid var(--color-cool-4);
+}
+
+.feastGlory-hint {
+  font-size: 0.85em;
+  font-style: italic;
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* ── Glory Award dialog ── */
+.gloryAward {
   display: grid;
   grid-template-columns: 250px 100px 100px;
   column-gap: 5px;
   margin: 0px;
+  color: var(--color-text-primary);
+}
+
+.gloryAward input[type="text"],
+.gloryAward input[type="number"] {
+  color: var(--color-text-primary);
+  background-color: var(--color-cool-5);
+  border: 1px solid var(--color-cool-4);
+}
+
+.dam-name-input input[type="number"] {
+  color: var(--color-text-primary);
+  background-color: var(--color-cool-5);
+  border: 1px solid var(--color-cool-4);
 }
 
 .Pendragon.item-select-sheet .window-content {

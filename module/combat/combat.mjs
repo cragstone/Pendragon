@@ -1,6 +1,17 @@
 import { PENCheck, RollType, CardType, RollResult } from "../apps/checks.mjs";
+import { FeastGlory } from "../apps/feast-glory.mjs";
+import { FeastDeck } from "./feast-deck.mjs";
 
 export class PendragonCombat extends Combat {
+  // suggested rounds, geniality threshold and bonus glory by feast size
+  // (GMH Tables 3.2 and 3.7)
+  static FEAST_SIZES = {
+    small: { rounds: 2, threshold: 5, bonus: 10 },
+    medium: { rounds: 3, threshold: 7, bonus: 25 },
+    large: { rounds: 4, threshold: 9, bonus: 50 },
+    royal: { rounds: 5, threshold: 11, bonus: 100 },
+  };
+
   // for now we use 'skirmish' for standard Combat
   // and 'feast' for feast rules
   isFeast() {
@@ -12,8 +23,19 @@ export class PendragonCombat extends Combat {
       this.setFlag("Pendragon", "encounterType", "skirmish");
     } else {
       this.setFlag("Pendragon", "encounterType", "feast");
+      if (!this.getFlag("Pendragon", "feastSize")) {
+        this.setFlag("Pendragon", "feastSize", "medium");
+      }
     }
     ui.combat.viewed = this;
+  }
+
+  getFeastSize() {
+    return this.getFlag("Pendragon", "feastSize") ?? "medium";
+  }
+
+  getFeastSizeData() {
+    return PendragonCombat.FEAST_SIZES[this.getFeastSize()] ?? PendragonCombat.FEAST_SIZES.medium;
   }
 
   async rollInitiative(ids, { formula = null, updateTurn = true, messageOptions = {} } = {}) {
@@ -111,13 +133,33 @@ export class PendragonCombat extends Combat {
   async startCombat() {
     // set combatants to initial geniality
     this.combatants.forEach((c) => c.initGeniality());
+    // fresh card drawing for the first Round
+    FeastDeck.resetRound(this);
+    // post starting Geniality for each combatant so attendees can follow along
+    if (this.isFeast()) {
+      for (const c of this.combatants) {
+        const geniality = c.getGeniality();
+        if (geniality !== 0) {
+          await FeastDeck.postGenialityChange(c, {
+            reasons: [{
+              label: game.i18n.format("PEN.feast.startingGeniality", {
+                sol: (c.actor?.system?.sol || "").toLowerCase(),
+              }),
+              delta: geniality,
+            }],
+            newTotal: geniality,
+          });
+        }
+      }
+    }
     // update on next round / previous round
     super.startCombat();
   }
 
-  nextRound() {
+  async nextRound() {
     if (this.isFeast()) {
-      this.combatants.forEach((c) => c.addGeniality(Math.floor(c.initiative) - 1));
+      // fresh card drawing for the new Round
+      FeastDeck.resetRound(this);
     }
     // TODO: for combat
     //   advance phases each round
@@ -131,10 +173,13 @@ export class PendragonCombat extends Combat {
   }
 
   async endCombat() {
-    // TODO: for a feast, similar confirmation
-    // then show glory award window
-    //   allow GM to adjust rounds present, feast name,
-    //   final geniality, bonus glory
-    super.endCombat();
+    // GMH p. 44: award Feasting Glory before ending a feast
+    if (this.isFeast()) {
+      const awarded = await FeastGlory.showDialog(this);
+      if (!awarded) {
+        return this;
+      }
+    }
+    return super.endCombat();
   }
 }
