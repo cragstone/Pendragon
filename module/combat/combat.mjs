@@ -26,6 +26,11 @@ export class PendragonCombat extends Combat {
       if (!this.getFlag("Pendragon", "feastSize")) {
         this.setFlag("Pendragon", "feastSize", "medium");
       }
+
+    //Test for Feast Deck - test at start of feast
+    // * - true means the fallback warning message can be displayed
+        FeastDeck.getDeck(true)
+
     }
     ui.combat.viewed = this;
   }

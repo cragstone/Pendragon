@@ -7,7 +7,7 @@ export class FeastDeck {
   static HOST_PREFIX = "Host ";
 
   // Sync check for showing controls: a custom UUID is set, or the GM Handbook pack exists.
-  // fromUuid() is async so the UUID is validated on draw; a bad UUID warns then.
+  // fromUuid() is async so the UUID is validated in getDeck ; a bad UUID warns them.
   static isAvailable() {
     return !!game.settings.get("Pendragon", "feastDeckUuid")?.trim() || !!game.packs.get(DECK_PACK);
   }
@@ -181,18 +181,22 @@ export class FeastDeck {
   }
 
   static async getDeckCards() {
-    const deck = await this.getDeck();
+    // * false stops fallback message being displayed on the draw
+    const deck = await this.getDeck(false);
     return deck ? Array.from(deck.cards) : [];
   }
 
   // Custom Cards stack from the world setting wins; warn on a bad UUID and
   // fall back to the GM Handbook pack so drawing still works.
-  static async getDeck() {
+  static async getDeck(initial) {
     const uuid = game.settings.get("Pendragon", "feastDeckUuid")?.trim();
     if (uuid) {
       const deck = await fromUuid(uuid);
       if (deck) return deck;
-      ui.notifications.warn(game.i18n.localize("PEN.feast.deckUuidInvalid"));
+      //Warning message only shown when Combat type is changed to Feast, not every draw
+      if (initial) {
+        ui.notifications.warn(game.i18n.localize("PEN.feast.deckUuidInvalid"));
+      }
     }
     const pack = game.packs.get(DECK_PACK);
     if (!pack) return null;
