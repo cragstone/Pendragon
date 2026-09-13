@@ -339,6 +339,7 @@
       "cardsDrawn": "Cards drawn: {drawn} of {limit}",
       "closeSalt": "Closer to the Salt",
       "deckMissing": "The Feast Deck is unavailable - set a Feast Deck UUID in the system settings, or make the Chaosium GM Handbook Feast Deck pack available.",
+      "deckUuidInvalid": "The custom Feast Deck UUID in the system settings could not be found - falling back to the GM Handbook Feast Deck pack.",
       "drawAgain": "Draw Again",
       "drawCard": "Draw a Feast Event Card",
       "drawLimitReached": "Card limit already reached ({drawn} of {limit}).",

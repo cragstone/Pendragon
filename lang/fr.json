@@ -291,6 +291,7 @@
       "cardsDrawn": "Cartes piochées : {drawn} sur {limit}",
       "closeSalt": "Rang élevé mais inférieur à l’élite",
       "deckMissing": "Le jeu d’événements est indisponible — renseignez un UUID de paquet de Festin dans les paramètres système, ou rendez le paquet de Festin du Manuel du Meneur Chaosium disponible.",
+      "deckUuidInvalid": "L’UUID de paquet de Festin personnalisé dans les paramètres système est introuvable — repli sur le paquet de Festin du Manuel du Meneur.",
       "drawAgain": "Piocher à nouveau",
       "drawCard": "Piocher une carte d’événement de festin",
       "drawLimitReached": "Limite de cartes déjà atteinte ({drawn} sur {limit}).",

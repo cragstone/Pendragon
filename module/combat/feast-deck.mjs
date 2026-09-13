@@ -185,10 +185,15 @@ export class FeastDeck {
     return deck ? Array.from(deck.cards) : [];
   }
 
-  // Custom Cards stack from the world setting wins; fall back to the GM Handbook pack.
+  // Custom Cards stack from the world setting wins; warn on a bad UUID and
+  // fall back to the GM Handbook pack so drawing still works.
   static async getDeck() {
     const uuid = game.settings.get("Pendragon", "feastDeckUuid")?.trim();
-    if (uuid) return (await fromUuid(uuid)) ?? null;
+    if (uuid) {
+      const deck = await fromUuid(uuid);
+      if (deck) return deck;
+      ui.notifications.warn(game.i18n.localize("PEN.feast.deckUuidInvalid"));
+    }
     const pack = game.packs.get(DECK_PACK);
     if (!pack) return null;
     const stacks = await pack.getDocuments();
