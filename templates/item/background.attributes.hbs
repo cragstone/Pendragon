@@ -8,7 +8,7 @@
   </div>  
   {{!-- Characteristics Header --}}
   <section class="item-improv-grid" style="padding-top: 10px;">
-      <div class="stat-name-input bold" style="padding-top:2px;">{{ localize 'PEN.type'}}:&nbsp</div>
+      <div class="stat-name bold" style="padding-top:2px;">{{ localize 'PEN.type'}}:&nbsp</div>
       <div class="stat-name">
         <select class="centre" data-handle-change name="system.subtype">
           {{selectOptions backgroundType selected=item.system.subtype}}
@@ -35,7 +35,7 @@
       </div>      
       {{/if}}
       <div class="stat-name bold left">{{localize 'PEN.manor.baronyStart'}}</div>
-      <div class="centre"><a class="item-control large-icon" data-action="itemToggle" data-property = "starting"><i class="{{#if item.system.starting}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>      
+      <div class="stat-name centre"><a class="item-control large-icon" data-action="itemToggle" data-property = "starting"><i class="{{#if item.system.starting}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>      
       {{#if hasOwner}}
         <br>
         <div class="stat-name left bold new-row">{{localize 'PEN.born'}}</div>
@@ -50,7 +50,7 @@
   <br>
 
   {{!--Skills Block --}}
-  <div class="horizontalboxed {{#if isGM}} droppable {{/if}}" data-collection = "skills" >
+  <div class="horizontalboxed {{#if isGM}} droppable {{/if}}" style="min-height: 60px;" data-collection = "skills" >
     <div class="stat-name indent bold">{{ localize "PEN.skillsTraits"}}</div>
     <ol class="item-list">
       {{#each skills as |skill|}}
@@ -70,7 +70,7 @@
           </div>
         </li>
       {{else}}
-        <div class="centre stat-name italics">{{localize 'PEN.emptyList'}}</div>              
+        <div class="centre stat-name italics" style="height:60px;">{{localize 'PEN.emptyList'}}</div>              
       {{/each}}
     </ol>
   </div>      

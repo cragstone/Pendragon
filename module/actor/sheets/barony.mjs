@@ -16,7 +16,7 @@ export class PendragonBaronySheet extends api.HandlebarsApplicationMixin(sheets.
     classes: ["Pendragon", "sheet", "actor2", "barony"],
     position: {
       width: 600,
-      height: 600,
+      height: 710,
     },
     window: {
       resizable: true,

@@ -2,7 +2,7 @@
   "id": "Pendragon",
   "title": "Pendragon",
   "description": "Pendragon system for FoundryVTT!",
-  "version": "14.15",
+  "version": "14.16",
   "compatibility": {
     "minimum": "14",
     "verified": "14.367",
@@ -26,10 +26,7 @@
       "flags": {}
     }
   ],
-  "esmodules": [
-    "module/pendragon.mjs",
-    "module/setup/load.mjs"
-  ],
+  "esmodules": ["module/pendragon.mjs", "module/setup/load.mjs"],
   "styles": [
     {
       "src": "css/pendragon.css"
@@ -61,11 +58,7 @@
       "name": "Pendragon System",
       "sorting": "m",
       "color": "#1274bd",
-      "packs": [
-        "instructions",
-        "macro",
-        "scenes"
-      ],
+      "packs": ["instructions", "macro", "scenes"],
       "folders": []
     }
   ],
@@ -142,174 +135,95 @@
   "documentTypes": {
     "Actor": {
       "character": {
-        "htmlFields": [
-          "background"
-        ],
+        "htmlFields": ["background"],
         "filePathFields": {
-          "coatOfArms": [
-            "IMAGE"
-          ]
+          "coatOfArms": ["IMAGE"]
         }
       },
       "npc": {
-        "htmlFields": [
-          "description"
-        ],
+        "htmlFields": ["description"],
         "filePathFields": {
-          "coatOfArms": [
-            "IMAGE"
-          ]
+          "coatOfArms": ["IMAGE"]
         }
       },
       "manor": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ],
+        "htmlFields": ["description", "GMdescription"],
         "filePathFields": {
-          "mapImage": [
-            "IMAGE"
-          ]
+          "mapImage": ["IMAGE"]
         }
       },
       "barony": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ],
+        "htmlFields": ["description", "GMdescription"],
         "filePathFields": {
-          "mapImage": [
-            "IMAGE"
-          ]
+          "mapImage": ["IMAGE"]
         }
       },
       "follower": {
-        "htmlFields": [
-          "description"
-        ]
+        "htmlFields": ["description"]
       },
       "party": {},
       "encounter": {
-        "htmlFields": [
-          "description",
-          "notes"
-        ]
+        "htmlFields": ["description", "notes"]
       },
       "battle": {
-        "htmlFields": [
-          "description",
-          "notes"
-        ]
+        "htmlFields": ["description", "notes"]
       }
     },
     "Item": {
       "background": {
-        "htmlFields": [
-          "description"
-        ]
+        "htmlFields": ["description"]
       },
       "gear": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "skill": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "trait": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "wound": {},
       "history": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "passion": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "horse": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "squire": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "armour": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "weapon": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "family": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "culture": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "religion": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "class": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "homeland": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "ideal": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "relationship": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       },
       "manorImp": {
-        "htmlFields": [
-          "description",
-          "GMdescription"
-        ]
+        "htmlFields": ["description", "GMdescription"]
       }
     },
     "RegionBehavior": {
@@ -324,7 +238,7 @@
   },
   "url": "https://github.com/cragstone/Pendragon",
   "manifest": "https://github.com/cragstone/Pendragon/releases/latest/download/system.json",
-  "download": "https://github.com/cragstone/Pendragon/releases/download/14.15/Pendragon.zip",
+  "download": "https://github.com/cragstone/Pendragon/releases/download/14.16/Pendragon.zip",
   "socket": true,
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md",

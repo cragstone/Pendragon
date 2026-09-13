@@ -25,9 +25,8 @@ export class FeastGlory {
     // bonus Glory for the most notable attendee; ties broken by highest Glory
     const qualifiers = knights.filter((k) => k.qualify);
     if (qualifiers.length) {
-      const winner = qualifiers.reduce(
-        (best, k) =>
-          k.geniality > best.geniality || (k.geniality === best.geniality && k.glory > best.glory) ? k : best,
+      const winner = qualifiers.reduce((best, k) =>
+        k.geniality > best.geniality || (k.geniality === best.geniality && k.glory > best.glory) ? k : best,
       );
       winner.bonus = sizeData.bonus;
     }
@@ -60,7 +59,7 @@ export class FeastGlory {
   }
 
   static async createAwards(awards, knights) {
-    const feastName = (awards.feastName || game.i18n.localize("PEN.feast.feastGlory"));
+    const feastName = awards.feastName || game.i18n.localize("PEN.feast.feastGlory");
     const getVal = (prefix, id) => awards[`${prefix}.${id}`];
     let count = 0;
     for (let knight of knights) {

@@ -84,11 +84,11 @@ export class PendragonCultureSheet extends PendragonItemSheet {
         secrets: sheetData.editable,
       },
     );
-    let parts = ["attributes", "description"]
+    let parts = ["attributes", "description"];
     if (game.user.isGM) {
-      parts.push('gmTab')
+      parts.push("gmTab");
     }
-    sheetData.tabs = this._initTabs("primary", parts);    
+    sheetData.tabs = this._initTabs("primary", parts);
     return sheetData;
   }
 

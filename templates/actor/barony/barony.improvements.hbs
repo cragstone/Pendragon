@@ -22,7 +22,7 @@
             {{#if improv.assized}}
                 <td class="centre"></td>
             {{else}}
-                <td class="centre">{{improv.system.income.libra}} / {{improv.system.income.denarii}}</td>
+                <td class="centre">{{improv.system.income.libra}} / {{improv.system.income.denarii}}</td>              
             {{/if}}
             <td class="centre">{{improv.statusLabel}}</td>               
             <td>
@@ -30,6 +30,10 @@
                 <a class="item-control  medium-icon fade" data-action="deleteDoc"><i data-tooltip="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
             </td>
           </tr>
+          {{else}}
+            <tr>
+              <td class="centre italics" style="height:60px;" colspan="5">{{localize 'PEN.emptyList'}}</td>
+            </tr>          
           {{/each}}
         </tbody>
     </table>
@@ -60,6 +64,10 @@
                 <a class="item-control  medium-icon fade" data-action="deleteDoc"><i data-tooltip="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
             </td>
           </tr>
+          {{else}}
+            <tr>
+              <td class="centre italics" style="height:60px;" colspan="5">{{localize 'PEN.emptyList'}}</td>
+            </tr>          
           {{/each}}
         </tbody>
     </table>

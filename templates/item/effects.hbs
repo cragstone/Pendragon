@@ -7,14 +7,14 @@
         {{#if effMain}}
           <span style="padding-top: 3px;">{{ name }} {{#if origin}}{{ sourceName }}{{/if}}</span>
           <div class="centre" data-action="toggleEffect" data-tooltip="{{#if disabled}}{{localize 'PEN.inactive'}}{{else}}{{localize 'PEN.active'}}{{/if}}">
-            <img class="aura-img {{#if disabled}}fade{{/if}}" style="margin-top: 3px;"  height="18" width="18" />
+            <img class="aura-img {{#if disabled}}fade{{/if}}" style="margin-top: 8px;"  height="18" width="18" />
           </div>
-          <button class="inline-control icon fa-regular fa-pen-to-square" data-action="editEffect"></button>
-          <button class="inline-control icon fa-regular fa-trash" data-action="removeEffect"></button>
+          <button class="inline-control icon fa-regular fa-pen-to-square"  style="margin-top: 5px;" data-action="editEffect"></button>
+          <button class="inline-control icon fa-regular fa-trash"  style="margin-top: 5px;" data-action="removeEffect"></button>
         {{else}}
           <span style="padding-left:20px;">{{ key }} : {{type}} {{ value }}</span>
           <div class="centre" data-tooltip="{{#if effect.disabled}}{{localize 'PEN.inactive'}}{{else}}{{localize 'PEN.active'}}{{/if}}">
-            <img class="aura-img {{#if effect.disabled}}fade{{/if}}" style="margin-top: 3px;"  height="18" width="18" />
+            <img class="aura-img {{#if effect.disabled}}fade{{/if}}" style="margin-top: 8px;"  height="18" width="18" />
           </div>          
         {{/if}}
       </li>

@@ -32,10 +32,9 @@
             </td>
           </tr>
           {{else}}
-          <tr>
-            <td class="centre italics" colspan="5">{{localize 'PEN.emptyList'}}</td>
-          </tr>
-
+            <tr>
+              <td class="centre italics" style="height:50px;" colspan="5">{{localize 'PEN.emptyList'}}</td>
+            </tr>
           {{/each}}
         </tbody>
     </table>
@@ -64,6 +63,10 @@
                   <a class="item-control  medium-icon fade" data-action="deleteDoc"><i data-tooltip="{{localize 'PEN.delete'}}" class="fa-solid fa-broom-wide"></i></a>
               </td>
             </tr>
+          {{else}}
+            <tr>
+              <td class="centre italics" style="height:60px;" colspan="5">{{localize 'PEN.emptyList'}}</td>
+            </tr>           
           {{/each}}
         </tbody>
     </table>  

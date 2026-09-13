@@ -16,7 +16,7 @@ export class PendragonManorSheet extends api.HandlebarsApplicationMixin(sheets.A
     classes: ["Pendragon", "sheet", "actor2", "manor"],
     position: {
       width: 600,
-      height: 600,
+      height: 710,
     },
     window: {
       resizable: true,

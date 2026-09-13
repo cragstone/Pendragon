@@ -117,11 +117,11 @@ div.pen-adventure-entry {
 
       &.playerlore {
         font-family: "IMFell";
-        border-bottom: none;        
+        border-bottom: none;
         font-size: 26px;
         font-style: italic;
         font-weight: bold;
-        color: var(--tbkred);        
+        color: var(--tbkred);
       }
     }
 
@@ -142,9 +142,9 @@ div.pen-adventure-entry {
       color: var(--pendragon-darkred);
       font-style: italic;
       .external a.content-link.broken {
-        text-decoration: none;      
-        color: var(--pendragon-darkred)
-      }      
+        text-decoration: none;
+        color: var(--pendragon-darkred);
+      }
     }
 
     .object a.content-link {
@@ -189,9 +189,9 @@ div.pen-adventure-entry {
     }
 
     .external a.content-link.broken {
-      text-decoration: none;      
+      text-decoration: none;
       color: black;
-    }  
+    }
 
     .redbox a.content-link {
       background: none;
@@ -355,7 +355,6 @@ div.pen-adventure-entry {
       background: rgba(0, 0, 0, 0.15);
     }
 
-    
     table {
       display: block;
       overflow-x: auto;
@@ -430,10 +429,9 @@ div.pen-adventure-entry {
 
     table.plain {
       tr {
-        border-top:1px solid black;
+        border-top: 1px solid black;
       }
       tbody tr:first-child {
-
         background-color: #ede6dac7;
         color: black;
         text-transform: none;
@@ -502,16 +500,16 @@ div.pen-adventure-entry {
       max-width: 636px;
       color: var(--tbkred);
       border: 2px var(--tbkred) solid;
-      padding: 0 10px 0 10px;  
+      padding: 0 10px 0 10px;
       .external a.content-link.broken {
-        text-decoration: none;      
-        color: var(--tbkred)
-      }        
+        text-decoration: none;
+        color: var(--tbkred);
+      }
       .speech {
         text-align: justify;
-        font-style:italic;
+        font-style: italic;
       }
-      & .header{
+      & .header {
         background-image: url("../assets/Red_Box_Top_01.webp");
         background-repeat: no-repeat;
         background-position: center;
@@ -519,8 +517,8 @@ div.pen-adventure-entry {
         line-height: 73px;
         color: var(--pendragon-white);
         font-size: 26px;
-        text-align:center;
-        margin: 0px -10px 5px -10px;;
+        text-align: center;
+        margin: 0px -10px 5px -10px;
       }
 
       & .col2 {
@@ -530,14 +528,14 @@ div.pen-adventure-entry {
         margin-left: auto;
         margin-right: auto;
       }
-       & .footer{
+      & .footer {
         background-image: url("../assets/Red_Box_Bottom_01.webp");
         background-repeat: no-repeat;
         background-position: center;
         background-size: 100% 100%;
         padding: 0px;
         height: 37px;
-        margin: 5px -10px 0px -10px;        
+        margin: 5px -10px 0px -10px;
       }
     }
 
@@ -546,22 +544,22 @@ div.pen-adventure-entry {
       margin-right: auto;
       max-width: 636px;
       color: var(--pendragon-darkblue);
-      padding: 0 10px 0 10px;   
+      padding: 0 10px 0 10px;
       font-family: "IMFell";
       font-size: 18px;
-      font-style: italic;            
+      font-style: italic;
       text-align: justify;
       text-align-last: center;
 
-      & .header{
+      & .header {
         background-image: url("../assets/blue-declaration.webp");
         background-repeat: no-repeat;
         background-position: center;
         background-size: auto 100%;
         height: 50px;
-        margin: 0px -10px 5px -10px;;
+        margin: 0px -10px 5px -10px;
       }
-      & .footer{
+      & .footer {
         background-image: url("../assets/blue-declaration.webp");
         background-repeat: no-repeat;
         background-position: center;
@@ -569,7 +567,7 @@ div.pen-adventure-entry {
         background-size: auto 100%;
         padding: 0px;
         height: 50px;
-        margin: 5px -10px 0px -10px;;        
+        margin: 5px -10px 0px -10px;
       }
     }
 
@@ -577,27 +575,27 @@ div.pen-adventure-entry {
       margin-left: auto;
       margin-right: auto;
       max-width: 636px;
-      padding: 0 10px 0 10px;   
+      padding: 0 10px 0 10px;
       font-family: "IMFell";
       font-size: 18px;
-      font-style: italic;            
+      font-style: italic;
       text-align: justify;
       :not(.right) {
         text-align-last: center;
-      }  
-      .right{
+      }
+      .right {
         text-align-last: right;
-      }      
+      }
 
-      & .header{
+      & .header {
         background-image: url("../assets/red-declaration.webp");
         background-repeat: no-repeat;
         background-position: center;
         background-size: auto 100%;
         height: 50px;
-        margin: 0px -10px 5px -10px;;
+        margin: 0px -10px 5px -10px;
       }
-      & .footer{
+      & .footer {
         background-image: url("../assets/red-declaration.webp");
         background-repeat: no-repeat;
         background-position: center;
@@ -605,10 +603,9 @@ div.pen-adventure-entry {
         background-size: auto 100%;
         padding: 0px;
         height: 50px;
-        margin: 5px -10px 0px -10px;;        
+        margin: 5px -10px 0px -10px;
       }
-    }    
-
+    }
 
     & .gossip {
       margin-left: auto;
@@ -616,9 +613,9 @@ div.pen-adventure-entry {
       padding: 0 10px 0 10px;
       max-width: 636px;
       color: var(--tbkred);
-      font-style: italic;      
-      border: var(--tbkred) 2px solid;     
-      text-align:justify;
+      font-style: italic;
+      border: var(--tbkred) 2px solid;
+      text-align: justify;
     }
 
     & .float-left {
@@ -630,15 +627,14 @@ div.pen-adventure-entry {
       img {
         transform: scaleX(-1);
       }
-    }  
+    }
 
     & .float-right {
       display: grid;
-      grid-template-columns: calc(100% - 100px) 100px ;
+      grid-template-columns: calc(100% - 100px) 100px;
       align-items: center;
       margin-bottom: 10px;
-      margin-top: 10px;      
-    } 
-  
+      margin-top: 10px;
+    }
   }
 }

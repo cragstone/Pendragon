@@ -69,12 +69,12 @@
 
       {{#unless (eq system.subtype 'barInv')}}
         <div class="stat-name left indent">{{localize 'PEN.manor.starterImp'}}</div>
-        <div class="centre"><a class="item-control item-toggle large-icon" data-property = "starter"><i class="{{#if item.system.starter}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+        <div class="stat-name centre"><a class="item-control item-toggle large-icon" data-property = "starter"><i class="{{#if item.system.starter}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
       {{/unless}}  
 
       {{#if showCheck}}
         <div class="stat-name left indent">{{localize 'PEN.manor.drawFunds'}}</div>
-        <div class="centre"><a class="item-control item-toggle large-icon" data-property = "drawFunds"><i class="{{#if item.system.drawFunds}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+        <div class="stat-name centre"><a class="item-control item-toggle large-icon" data-property = "drawFunds"><i class="{{#if item.system.drawFunds}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
       {{/if}}
 
       {{#if hasOwner}}
@@ -110,7 +110,7 @@
               </div>
             </li>
           {{else}}
-            <div class="centre stat-name italics">{{localize 'PEN.emptyList'}}</div>              
+            <div class="centre stat-name italics" style="height:60px;">{{localize 'PEN.emptyList'}}</div>              
           {{/each}}
         </ol>
       </div>      
@@ -134,7 +134,7 @@
                 </div>
               </li>
           {{else}}
-            <div class="centre stat-name italics">{{localize 'PEN.emptyList'}}</div>    
+            <div class="centre stat-name italics" style="height:60px;">{{localize 'PEN.emptyList'}}</div>    
           {{/each}}
         </ol>
       </div>
@@ -158,7 +158,7 @@
                 </div>
               </li>
           {{else}}
-            <div class="centre stat-name italics">{{localize 'PEN.emptyList'}}</div>    
+            <div class="centre stat-name italics" style="height:60px;">{{localize 'PEN.emptyList'}}</div>    
           {{/each}}
         </ol>
       </div>
@@ -182,7 +182,7 @@
                 </div>
               </li>
           {{else}}
-            <div class="centre stat-name italics">{{localize 'PEN.emptyList'}}</div>    
+            <div class="centre stat-name italics" style="height:60px;">{{localize 'PEN.emptyList'}}</div>    
           {{/each}}
         </ol>
       </div>
@@ -207,7 +207,7 @@
               </div>
             </li>
           {{else}}
-            <div class="centre stat-name italics">{{localize 'PEN.emptyList'}}</div>              
+            <div class="centre stat-name italics" style="height:60px;">{{localize 'PEN.emptyList'}}</div>              
           {{/each}}
         </ol>
       </div>      

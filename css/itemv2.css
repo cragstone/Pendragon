@@ -125,6 +125,8 @@
     font-family: Messiri;
     font-size: 1em;
     color: var(--pendragon-primary-text);
+    margin-top: 5px;
+    padding-top: 3px;
     &.button {
       display: flex;
       gap: 3em;
@@ -152,8 +154,8 @@
     font-family: Messiri;
     font-size: 1em;
     font-weight: bold;
-    padding: 2px 0px 0px 0px;
-    margin: 0px;
+    padding: 5px 0px 0px 0px;
+    margin: 5px 0px 0px 0px;
     color: var(--pendragon-secondary-text);
     height: 20px;
     border-top: 0px;
@@ -161,7 +163,7 @@
     border-right: 0px;
     border-bottom: 1px solid var(--pendragon-secondary-text);
     border-radius: 0px;
-    background: none;
+    background-color: var(--input-background-color);
     box-shadow: none;
   }
 
@@ -233,11 +235,14 @@
     }
     li:nth-child(even) {
       background-color: var(--pd-light-row);
+      line-height: 35px;
+    }
+    li:nth-child(odd) {
+      line-height: 35px;
     }
     li:first-child {
       background-color: var(--pd-first-row);
       color: oklch(0.9773 0.03715 95.458);
-      line-height: 1.6em;
       button.inline-control {
         color: oklch(0.9773 0.03715 95.458);
       }

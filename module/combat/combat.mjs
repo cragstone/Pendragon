@@ -27,10 +27,9 @@ export class PendragonCombat extends Combat {
         this.setFlag("Pendragon", "feastSize", "medium");
       }
 
-    //Test for Feast Deck - test at start of feast
-    // * - true means the fallback warning message can be displayed
-        FeastDeck.getDeck(true)
-
+      //Test for Feast Deck - test at start of feast
+      // * - true means the fallback warning message can be displayed
+      FeastDeck.getDeck(true);
     }
     ui.combat.viewed = this;
   }
@@ -146,12 +145,14 @@ export class PendragonCombat extends Combat {
         const geniality = c.getGeniality();
         if (geniality !== 0) {
           await FeastDeck.postGenialityChange(c, {
-            reasons: [{
-              label: game.i18n.format("PEN.feast.startingGeniality", {
-                sol: (c.actor?.system?.sol || "").toLowerCase(),
-              }),
-              delta: geniality,
-            }],
+            reasons: [
+              {
+                label: game.i18n.format("PEN.feast.startingGeniality", {
+                  sol: (c.actor?.system?.sol || "").toLowerCase(),
+                }),
+                delta: geniality,
+              },
+            ],
             newTotal: geniality,
           });
         }
