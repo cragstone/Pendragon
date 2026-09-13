@@ -1,14 +1,15 @@
 import PENDialog from "../setup/pen-dialog.mjs";
 import { PENactorDetails } from "../apps/actorDetails.mjs";
 
-const DECK_MODULE = "cha-pen-fvtt-en-gmhandbook";
 const DECK_PACK = "cha-pen-fvtt-en-gmhandbook.gmhb-feastdeck";
 
 export class FeastDeck {
   static HOST_PREFIX = "Host ";
 
+  // Sync check for showing controls: a custom UUID is set, or the GM Handbook pack exists.
+  // fromUuid() is async so the UUID is validated on draw; a bad UUID warns then.
   static isAvailable() {
-    return !!(game.modules.get(DECK_MODULE)?.active && game.packs.get(DECK_PACK));
+    return !!game.settings.get("Pendragon", "feastDeckUuid")?.trim() || !!game.packs.get(DECK_PACK);
   }
 
   // Glory prominence modifier (GMH Table 3.4)
@@ -126,6 +127,10 @@ export class FeastDeck {
       return;
     }
     const cards = await this.getDeckCards();
+    if (!cards.length) {
+      ui.notifications.warn(game.i18n.localize("PEN.feast.deckMissing"));
+      return;
+    }
     const playedIds = combat.getFlag("Pendragon", "feastDeckPlayed") ?? [];
     let pool = cards.filter((c) => !playedIds.includes(c.id));
     if (!pool.length) {
@@ -176,13 +181,18 @@ export class FeastDeck {
   }
 
   static async getDeckCards() {
-    const pack = game.packs.get(DECK_PACK);
-    if (!pack) {
-      return [];
-    }
-    const stacks = await pack.getDocuments();
-    const deck = stacks.find((s) => s.name === "Feast Deck") ?? stacks[0];
+    const deck = await this.getDeck();
     return deck ? Array.from(deck.cards) : [];
+  }
+
+  // Custom Cards stack from the world setting wins; fall back to the GM Handbook pack.
+  static async getDeck() {
+    const uuid = game.settings.get("Pendragon", "feastDeckUuid")?.trim();
+    if (uuid) return (await fromUuid(uuid)) ?? null;
+    const pack = game.packs.get(DECK_PACK);
+    if (!pack) return null;
+    const stacks = await pack.getDocuments();
+    return stacks.find((s) => s.name === "Feast Deck") ?? stacks[0] ?? null;
   }
 
   // chat card action on the clicker's client; may need input before applying
