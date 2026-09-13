@@ -114,6 +114,15 @@ div.pen-adventure-entry {
         font-weight: bold;
         color: black;
       }
+
+      &.playerlore {
+        font-family: "IMFell";
+        border-bottom: none;        
+        font-size: 26px;
+        font-style: italic;
+        font-weight: bold;
+        color: var(--tbkred);        
+      }
     }
 
     .indent {
@@ -132,6 +141,10 @@ div.pen-adventure-entry {
       text-align: center;
       color: var(--pendragon-darkred);
       font-style: italic;
+      .external a.content-link.broken {
+        text-decoration: none;      
+        color: var(--pendragon-darkred)
+      }      
     }
 
     .object a.content-link {
@@ -142,11 +155,11 @@ div.pen-adventure-entry {
       margin: -1px 0;
       white-space: nowrap;
       word-break: break-all;
-      color: purple;
+      color: var(--pendragon-hyperlink);
 
       i {
         display: inline;
-        color: purple;
+        color: var(--pendragon-hyperlink);
       }
 
       &.broken {
@@ -163,7 +176,7 @@ div.pen-adventure-entry {
       border: none;
       white-space: pre-wrap;
       word-break: normal;
-      color: purple;
+      color: var(--pendragon-hyperlink);
       padding: 0px;
 
       i {
@@ -174,6 +187,11 @@ div.pen-adventure-entry {
         text-decoration: line-through;
       }
     }
+
+    .external a.content-link.broken {
+      text-decoration: none;      
+      color: black;
+    }  
 
     .redbox a.content-link {
       background: none;
@@ -226,6 +244,12 @@ div.pen-adventure-entry {
       margin: 0.5em 0 0 0;
     }
 
+    ul.none {
+      list-style-type: none;
+      padding-left: 0px;
+      margin: 0.25rem 0 0.25rem 0;
+    }
+
     ul.p6e li::marker {
       content: "✠ ";
       font-size: 15px;
@@ -262,6 +286,8 @@ div.pen-adventure-entry {
     }
 
     .redbox {
+      margin-left: auto;
+      margin-right: auto;
       border-top: 1px solid black;
       border-left: 1px solid black;
       border-right: 1px solid black;
@@ -282,8 +308,8 @@ div.pen-adventure-entry {
     }
 
     .yellowbox {
-      margin-left: 0px;
-      margin-right: 0px;
+      margin-left: auto;
+      margin-right: auto;
       border-radius: 0px;
     }
 
@@ -329,9 +355,9 @@ div.pen-adventure-entry {
       background: rgba(0, 0, 0, 0.15);
     }
 
+    
     table {
       display: block;
-      margin-left: 10px;
       overflow-x: auto;
       background-color: rgba(0, 0, 0, 0);
       border-bottom: none;
@@ -381,9 +407,8 @@ div.pen-adventure-entry {
     }
 
     table td {
-      padding: 0px 0px 0px 5px;
-      border-left: 1px solid white;
-      border-right: 1px solid white;
+      padding: 0px 10px 0px 5px;
+      text-align: left;
       &.merged {
         vertical-align: middle;
       }
@@ -393,13 +418,25 @@ div.pen-adventure-entry {
       background-color: #ede6dac7;
     }
 
-    table:not(.festival),
+    table:not(.festival):not(.plain),
     table.festival {
       tbody tr:first-child {
         background-color: rgb(50, 25, 0);
         color: cornsilk;
         text-transform: uppercase;
         border-top: 1px solid black;
+      }
+    }
+
+    table.plain {
+      tr {
+        border-top:1px solid black;
+      }
+      tbody tr:first-child {
+
+        background-color: #ede6dac7;
+        color: black;
+        text-transform: none;
       }
     }
 
@@ -454,5 +491,154 @@ div.pen-adventure-entry {
       padding-left: 20px;
       color: darkred;
     }
+
+    figure.content-embed figcaption {
+      display: none;
+    }
+
+    & .tbkredbox {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 636px;
+      color: var(--tbkred);
+      border: 2px var(--tbkred) solid;
+      padding: 0 10px 0 10px;  
+      .external a.content-link.broken {
+        text-decoration: none;      
+        color: var(--tbkred)
+      }        
+      .speech {
+        text-align: justify;
+        font-style:italic;
+      }
+      & .header{
+        background-image: url("../assets/Red_Box_Top_01.webp");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 125% 100%;
+        line-height: 73px;
+        color: var(--pendragon-white);
+        font-size: 26px;
+        text-align:center;
+        margin: 0px -10px 5px -10px;;
+      }
+
+      & .col2 {
+        columns: 2;
+      }
+      img {
+        margin-left: auto;
+        margin-right: auto;
+      }
+       & .footer{
+        background-image: url("../assets/Red_Box_Bottom_01.webp");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% 100%;
+        padding: 0px;
+        height: 37px;
+        margin: 5px -10px 0px -10px;        
+      }
+    }
+
+    & .declaration {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 636px;
+      color: var(--pendragon-darkblue);
+      padding: 0 10px 0 10px;   
+      font-family: "IMFell";
+      font-size: 18px;
+      font-style: italic;            
+      text-align: justify;
+      text-align-last: center;
+
+      & .header{
+        background-image: url("../assets/blue-declaration.webp");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: auto 100%;
+        height: 50px;
+        margin: 0px -10px 5px -10px;;
+      }
+      & .footer{
+        background-image: url("../assets/blue-declaration.webp");
+        background-repeat: no-repeat;
+        background-position: center;
+        transform: rotate(180deg);
+        background-size: auto 100%;
+        padding: 0px;
+        height: 50px;
+        margin: 5px -10px 0px -10px;;        
+      }
+    }
+
+    & .red-declaration {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 636px;
+      padding: 0 10px 0 10px;   
+      font-family: "IMFell";
+      font-size: 18px;
+      font-style: italic;            
+      text-align: justify;
+      :not(.right) {
+        text-align-last: center;
+      }  
+      .right{
+        text-align-last: right;
+      }      
+
+      & .header{
+        background-image: url("../assets/red-declaration.webp");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: auto 100%;
+        height: 50px;
+        margin: 0px -10px 5px -10px;;
+      }
+      & .footer{
+        background-image: url("../assets/red-declaration.webp");
+        background-repeat: no-repeat;
+        background-position: center;
+        transform: rotate(180deg);
+        background-size: auto 100%;
+        padding: 0px;
+        height: 50px;
+        margin: 5px -10px 0px -10px;;        
+      }
+    }    
+
+
+    & .gossip {
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 10px 0 10px;
+      max-width: 636px;
+      color: var(--tbkred);
+      font-style: italic;      
+      border: var(--tbkred) 2px solid;     
+      text-align:justify;
+    }
+
+    & .float-left {
+      display: grid;
+      grid-template-columns: 100px calc(100% - 100px);
+      align-items: center;
+      margin-bottom: 10px;
+      margin-top: 10px;
+      img {
+        transform: scaleX(-1);
+      }
+    }  
+
+    & .float-right {
+      display: grid;
+      grid-template-columns: calc(100% - 100px) 100px ;
+      align-items: center;
+      margin-bottom: 10px;
+      margin-top: 10px;      
+    } 
+  
   }
 }

@@ -1,6 +1,22 @@
 # CHANGELOG
 
 ## 14.15
+
+- Functionality for the Nobles Handbook is being implemented in stages. A premium module will hopefully be out in due course with all the content already created for you.
+- Manors, Baronies, Background Characters and Estate Improvements have been added to the game.
+- Manors and Baroniess are Actors but you can drop them on to a character sheet https://github.com/cragstone/Pendragon/wiki/Manor https://github.com/cragstone/Pendragon/wiki/Barony
+- Background Characters are actually Items - they are the court/retinue for Manors and Baroniess - https://github.com/cragstone/Pendragon/wiki/Background-Character
+- Estate Improvements are Items used to improve a Manor or Barony
+- Migration of Game Instructions to the Github wiki has started. This should make it easier/quicker to update game instructions - https://github.com/cragstone/Pendragon/wiki
+- You will start to see an orange icon with a question mark on some part of Actor/Item sheets - clicking on it will open a browser window taking you to the relevant wiki page
+- There is a game setting (under Display Options) so users can turn this help icon off so it won't be displayed
+- Fixed an issue with ideals where the relevant skill, trait etc isn't on the character sheet
+- Thank you to Tontione for updating the French language translations
+- GM Tabs on Items hidden once again from players
+- NPCs have a new "Player Notes" section.  If you give Limited ownership of NPCs to players they will see the name, icons and player notes only (read only).  Owners and Observers see everything except GM Notes
+- NPC Notes have been remaned NPC GM Notes
+
+## 14.15
 - The Feast Deck automation enhancements areall the hardwork of Ryak2
 - Updated English and French translations and tooltips for the feast tracker and other related strings (ryak2)
 - Added support for drawing Feast Deck event cards (GMH pp. 41-42): players draw cards up to their Total APP limit (GMH Tables 3.4/3.5), posting card faces to chat, with Play/Draw Again buttons and Host cards ending the Round. This requires a valid Feast Deck (see next point) otherwise the deck controls are hidden without it (ryak2)
@@ -10,11 +26,12 @@
 - Feast combatants now start with Geniality derived from their Standard of Living clothing (GMH Table 3.1) instead of a fixed value. Geniality gains are capped at the character's APP (ryak2)
 
 ## 14.14
+
 - Fixed an issue where character creation was incorrectly flagging certain steps as completed
 
 ## 14.13
 
-- Character Sheet V2 has arrived, and it has Dark Mode.  This is all down to Johnny B who has delivered an absolute blinder.
+- Character Sheet V2 has arrived, and it has Dark Mode. This is all down to Johnny B who has delivered an absolute blinder.
 - There are some basic instructions and info available on the wiki - https://github.com/cragstone/Pendragon/wiki/Character-Sheet-Version-2
 - To toggle between the V1 and V2 sheets please use the button at the top right of the character sheet.
 - There is some functionality on V1 that isn't available on V2 but also additional functionality on V2.
@@ -25,6 +42,7 @@
 - Again, a huge thanks to Johnny for all his hard work and a shout out to Mr Primate who has helped review and and make edits.
 
 ## 14.12
+
 - Character Creation dialog box text etc now visible in Dark Mode.
 
 ## 14.11

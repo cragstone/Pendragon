@@ -4,6 +4,11 @@
     <div class="centre"><a class="item-control {{#if isGM}}item-toggle{{/if}} large-icon" data-property = "melee" title="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if item.system.melee}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
     <div class="stat-name left bold">{{localize 'PEN.improvised'}}</div>
     <div class="centre"><a class="item-control {{#if isGM}}item-toggle{{/if}} large-icon" data-property = "improv" title="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if item.system.improv}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+    {{#if npcOwner}}
+      <div class="stat-name left bold">{{localize 'PEN.special'}}</div>
+      <div class="centre"><a class="item-control {{#if isGM}}item-toggle{{/if}} large-icon" data-property = "special" title="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if item.system.special}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+    {{/if}}
+
   </div>
   <br>
 
