@@ -232,6 +232,15 @@ export class PENCheck {
         break;
       case RollType.DAMAGE:
         tempItem = particActor.items.get(config.itemId);
+        if (!tempItem) {
+          // unarmed attacks have no weapon item; damage is the actor's brawling damage
+          config.label = "Unarmed";
+          config.rollFormula = String(config.itemDamage ?? particActor.system.damage);
+          if (config.damCrit) {
+            config.rollFormula = config.rollFormula + "+2D6";
+          }
+          break;
+        }
         config.label = tempItem.name ?? "";
         if (tempItem.type === "horse") {
           if (config.shiftKey) {
