@@ -290,7 +290,8 @@
       "cardSkipped": "{name} a écarté {card} et pioche à nouveau.",
       "cardsDrawn": "Cartes piochées : {drawn} sur {limit}",
       "closeSalt": "Rang élevé mais inférieur à l’élite",
-      "deckMissing": "Le jeu d’événements est indisponible — le module Manuel du Meneur de Jeu Chaosium (jeu d’événements) doit être actif.",
+      "deckMissing": "Le jeu d’événements est indisponible — renseignez un UUID de paquet de Festin dans les paramètres système, ou rendez le paquet de Festin du Manuel du Meneur Chaosium disponible.",
+      "deckUuidInvalid": "L’UUID de paquet de Festin personnalisé dans les paramètres système est introuvable — repli sur le paquet de Festin du Manuel du Meneur.",
       "drawAgain": "Piocher à nouveau",
       "drawCard": "Piocher une carte d’événement de festin",
       "drawLimitReached": "Limite de cartes déjà atteinte ({drawn} sur {limit}).",
@@ -445,7 +446,7 @@
       "knightlySkills": "Compétences de chevalier",
       "pass": "Passer",
       "sword": "Compétence Épée"
-    }, 
+    },
     "knightlySkill": "Compétence de Chevalier",
     "knightVal": "Valeur du Chevalier",
     "knightlyMod": "Modificateur de Compétence de Chevalier",
@@ -964,6 +965,8 @@
       "trackWndHint": "EXPERIMENTAL: désactiver pour ignorer les blessures et noter les PV à la main. Ne s’applique pas pour le moment à la feuille de perso V2.",
       "useRelation": "Autoriser les relations",
       "useRelationHint": "Autoriser le MJ à créer des relations sur les personnages",
+      "feastDeckUuid": "Paquet de Festin",
+      "feastDeckUuidHint": "UUID d'un paquet de Festin personnalisé (pile de Cartes). Laisser vide pour utiliser le paquet du Manuel du Meneur lorsqu'il est disponible.",
       "xpCheck": "Coche d'XP",
       "xpOptions": "Options de vérification XP",
       "xpOptionsHint": "Changer les paramètres pour les vérifications d'XP"

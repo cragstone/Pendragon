@@ -121,6 +121,15 @@ export function registerSettings() {
 
   //Invisible Game Settings
 
+  game.settings.register("Pendragon", "feastDeckUuid", {
+    name: "PEN.Settings.feastDeckUuid",
+    hint: "PEN.Settings.feastDeckUuidHint",
+    scope: "world",
+    requiresReload: false,
+    config: true,
+    type: String,
+    default: "",
+  });
   game.settings.register("Pendragon", "winter", {
     name: "",
     hint: "",
