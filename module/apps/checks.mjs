@@ -672,8 +672,8 @@ export class PENCheck {
     if (chatCard.resultLevel === 0 && !game.settings.get("Pendragon", "fumbleXP")) {
       return;
     }
-    //If an evade or dodge action then no tick.
-    if (["dodge", "evade"].includes(chatCard.action)) {
+    //If an evade, dodge or zigzag action then no tick.
+    if (["dodge", "evade", "zigzag"].includes(chatCard.action)) {
       return;
     }
     let actor = await PENactorDetails._getParticipant(chatCard.particId, chatCard.particType);

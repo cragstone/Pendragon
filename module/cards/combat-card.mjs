@@ -80,8 +80,8 @@ export class COCard {
     const [r1, r2] = this.compareCombatResults(card1, card2);
 
     //map outcomes
-    const updatedCard1 = this.mapOutcomeToCard(card1, r1, r2, card2.action);
-    const updatedCard2 = this.mapOutcomeToCard(card2, r2, r1, card1.action);
+    const updatedCard1 = await this.mapOutcomeToCard(card1, r1, r2, card2.action, card2);
+    const updatedCard2 = await this.mapOutcomeToCard(card2, r2, r1, card1.action, card1);
 
     // show results
     await OPCard.showDiceRoll(updatedCard1);
@@ -103,7 +103,7 @@ export class COCard {
   }
 
   // update a card
-  static mapOutcomeToCard(card, myResult, otherResult, otherAction) {
+  static async mapOutcomeToCard(card, myResult, otherResult, otherAction, otherCard = null) {
     const updatedCard = { ...card };
     // reckless and defend cancel each other out and are treated like opposed attack
     if (
@@ -150,6 +150,73 @@ export class COCard {
       }
     }
 
+    // disarm: the winner knocks away the opponent's weapon or object
+    if (card.action == CombatAction.DISARM) {
+      if (myResult == CombatOutcome.CRITICAL) {
+        updatedCard.outcomeNote = game.i18n.localize("PEN.actionNote.disarmCritical");
+      } else if (myResult == CombatOutcome.WIN) {
+        updatedCard.outcomeNote = game.i18n.localize("PEN.actionNote.disarmWin");
+      }
+    }
+
+    // being disarmed by the opponent
+    if (otherAction == CombatAction.DISARM && [CombatOutcome.WIN, CombatOutcome.CRITICAL].includes(otherResult)) {
+      updatedCard.outcomeNote =
+        otherResult == CombatOutcome.CRITICAL
+          ? game.i18n.localize("PEN.actionNote.disarmedCritical")
+          : game.i18n.localize("PEN.actionNote.disarmed");
+    }
+
+    // evade: on a win the character disengages, having dealt and taken no damage
+    if (card.action == CombatAction.EVADE) {
+      if ([CombatOutcome.WIN, CombatOutcome.CRITICAL].includes(myResult)) {
+        updatedCard.outcomeNote = game.i18n.localize("PEN.actionNote.evadeWin");
+      } else if (myResult == CombatOutcome.FUMBLE) {
+        updatedCard.outcomeNote = game.i18n.localize("PEN.actionNote.evadeFumble");
+      }
+    }
+
+    // the opponent evaded: they disengage and no damage is dealt either way
+    if (otherAction == CombatAction.EVADE && [CombatOutcome.WIN, CombatOutcome.CRITICAL].includes(otherResult)) {
+      updatedCard.damRoll = false;
+      updatedCard.damCrit = false;
+      updatedCard.outcomeNote = game.i18n.localize("PEN.actionNote.opponentEvaded");
+    }
+
+    // dodge: a successful dodge negates all melee damage dealt and taken
+    if (card.action == CombatAction.DODGE) {
+      if ([CombatOutcome.WIN, CombatOutcome.CRITICAL, CombatOutcome.TIE].includes(myResult)) {
+        updatedCard.outcomeNote = game.i18n.localize("PEN.actionNote.dodgeWin");
+      }
+    }
+
+    // the opponent dodged: the attack misses
+    if (
+      otherAction == CombatAction.DODGE &&
+      [CombatOutcome.WIN, CombatOutcome.CRITICAL, CombatOutcome.TIE].includes(otherResult)
+    ) {
+      updatedCard.damRoll = false;
+      updatedCard.damCrit = false;
+      updatedCard.outcomeNote = game.i18n.localize("PEN.actionNote.opponentDodged");
+    }
+
+    // set spear: counters a charge using the opponent's own damage
+    if (card.action == CombatAction.SET_SPEAR) {
+      if (otherAction == CombatAction.CHARGE) {
+        if ([CombatOutcome.WIN, CombatOutcome.CRITICAL].includes(myResult)) {
+          updatedCard.damRoll = true;
+          if (myResult == CombatOutcome.CRITICAL) {
+            updatedCard.damCrit = true;
+          }
+          updatedCard.itemDamage = await this.setSpearDamage(card, otherCard);
+          updatedCard.outcomeNote = game.i18n.localize("PEN.actionNote.setSpearHit");
+        }
+      } else {
+        // against anything but a charge this counts as a simple attack
+        updatedCard.action = CombatAction.ATTACK;
+      }
+    }
+
     // check for shield/parry vs a damaging action
     if (
       this.canInflictDamage(otherAction) &&
@@ -182,6 +249,23 @@ export class COCard {
     // otherwise, FUMBLE means sword dropped or weapon breaks
 
     return updatedCard;
+  }
+
+  // set spear strikes the charger using the opponent's (or the mount's) damage
+  // TODO: a two-handed grip adds +2D6 to this damage, but the system does not
+  // track which hand weapons are wielded in; players can add +2D6 manually via
+  // the damage roll dialog modifier until that state exists
+  static async setSpearDamage(card, otherCard) {
+    let damageFormula = otherCard?.itemDamage ?? "";
+    if (!damageFormula) {
+      // fall back to the opponent's weapon damage formula
+      const opponent = await PENactorDetails._getParticipant(otherCard?.particId, otherCard?.particType);
+      const weapon = opponent?.items?.get(otherCard?.itemId);
+      if (weapon) {
+        damageFormula = opponent.type === "character" ? weapon.system.damage : weapon.system.dmgForm;
+      }
+    }
+    return damageFormula || null;
   }
 
   // check whether the action inflicts damage
