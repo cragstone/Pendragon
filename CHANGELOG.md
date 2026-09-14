@@ -9,6 +9,7 @@
 - When dropping encounters and npcs on to Battles and Encounters respectively you will get a dialog box where you can change the name of the item
   without changing the underlying actor
 - Corrected the PID for starting religion table and some issues where the underlying documents from roll tables are in compendiums on character creation.
+- Fixed a bug with weapons throwing an error
 
 ## 14.16
 

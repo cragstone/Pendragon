@@ -56,7 +56,7 @@ export class PendragonWeaponSheet extends PendragonItemSheet {
       damageType: PENSelectLists.getWeaponDmg(),
       usageType: PENSelectLists.getWeaponUse(),
       rangeType: PENSelectLists.getWeaponRange(),
-      npcOwner: this.actor.type === "npc",
+      npcOwner: this.document.actor?.type === "npc",
     };
 
     sheetData.skill = sheetData.skillType[this.item.system.skill];
