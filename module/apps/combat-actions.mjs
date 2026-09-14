@@ -71,33 +71,13 @@ export class CombatAction {
     return targetScore;
   }
 
-  // armour item system.type is true for armor, false for shields
-  static isWearingArmor(actor) {
-    return actor.items.some((itm) => itm.type === "armour" && itm.system.equipped && itm.system.type);
-  }
-
-  // movement-based actions use the horse's movement rate when mounted
-  static getMoveRate(actor) {
-    if (actor.isMounted()) {
-      const horse = actor.currentHorse();
-      if (horse) return horse.system.move;
-    }
-    // NPCs may have a manual movement rate override
-    if (actor.type === "npc" && actor.system.manMove) return actor.system.manMove;
-    return actor.system.move ?? 0;
-  }
-
   // calculate the initial roll modifiers
   // there can be further adjusted
-  static getRollModifiers(action, actor = null) {
+  static getRollModifiers(action) {
     let total = 0;
     // +10 if taking defend action
     if (action == CombatAction.DEFEND) {
       total += 10;
-    }
-    // no armor gives a +5 zigzag bonus
-    if (action == CombatAction.ZIGZAG && actor && !this.isWearingArmor(actor)) {
-      total += 5;
     }
     //  magic bonus
     // THEN multiple target modifier
@@ -113,8 +93,8 @@ export class CombatAction {
 
   // this presents a dialog that lets you adjust the bonus
   // returns null if the roll is canceled
-  static async requestRollModifiers(action, actor = null) {
-    const bonuses = this.getRollModifiers(action, actor);
+  static async requestRollModifiers(action) {
+    const bonuses = this.getRollModifiers(action);
     const textInput = fields.createNumberInput({
       name: "checkBonus",
       value: bonuses,
@@ -273,6 +253,29 @@ export class CombatAction {
     // cap result at 20 per original check
     config.rollVal = Math.min(Number(config.rollResult + config.critBonus), 20);
     config.resultLevel = PENCheck.successLevel(config);
+  }
+
+  // adjust damage formulas that depend on the opposing action
+  // e.g. set spear strikes the charger using the opponent's (or the mount's) damage
+  // TODO: a two-handed grip adds +2D6 to this damage, but the system does not
+  // track which hand weapons are wielded in; roll the +2D6 manually for now
+  static async adjustDamage(config, opponent) {
+    if (config.action == CombatAction.SET_SPEAR && opponent.action == CombatAction.CHARGE) {
+      config.itemDamage = await this.setSpearDamage(config, opponent);
+    }
+  }
+
+  static async setSpearDamage(config, opponent) {
+    let damageFormula = opponent?.itemDamage ?? "";
+    if (!damageFormula) {
+      // fall back to the opponent's weapon damage formula
+      const attacker = await PENactorDetails._getParticipant(opponent?.particId, opponent?.particType);
+      const weapon = attacker?.items?.get(opponent?.itemId);
+      if (weapon) {
+        damageFormula = attacker.type === "character" ? weapon.system.damage : weapon.system.dmgForm;
+      }
+    }
+    return damageFormula || null;
   }
 
   static applyUnopposedOutcome(options) {
@@ -479,7 +482,7 @@ export class CombatAction {
   // win: neither take nor deal damage and no longer engaged
   // fumble: fall to the ground; if mounted, fall from the horse and take 1D6 damage
   static async evade(actor, unopposed = false) {
-    const moveRate = this.getMoveRate(actor);
+    const moveRate = actor.getMoveRate();
     const targetScore = this.applyHorsemanshipCap(actor, { total: moveRate });
     const modifier = await this.requestRollModifiers(CombatAction.EVADE);
     if (modifier == null) return;
@@ -566,16 +569,17 @@ export class CombatAction {
   // failure: no modifier, move up to half Movement Rate
   // fumble: no modifier, stumble and lose all Movement Rate
   static async zigzag(actor) {
-    const moveRate = this.getMoveRate(actor);
+    const moveRate = actor.getMoveRate();
     const targetScore = this.applyHorsemanshipCap(actor, { total: moveRate });
-    // +5 bonus when wearing no armor
-    const modifier = await this.requestRollModifiers(CombatAction.ZIGZAG, actor);
+    const modifier = await this.requestRollModifiers(CombatAction.ZIGZAG);
     if (modifier == null) return;
+    // unarmoured characters get a +5 zigzag bonus
+    const zigzagMod = Number(modifier) + (actor.isWearingArmor() ? 0 : 5);
     // always unopposed
     const options = {
       ...this.defaultOptions(actor, CombatAction.ZIGZAG),
-      ...this.calcTargets(targetScore, modifier),
-      flatMod: modifier,
+      ...this.calcTargets(targetScore, zigzagMod),
+      flatMod: zigzagMod,
       label: game.i18n.localize("PEN.move"),
       rawScore: moveRate,
       cardType: CardType.UNOPPOSED,
@@ -713,7 +717,7 @@ export class CombatAction {
       ui.notifications.warn(game.i18n.localize("PEN.warn.mustBeOnFoot"));
       return;
     }
-    const targetScore = this.getMoveRate(actor);
+    const targetScore = actor.getMoveRate();
     const modifier = await this.requestRollModifiers(CombatAction.DODGE);
     if (modifier == null) return;
     const options = {
