@@ -1026,7 +1026,7 @@ export class PENCharCreate {
       }
     }
     for (let fRes of fUUID) {
-      const doc = await fromUuidSync(fRes);
+      const doc = await fromUuid(fRes);
       if (!doc) {
         ui.notifications.error(game.i18n.localize("PEN.religDocGone"));
         return false;
@@ -1352,7 +1352,7 @@ export class PENCharCreate {
         );
         return false;
     }
-    const doc = await fromUuidSync(rUUID);
+    const doc = await fromUuid(rUUID);
     let itemData = await game.system.api.pid.fromPIDBest({ pid: doc.flags.Pendragon.pidFlag.id });
 
     results.push({
@@ -1654,7 +1654,7 @@ export class PENCharCreate {
           return false;
       }
       if (rUUID != "bypass") {
-        const doc = await fromUuidSync(rUUID);
+        const doc = await fromUuid(rUUID);
         if (!doc) {
           ui.notifications.error(game.i18n.format("PEN.religDocGone", { doc: rUUID, table: name }));
           return false;
@@ -2524,6 +2524,6 @@ export class PENCharCreate {
         ui.notifications.error(game.i18n.localize("PEN.notReligDoc"));
         return false;
     }
-    return await fromUuidSync(uuid);
+    return await fromUuid(uuid);
   }
 }

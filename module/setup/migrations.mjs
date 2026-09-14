@@ -42,10 +42,43 @@ export async function migrateWorld({ bypassVersionCheck = false } = {}) {
     await gameTimeUpdate();
   }
 
+  //Migrate if current system is less that Version 14.17
+  if (foundry.utils.isNewerVersion("14.17", currentVersion ?? "0")) {
+    //Repeat some checks on each updates
+    //Encounter and Battle migrations
+    console.log("Migration to 14.17 started");
+    const updates = await getUpdatesFor(game.actors);
+    if (updates.length) {
+      await Actor.updateDocuments(updates);
+    }
+
+    for (const pack of game.packs) {
+      if (!_shouldMigrateCompendium(pack)) {
+        continue;
+      }
+      if (pack.metadata.type === "Actor") {
+        const documents = await pack.getDocuments();
+        const updates = await getUpdatesFor(documents);
+        if (updates.length) {
+          const wasLocked = pack.locked;
+          if (wasLocked) {
+            await pack.configure({ locked: false });
+          }
+          await Actor.updateDocuments(updates, { pack: pack.metadata.id });
+          if (wasLocked) {
+            await pack.configure({ locked: true });
+          }
+        }
+      }
+    }
+    console.log("Migration to 14.17 completed");
+  }
+
   await game.settings.set("Pendragon", "systemMigrationVersion", targetVersion);
   return;
 }
 
+//------------------------------------------------------------------------------------------
 //Update for version 12.1.21
 export async function migrateActor_12121(actor) {
   const updateData = {};
@@ -75,6 +108,7 @@ export async function migrateItemData_12121(item, itemData) {
   return updateData;
 }
 
+//------------------------------------------------------------------------------------------
 //Update for version 13.1.36
 export async function migrateItems_13136() {
   console.log("Migration to 13.1.36");
@@ -131,6 +165,7 @@ export async function migrateItems_13136() {
   }
 }
 
+//------------------------------------------------------------------------------------------
 export async function migrateItemData_13136(item) {
   //If categories already set then don't migrate
   if ((item.system.categories ?? []).length > 0) {
@@ -244,6 +279,7 @@ export async function honorUpdate() {
   console.log("Migration to 13.1.57 completed");
 }
 
+//------------------------------------------------------------------------------------------
 export async function classIdealUpdate() {
   console.log("Migration to 13.1.58 started");
   //Update World Items
@@ -317,6 +353,7 @@ export async function classIdealUpdate() {
   console.log("Migration to 13.1.58 completed");
 }
 
+//------------------------------------------------------------------------------------------
 export async function gameTimeUpdate() {
   console.log("Migration to 14.5 started");
 
@@ -324,4 +361,75 @@ export async function gameTimeUpdate() {
   await game.time.set({ year: year });
   await game.Pendragon.ui?.calendar.render({ force: true });
   return;
+}
+
+//------------------------------------------------------------------------------------------
+//Update Encounters for 14.17
+export async function getUpdatesFor(source) {
+  const updates = [];
+  for (const actor of source) {
+    if (actor.type === "encounter") {
+      let changed = false;
+      const npcs = [];
+      for (const npc of actor.system.npcs) {
+        if (npc.migrateRequired) {
+          let tempActor = await fromUuid(npc.uuid);
+          if (tempActor) {
+            let newName = npc.name ?? "";
+            let newPid = npc.pid;
+            if (newName === "") newName = tempActor.name;
+            if (newPID === "") newPID = tempActor.flags?.Pendragon?.pidFlag?.id ?? "";
+            npcs.push({
+              name: newName,
+              pid: newPID,
+              uuid: npc.uuid,
+            });
+            changed = true;
+          } else {
+            npcs.push(npc);
+          }
+        } else {
+          npcs.push(npc);
+        }
+      }
+      if (changed) {
+        updates.push({
+          _id: actor.id,
+          "system.npcs": npcs,
+        });
+      }
+    }
+    if (actor.type === "battle") {
+      let changed = false;
+      const encounters = [];
+      for (const encounter of actor.system.encounters) {
+        if (encounter.migrateRequired) {
+          let tempActor = await fromUuid(encounter.uuid);
+          if (tempActor) {
+            let newName = encounter.name ?? "";
+            let newPid = encounter.pid;
+            if (newName === "") newName = tempActor.name;
+            if (newPID === "") newPID = tempActor.flags?.Pendragon?.pidFlag?.id ?? "";
+            encounters.push({
+              name: newName,
+              pid: newPID,
+              uuid: encounter.uuid,
+            });
+            changed = true;
+          } else {
+            encounters.push(encounter);
+          }
+        } else {
+          encounters.push(encounter);
+        }
+      }
+      if (changed) {
+        updates.push({
+          _id: actor.id,
+          "system.encounters": encounters,
+        });
+      }
+    }
+  }
+  return updates;
 }
