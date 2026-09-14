@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 14.17
+
+- Battles and Encounters use PIDs again when adding encounters and npcs respectively.
+- They will try to find the best match with highest priority where the PID is matched, otherwise they will use the UUID of the original drop
+- This allows for GMs to create their own versions of encounters etc that may differ from the books and use them in preference by giving them a higher priority
+  without having to change the battles etc
+- When dropping encounters and npcs on to Battles and Encounters respectively you will get a dialog box where you can change the name of the item
+  without changing the underlying actor
+- Corrected the PID for starting religion table and some issues where the underlying documents from roll tables are in compendiums on character creation.
+
 ## 14.16
 
 - Functionality for the Nobles Handbook is being implemented in stages. A premium module will hopefully be out in due course with all the content already created for you.

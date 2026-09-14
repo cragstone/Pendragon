@@ -3,6 +3,7 @@ import { PIDEditor } from "../../pid/pid-editor.mjs";
 import { PendragonActor } from "../actor.mjs";
 import { PENSelectLists } from "../../apps/select-lists.mjs";
 import { RollType, PENCheck, CardType } from "../../apps/checks.mjs";
+import PENDialog from "../../setup/pen-dialog.mjs";
 
 export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.ActorSheetV2) {
   constructor(options = {}) {
@@ -110,32 +111,39 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
 
     let encounters = [];
     let knights = [];
-    const encList = await this.actor.system.getEncounters();
 
-    for (const { actor: enc } of encList) {
-      if (enc) {
+    for (let thisEnc of this.actor.system.encounters) {
+      let displayName = thisEnc.name;
+      let encounter = (await game.system.api.pid.fromPIDBest({ pid: thisEnc.pid }))[0];
+      //If no hit on PID then use UUID
+      if (!encounter) {
+        encounter = await fromUuid(thisEnc.uuid);
+      }
+
+      if (encounter) {
         let morale = true;
-        const pid = enc.getFlag("Pendragon", "pidFlag");
-        if (this.actor.system.currMorale < enc.system.moraleMin && context.isGM) {
+        if (this.actor.system.currMorale < encounter.system.moraleMin && context.isGM) {
           morale = false;
         }
+        if (displayName === "") displayName = encounter.name;
         encounters.push({
-          name: enc.name,
-          uuid: enc.uuid,
-          pid: pid.id,
-          actr: enc,
+          name: displayName,
+          uuid: thisEnc.uuid,
+          pid: thisEnc.pid,
+          actr: encounter,
           morale: morale,
         });
       } else {
         encounters.push({
-          name: game.i18n.localize("PEN.invalid"),
-          uuid: null,
-          npcPid: null,
+          name: displayName + " [" + game.i18n.localize("PEN.invalid") + "]",
+          uuid: thisEnc.uuid,
+          pid: thisEnc.pid,
           actr: false,
           morale: false,
         });
       }
     }
+
     const kList = await this.actor.system.getKnights();
     for (const { actor: knight } of kList) {
       if (knight) {
@@ -262,7 +270,12 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
       }
       const itemId = target.closest(".partic-item").dataset.property;
       if (collectionName === "encounters") {
-        await this.actor.system.removeEncounter(itemId);
+        const encIndex = this.actor.system.encounters.findIndex((i) => itemId && i.uuid === itemId);
+        if (encIndex > -1) {
+          const encounters = this.actor.system.encounters ? foundry.utils.duplicate(this.actor.system.encounters) : [];
+          encounters.splice(encIndex, 1);
+          await this.actor.update({ "system.encounters": encounters });
+        }
         return;
       }
       if (collectionName === "knights") {
@@ -485,15 +498,41 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
     if (!newActor) {
       return;
     }
-    // let npid = newActor.flags.Pendragon?.pidFlag?.id;
-    // if (!npid) {
-    //   ui.notifications.warn(
-    //     game.i18n.format("PEN.PIDFlag.noPIDFlag", { itemName: newActor.name }),
-    //   );
-    //   return;
-    // }
+    let npid = newActor.flags?.Pendragon?.pidFlag?.id;
+    if (!npid) {
+      ui.notifications.warn(game.i18n.format("PEN.PIDFlag.noPIDFlag", { itemName: newActor.name }));
+      return;
+    }
     if (newActor.type == "encounter") {
-      await this.actor.system.addEncounter(newActor);
+      if (["encounter"].includes(newActor.type)) {
+        const encounters = this.actor.system.encounters ? foundry.utils.duplicate(this.actor.system.encounters) : [];
+        //Check encounter is not in encounters list
+        if (encounters.find((el) => el.pid === npid)) {
+          ui.notifications.warn(game.i18n.localize("PEN.dupNPC"));
+          return;
+        }
+        let displayName = newActor.name;
+        let msg = game.i18n.localize("PEN.encounterName");
+        let inpVal = await PENDialog.input({
+          window: { title: game.i18n.localize("TYPES.Actor.encounter") },
+          content: `<p>` + msg + `</p><p><input class="centre" type="text" name="inpvalue"></p>`,
+        });
+        if (inpVal && inpVal.inpvalue != "") {
+          displayName = inpVal.inpvalue;
+        }
+
+        encounters.push({
+          name: displayName,
+          uuid: data.uuid,
+          pid: newActor.flags?.Pendragon?.pidFlag?.id ?? "",
+        });
+        await this.actor.update({ "system.encounters": encounters });
+      } else {
+        ui.notifications.warn(game.i18n.format("PEN.cantDropActor"));
+        return;
+      }
+
+      //await this.actor.system.addEncounter(newActor);
       return;
     }
     if (newActor.type == "character") {

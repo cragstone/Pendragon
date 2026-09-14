@@ -1,6 +1,7 @@
 const { api, sheets } = foundry.applications;
 import { PIDEditor } from "../../pid/pid-editor.mjs";
 import { PendragonActor } from "../actor.mjs";
+import PENDialog from "../../setup/pen-dialog.mjs";
 
 export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(sheets.ActorSheetV2) {
   constructor(options = {}) {
@@ -95,9 +96,14 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(shee
     );
 
     let npcs = [];
-    //for (let npcPid of this.actor.system.npcs) {
-    for (const { actor: npc } of await this.actor.system.getMembers()) {
-      //let npc = (await game.system.api.pid.fromPIDBest({pid: npcPid.pid}))[0]
+    for (let thisNPC of this.actor.system.npcs) {
+      let displayName = thisNPC.name;
+      let npc = (await game.system.api.pid.fromPIDBest({ pid: thisNPC.pid }))[0];
+      //If no hit on PID then use UUID
+      if (!npc) {
+        npc = await fromUuid(thisNPC.uuid);
+      }
+
       if (npc) {
         let skills = "";
         let armour = "";
@@ -116,21 +122,21 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(shee
               armour = armour + ", " + itm.name;
             }
           }
+          if (displayName === "") displayName = npc.name;
         }
-
         npcs.push({
-          name: npc.name,
-          uuid: npc.uuid,
-          pid: npc.getFlag("Pendragon", "pidFlag"),
+          name: displayName,
+          uuid: thisNPC.uuid,
+          pid: thisNPC.pid,
           actr: npc,
           skills: skills,
           armour: armour,
         });
       } else {
         npcs.push({
-          name: game.i18n.localize("PEN.invalid"),
-          uuid: null,
-          npcPid: null,
+          name: thisNPC.name + " [" + game.i18n.localize("PEN.invalid") + "]",
+          uuid: thisNPC.uuid,
+          pid: thisNPC.pid,
           actr: false,
           skills: "",
           armour: "",
@@ -203,7 +209,12 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(shee
       event.preventDefault();
       event.stopImmediatePropagation();
       const itemId = target.closest(".partic-cell").dataset.property;
-      await this.actor.system.removeMember(itemId);
+      const npcIndex = this.actor.system.npcs.findIndex((i) => itemId && i.uuid === itemId);
+      if (npcIndex > -1) {
+        const npcs = this.actor.system.npcs ? foundry.utils.duplicate(this.actor.system.npcs) : [];
+        npcs.splice(npcIndex, 1);
+        await this.actor.update({ "system.npcs": npcs });
+      }
     }
   }
 
@@ -226,10 +237,10 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(shee
     event.preventDefault();
     event.stopImmediatePropagation();
     const itemId = target.closest(".partic-cell").dataset.property;
-    let encActor = await fromUuid(itemId);
-    //const pid = target.closest(".partic-cell").dataset.pid;
-    let pid = encActor.flags.Pendragon?.pidFlag?.id;
+    const pid = target.closest(".partic-cell").dataset.pid;
+    const npcIndex = Number(target.closest(".partic-cell").dataset.index);
     let count = target.dataset.count;
+    let encNPC = this.actor.system.npcs.find((i) => itemId && i.uuid === itemId);
     //Check Scene is present
     if (!canvas.scene) {
       ui.notifications.error(game.i18n.localize("PEN.noScene"));
@@ -238,8 +249,11 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(shee
 
     let actor = (await game.system.api.pid.fromPIDBest({ pid: pid }))[0];
     if (!actor) {
-      ui.notifications.error(game.i18n.format("PEN.actorNotFound", { type: pid }));
-      return;
+      actor = await fromUuid(itemId);
+      if (!actor) {
+        ui.notifications.error(game.i18n.format("PEN.actorNotFound", { type: pid }));
+        return;
+      }
     }
 
     // Check actor exists in the game world and if not create it
@@ -268,7 +282,8 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(shee
 
     for (let ctr = 1; ctr <= count; ctr++) {
       let counter = ctr + current;
-      let tokenName = actor.name + "(" + counter + ")";
+      let tokenLabel = encNPC.name ?? actor.name;
+      let tokenName = tokenLabel + "(" + counter + ")";
       // Define token data
       const tokenData = {
         name: tokenName,
@@ -414,21 +429,34 @@ export class PendragonEncounterSheet extends api.HandlebarsApplicationMixin(shee
     if (!newActor) {
       return;
     }
-    let npid = newActor.flags.Pendragon?.pidFlag?.id;
+    let npid = newActor.flags?.Pendragon?.pidFlag?.id;
     if (!npid) {
       ui.notifications.warn(game.i18n.format("PEN.PIDFlag.noPIDFlag", { itemName: newActor.name }));
       return;
     }
     if (["npc"].includes(newActor.type)) {
       const npcs = this.actor.system.npcs ? foundry.utils.duplicate(this.actor.system.npcs) : [];
-      // is this limitation really necessary?
-      if (npcs.length > 3) {
-        ui.notifications.warn(game.i18n.localize("PEN.encounterMax"));
+      //Check npc is not in npc list
+      if (npcs.find((el) => el.pid === npid)) {
+        ui.notifications.warn(game.i18n.localize("PEN.dupNPC"));
         return;
       }
-      // TODO: we need to do duplicate check in the data model
-      // see dnd5e module/data/actor/group.mjs for example
-      await this.actor.system.addMember(newActor);
+      let displayName = newActor.name;
+      let msg = game.i18n.localize("PEN.npcName");
+      let inpVal = await PENDialog.input({
+        window: { title: game.i18n.localize("TYPES.Actor.npc") },
+        content: `<p>` + msg + `</p><p><input class="centre" type="text" name="inpvalue"></p>`,
+      });
+      if (inpVal && inpVal.inpvalue != "") {
+        displayName = inpVal.inpvalue;
+      }
+
+      npcs.push({
+        name: displayName,
+        uuid: data.uuid,
+        pid: newActor.flags?.Pendragon?.pidFlag?.id ?? "",
+      });
+      await this.actor.update({ "system.npcs": npcs });
     } else {
       ui.notifications.warn(game.i18n.format("PEN.cantDropActor"));
       return;
