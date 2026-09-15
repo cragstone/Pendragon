@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Unreleased
+- Added handlebar helper to localize Skill Categories pills on CharV2 skill tab
+
 ## 14.18
 - Additional Combat Actions Implemented disarm, evade, zigzag, dodge, set spear (ryak2)
 
