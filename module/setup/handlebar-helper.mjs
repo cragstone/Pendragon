@@ -32,4 +32,8 @@ export const handlebarsHelper = function () {
   Handlebars.registerHelper("counter", function (index) {
     return index + 1;
   });
+
+  Handlebars.registerHelper("penLocalize", function (str1, str2) {
+    return game.i18n.localize(str2 + str1)
+  });  
 };
