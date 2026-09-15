@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 14.18
+- Additional Combat Actions Implemented disarm, evade, zigzag, dodge, set spear (ryak2)
+
 ## 14.17
 
 - Battles and Encounters use PIDs again when adding encounters and npcs respectively.

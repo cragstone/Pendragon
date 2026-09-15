@@ -246,6 +246,16 @@
     max-height: 620px;
   }
 
+  .battle-notes .prosemirror .editor-container,
+  .battle-notes prose-mirror .editor-container {
+    max-height: 565px;
+  }  
+
+  .battle-notes .prosemirror .cm-editor,
+  .battle-notes prose-mirror .cm-editor {
+    min-height: 565px;
+  }  
+
   .lowMorale {
     color: var(--pendragon-darkred);
     font-style: italic;
