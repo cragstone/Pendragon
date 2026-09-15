@@ -76,6 +76,10 @@ export class COCard {
     CombatAction.adjustOpposingModifiers(card1, card2);
     CombatAction.adjustOpposingModifiers(card2, card1);
 
+    // adjust damage formulas that depend on the opposing action
+    await CombatAction.adjustDamage(card1, card2);
+    await CombatAction.adjustDamage(card2, card1);
+
     // compare the results to determine the outcome
     const [r1, r2] = this.compareCombatResults(card1, card2);
 
@@ -103,34 +107,53 @@ export class COCard {
   }
 
   // update a card
+  // damage formulas that depend on the opposing action (e.g. set spear) are
+  // pre-calculated in CombatAction.adjustDamage before results are compared,
+  // so mapping here only converts actions, suppresses damage and adds notes
   static mapOutcomeToCard(card, myResult, otherResult, otherAction) {
     const updatedCard = { ...card };
+    this.applyBaseOutcome(updatedCard, myResult, otherResult, otherAction);
+    this.convertSetSpear(updatedCard, otherAction);
+    this.applyDodgeOutcome(updatedCard, myResult);
+    this.applyEvadeOutcome(updatedCard, myResult);
+    this.applyDisarmOutcome(updatedCard, myResult);
+    this.applySetSpearOutcome(updatedCard, myResult, otherAction);
+    this.applyDisarmedOutcome(updatedCard, otherResult, otherAction);
+    this.applyEvadedOutcome(updatedCard, otherResult, otherAction);
+    this.applyDodgedOutcome(updatedCard, otherResult, otherAction);
+    this.applyShieldOutcome(updatedCard, myResult, otherResult, otherAction);
+    this.applyKnockdownOutcome(updatedCard, myResult, otherResult);
+    return updatedCard;
+  }
+
+  // shared win/loss bookkeeping: damage flags, shield use, outcome labels
+  static applyBaseOutcome(card, myResult, otherResult, otherAction) {
     // reckless and defend cancel each other out and are treated like opposed attack
     if (
       (card.action == CombatAction.RECKLESS && otherAction == CombatAction.DEFEND) ||
       (card.action == CombatAction.DEFEND && otherAction == CombatAction.RECKLESS)
     ) {
-      updatedCard.action = CombatAction.ATTACK;
+      card.action = CombatAction.ATTACK;
       otherAction = CombatAction.ATTACK;
     }
-    updatedCard.outcome = myResult;
-    updatedCard.outcomeLabel = game.i18n.localize(`PEN.comRoll${myResult}`);
+    card.outcome = myResult;
+    card.outcomeLabel = game.i18n.localize(`PEN.comRoll${myResult}`);
     // assume no damage
-    updatedCard.damRoll = false;
-    updatedCard.damCrit = false;
+    card.damRoll = false;
+    card.damCrit = false;
     // assume no shield/parry
-    updatedCard.damShield = false;
+    card.damShield = false;
 
-    if (this.canInflictDamage(updatedCard.action)) {
+    if (this.canInflictDamage(card.action)) {
       // inflict damage on a win or tie
       if ([CombatOutcome.WIN, CombatOutcome.TIE].includes(myResult)) {
-        updatedCard.damRoll = true;
+        card.damRoll = true;
       }
 
       // inflict critical damage on a critical
       if (myResult == CombatOutcome.CRITICAL) {
-        updatedCard.damRoll = true;
-        updatedCard.damCrit = true;
+        card.damRoll = true;
+        card.damCrit = true;
       }
 
       // defend ignores damage on win or tie
@@ -138,50 +161,161 @@ export class COCard {
         otherAction == CombatAction.DEFEND &&
         [CombatOutcome.TIE, CombatOutcome.WIN, CombatOutcome.CRITICAL].includes(otherResult)
       ) {
-        updatedCard.damRoll = false;
-        updatedCard.damCrit = false;
-        updatedCard.outcomeNote = "Opponent does not take damage.";
+        card.damRoll = false;
+        card.damCrit = false;
+        card.outcomeNote = "Opponent does not take damage.";
       }
 
       // mount ignores damage on win
       if (otherAction == CombatAction.MOUNT && [CombatOutcome.WIN, CombatOutcome.CRITICAL].includes(otherResult)) {
-        updatedCard.damRoll = false;
-        updatedCard.damCrit = false;
+        card.damRoll = false;
+        card.damCrit = false;
       }
     }
+  }
 
-    // check for shield/parry vs a damaging action
+  // disarm on a win/crit: the loser drops their weapon or object
+  static applyDisarmOutcome(card, myResult) {
+    if (card.action == CombatAction.DISARM) {
+      if (myResult == CombatOutcome.CRITICAL) {
+        card.damRoll = false;
+        card.damCrit = false;
+        card.damShield = false;
+        card.outcomeNote = game.i18n.localize("PEN.actionNote.disarmCritical");
+      } else if (myResult == CombatOutcome.WIN) {
+        card.damRoll = false;
+        card.damCrit = false;
+        card.damShield = false;
+        card.outcomeNote = game.i18n.localize("PEN.actionNote.disarmWin");
+      }
+    }
+  }
+
+  // set spear that is not answered by a charge counts as a simple attack
+  static convertSetSpear(card, otherAction) {
+    if (card.action == CombatAction.SET_SPEAR && otherAction != CombatAction.CHARGE) {
+      card.action = CombatAction.ATTACK;
+    }
+  }
+
+  // set spear vs charge on a win/crit strikes with the charger's own damage
+  // (pre-calculated in CombatAction.adjustDamage); excess past a horse kill
+  // is suffered by the rider
+  static applySetSpearOutcome(card, myResult, otherAction) {
+    if (card.action == CombatAction.SET_SPEAR && otherAction == CombatAction.CHARGE) {
+      if ([CombatOutcome.CRITICAL, CombatOutcome.WIN].includes(myResult)) {
+        card.outcomeNote = game.i18n.localize("PEN.actionNote.setSpearHit");
+      }
+    }
+  }
+
+  // dodge: a reckless throw to the side vs melee attacks only, unmounted only;
+  // on a crit/win/tie neither side takes nor deals damage
+  static applyDodgeOutcome(card, myResult) {
+    if (card.action != CombatAction.DODGE) return;
+    if (myResult == CombatOutcome.CRITICAL) {
+      this.suppressDamage(card);
+      card.outcomeNote = game.i18n.localize("PEN.actionNote.dodgeCritical");
+    } else if ([CombatOutcome.WIN, CombatOutcome.TIE].includes(myResult)) {
+      this.suppressDamage(card);
+      card.outcomeNote = game.i18n.localize("PEN.actionNote.dodgeWin");
+    } else if (myResult == CombatOutcome.LOSE) {
+      card.outcomeNote = game.i18n.localize("PEN.actionNote.dodgeLose");
+    } else if (myResult === CombatOutcome.FUMBLE) {
+      card.outcomeNote = game.i18n.localize("PEN.actionNote.dodgeFumble");
+    }
+  }
+
+  // evade: disengagement from melee combat; on a win/crit the character
+  // deals and takes no damage and is no longer engaged
+  static applyEvadeOutcome(card, myResult) {
+    if (card.action != CombatAction.EVADE) return;
+    if ([CombatOutcome.CRITICAL, CombatOutcome.WIN].includes(myResult)) {
+      this.suppressDamage(card);
+      card.outcomeNote = game.i18n.localize("PEN.actionNote.evadeWin");
+    } else if (myResult === CombatOutcome.FUMBLE) {
+      card.outcomeNote = game.i18n.localize("PEN.actionNote.evadeFumble");
+    }
+  }
+
+  // neither side rolls damage: no damage dealt, no crit, no shield use
+  static suppressDamage(card) {
+    card.damRoll = false;
+    card.damCrit = false;
+    card.damShield = false;
+  }
+
+  // knocked down while losing: the loser starts prone next round
+  static applyKnockdownOutcome(card, myResult, otherResult) {
+    if (
+      card.knockdown &&
+      [CombatOutcome.LOSE, CombatOutcome.FUMBLE].includes(myResult) &&
+      ![CombatOutcome.CRITICAL, CombatOutcome.WIN, CombatOutcome.TIE].includes(otherResult)
+    ) {
+      card.outcomeNote = game.i18n.localize("PEN.actionNote.knockedDown");
+    }
+  }
+
+  // being disarmed by the opponent
+  // (no note - the disarmer's own card already says this)
+  static applyDisarmedOutcome(card, otherResult, otherAction) {
+    if (otherAction == CombatAction.DISARM && [CombatOutcome.WIN, CombatOutcome.CRITICAL].includes(otherResult)) {
+      card.damRoll = false;
+      card.damCrit = false;
+      card.damShield = false;
+    }
+  }
+
+  // the opponent evaded: they disengage and no damage is dealt either way
+  // (no note - the evader's own card already says this)
+  static applyEvadedOutcome(card, otherResult, otherAction) {
+    if (otherAction == CombatAction.EVADE && [CombatOutcome.WIN, CombatOutcome.CRITICAL].includes(otherResult)) {
+      card.damRoll = false;
+      card.damCrit = false;
+    }
+  }
+
+  // the opponent dodged: the attack misses
+  // (no note - the dodger's own card already says this)
+  static applyDodgedOutcome(card, otherResult, otherAction) {
+    if (
+      otherAction == CombatAction.DODGE &&
+      [CombatOutcome.WIN, CombatOutcome.CRITICAL, CombatOutcome.TIE].includes(otherResult)
+    ) {
+      card.damRoll = false;
+      card.damCrit = false;
+    }
+  }
+
+  // check for shield/parry vs a damaging action
+  static applyShieldOutcome(card, myResult, otherResult, otherAction) {
     if (
       this.canInflictDamage(otherAction) &&
       [CombatOutcome.WIN, CombatOutcome.TIE, CombatOutcome.CRITICAL].includes(otherResult)
     ) {
       // by default you get benefit of shield/parry on a partial or better
       if ([CombatOutcome.WIN, CombatOutcome.TIE, CombatOutcome.CRITICAL, CombatOutcome.PARTIAL].includes(myResult)) {
-        updatedCard.damShield = true;
+        card.damShield = true;
       }
 
       // denied if either party used a reckless attack
-      if (updatedCard.action == CombatAction.RECKLESS || otherAction == CombatAction.RECKLESS) {
-        updatedCard.damShield = false;
-        updatedCard.outcomeNote = "Reckless attacks prevent the use of shields.";
+      if (card.action == CombatAction.RECKLESS || otherAction == CombatAction.RECKLESS) {
+        card.damShield = false;
+        card.outcomeNote = "Reckless attacks prevent the use of shields.";
       }
 
       // denied if mounting up
-      if (updatedCard.action == CombatAction.MOUNT) {
-        updatedCard.damShield = false;
-        updatedCard.outcomeNote = "You may not use a shield when mounting.";
+      if (card.action == CombatAction.MOUNT) {
+        card.damShield = false;
+        card.outcomeNote = "You may not use a shield when mounting.";
       }
     }
-
-    //  can we adjust the damage formulas here?
 
     // check for weapon breakage
     //  will weapon break / be dropped?
     // if TIE, swords break most weapons; swords and daggers immune
     // if CRITICAL vs FUMBLE, loser's weapon breaks (even if sword)
     // otherwise, FUMBLE means sword dropped or weapon breaks
-
-    return updatedCard;
   }
 
   // check whether the action inflicts damage

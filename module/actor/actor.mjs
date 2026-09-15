@@ -665,6 +665,22 @@ export class PendragonActor extends Actor {
     return this.statuses.has(PendragonStatusEffects.MOUNTED);
   }
 
+  // armour item system.type is true for armor, false for shields
+  isWearingArmor() {
+    return this.items.some((itm) => itm.type === "armour" && itm.system.equipped && itm.system.type);
+  }
+
+  // movement-based actions use the horse's movement rate when mounted
+  getMoveRate() {
+    if (this.isMounted()) {
+      const horse = this.currentHorse();
+      if (horse) return horse.system.move;
+    }
+    // NPCs may have a manual movement rate override
+    if (this.type === "npc" && this.system.manMove) return this.system.manMove;
+    return this.system.move ?? 0;
+  }
+
   async mountCurrentHorse() {
     if (this.isMounted()) return;
     const horse = this.currentHorse();

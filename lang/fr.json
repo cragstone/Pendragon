@@ -1106,6 +1106,25 @@
     "virtues": "Vertus",
     "vweak": "Très faible",
 
+    "actionNote": {
+      "disarmCritical": "L’adversaire perd son emprise sur l’arme ou l’objet, qui vole hors de portée ou tombe aux pieds du personnage.",
+      "disarmWin": "L’adversaire lâche l’arme ou l’objet à portée de main ; elle pourra être ramassée comme action hors combat au prochain tour.",
+      "disarmed": "L’adversaire perd son emprise sur son arme ou son objet, qui tombe à portée de main.",
+      "disarmedCritical": "Vous perdez l’emprise sur votre arme ou votre objet, qui vole hors de portée ou tombe aux pieds de votre adversaire.",
+      "evadeWin": "Le personnage ne subit aucun dégât et n’est plus engagé.",
+      "evadeFumble": "Le personnage tombe et commence le prochain tour au sol ; s’il est monté, il chute de son cheval et subit 1D6 de dégâts.",
+      "opponentEvaded": "L’adversaire se désengage et n’est plus engagé.",
+      "dodgeCritical": "Il se replie, roule et se relève d’un bond. Il évite tout dégât ce tour, n’en inflige aucun, et commence le prochain tour prêt à agir.",
+      "dodgeWin": "Le personnage évite tout dégât ce tour et n’en inflige aucun. Il commence le prochain tour au sol, arme en main.",
+      "dodgeLose": "Le personnage subit tous les dégâts infligés ce tour. Il commence le prochain tour au sol, arme en main.",
+      "dodgeFumble": "Le personnage subit tous les dégâts infligés ce tour, tombe et commence le prochain tour au sol, ayant lâché son arme.",
+      "opponentDodged": "L’adversaire esquive ; votre attaque n’inflige aucun dégât.",
+      "setSpearHit": "L’adversaire en charge (ou sa monture) est frappé ; jetez les dégâts de l’adversaire (ou de la monture), en ajoutant 2D6 si la lance est tenue à deux mains. Les dégâts excédentaires après la mort du cheval passent au cavalier.",
+      "zigzagCritical": "L’adversaire reçoit un modificateur de -10 à sa Compétence d’Arme de Jet ; le personnage se déplace jusqu’à sa Vitesse de Mouvement complète ce tour.",
+      "zigzagSuccess": "L’adversaire reçoit un modificateur de -5 à sa Compétence d’Arme de Jet ; le personnage se déplace jusqu’à la moitié de sa Vitesse de Mouvement ce tour.",
+      "zigzagFail": "Aucun modificateur à la Compétence de l’adversaire ; le personnage se déplace jusqu’à la moitié de sa Vitesse de Mouvement ce tour.",
+      "zigzagFumble": "Aucun modificateur à la Compétence de l’adversaire ; le personnage trébuche et perd toute sa Vitesse de Mouvement ce tour."
+    },
     "walk": "Marche",
     "warn": {
       "currentWeaponCannotCharge": "Vous ne pouvez pas utiliser cette arme lors d’une charge montée.",
@@ -1113,7 +1132,9 @@
       "mountedOnlyWeapon": "Vous ne pouvez pas utiliser cette arme à pied.",
       "needCombatTrainedMount": "Cette action nécessite une monture entraînée au combat.",
       "unmountedOnlyAction": "Vous devez être à pied pour faire cette action.",
-      "unmountedOnlyWeapon": "Vous ne pouvez pas utiliser cette arme à cheval."
+      "unmountedOnlyWeapon": "Vous ne pouvez pas utiliser cette arme à cheval.",
+      "mustBeOnFoot": "Vous devez être debout et à pied pour faire cette action.",
+      "needSpear": "Vous devez avoir une lance comme arme actuelle pour faire cette action."
     },
     "warTrained": "Entraîné au combat",
     "weak": "Faible",

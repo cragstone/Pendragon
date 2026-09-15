@@ -1108,6 +1108,25 @@
     "virtues": "Virtues",
     "vweak": "Very Weak",
 
+    "actionNote": {
+      "disarmCritical": "The opponent loses their grasp on the weapon or object, which flies out of easy reach or lands at the feet of the character.",
+      "disarmWin": "The opponent drops the weapon or object within reach; it may be picked up as a non-Combat Action the following round.",
+      "disarmed": "The opponent loses their grasp on their weapon or object, which drops within reach.",
+      "disarmedCritical": "You lose your grasp on your weapon or object, which flies out of easy reach or lands at the feet of your opponent.",
+      "evadeWin": "The character takes no damage and is no longer engaged.",
+      "evadeFumble": "The character falls and starts on the ground next round; if mounted, they fall from their horse and take 1D6 damage.",
+      "opponentEvaded": "The opponent disengages and is no longer engaged.",
+      "dodgeCritical": "They tuck, roll and spring to their feet. They avoid any damage this round, inflict none, and begin the next round ready to act.",
+      "dodgeWin": "The character avoids taking any damage this round and inflicts none of their own. They start the next round on the ground, weapon in hand.",
+      "dodgeLose": "The character takes all damage inflicted this round. They start the next round on the ground, weapon in hand.",
+      "dodgeFumble": "The character takes all damage inflicted this round, falls, and starts on the ground next round, having dropped their weapon.",
+      "opponentDodged": "The opponent dodges; your attack deals no damage.",
+      "setSpearHit": "The charging opponent (or their mount) is struck; roll the opponent's (or the mount's) damage, adding +2D6 if the spear is wielded two-handed. Excess damage after the horse dies passes to the rider.",
+      "zigzagCritical": "The opponent receives a -10 modifier to their Missile Weapon Skill; the character moves up to full Movement Rate this round.",
+      "zigzagSuccess": "The opponent receives a -5 modifier to their Missile Weapon Skill; the character moves up to half their Movement Rate this round.",
+      "zigzagFail": "No modifier to the opponent's Skill; the character moves up to half their Movement Rate this round.",
+      "zigzagFumble": "No modifier to the opponent's Skill; the character stumbles and loses all Movement Rate this round."
+    },
     "walk": "Walk",
     "warn": {
       "currentWeaponCannotCharge": "You cannot use your current weapon in a mounted charge.",
@@ -1115,7 +1134,9 @@
       "mountedOnlyWeapon": "You cannot use your current weapon while on foot.",
       "needCombatTrainedMount": "Your mount must be combat trained to take this action.",
       "unmountedOnlyAction": "You must be on foot to use this action.",
-      "unmountedOnlyWeapon": "You cannot use your current weapon while mounted."
+      "unmountedOnlyWeapon": "You cannot use your current weapon while mounted.",
+      "mustBeOnFoot": "You must be standing on foot to use this action.",
+      "needSpear": "You must have a spear as your current weapon to use this action."
     },
     "warTrained": "War-Trained",
     "weak": "Weak",

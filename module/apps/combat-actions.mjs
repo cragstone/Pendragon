@@ -1,6 +1,8 @@
 import { OPCard } from "../cards/opposed-card.mjs";
 import { ChatCardState, ChatCardTemplate } from "./chat.mjs";
 import { CardType, RollType, PENCheck, RollResult } from "./checks.mjs";
+import { PENactorDetails } from "./actorDetails.mjs";
+import { PendragonStatusEffects } from "./status-effects.mjs";
 
 const { api, fields } = foundry.applications;
 
@@ -62,6 +64,8 @@ export class CombatAction {
     // apply horsemanship cap if mounted
     if (actor.isMounted()) {
       const horsemanship = actor.getSkillTotal("i.skill.horsemanship");
+      // some actors (e.g. NPCs) may not have a horsemanship skill
+      if (horsemanship == null) return targetScore;
       return Math.min(targetScore, horsemanship);
     }
     return targetScore;
@@ -251,6 +255,29 @@ export class CombatAction {
     config.resultLevel = PENCheck.successLevel(config);
   }
 
+  // adjust damage formulas that depend on the opposing action
+  // e.g. set spear strikes the charger using the opponent's (or the mount's) damage
+  // TODO: a two-handed grip adds +2D6 to this damage, but the system does not
+  // track which hand weapons are wielded in; roll the +2D6 manually for now
+  static async adjustDamage(config, opponent) {
+    if (config.action == CombatAction.SET_SPEAR && opponent.action == CombatAction.CHARGE) {
+      config.itemDamage = await this.setSpearDamage(config, opponent);
+    }
+  }
+
+  static async setSpearDamage(config, opponent) {
+    let damageFormula = opponent?.itemDamage ?? "";
+    if (!damageFormula) {
+      // fall back to the opponent's weapon damage formula
+      const attacker = await PENactorDetails._getParticipant(opponent?.particId, opponent?.particType);
+      const weapon = attacker?.items?.get(opponent?.itemId);
+      if (weapon) {
+        damageFormula = attacker.type === "character" ? weapon.system.damage : weapon.system.dmgForm;
+      }
+    }
+    return damageFormula || null;
+  }
+
   static applyUnopposedOutcome(options) {
     if (options.resultLevel === RollResult.CRITICAL) {
       options.damCrit = true;
@@ -421,29 +448,70 @@ export class CombatAction {
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
-  static async disarm(actor) {
-    const options = {
-      action: CombatAction.DISARM,
-      particName: actor.name,
-      particImg: actor.img,
-      actor: actor,
-    };
-    // crit, weapon flies out of reach (or at feet of winner)
-    // win, opponent drops weapon/object
-    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+  // DISARM
+  // attempt to knock away the opponent's weapon or object; Weapon Skill vs. opponent's Action
+  // crit: weapon flies out of easy reach or lands at the character's feet
+  // win: opponent drops the weapon or object within reach
+  static async disarm(actor, unopposed = false) {
+    // standard opposed weapon roll
+    const options = await this.opposedWeaponRollOptions(actor, CombatAction.DISARM);
+    if (options == null) return;
+
+    // allow for unopposed roll
+    if (unopposed) {
+      options.cardType = CardType.UNOPPOSED;
+      options.state = ChatCardState.CLOSED;
+    }
+
+    // make the roll
+    await PENCheck.makeRoll(options);
+
+    // set the outcome if unopposed
+    if (unopposed) {
+      this.applyUnopposedOutcome(options);
+      // disarming does not inflict damage
+      options.damRoll = false;
+      options.damCrit = false;
+    }
+
+    await this.createChatCard(options);
   }
 
+  // EVADE
+  // disengage from melee combat; Movement Rate (horse's rate if mounted) vs. opponent's Action
+  // win: neither take nor deal damage and no longer engaged
+  // fumble: fall to the ground; if mounted, fall from the horse and take 1D6 damage
   static async evade(actor, unopposed = false) {
+    const moveRate = actor.getMoveRate();
+    const targetScore = this.applyHorsemanshipCap(actor, { total: moveRate });
+    const modifier = await this.requestRollModifiers(CombatAction.EVADE);
+    if (modifier == null) return;
     const options = {
-      action: CombatAction.EVADE,
-      particName: actor.name,
-      particImg: actor.img,
-      actor: actor,
+      ...this.defaultOptions(actor, CombatAction.EVADE),
+      ...this.calcTargets(targetScore, modifier),
+      flatMod: modifier,
+      label: game.i18n.localize("PEN.move"),
+      rawScore: moveRate,
     };
-    // if mounted, horse's movement rate
-    // if on foot, character's movement rate
-    // disengage from combat on win, fall on fumble
-    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+
+    // allow for unopposed roll
+    if (unopposed) {
+      options.cardType = CardType.UNOPPOSED;
+      options.state = ChatCardState.CLOSED;
+    }
+
+    // make the roll
+    await PENCheck.makeRoll(options);
+
+    // set the outcome if unopposed
+    if (unopposed) {
+      this.applyUnopposedOutcome(options);
+      // evading does not inflict damage
+      options.damRoll = false;
+      options.damCrit = false;
+    }
+
+    await this.createChatCard(options);
   }
 
   static async pickUp(actor, unopposed = false) {
@@ -493,16 +561,58 @@ export class CombatAction {
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
+  // ZIGZAG
+  // evasive action used while moving; effective only against missile attacks
+  // unopposed Movement Rate roll (horse's rate if mounted) made prior to the missile attack
+  // crit: opponent -10 Missile Weapon Skill, move up to full Movement Rate
+  // success: opponent -5 Missile Weapon Skill, move up to half Movement Rate
+  // failure: no modifier, move up to half Movement Rate
+  // fumble: no modifier, stumble and lose all Movement Rate
   static async zigzag(actor) {
+    const moveRate = actor.getMoveRate();
+    const targetScore = this.applyHorsemanshipCap(actor, { total: moveRate });
+    const modifier = await this.requestRollModifiers(CombatAction.ZIGZAG);
+    if (modifier == null) return;
+    // unarmoured characters get a +5 zigzag bonus
+    const zigzagMod = Number(modifier) + (actor.isWearingArmor() ? 0 : 5);
+    // always unopposed
     const options = {
-      action: CombatAction.ZIGZAG,
-      particName: actor.name,
-      particImg: actor.img,
-      actor: actor,
+      ...this.defaultOptions(actor, CombatAction.ZIGZAG),
+      ...this.calcTargets(targetScore, zigzagMod),
+      flatMod: zigzagMod,
+      label: game.i18n.localize("PEN.move"),
+      rawScore: moveRate,
+      cardType: CardType.UNOPPOSED,
+      state: ChatCardState.CLOSED,
     };
-    // always unopposed movement or horse movement
-    // impose penalty on attacking archer; distance moved depends on result
-    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+
+    // make the roll
+    await PENCheck.makeRoll(options);
+
+    // the result imposes a penalty on the attacking archer
+    switch (options.resultLevel) {
+      case RollResult.CRITICAL:
+        options.outcome = CombatOutcome.WIN;
+        options.outcomeLabel = game.i18n.localize("PEN.comRollW");
+        options.outcomeNote = game.i18n.localize("PEN.actionNote.zigzagCritical");
+        break;
+      case RollResult.SUCCESS:
+        options.outcome = CombatOutcome.WIN;
+        options.outcomeLabel = game.i18n.localize("PEN.comRollW");
+        options.outcomeNote = game.i18n.localize("PEN.actionNote.zigzagSuccess");
+        break;
+      case RollResult.FUMBLE:
+        options.outcome = CombatOutcome.FUMBLE;
+        options.outcomeLabel = game.i18n.localize("PEN.comRollF");
+        options.outcomeNote = game.i18n.localize("PEN.actionNote.zigzagFumble");
+        break;
+      default:
+        options.outcomeLabel = game.i18n.localize("PEN.comRollL");
+        options.outcomeNote = game.i18n.localize("PEN.actionNote.zigzagFail");
+        break;
+    }
+
+    await this.createChatCard(options);
   }
 
   static async charge(actor, unopposed = false) {
@@ -593,21 +703,49 @@ export class CombatAction {
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
-  static async dodge(actor) {
+  // DODGE
+  // recklessly throw yourself aside to avoid damage; melee attacks only
+  // unmounted and on foot only; the single Movement Rate roll is pitted against
+  // all the opponents' rolls and forgoes the usual penalty for multiple opponents
+  static async dodge(actor, unopposed = false) {
     if (actor.isMounted()) {
       ui.notifications.warn(game.i18n.localize("PEN.warn.unmountedOnlyAction"));
       return;
     }
-    // ignore multiple enemy penalty
-    // only one roll (compare to each opponent)
-    // move skill
+    // must be on their feet (i.e. not knocked down)
+    if (actor.statuses.has(PendragonStatusEffects.PRONE)) {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.mustBeOnFoot"));
+      return;
+    }
+    const targetScore = actor.getMoveRate();
+    const modifier = await this.requestRollModifiers(CombatAction.DODGE);
+    if (modifier == null) return;
     const options = {
-      action: CombatAction.DODGE,
-      particName: actor.name,
-      particImg: actor.img,
-      actor: actor,
+      ...this.defaultOptions(actor, CombatAction.DODGE),
+      ...this.calcTargets(targetScore, modifier),
+      flatMod: modifier,
+      label: game.i18n.localize("PEN.move"),
+      rawScore: targetScore,
     };
-    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+
+    // allow for unopposed roll
+    if (unopposed) {
+      options.cardType = CardType.UNOPPOSED;
+      options.state = ChatCardState.CLOSED;
+    }
+
+    // make the roll
+    await PENCheck.makeRoll(options);
+
+    // set the outcome if unopposed
+    if (unopposed) {
+      this.applyUnopposedOutcome(options);
+      // dodging does not inflict damage
+      options.damRoll = false;
+      options.damCrit = false;
+    }
+
+    await this.createChatCard(options);
   }
 
   static async donArmor(actor) {
@@ -641,21 +779,42 @@ export class CombatAction {
     await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
   }
 
-  static async setSpear(actor) {
+  // SET SPEAR
+  // counter a declared or potential Charge attack; unmounted only
+  // Spear Skill vs. opponent's Action
+  // only works against an opponent using the Charge Skill; otherwise counts as a simple Attack
+  // on a win: strike the charger using the opponent's (or mount's) damage plus any
+  // weapon damage bonus; excess damage to the rider if the horse dies
+  static async setSpear(actor, unopposed = false) {
     if (actor.isMounted()) {
       ui.notifications.warn(game.i18n.localize("PEN.warn.unmountedOnlyAction"));
       return;
     }
-    const options = {
-      action: CombatAction.SET_SPEAR,
-      particName: actor.name,
-      particImg: actor.img,
-      actor: actor,
-    };
-    // if opponent not charging, convert to attack
-    // on win: apply opponent's damage plus your weapon's damage bonus to mount
-    // if horse dies, excess damage passes through to rider
-    await this.createDeclarationCard(options, `${options.particName} NOT IMPLEMENTED`);
+    // requires a spear as the current weapon
+    const weapon = actor.currentWeapon();
+    if (!weapon || weapon.system.skill != "spear") {
+      ui.notifications.warn(game.i18n.localize("PEN.warn.needSpear"));
+      return;
+    }
+    // standard opposed weapon roll using the spear skill
+    const options = await this.opposedWeaponRollOptions(actor, CombatAction.SET_SPEAR);
+    if (options == null) return;
+
+    // allow for unopposed roll
+    if (unopposed) {
+      options.cardType = CardType.UNOPPOSED;
+      options.state = ChatCardState.CLOSED;
+    }
+
+    // make the roll
+    await PENCheck.makeRoll(options);
+
+    // set the outcome if unopposed
+    if (unopposed) {
+      this.applyUnopposedOutcome(options);
+    }
+
+    await this.createChatCard(options);
   }
 
   // used to declare an unopposed action with an automatic success
@@ -722,6 +881,7 @@ export class CombatAction {
           resultLabel: game.i18n.localize(`PEN.resultLevel.${config.resultLevel}`),
           outcome: config.outcome,
           outcomeLabel: config.outcomeLabel,
+          outcomeNote: config.outcomeNote,
           damRoll: config.damRoll,
           damCrit: config.damCrit,
           damShield: config.damShield,

@@ -232,6 +232,15 @@ export class PENCheck {
         break;
       case RollType.DAMAGE:
         tempItem = particActor.items.get(config.itemId);
+        if (!tempItem) {
+          // unarmed attacks have no weapon item; damage is the actor's brawling damage
+          config.label = "Unarmed";
+          config.rollFormula = String(config.itemDamage ?? particActor.system.damage);
+          if (config.damCrit) {
+            config.rollFormula = config.rollFormula + "+2D6";
+          }
+          break;
+        }
         config.label = tempItem.name ?? "";
         if (tempItem.type === "horse") {
           if (config.shiftKey) {
@@ -672,8 +681,8 @@ export class PENCheck {
     if (chatCard.resultLevel === 0 && !game.settings.get("Pendragon", "fumbleXP")) {
       return;
     }
-    //If an evade or dodge action then no tick.
-    if (["dodge", "evade"].includes(chatCard.action)) {
+    //If an evade, dodge or zigzag action then no tick.
+    if (["dodge", "evade", "zigzag"].includes(chatCard.action)) {
       return;
     }
     let actor = await PENactorDetails._getParticipant(chatCard.particId, chatCard.particType);
