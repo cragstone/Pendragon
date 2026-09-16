@@ -113,8 +113,8 @@
   }
 
   .battle-enc {
-    min-height: 270px;
-    max-height: 270px;
+    min-height: 320px;
+    max-height: 320px;
     overflow-y: auto;
     scrollbar-width: thin;
   }

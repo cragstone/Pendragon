@@ -2,6 +2,7 @@
 
 ## Unreleased
 - Added handlebar helper to localize Skill Categories pills on CharV2 skill tab
+- Fixed an issue with Starting Skill scores not calculating when dropping an skill on a character sheet.
 
 ## 14.18
 - Additional Combat Actions Implemented disarm, evade, zigzag, dodge, set spear (ryak2)

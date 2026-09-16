@@ -9,7 +9,9 @@ export class PENactorItemDrop {
     itemData = itemData instanceof Array ? itemData : [itemData];
     //TODO: Consider adding a bypass to just create the items with no checks
     //      return actor.createEmbeddedDocuments("Item", itemData);
-    for (let dropItm of itemData) {
+    for (let thisItem of itemData) {
+
+      let dropItm = thisItem.toObject()
       //Don't allow items to be added to a party Actor
       if (actor.type === "party") {
         continue;
