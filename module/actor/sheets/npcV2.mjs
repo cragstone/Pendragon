@@ -430,8 +430,8 @@ export class PendragonNPCSheetv2 extends api.HandlebarsApplicationMixin(sheets.A
       "system.manMjrWnd": this.actor.system.hp.majorWnd,
       "system.manDmg": this.actor.system.damage,
       "system.manHealRate": this.actor.system.healRate,
-      "system.manMaxHP": 0,
-      "system.manUnconscious": 0,
+      "system.manMaxHP": this.actor.system.stats.siz.total + this.actor.system.stats.con.total + this.actor.system.hp.adj,
+      "system.manUnconscious": Math.round((this.actor.system.stats.siz.total + this.actor.system.stats.con.total + this.actor.system.hp.adj) / 4),
     });
   }
 
