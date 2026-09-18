@@ -294,9 +294,9 @@
 .enc-notes .prosemirror .editor-container,
 .enc-notes prose-mirror .editor-container {
   max-height: 415px;
-}  
+}
 
 .enc-notes .prosemirror .cm-editor,
 .enc-notes prose-mirror .cm-editor {
   min-height: 415px;
-}  
+}

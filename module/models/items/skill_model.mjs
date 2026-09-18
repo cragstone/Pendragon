@@ -30,6 +30,7 @@ export class SkillData extends foundry.abstract.TypeDataModel {
         mod: new NumberField({ ...requiredInteger, initial: 0 }),
       }),
       categories: new ArrayField(new DataField(), { initial: [] }),
+      categoryLabels: new ArrayField(new DataField(), { initial: [], persisted: false }),
       npcSource: new StringField({ required: true, blank: true, initial: "" }),
     };
   }
@@ -37,5 +38,10 @@ export class SkillData extends foundry.abstract.TypeDataModel {
   prepareDerivedData() {
     super.prepareDerivedData();
     this.total = this.value + this.culture + this.family + this.winter + this.create;
+    let catLabels = [];
+    for (let cat of this.categories) {
+      catLabels.push(game.i18n.localize("PEN.skillcat." + cat));
+    }
+    this.categoryLabels = catLabels;
   }
 }

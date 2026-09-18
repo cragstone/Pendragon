@@ -403,7 +403,6 @@ export class PendragonNPCSheetv2 extends api.HandlebarsApplicationMixin(sheets.A
 
   //Show or hide playerNoteView
   static async _playerNotesView(event, target) {
-    console.log("PING");
     event.preventDefault();
     event.stopImmediatePropagation();
     await this.actor.update({ "system.playerNotesView": !this.actor.system.playerNotesView });

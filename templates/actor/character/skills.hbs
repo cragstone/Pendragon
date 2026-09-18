@@ -11,8 +11,8 @@
         <div data-itemid="{{skill._id}}" data-action="rollSkill">
           <span>{{skill.name}}</span>
           <div class="pills">
-            {{#each skill.system.categories as |category|}}
-              <span class="pill">{{penLocalize category 'PEN.skillcat.'}}</span>
+            {{#each skill.system.categoryLabels as |category|}}
+              <span class="pill">{{category }}</span>
             {{/each}}
           </div>
         </div>
@@ -33,8 +33,8 @@
         <div data-itemid="{{skill._id}}" data-action="rollSkill">
           <span>{{skill.name}}</span>
           <div class="pills">
-            {{#each skill.system.categories as |category|}}
-              <span class="pill">{{penLocalize category 'PEN.skillcat.'}}</span>
+            {{#each skill.system.categoryLabels as |category|}}
+              <span class="pill">{{category }}</span>
             {{/each}}
           </div>
         </div>

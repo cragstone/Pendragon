@@ -82,7 +82,7 @@ export class FeastGlory {
       count++;
     }
     if (count > 0) {
-      game.socket.emit("system.rol", {
+      game.socket.emit("system.Pendragon", {
         type: "updatechar",
       });
     }
