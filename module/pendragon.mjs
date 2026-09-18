@@ -176,6 +176,19 @@ Hooks.on("renderJournalEntryPageTextSheet", RenderJournalEntryPageTextSheet);
 Hooks.on("renderJournalEntrySheet", RenderJournalEntrySheet);
 Hooks.on("renderRollTableSheet", RenderRollTableSheet);
 Hooks.on("createToken", createToken);
+Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
+  for (const doc of game.actors) {
+    doc._initialize()
+  }
+  foundry.applications.instances.forEach(sheet => {
+    if (sheet instanceof CONFIG.Actor.sheetClasses.character['Pendragon.PendragonCharacterSheet'].cls ||
+        sheet instanceof CONFIG.Actor.sheetClasses.character['Pendragon.PendragonCharacterSheetv2'].cls
+    ) {
+      sheet.render({ force: true })
+    }
+  })
+})
+
 
 PendragonHooks.listen();
 

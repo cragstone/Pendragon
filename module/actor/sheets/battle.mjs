@@ -15,7 +15,7 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
     classes: ["Pendragon", "sheet", "actor", "battle"],
     position: {
       width: 400,
-      height: 710,
+      height: 760,
     },
     window: {
       resizable: true,

@@ -113,8 +113,8 @@
   }
 
   .battle-enc {
-    min-height: 270px;
-    max-height: 270px;
+    min-height: 320px;
+    max-height: 320px;
     overflow-y: auto;
     scrollbar-width: thin;
   }
@@ -249,12 +249,12 @@
   .battle-notes .prosemirror .editor-container,
   .battle-notes prose-mirror .editor-container {
     max-height: 565px;
-  }  
+  }
 
   .battle-notes .prosemirror .cm-editor,
   .battle-notes prose-mirror .cm-editor {
     min-height: 565px;
-  }  
+  }
 
   .lowMorale {
     color: var(--pendragon-darkred);

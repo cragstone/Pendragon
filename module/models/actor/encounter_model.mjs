@@ -26,7 +26,7 @@ export class EncounterData extends foundry.abstract.TypeDataModel {
       description: new HTMLField({ required: true, blank: true, initial: "" }),
       notes: new HTMLField({ required: true, blank: true, initial: "" }),
       moraleMin: new NumberField({ ...requiredInteger, initial: 0 }),
-      numOpp: new NumberField({ ...requiredInteger, initial: 1 }),
+      numOpp: new NumberField({ required: true, nullable: false, initial: 1 }),
       npcView: new NumberField({ ...requiredInteger, initial: 99 }),
       opportunity: new BooleanField({ initial: false }),
       lock: new BooleanField({ initial: false }),
