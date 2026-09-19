@@ -29,6 +29,22 @@ export class PENSelectLists {
     return options;
   }
 
+  //wield options; a weapon can always be carried or dropped. Two-handed hafted weapons
+  //may not be used one-handed; lances may, so they can pair with a shield
+  static getWieldTypes(weaponSystem) {
+    const options = {
+      carried: game.i18n.localize("PEN.wield.carried"),
+      dropped: game.i18n.localize("PEN.wield.dropped"),
+    };
+    if (!weaponSystem?.twoHandedOnly || weaponSystem.skill === "charge") {
+      options.primaryHand = game.i18n.localize("PEN.wield.primaryHand");
+    }
+    if (weaponSystem?.canBeTwoHanded) {
+      options.twoHanded = game.i18n.localize("PEN.wield.twoHanded");
+    }
+    return options;
+  }
+
   //Weapon Damage
   static getWeaponDmg() {
     let options = {
