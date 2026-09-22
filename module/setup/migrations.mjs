@@ -378,10 +378,10 @@ export async function getUpdatesFor(source) {
             let newName = npc.name ?? "";
             let newPid = npc.pid;
             if (newName === "") newName = tempActor.name;
-            if (newPID === "") newPID = tempActor.flags?.Pendragon?.pidFlag?.id ?? "";
+            if (newPid === "") newPid = tempActor.flags?.Pendragon?.pidFlag?.id ?? "";
             npcs.push({
               name: newName,
-              pid: newPID,
+              pid: newPid,
               uuid: npc.uuid,
             });
             changed = true;
@@ -409,10 +409,10 @@ export async function getUpdatesFor(source) {
             let newName = encounter.name ?? "";
             let newPid = encounter.pid;
             if (newName === "") newName = tempActor.name;
-            if (newPID === "") newPID = tempActor.flags?.Pendragon?.pidFlag?.id ?? "";
+            if (newPid === "") newPid = tempActor.flags?.Pendragon?.pidFlag?.id ?? "";
             encounters.push({
               name: newName,
-              pid: newPID,
+              pid: newPid,
               uuid: encounter.uuid,
             });
             changed = true;

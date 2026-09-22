@@ -310,20 +310,25 @@ export class PendragonBattleSheet extends api.HandlebarsApplicationMixin(sheets.
     if (!game.user.isGM) {
       return;
     }
-    const pid = target.closest(".partic-item").dataset.pid;
+    const { pid, property: uuid } = target.closest(".partic-item").dataset;
     //Check to see if Encounter is in game world
-    let enc = await game.actors.filter((actr) => actr.flags.Pendragon?.pidFlag?.id === pid)[0];
+    let enc = pid && game.actors.find((actr) => actr.type === "encounter" && actr.flags?.Pendragon?.pidFlag?.id === pid);
     //If not in game then check compendiums as well
     if (!enc) {
       enc = (await game.system.api.pid.fromPIDBest({ pid: pid }))[0];
-      if (enc) {
-        let tempActor = await PendragonActor.create(enc);
-        enc = tempActor;
-      }
     }
-    if (enc) {
-      enc.sheet.render(true);
+    //Older battles may only have a UUID, just as in the encounter list lookup.
+    if (!enc && uuid) {
+      enc = await fromUuid(uuid);
     }
+    if (!enc) {
+      ui.notifications.warn(game.i18n.format("PEN.actorNotFound", { type: pid || uuid }));
+      return;
+    }
+    if (enc.pack) {
+      enc = await PendragonActor.create(enc);
+    }
+    await enc.sheet.render(true);
   }
 
   //View Knight
