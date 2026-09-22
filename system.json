@@ -2,10 +2,10 @@
   "id": "Pendragon",
   "title": "Pendragon",
   "description": "Pendragon system for FoundryVTT!",
-  "version": "14.18",
+  "version": "14.19",
   "compatibility": {
     "minimum": "14",
-    "verified": "14.367",
+    "verified": "14.368",
     "maximum": "14"
   },
   "authors": [
@@ -242,7 +242,7 @@
   },
   "url": "https://github.com/cragstone/Pendragon",
   "manifest": "https://github.com/cragstone/Pendragon/releases/latest/download/system.json",
-  "download": "https://github.com/cragstone/Pendragon/releases/download/14.18/Pendragon.zip",
+  "download": "https://github.com/cragstone/Pendragon/releases/download/14.19/Pendragon.zip",
   "socket": true,
   "license": "LICENSE.txt",
   "changelog": "CHANGELOG.md",

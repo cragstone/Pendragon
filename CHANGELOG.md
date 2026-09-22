@@ -1,8 +1,11 @@
 # CHANGELOG
 
-## Unreleased
-- Added handlebar helper to localize Skill Categories pills on CharV2 skill tab
+## 14.19
+- Localized Skill Categories pills on CharV2 skill tab
 - Fixed an issue with Starting Skill scores not calculating when dropping an skill on a character sheet.
+- Character ages will automatically update when game year is changed via GM menu
+- Fixed issue with Battles and Encounters not opening (Mr Primate)
+- Follower autocalc of derived stats fixed
 
 ## 14.18
 - Additional Combat Actions Implemented disarm, evade, zigzag, dodge, set spear (ryak2)
@@ -124,7 +127,7 @@
 - Horsemanship skill now counts towards Knightly test as a non-combat skill
 - Standard of living now shows on the character sheet (it is set in Winter Phase)
 - Fields that can be edited on the character sheet now show a red line at the bottom or, where they are in a grid, have a grey background to make it clearer what can be edited
-- EXPERIMENTAL FEATURE = Game setting added in Combat Settings that turns off wounds - in this case you just edit the HP. Adding damage will not check for Minor, Major or Mortal wounds, but Natural Healing will increase HP.  
+- EXPERIMENTAL FEATURE = Game setting added in Combat Settings that turns off wounds - in this case you just edit the HP. Adding damage will not check for Minor, Major or Mortal wounds, but Natural Healing will increase HP.
   It is not used in the forthcoming v2 Character Sheet yet
 - A lot of double clicks have been removed in favour of single clicks. Generally only destructive actions will be double clicks.
 - Game Year setting replaced using Foundry native Calendar and new worlds will default to 510.
