@@ -87,7 +87,7 @@ export async function migrateWorld({ bypassVersionCheck = false } = {}) {
 export async function equippedHandsUpdate() {
   console.log("Migration to 14.19 started");
   for (const actor of game.actors) {
-    if (!["character", "npc"].includes(actor.type)) continue;
+    if (actor.type !== "character") continue;
     const updateData = equippedHandsUpdateData(actor);
     if (!foundry.utils.isEmpty(updateData)) {
       await actor.update(updateData);
@@ -98,7 +98,7 @@ export async function equippedHandsUpdate() {
     for (const token of scene.tokens) {
       if (token.actorLink) continue;
       const actor = token.actor;
-      if (!actor || !["character", "npc"].includes(actor.type)) continue;
+      if (!actor || actor.type !== "character") continue;
       const updateData = equippedHandsUpdateData(actor);
       if (!foundry.utils.isEmpty(updateData)) {
         await actor.update(updateData);

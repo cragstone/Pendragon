@@ -679,7 +679,8 @@ export class PendragonActor extends Actor {
   }
   getTwoHandedWeapon() {
     if (!this.isWieldingTwoHanded()) return null;
-    return this.items.get(this.system.equippedHands.primary) ?? null;
+    const hands = this.system.equippedHands ?? {};
+    return this.items.get(hands.primary) ?? null;
   }
   // armour item system.type is true for armor, false for shields
   hasShieldEquipped() {
@@ -689,8 +690,8 @@ export class PendragonActor extends Actor {
   async setShieldHand(shield, equipped) {
     if (!this.system.equippedHands) return;
     const hands = {
-      primary: this.system.equippedHands.primary ?? "",
-      secondary: this.system.equippedHands.secondary ?? "",
+      primary: this.system.equippedHands?.primary ?? "",
+      secondary: this.system.equippedHands?.secondary ?? "",
     };
     if (!equipped) {
       if (hands.secondary === shield.id) hands.secondary = "";
@@ -805,8 +806,8 @@ export class PendragonActor extends Actor {
   //the hand-assignment core; weapons passed here always have quantity 1
   async #applyWield(weapon, wield) {
     const hands = {
-      primary: this.system.equippedHands.primary ?? "",
-      secondary: this.system.equippedHands.secondary ?? "",
+      primary: this.system.equippedHands?.primary ?? "",
+      secondary: this.system.equippedHands?.secondary ?? "",
     };
     //clear this weapon from any hand it already occupies
     if (hands.primary === weapon.id) hands.primary = "";
