@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 14.20
+- "Event (History)" can't be created as an item from the Item Directory - you only do this from the character sheet
+- Minor CSS tweaks
+
 ## 14.19
 - Localized Skill Categories pills on CharV2 skill tab
 - Fixed an issue with Starting Skill scores not calculating when dropping an skill on a character sheet.
