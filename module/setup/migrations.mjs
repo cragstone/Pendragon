@@ -74,8 +74,78 @@ export async function migrateWorld({ bypassVersionCheck = false } = {}) {
     console.log("Migration to 14.17 completed");
   }
 
+  //Migrate if current system is less than Version 14.19
+  if (foundry.utils.isNewerVersion("14.19", currentVersion ?? "0")) {
+    await equippedHandsUpdate();
+  }
+
   await game.settings.set("Pendragon", "systemMigrationVersion", targetVersion);
   return;
+}
+
+//Populate equippedHands from existing shield and currentWeapon data
+export async function equippedHandsUpdate() {
+  console.log("Migration to 14.19 started");
+  for (const actor of game.actors) {
+    if (actor.type !== "character") continue;
+    const updateData = equippedHandsUpdateData(actor);
+    if (!foundry.utils.isEmpty(updateData)) {
+      await actor.update(updateData);
+    }
+  }
+  // Migrate Items in Scenes [Token] Actors
+  for (const scene of game.scenes) {
+    for (const token of scene.tokens) {
+      if (token.actorLink) continue;
+      const actor = token.actor;
+      if (!actor || actor.type !== "character") continue;
+      const updateData = equippedHandsUpdateData(actor);
+      if (!foundry.utils.isEmpty(updateData)) {
+        await actor.update(updateData);
+      }
+    }
+  }
+  console.log("Migration to 14.19 completed");
+}
+
+//populate equippedHands from the equipped shield and currentWeapon flag, and give every
+//weapon a wield state matching the hands it can be found in
+function equippedHandsUpdateData(actor) {
+  const hands = { primary: "", secondary: "" };
+  const items = [];
+  const shield = actor.items.find((i) => i.type === "armour" && i.system.equipped && !i.system.type);
+  if (shield) {
+    hands.secondary = shield.id;
+  }
+  const weapon = actor.currentWeapon();
+  if (weapon) {
+    hands.primary = weapon.id;
+    if (weapon.system.twoHandedOnly) {
+      //lances may be wielded one-handed beside a shield; other two-handers take both hands
+      if (!(shield && weapon.system.skill === "charge")) {
+        hands.secondary = weapon.id;
+        if (shield) items.push({ _id: shield.id, "system.equipped": false });
+      }
+    }
+  }
+  const current = actor.system.equippedHands ?? {};
+  const updateData = {};
+  if (current.primary !== hands.primary || current.secondary !== hands.secondary) {
+    updateData["system.equippedHands.primary"] = hands.primary;
+    updateData["system.equippedHands.secondary"] = hands.secondary;
+  }
+  //a weapon left in no hand is carried (sheathed or at the side)
+  for (const item of actor.items) {
+    if (item.type !== "weapon") continue;
+    const inPrimary = hands.primary === item.id;
+    const inSecondary = hands.secondary === item.id;
+    let wield = "carried";
+    if (inPrimary && inSecondary) wield = "twoHanded";
+    else if (inPrimary || inSecondary) wield = "primaryHand";
+    if (wield !== item.system.wield) items.push({ _id: item.id, "system.wield": wield });
+  }
+  if (items.length) updateData.items = items;
+  return updateData;
 }
 
 //------------------------------------------------------------------------------------------
