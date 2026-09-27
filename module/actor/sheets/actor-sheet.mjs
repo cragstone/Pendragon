@@ -30,6 +30,8 @@ export class PendragonActorSheet extends api.HandlebarsApplicationMixin(sheets.A
     el.insertAdjacentHTML("beforebegin", pidEditor);
     return frame;
   }
+
+  // handle the editImage action
   static async _onEditImage(event, target) {
     const attr = target.dataset.edit;
     const current = foundry.utils.getProperty(this.document, attr);
@@ -46,6 +48,8 @@ export class PendragonActorSheet extends api.HandlebarsApplicationMixin(sheets.A
     });
     return fp.browse();
   }
+
+  // simplify standard tab initialisation
   _initTabs(group, tabNames) {
     const tabs = {};
     tabNames.forEach((name) => {
@@ -57,5 +61,26 @@ export class PendragonActorSheet extends api.HandlebarsApplicationMixin(sheets.A
       };
     });
     return tabs;
+  }
+
+  // this overload allows us to do fancy tooltips
+  async _onRender(context, options) {
+    // handle the document per normal
+    await super._onRender(context, options);
+
+    // in main document key some element with data-reference="sample-uuid"
+    // here we turn this into data-tooltip
+    this.element.querySelectorAll("[data-reference]").forEach((e) => this._processReference(e));
+  }
+
+  // turn data-reference into data-tooltip
+  _processReference(element) {
+    // skip if already handled
+    if ("tooltip" in element.dataset) return;
+    const uuid = element.dataset.reference;
+    // set the tooltip with a loading spinner
+    // the apps/tooltips.mjs code loads the document and render as a tooltip
+    const placeholder = `<section class="loading" data-uuid="${uuid}"><i class="fas fa-spinner fa-spin-pulse" inert></i></section>`;
+    element.dataset.tooltip = placeholder;
   }
 }
