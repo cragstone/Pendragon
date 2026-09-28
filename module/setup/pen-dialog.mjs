@@ -1,6 +1,6 @@
 export default class PENDialog extends foundry.applications.api.DialogV2 {
   static DEFAULT_OPTIONS = {
-    classes: ["Pendragon", "item"],
+    classes: ["Pendragon", "item", "themed", "theme-light"],
     position: {
       width: 400,
       height: "auto",
