@@ -9,9 +9,42 @@ import PENDialog from "../setup/pen-dialog.mjs";
 
 export class PENWinter {
   //
+  //Should the character sheet show the Winter Phase tab
+  //
+  static showWinterTab(actor) {
+    return (
+      game.settings.get("Pendragon", "winter") ||
+      game.settings.get("Pendragon", "development") ||
+      actor.system.status.winter
+    );
+  }
+
+  //
+  //GM only sheet header menu entry to start/end an Individual Winter Phase
+  //
+  static headerControls(actor) {
+    if (!game.user.isGM) {
+      return [];
+    }
+    return [
+      {
+        icon: "fa-solid fa-snowflake",
+        label: actor.system.status.winter ? "PEN.individualWinterStop" : "PEN.individualWinter",
+        action: "individualWinter",
+      },
+    ];
+  }
+
+  //
   //Winter Phase
   //
   static async winterPhase(toggle) {
+    //Before ending the Winter Phase check that player characters have completed it
+    if (!toggle && !(await PENWinter.confirmWinterComplete())) {
+      //Rebuild the scene controls so the Winter Phase toggle shows as still active
+      await ui.controls.render({ reset: true });
+      return;
+    }
     await game.settings.set("Pendragon", "winter", toggle);
 
     //If Winter Phase toggled off - toggle Winter status off for all characters and increase game year
@@ -26,6 +59,7 @@ export class PENWinter {
             "system.status.horseSurv": false,
             "system.status.familyRoll": false,
             "system.status.xp": false,
+            "system.status.winter": false,
             "system.passglory.inyear": 0,
           });
         }
@@ -80,6 +114,96 @@ export class PENWinter {
       }
     }
     ui.notifications.warn(game.i18n.localize("PEN.winterPhaseStart"));
+  }
+
+  //
+  //Warn if any player owned characters have not finished the Winter Phase - returns true to proceed
+  //
+  static async confirmWinterComplete() {
+    const steps = {
+      xp: "PEN.xpRoll",
+      economic: "PEN.economicCirc",
+      aging: "PEN.aging",
+      squireAge: "PEN.squireMaidenRoll",
+      horseSurv: "PEN.horseSurvival",
+      train: "PEN.training",
+      familyRoll: "PEN.familyRolls",
+    };
+    let incomplete = [];
+    for (const actr of game.actors.contents) {
+      if (actr.type !== "character" || !actr.hasPlayerOwner) continue;
+      let outstanding = Object.entries(steps)
+        .filter(([key]) => actr.system.status[key])
+        .map(([, label]) => game.i18n.localize(label));
+      if (actr.system.gloryPrestige > 0) {
+        outstanding.push(game.i18n.localize("PEN.prestigeAward") + " (" + actr.system.gloryPrestige + ")");
+      }
+      if (outstanding.length > 0) {
+        incomplete.push(
+          "<li><b>" + foundry.utils.escapeHTML(actr.name) + "</b>: " + outstanding.join(", ") + "</li>",
+        );
+      }
+    }
+    if (incomplete.length < 1) {
+      return true;
+    }
+    return await PENDialog.confirm({
+      window: { title: game.i18n.localize("PEN.winterPhase") },
+      content:
+        '<div class="stat-name left bold">' +
+        game.i18n.localize("PEN.winterIncomplete") +
+        '</div><ul class="stat-name left">' +
+        incomplete.join("") +
+        '</ul><div class="stat-name left bold">' +
+        game.i18n.localize("PEN.proceed") +
+        "</div><br>",
+    });
+  }
+
+  //
+  //Individual Winter Phase (GM only) - for a character who missed the group Winter Phase
+  //Passive glory, squire ageing and the year change have already happened so none are repeated here
+  //
+  static async individualWinter(actor) {
+    if (!game.user.isGM || actor.type !== "character") {
+      return;
+    }
+    const toggle = !actor.system.status.winter;
+    const message = game.i18n.format(toggle ? "PEN.individualWinterStart" : "PEN.individualWinterEnd", {
+      name: actor.name,
+    });
+    const confirmation = await PENDialog.confirm({
+      window: { title: game.i18n.localize("PEN.individualWinter") },
+      content: '<div class="stat-name left bold">' + message + "</div><br>",
+    });
+    if (!confirmation) {
+      return;
+    }
+    await actor.update({
+      "system.status.winter": toggle,
+      "system.status.train": toggle,
+      "system.status.economic": toggle,
+      "system.status.aging": toggle,
+      "system.status.squireAge": toggle,
+      "system.status.horseSurv": toggle,
+      "system.status.familyRoll": toggle,
+      "system.status.xp": toggle,
+    });
+    ui.notifications.warn(message);
+  }
+
+  //
+  //Years to step back when running an individual Winter Phase after the game year has already advanced
+  //
+  static yearOffset(actor) {
+    return actor?.system.status?.winter && !game.settings.get("Pendragon", "winter") ? 1 : 0;
+  }
+
+  //
+  //The year the actor's Winter Phase belongs to
+  //
+  static winterYear(actor) {
+    return game.time.components.year - PENWinter.yearOffset(actor);
   }
 
   //
@@ -308,7 +432,7 @@ export class PENWinter {
         libra: 0,
         denarii: 0,
         description: pickedName,
-        year: game.time.components.year,
+        year: PENWinter.winterYear(actor),
         glory: 0,
       },
     };
@@ -463,7 +587,7 @@ export class PENWinter {
         libra: 0,
         denarii: 0,
         description: pickedName,
-        year: game.time.components.year,
+        year: PENWinter.winterYear(actor),
         glory: 0,
       },
     };
@@ -552,7 +676,7 @@ export class PENWinter {
         libra: 0,
         denarii: 0,
         description: pickedName,
-        year: game.time.components.year,
+        year: PENWinter.winterYear(actor),
         glory: 0,
       },
     };
@@ -751,7 +875,7 @@ export class PENWinter {
       return;
     }
     //Age is increased at end of winter phase so current age check is 34 or more gor agin
-    if (actor.system.age < 34) {
+    if (actor.system.age - PENWinter.yearOffset(actor) < 34) {
       await actor.update({ "system.status.aging": false });
       return;
     }
@@ -866,10 +990,12 @@ export class PENWinter {
     let squires = await actor.items.filter((itm) => itm.type === "squire");
     let leavers = [];
     //Check each retainer (squire, maiden, other) for leaving
+    const offset = PENWinter.yearOffset(actor);
     for (const sqr of squires) {
+      const sqrAge = sqr.system.age - offset;
       if (
-        (sqr.system.category === "squire" && sqr.system.age > 20) ||
-        (sqr.system.category === "maiden" && sqr.system.age > 16) ||
+        (sqr.system.category === "squire" && sqrAge > 20) ||
+        (sqr.system.category === "maiden" && sqrAge > 16) ||
         sqr.system.category === "other"
       ) {
         let result = await PENUtilities.simpleDiceRoll("1D20");
@@ -878,13 +1004,13 @@ export class PENWinter {
         sqr.system.result = result;
         switch (sqr.system.category) {
           case "squire":
-            if (sqr.system.result <= 5 + sqr.system.age - 19) {
+            if (sqr.system.result <= 5 + sqrAge - 19) {
               sqr.system.leave = true;
               sqr.system.label = game.i18n.localize("PEN.leaves");
             }
             break;
           case "maiden":
-            sqr.system.result = sqr.system.result + (sqr.system.age - 16) * 2 + Math.max((sqr.system.age - 20) * 3, 0);
+            sqr.system.result = sqr.system.result + (sqrAge - 16) * 2 + Math.max((sqrAge - 20) * 3, 0);
             if (sqr.system.result >= 20) {
               sqr.system.leave = true;
               sqr.system.label = game.i18n.localize("PEN.marries");
@@ -1211,7 +1337,7 @@ export class PENWinter {
         (itm) =>
           Number(itm.system.died) < 1 &&
           itm.system.relation === "child" &&
-          game.time.components.year - itm.system.born < 5 &&
+          PENWinter.winterYear(actor) - itm.system.born < 5 &&
           !itm.system.blessed,
       );
     if (children.length > 0 && game.settings.get("Pendragon", "childMortality")) {
@@ -1225,14 +1351,14 @@ export class PENWinter {
         let died = "";
         let label = game.i18n.localize("PEN.survived");
 
-        if (game.time.components.year - child.system.born === 1) {
+        if (PENWinter.winterYear(actor) - child.system.born === 1) {
           if (adjRes < 5) {
-            died = game.time.components.year;
+            died = PENWinter.winterYear(actor);
             label = game.i18n.localize("PEN.died");
           }
         } else {
           if (adjRes < 2) {
-            died = game.time.components.year;
+            died = PENWinter.winterYear(actor);
             label = game.i18n.localize("PEN.died");
           }
         }
@@ -1739,7 +1865,7 @@ export class PENWinter {
       for (let newFamily of newborn) {
         let died = "";
         if (newFamily.status === "dies") {
-          died = game.time.components.year;
+          died = PENWinter.winterYear(actor);
         }
         const itemData = {
           name: newFamily.name,
@@ -1747,7 +1873,7 @@ export class PENWinter {
           system: {
             relation: "child",
             gender: newFamily.genderLabel,
-            born: game.time.components.year,
+            born: PENWinter.winterYear(actor),
             died: died,
             description: newFamily.notes,
             blessed: newFamily.blessed,
@@ -1772,14 +1898,14 @@ export class PENWinter {
           let spouse = await actor.items
             .filter((itm) => itm.type === "family")
             .filter((itm) => itm.system.relation === "spouse")[0];
-          await spouse.update({ "system.died": game.time.components.year });
+          await spouse.update({ "system.died": PENWinter.winterYear(actor) });
         } else if (decision === "self") {
           await actor.addStatus("dead");
           const itemData = {
             name: game.i18n.localize("PEN.died"),
             type: "history",
             system: {
-              year: game.time.components.year,
+              year: PENWinter.winterYear(actor),
               description: game.i18n.localize("PEN.died"),
             },
             flags: {
@@ -1826,7 +1952,7 @@ export class PENWinter {
           type: type,
           system: {
             description: `${game.i18n.localize("PEN.spendPrestige")}: ${game.i18n.localize("PEN.childBirth")}`,
-            year: game.time.components.year,
+            year: PENWinter.winterYear(actor),
             glory: 0,
           },
           flags: {

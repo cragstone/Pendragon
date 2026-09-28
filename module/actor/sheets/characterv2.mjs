@@ -52,6 +52,22 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
       // automated combat actions
       combatAction: this._declareCombatAction,
       toggleCondition: this.#toggleCondition,
+      // winter phase steps
+      individualWinter: this._individualWinter,
+      xpChecks: this._xpChecks,
+      economic: this._economic,
+      aging: this._aging,
+      squireAge: this._squireAge,
+      horseSurvival: this._horseSurvival,
+      trainTrait: this._trainTrait,
+      trainPassion: this._trainPassion,
+      trainSingle: this._trainSingle,
+      trainMultiple: this._trainMultiple,
+      prestigeTrait: this._prestigeTrait,
+      prestigePassion: this._prestigePassion,
+      prestigeCheck: this._prestigeCheck,
+      prestigeSkill: this._prestigeSkill,
+      familyRoll: this._familyRoll,
     },
     window: {
       resizable: true,
@@ -96,6 +112,9 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     effects: {
       template: "systems/Pendragon/templates/actor/character/effects.hbs",
     },
+    winter: {
+      template: "systems/Pendragon/templates/actor/character/winter.hbs",
+    },
   };
   static TABS = {
     primary: {
@@ -110,14 +129,45 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
         { id: "house" },
         { id: "biography" },
         { id: "effects" },
+        { id: "winter" },
       ],
       labelPrefix: "PEN",
       initial: "combat",
     },
   };
 
+  // adds the GM only Individual Winter Phase option to the header controls menu
+  _getHeaderControls() {
+    return [...super._getHeaderControls(), ...PENWinter.headerControls(this.actor)];
+  }
+
+  // the winter tab is only shown during a Winter/Development Phase or an Individual Winter Phase
+  _configureRenderParts(options) {
+    const parts = super._configureRenderParts(options);
+    if (!PENWinter.showWinterTab(this.actor)) {
+      delete parts.winter;
+    }
+    return parts;
+  }
+
+  _getTabsConfig(group) {
+    const config = super._getTabsConfig(group);
+    if (group !== "primary" || PENWinter.showWinterTab(this.actor)) {
+      return config;
+    }
+    if (this.tabGroups.primary === "winter") {
+      this.tabGroups.primary = "combat";
+    }
+    return { ...config, tabs: config.tabs.filter((tab) => tab.id !== "winter") };
+  }
+
   async _preparePartContext(partId, context) {
     switch (partId) {
+      case "winter":
+        context.tab = context.tabs[partId];
+        context.isIndividualWinter = PENWinter.yearOffset(this.actor) > 0;
+        context.winterYear = PENWinter.winterYear(this.actor);
+        break;
       case "equipment":
       case "events":
       case "house":
@@ -732,6 +782,81 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     } else {
       console.warn(`Unknown combat action ${combatAction}`);
     }
+  }
+
+  //Individual Winter Phase (GM only)
+  static async _individualWinter(event, target) {
+    await PENWinter.individualWinter(this.actor);
+  }
+
+  //XP Checks
+  static async _xpChecks(event, target) {
+    await PENWinter.xpCheck(this.actor);
+  }
+
+  //Economic Check
+  static async _economic(event, target) {
+    await PENWinter.economic(this.actor);
+  }
+
+  //Aging Roll
+  static async _aging(event, target) {
+    await PENWinter.aging(this.actor);
+  }
+
+  //Squire Aging Roll
+  static async _squireAge(event, target) {
+    await PENWinter.squireWinter(this.actor);
+  }
+
+  //Horse Survival Roll
+  static async _horseSurvival(event, target) {
+    await PENWinter.horseSurvival(this.actor);
+  }
+
+  //Train Trait
+  static async _trainTrait(event, target) {
+    await PENWinter.winterImproveTrait(this.actor, "single");
+  }
+
+  //Train Passion
+  static async _trainPassion(event, target) {
+    await PENWinter.winterImprovePassion(this.actor, "single");
+  }
+
+  //Train Stat  Roll
+  static async _trainSingle(event, target) {
+    await PENWinter.winterImprov(this.actor, "single");
+  }
+
+  //Train Skills
+  static async _trainMultiple(event, target) {
+    await PENWinter.winterImproveSkill(this.actor, "multiple");
+  }
+
+  //Prestige Trait
+  static async _prestigeTrait(event, target) {
+    await PENWinter.winterImproveTrait(this.actor, "prestige");
+  }
+
+  //Prestige Passion
+  static async _prestigePassion(event, target) {
+    await PENWinter.winterImprovePassion(this.actor, "prestige");
+  }
+
+  //Prestige Stat
+  static async _prestigeCheck(event, target) {
+    await PENWinter.winterImprov(this.actor, "prestige");
+  }
+
+  //Prestige Skill
+  static async _prestigeSkill(event, target) {
+    await PENWinter.winterImproveSkill(this.actor, "prestige");
+  }
+
+  //Family Roll
+  static async _familyRoll(event, target) {
+    await PENWinter.familyRoll(this.actor);
   }
 
   static async _onSwitchSheet(event, target) {

@@ -31,6 +31,7 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     actions: {
       onEditImage: this._onEditImage,
       editPid: this._onEditPid,
+      individualWinter: this._individualWinter,
       toggleActor: this._onActorToggle,
       createDoc: this._createDoc,
       viewDoc: this._viewDoc,
@@ -147,6 +148,11 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     return frame;
   }
 
+  // adds the GM only Individual Winter Phase option to the header controls menu
+  _getHeaderControls() {
+    return [...super._getHeaderControls(), ...PENWinter.headerControls(this.actor)];
+  }
+
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     //Common parts to the character - this is the order they are show on the sheet
@@ -157,8 +163,11 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
       options.parts.push("follower");
     }
     options.parts.push("biography", "stats");
-    if (game.settings.get("Pendragon", "winter") || game.settings.get("Pendragon", "development")) {
+    if (PENWinter.showWinterTab(this.actor)) {
       options.parts.push("winter");
+    } else if (this.tabGroups.primary === "winter") {
+      //Winter tab has been removed (e.g. Individual Winter Phase ended) so move off it
+      this.tabGroups.primary = "combat";
     }
     if (game.settings.get("Pendragon", "creation")) {
       options.parts.push("charcreate");
@@ -269,6 +278,8 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
     }
     context.isWinter = game.settings.get("Pendragon", "winter");
     context.isDevelopment = game.settings.get("Pendragon", "development");
+    context.isIndividualWinter = PENWinter.yearOffset(this.actor) > 0;
+    context.winterYear = PENWinter.winterYear(this.actor);
     context.isCreation = game.settings.get("Pendragon", "creation");
     context.useRelation = game.settings.get("Pendragon", "useRelation");
     context.manualGlory = game.settings.get("Pendragon", "manualGlory");
@@ -921,6 +932,11 @@ export class PendragonCharacterSheet extends api.HandlebarsApplicationMixin(shee
   //Trigger Skills Base Score Calculation
   static async _genSkills(event) {
     await PENCharCreate.baseSkillScore(this.actor);
+  }
+
+  //Individual Winter Phase (GM only)
+  static async _individualWinter(event, target) {
+    await PENWinter.individualWinter(this.actor);
   }
 
   //XP Checks

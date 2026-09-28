@@ -71,6 +71,12 @@
   & [data-action="rollDecision"] {
     padding-inline: 0.25rem;
   }
+  & .winter-steps a[data-action] {
+    cursor: pointer;
+    &:hover {
+      color: var(--pendragon-hyperlink);
+    }
+  }
   & h2 {
     color: var(--heading-color);
     text-shadow: none;
