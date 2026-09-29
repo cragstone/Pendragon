@@ -1,4 +1,8 @@
 <section class='character tab winter {{tab.cssClass}}' data-group='primary' data-tab='winter'>
+  {{#if isIndividualWinter}}
+    <div class="stat-name left bold">{{localize 'PEN.individualWinterActive' year=winterYear}}</div>
+    <div class="stat-name left">{{localize 'PEN.individualWinterGlory' year=winterYear glory=system.winterGlory}}</div>
+  {{/if}}
   <div class="stat-name left bold">{{localize 'PEN.winterPhaseSteps'}}</div>
 
   <ul>
