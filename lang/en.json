@@ -266,7 +266,8 @@
     "critDamage": "Critical Damage",
     "criticalResult": "Critical Result",
     "crossbow": "Crossbow",
-    "culturalMax": "Max",
+    "culturalMaxAbbr": "CMax",
+    "culturalMax": "Cultural Maximum",
     "culture": "Culture",
     "cultureAbbr": "Culture",
     "cultureBonus": "Culture Bonus",
@@ -756,6 +757,7 @@
     "no": "No",
     "noActor": "{actr} does not exist, please delete the relationship",
     "noAging": "No characteristic loss",
+    "noArchetypes": "No Archetypes found in the world or the compendia",
     "noAvailableGM": "There is no available gamemaster to complete this request",
     "noClass": "Class missing",
     "noClasses": "No Classes found in the world or the compendia",
@@ -917,6 +919,7 @@
     "required": "Required Total",
     "requirements": "Individial Requirements",
     "reset": "Reset",
+    "resetArchetype": "Double click to reset Archetype",
     "resetClass": "Double click to reset Class",
     "resetCulture": "Double Click to reset Culture",
     "resetEnc": "Reset Encounters",
@@ -1004,6 +1007,10 @@
     "starterSkill": "Starting Skill",
     "startingEquip": "Starting Equipment",
     "startingFormula": "Enter Starting Score Formula",
+    "startingMax": "Starting Maximum",
+    "startingMaxAbbr": "Max",
+    "startingMin": "Starting Minimum",
+    "startingMinAbbr": "Min",
     "stat": "Stat",
     "statAbbr": "Stat",
     "station": "Station",
@@ -1029,6 +1036,7 @@
       "13": "Training & Practice",
       "14": "Luck Benefit",
       "15": "Knighted",
+      "addArchetype": "Archetype",
       "addClass": "Class",
       "addGender": "Character Gender",
       "addHeir": "Heir",
@@ -1165,7 +1173,8 @@
     "year": "Year",
     "yearAvailable": "Year Available",
     "yes": "Yes",
-
+    "youth": "Youth",
+    "youthAbbr": "Youth",
     "card": {
       "NO": "Regular",
       "OP": "Opposed",
@@ -1197,10 +1206,12 @@
       "addHome": "Home Added",
       "addClass": "Class Added",
       "addHeir": "Heir status set",
-      "addEquip": "Starting equipment added"
+      "addEquip": "Starting equipment added",
+      "addArchetype": "Archetype Added"
     },
 
     "undo": {
+      "addArchetype": "Archetype reset",
       "addClass": "Class reset",
       "addEquip": "Starting equipment removed",
       "addGender": "Character Gender reset",
@@ -1284,6 +1295,7 @@
     },
 
     "Entities": {
+      "Archetype": "Archetype",
       "Armour": "Armor",
       "Character": "Character",
       "Class": "Class",
@@ -1799,6 +1811,7 @@
       "party": "Party"
     },
     "Item": {
+      "archetype": "Archetype",
       "armour": "Armor",
       "background": "Background Character",
       "class": "Class",

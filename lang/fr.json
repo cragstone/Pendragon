@@ -263,7 +263,8 @@
     "critDamage": "Dégâts critiques",
     "criticalResult": "Résultat Critique",
     "crossbow": "Arbalète",
-    "culturalMax": "Max",
+    "culturalMaxAbbr": "MaxC",
+    "culturalMax": "Maximum culturel",
     "culture": "Culture",
     "cultureAbbr": "Culture",
     "cultureBonus": "Bonus culturel",
@@ -754,6 +755,7 @@
     "no": "Non",
     "noActor": "{actr} n'existe pas, supprimer le relation",
     "noAging": "Pas de perte de Caractéristique",
+    "noArchetypes": "Aucun Archétype trouvée dans le monde ou le Compendium",
     "noAvailableGM": "Pas de MJ disponible pour traiter cette demande",
     "noClass": "Classe manquante",
     "noClasses": "Pas de Classe trouvée dans le monde ou le Compendium",
@@ -915,6 +917,7 @@
     "required": "Total requis",
     "requirements": "Prérequis",
     "reset": "Réinitialiser",
+    "resetArchetype": "Double-cliquez pour réinitialiser l'Archétype",
     "resetClass": "Double-cliquez pour réinitialiser la classe",
     "resetCulture": "Double-cliquez pour réinitialiser la Culture",
     "resetEnc": "Réinitialiser les rencontres",
@@ -1002,6 +1005,10 @@
     "starterSkill": "Compétence initiale",
     "startingEquip": "Équipement de départ",
     "startingFormula": "Saisir la formule du score de départ",
+    "startingMax": "Commencer au maximum",
+    "startingMaxAbbr": "Max",
+    "startingMin": "Commencer au minimum",
+    "startingMinAbbr": "Min",
     "stat": "Stat",
     "statAbbr": "Stat",
     "station": "Rang",
@@ -1027,6 +1034,7 @@
       "7": "Passions",
       "8": "Pays natal",
       "9": "Passion héritée",
+      "addArchetype": "Archétype",
       "addClass": "Classe",
       "addGender": "Genre du personnage",
       "addHeir": "Héritier",
@@ -1162,6 +1170,8 @@
     "year": "Année",
     "yearAvailable": "Année disponible",
     "yes": "Oui",
+    "youth": "Jeunesse",
+    "youthAbbr": "Jeun",
     "card": {
       "NO": "Normal",
       "OP": "Opposé",
@@ -1192,7 +1202,8 @@
       "addHome": "Domicile ajouté",
       "addClass": "Classe ajoutée",
       "addHeir": "Statut d’héritier ajouté",
-      "addEquip": "Équipement de départ ajouté"
+      "addEquip": "Équipement de départ ajouté",
+      "addArchetype": "Archétype ajouté"
     },
     "undo": {
       "step1": "Méthode de création réinitialisée",
@@ -1210,6 +1221,7 @@
       "step13": "Training Points supprimés",
       "step14": " Chance du débutant supprimée",
       "step15": "Adoubement supprimé",
+      "addArchetype": "Archétype réinitialisé",
       "addName": "Nom réinitialisé",
       "addGender": "Genre réinitialisé",
       "addLord": "Seigneur suzerain réinitialisé",
@@ -1278,6 +1290,7 @@
       "3": "Réussite Critique"
     },
     "Entities": {
+      "Archetype": "Archétype",
       "Armour": "Armure",
       "Character": "Personnage",
       "Class": "Classe",
@@ -1788,6 +1801,7 @@
       "party": "Groupe"
     },
     "Item": {
+      "archetype": "Archétype",
       "armour": "Armure",
       "background": "Historique",
       "class": "Classe",
