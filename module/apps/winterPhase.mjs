@@ -9,13 +9,25 @@ import PENDialog from "../setup/pen-dialog.mjs";
 
 export class PENWinter {
   //
+  //Only living, player owned characters take part in the Winter Phase
+  //
+  static isWinterParticipant(actor) {
+    return (
+      actor.type === "character" &&
+      actor.hasPlayerOwner &&
+      !(Number(actor.system.died) > 0) &&
+      !actor.statuses.has("dead")
+    );
+  }
+
+  //
   //Should the character sheet show the Winter Phase tab
   //
   static showWinterTab(actor) {
     return (
-      game.settings.get("Pendragon", "winter") ||
-      game.settings.get("Pendragon", "development") ||
-      actor.system.status.winter
+      actor.system.status.winter ||
+      ((game.settings.get("Pendragon", "winter") || game.settings.get("Pendragon", "development")) &&
+        PENWinter.isWinterParticipant(actor))
     );
   }
 
@@ -23,7 +35,8 @@ export class PENWinter {
   //GM only sheet header menu entry to start/end an Individual Winter Phase
   //
   static headerControls(actor) {
-    if (!game.user.isGM) {
+    //Dead or non player characters can't start one, but one already running can still be ended
+    if (!game.user.isGM || (!actor.system.status.winter && !PENWinter.isWinterParticipant(actor))) {
       return [];
     }
     return [
@@ -63,6 +76,7 @@ export class PENWinter {
             "system.passglory.inyear": 0,
           });
         }
+        if (!PENWinter.isWinterParticipant(actr)) continue;
         let squires = await actr.items
           .filter((itm) => itm.type === "squire")
           .map((itm) => {
@@ -80,7 +94,7 @@ export class PENWinter {
     //If Winter Phase toggled on
     //Turn winter phase off and training on for Characters and create history
     for (const a of game.actors.contents) {
-      if (a.type === "character") {
+      if (PENWinter.isWinterParticipant(a)) {
         await a.update({
           "system.status.train": true,
           "system.status.economic": true,
@@ -131,7 +145,7 @@ export class PENWinter {
     };
     let incomplete = [];
     for (const actr of game.actors.contents) {
-      if (actr.type !== "character" || !actr.hasPlayerOwner) continue;
+      if (!PENWinter.isWinterParticipant(actr)) continue;
       let outstanding = Object.entries(steps)
         .filter(([key]) => actr.system.status[key])
         .map(([, label]) => game.i18n.localize(label));
@@ -169,6 +183,9 @@ export class PENWinter {
       return;
     }
     const toggle = !actor.system.status.winter;
+    if (toggle && !PENWinter.isWinterParticipant(actor)) {
+      return;
+    }
     const message = game.i18n.format(toggle ? "PEN.individualWinterStart" : "PEN.individualWinterEnd", {
       name: actor.name,
     });
@@ -213,14 +230,16 @@ export class PENWinter {
     await game.settings.set("Pendragon", "development", toggle);
     for (const a of game.actors.contents) {
       if (a.type === "character") {
+        //Dead or non player characters are not given development steps, but are still switched off
+        const active = toggle && PENWinter.isWinterParticipant(a);
         await a.update({
-          "system.status.train": toggle,
-          "system.status.economic": toggle,
-          "system.status.aging": toggle,
-          "system.status.squireAge": toggle,
-          "system.status.horseSurv": toggle,
-          "system.status.familyRoll": toggle,
-          "system.status.xp": toggle,
+          "system.status.train": active,
+          "system.status.economic": active,
+          "system.status.aging": active,
+          "system.status.squireAge": active,
+          "system.status.horseSurv": active,
+          "system.status.familyRoll": active,
+          "system.status.xp": active,
         });
       }
     }
