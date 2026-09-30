@@ -7,7 +7,7 @@ export class PendragonArmourSheet extends PendragonItemSheet {
   }
 
   static DEFAULT_OPTIONS = {
-    classes: ["Pendragon", "sheet", "item", "theme-light"],
+    classes: ["Pendragon", "sheet", "itemV2"],
     position: {
       width: 600,
       height: 520,
@@ -22,7 +22,6 @@ export class PendragonArmourSheet extends PendragonItemSheet {
     },
     actions: {
       // probably should be implemented on a base class
-      onEditImage: this._onEditImage,
       editPid: this._onEditPid,
     },
   };

@@ -10,9 +10,9 @@ export class PendragonIdealSheet extends PendragonItemSheet {
   }
 
   static DEFAULT_OPTIONS = {
-    classes: ["Pendragon", "sheet", "item", "theme-light"],
+    classes: ["Pendragon", "sheet", "itemV2"],
     position: {
-      width: 520,
+      width: 560,
       height: 670,
     },
     tag: "form",
@@ -24,7 +24,6 @@ export class PendragonIdealSheet extends PendragonItemSheet {
       resizable: true,
     },
     actions: {
-      onEditImage: this._onEditImage,
       editPid: this._onEditPid,
       deleteItem: PendragonIdealSheet.#deleteItem,
     },

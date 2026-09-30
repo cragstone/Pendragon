@@ -7,10 +7,10 @@ export class PendragonHorseSheet extends PendragonItemSheet {
   }
 
   static DEFAULT_OPTIONS = {
-    classes: ["Pendragon", "sheet", "item", "theme-light"],
+    classes: ["Pendragon", "sheet", "itemV2"],
     position: {
       width: 550,
-      height: 630,
+      height: 650,
     },
     tag: "form",
     // automatically updates the item
@@ -21,7 +21,6 @@ export class PendragonHorseSheet extends PendragonItemSheet {
       resizable: true,
     },
     actions: {
-      onEditImage: this._onEditImage,
       editPid: this._onEditPid,
     },
   };

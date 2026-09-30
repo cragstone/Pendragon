@@ -1,8 +1,8 @@
-import { addPIDSheetHeaderButton } from "../../pid/pid-button.mjs";
 import { PENUtilities } from "../../apps/utilities.mjs";
 import { PendragonItemSheet } from "./item-sheet.mjs";
+import PENDialog from "../../setup/pen-dialog.mjs";
 
-export class PendragonClassSheet extends PendragonItemSheet {
+export class PendragonArchetypeSheet extends PendragonItemSheet {
   #dragDrop;
   constructor(options = {}) {
     super(options);
@@ -12,8 +12,8 @@ export class PendragonClassSheet extends PendragonItemSheet {
   static DEFAULT_OPTIONS = {
     classes: ["Pendragon", "sheet", "itemV2"],
     position: {
-      width: 520,
-      height: 570,
+      width: 610,
+      height: 550,
     },
     tag: "form",
     // automatically updates the item
@@ -25,7 +25,8 @@ export class PendragonClassSheet extends PendragonItemSheet {
     },
     actions: {
       editPid: this._onEditPid,
-      deleteItem: PendragonClassSheet.#deleteItem,
+      deleteItem: PendragonArchetypeSheet.#deleteItem,
+      openWiki: this._openWiki,
     },
     dragDrop: [{ dropSelector: ".droppable" }],
   };
@@ -39,7 +40,7 @@ export class PendragonClassSheet extends PendragonItemSheet {
     },
     // each tab gets its own template
     attributes: {
-      template: "systems/Pendragon/templates/item/class.attributes.hbs",
+      template: "systems/Pendragon/templates/item/archetype.attributes.hbs",
     },
     description: {
       template: "systems/Pendragon/templates/item/base.description.hbs",
@@ -57,58 +58,16 @@ export class PendragonClassSheet extends PendragonItemSheet {
       ...(await super._prepareContext(options)),
     };
     const itemData = sheetData.item;
-    const primary = [];
-    const secondary = [];
-    const tertiary = [];
-    const gears = [];
+    const skills = [];
+    for (let skill of itemData.system.skills) {
+      let valid = true;
+      if ((await game.system.api.pid.fromPIDBest({ pid: skill.pid })).length < 1) {
+        valid = false;
+      }
+      skills.push({ name: skill.name, formula: skill.formula, uuid: skill.uuid, pid: skill.pid, valid: valid });
+    }
 
-    for (let gItm of itemData.system.gear) {
-      let valid = true;
-      if ((await game.system.api.pid.fromPIDBest({ pid: gItm.pid })).length < 1) {
-        valid = false;
-      }
-      gears.push({ name: gItm.name, uuid: gItm.uuid, pid: gItm.pid, valid: valid });
-    }
-    gears.sort(function (a, b) {
-      let x = a.name;
-      let y = b.name;
-      if (x < y) {
-        return -1;
-      }
-      if (x > y) {
-        return 1;
-      }
-      return 0;
-    });
-    const passions = itemData.system.passions;
-    passions.sort(function (a, b) {
-      let x = a.name;
-      let y = b.name;
-      if (x < y) {
-        return -1;
-      }
-      if (x > y) {
-        return 1;
-      }
-      return 0;
-    });
-    for (let pItm of passions) {
-      let valid = true;
-      if ((await game.system.api.pid.fromPIDBest({ pid: pItm.pid })).length < 1) {
-        valid = false;
-      }
-      if (pItm.subType === "tertiary") {
-        tertiary.push({ name: pItm.name, uuid: pItm.uuid, pid: pItm.pid, valid: valid });
-      } else if (pItm.subType === "secondary") {
-        secondary.push({ name: pItm.name, uuid: pItm.uuid, pid: pItm.pid, valid: valid });
-      } else {
-        primary.push({ name: pItm.name, uuid: pItm.uuid, pid: pItm.pid, valid: valid });
-      }
-    }
-    sheetData.primary = primary;
-    sheetData.secondary = secondary;
-    sheetData.tertiary = tertiary;
-    sheetData.gears = gears;
+    sheetData.skills = skills.sort(PENUtilities.sortByNameKey);
 
     // these two values could be set during _preparePartContext
     sheetData.enrichedDescriptionValue = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
@@ -154,25 +113,7 @@ export class PendragonClassSheet extends PendragonItemSheet {
    */
   _onRender(context, _options) {
     this.#dragDrop.forEach((d) => d.bind(this.element));
-    this.element
-      .querySelectorAll(".item-toggle")
-      .forEach((n) => n.addEventListener("click", this.#onItemToggle.bind(this)));
   }
-
-  //Handle toggle states
-  async #onItemToggle(event) {
-    event.preventDefault();
-    const prop = event.currentTarget.closest(".item-toggle").dataset.property;
-    let checkProp = {};
-    if (["starter"].includes(prop)) {
-      checkProp = { [`system.${prop}`]: !this.item.system[prop] };
-    } else {
-      return;
-    }
-    await this.item.update(checkProp);
-    return;
-  }
-
   #createDragDropHandlers() {
     return this.options.dragDrop.map((d) => {
       d.permissions = {
@@ -195,13 +136,8 @@ export class PendragonClassSheet extends PendragonItemSheet {
   async _onDrop(event) {
     event.preventDefault();
     event.stopPropagation();
-    let type = ["passion"];
-    const collectionName = event.currentTarget.dataset.collection ?? "passions";
-    let subType = event.currentTarget.dataset.section ?? "primary";
-    if (collectionName == "gear") {
-      type = ["weapon", "armour", "horse", "gear"];
-      subType = "gear";
-    }
+    const type = "skill";
+    const collectionName = event.currentTarget.dataset.collection ?? "skills";
     const dataList = await PENUtilities.getDataFromDropEvent(event, "Item");
     const collection = this.item.system[collectionName]
       ? foundry.utils.duplicate(this.item.system[collectionName])
@@ -209,7 +145,7 @@ export class PendragonClassSheet extends PendragonItemSheet {
 
     for (const item of dataList) {
       if (!item || !item.system) continue;
-      if (!type.includes(item.type)) {
+      if (![type].includes(item.type)) {
         continue;
       }
 
@@ -220,18 +156,23 @@ export class PendragonClassSheet extends PendragonItemSheet {
       }
 
       //If Duplicate item then give warning and move to next item
-      if (collectionName != "gear" && collection.find((el) => el.pid === item.flags?.Pendragon?.pidFlag?.id)) {
+      if (collection.find((el) => el.pid === item.flags?.Pendragon?.pidFlag?.id)) {
         ui.notifications.warn(item.name + " : " + game.i18n.localize("PEN.dupItem"));
         continue;
       }
 
+      let inpVal = await PENDialog.input({
+        window: { title: game.i18n.localize("PEN.startingFormula") },
+        content: `<input class="centre" type="text" name="inpvalue">`,
+      });
+      let start = "0";
+      if (inpVal.inpvalue != "") start = inpVal.inpvalue;
       //Add item to collection
       collection.push({
         name: item.name,
-        oppName: item.system.oppName,
+        formula: start,
         uuid: item.uuid,
         pid: item.flags.Pendragon.pidFlag.id,
-        subType: subType,
       });
     }
     await this.item.update({ [`system.${collectionName}`]: collection });
