@@ -2266,7 +2266,7 @@ export class PENCharCreateV2 {
     if (!isNaN(formula) && !isNaN(parseFloat(formula))) {
       modifier = Number(formula);
     } else {
-      stat = formula.match(/str|dex|con|siz|app/gi)[0] ?? "none";
+      stat = formula.match(/str|dex|con|siz|app/gi)?.[0] ?? "none";
       let operators = formula.match(/[+\-*/][0-9]/g);
       if (operators) {
         for (let operator of operators) {
