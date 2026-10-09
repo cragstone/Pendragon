@@ -193,6 +193,30 @@ div.pen-adventure-entry {
       color: black;
     }
 
+    .external-object {
+      padding-top: 5px;
+      & a.content-link {
+        background: var(--content-link-background);
+        padding: 1px 4px 0;
+        border: 1px solid var(--content-link-border-color);
+        border-radius: 2px;
+        margin: -1px 0;
+        white-space: nowrap;
+        word-break: break-all;
+        color: var(--pendragon-hyperlink);
+
+        i {
+          display: inline;
+          color: var(--pendragon-hyperlink);
+        }
+
+        &.broken {
+          display:none;
+        }
+      }
+    }
+
+
     .redbox a.content-link {
       background: none;
       border: none;

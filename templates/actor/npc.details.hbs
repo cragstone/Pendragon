@@ -162,7 +162,7 @@
               {{#each weapons as |weapon key|}}
                 {{#if ../system.lock}}
                 <div class="npc-name rollable combat truncate" data-tooltip="{{weapon.name}}" data-type ="weapon" data-sourceID = "{{weapon.system.sourceID}}" data-itemid="{{weapon._id}}">{{weapon.name}}</div> 
-                {{#if weapons.system.special}}
+                {{#if weapon.system.special}}
                   <div class="npc-name centre" data-tooltip="{{ localize 'PEN.specialHint'}}">
                     <a><i class="fa-solid fa-droplet"></i></a>
                   </div> 

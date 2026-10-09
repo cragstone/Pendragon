@@ -223,7 +223,7 @@ export class PENUtilities {
       count++;
     }
     //Trigger updates to players
-    game.socket.emit("system.rol", {
+    game.socket.emit("system.Pendragon", {
       type: "updatechar",
     });
     //Update if GM

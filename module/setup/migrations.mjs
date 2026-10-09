@@ -76,8 +76,8 @@ export async function migrateWorld({ bypassVersionCheck = false } = {}) {
     console.log("Migration to 14.17 completed");
   }
 
-  //Migrate if current system is less than Version 14.19
-  if (foundry.utils.isNewerVersion("14.19", currentVersion ?? "0")) {
+  //Migrate if current system is less than Version 14.21
+  if (foundry.utils.isNewerVersion("14.21", currentVersion ?? "0")) {
     await equippedHandsUpdate();
   }
 
@@ -87,7 +87,7 @@ export async function migrateWorld({ bypassVersionCheck = false } = {}) {
 
 //Populate equippedHands from existing shield and currentWeapon data
 export async function equippedHandsUpdate() {
-  console.log("Migration to 14.19 started");
+  console.log("Migration to 14.21 started");
   for (const actor of game.actors) {
     if (actor.type !== "character") continue;
     const updateData = equippedHandsUpdateData(actor);
@@ -107,7 +107,7 @@ export async function equippedHandsUpdate() {
       }
     }
   }
-  console.log("Migration to 14.19 completed");
+  console.log("Migration to 14.21 completed");
 }
 
 //populate equippedHands from the equipped shield and currentWeapon flag, then retire the
@@ -454,10 +454,10 @@ export async function getUpdatesFor(source) {
             let newName = npc.name ?? "";
             let newPid = npc.pid;
             if (newName === "") newName = tempActor.name;
-            if (newPID === "") newPID = tempActor.flags?.Pendragon?.pidFlag?.id ?? "";
+            if (newPid === "") newPid = tempActor.flags?.Pendragon?.pidFlag?.id ?? "";
             npcs.push({
               name: newName,
-              pid: newPID,
+              pid: newPid,
               uuid: npc.uuid,
             });
             changed = true;
@@ -485,10 +485,10 @@ export async function getUpdatesFor(source) {
             let newName = encounter.name ?? "";
             let newPid = encounter.pid;
             if (newName === "") newName = tempActor.name;
-            if (newPID === "") newPID = tempActor.flags?.Pendragon?.pidFlag?.id ?? "";
+            if (newPid === "") newPid = tempActor.flags?.Pendragon?.pidFlag?.id ?? "";
             encounters.push({
               name: newName,
-              pid: newPID,
+              pid: newPid,
               uuid: encounter.uuid,
             });
             changed = true;
