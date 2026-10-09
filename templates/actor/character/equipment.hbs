@@ -16,16 +16,21 @@
                 {{#if primaryHandItem}}{{primaryHandItem.name}}{{/if}}
               {{/if}}
               {{#if primaryHandItem}}
-                &nbsp <a class="item-control large-icon" data-action="dropHand" data-tooltip="{{localize 'PEN.wield.dropHint'}}"><i class="fas fa-arrow-down-from-line"></i></a>
+                &nbsp <a class="item-control large-icon" data-action="dropHeldItem" data-tooltip="{{localize 'PEN.wield.dropHint'}}"><i class="fas fa-arrow-down-from-line"></i></a>
               {{/if}}
             </td>
             <td data-hand="secondary">
-              {{#unless (eq system.equippedHands.primary system.equippedHands.secondary)}}
+              {{#if (eq system.equippedHands.primary system.equippedHands.secondary)}}
+                {{!-- two-handed grip: the same weapon, muted, shows both hands are occupied --}}
+                {{#if secondaryHandItem}}
+                  <span class="two-handed-grip"><i class="fa-solid fa-link"></i> {{secondaryHandItem.name}}</span>
+                {{/if}}
+              {{else}}
                 {{#if secondaryHandItem}}{{secondaryHandItem.name}}{{/if}}
                 {{#if secondaryHandItem}}
-                  &nbsp <a class="item-control large-icon" data-action="dropHand" data-tooltip="{{localize 'PEN.wield.dropHint'}}"><i class="fas fa-arrow-down-from-line"></i></a>
+                  &nbsp <a class="item-control large-icon" data-action="dropHeldItem" data-tooltip="{{localize 'PEN.wield.dropHint'}}"><i class="fas fa-arrow-down-from-line"></i></a>
                 {{/if}}
-              {{/unless}}
+              {{/if}}
             </td>
             <td>{{system.shield}}</td>
             <td></td>
@@ -73,7 +78,7 @@
           </tr>
           {{#each weapons as |weapon key|}}
           {{#if weapon.system.melee}}
-          <tr data-itemid="{{weapon._id}}">
+          <tr data-itemid="{{weapon._id}}" {{#if weapon.wielded}}class="wielded"{{/if}}>
             <td>{{weapon.name}}</td>
             <td>{{weapon.system.quantity}}</td>
             <td>{{localize 'PEN.period.all'}}</td>
@@ -83,9 +88,11 @@
             <td>{{weapon.system.parry}}</td>
             <td>{{weapon.system.damage}}</td>
             <td>
-              <select class="wield-select" data-tooltip="{{#if (gt weapon.system.quantity 1)}}{{localize 'PEN.wield.drawHint'}}{{else}}{{weapon.wieldLabel}}{{/if}}">
-                {{selectOptions weapon.wieldType selected=weapon.wieldState}}
-              </select>
+              <div class="wield-stances">
+                {{#each weapon.stances as |stance|}}
+                <button type="button" class="stance-btn{{#if stance.active}} active{{/if}}" data-action="wieldStance" data-wield="{{stance.key}}" data-tooltip="{{#if stance.active}}{{localize 'PEN.wield.stowHint'}}{{else}}{{stance.label}}{{/if}}">{{stance.label}}</button>
+                {{/each}}
+              </div>
             </td>
           </tr>
           {{/if}}
@@ -106,7 +113,7 @@
           </tr>
           {{#each weapons as |weapon key|}}
           {{#unless weapon.system.melee}}
-          <tr>
+          <tr {{#if weapon.wielded}}class="wielded"{{/if}}>
             <td>{{weapon.name}}</td>
             <td>{{weapon.system.quantity}}</td>
             <td>{{localize 'PEN.period.all'}}</td>
@@ -120,6 +127,29 @@
           {{/each}}
         </tbody>
     </table>
+
+    {{#if droppedWeapons.length}}
+    <h2>{{localize 'PEN.wield.dropped'}}</h2>
+    <table>
+        <tbody>
+          <tr>
+              <th>{{localize 'PEN.weapon'}}</th>
+              <th>{{localize 'PEN.quantityShort'}}</th>
+              <th>{{localize 'PEN.wield.pickUp'}}</th>
+              <th>{{localize 'PEN.wield.recover'}}</th>
+          </tr>
+          {{#each droppedWeapons as |weapon|}}
+          <tr data-itemid="{{weapon._id}}">
+            <td>{{weapon.name}}</td>
+            <td>{{weapon.system.quantity}}</td>
+            <td><button type="button" class="stance-btn" data-action="wieldStance" data-wield="{{weapon.pickUpStance}}" {{#if (gt weapon.system.quantity 1)}}data-tooltip="{{localize 'PEN.wield.drawHint'}}"{{/if}}>{{localize 'PEN.wield.pickUp'}}</button></td>
+            <td><button type="button" class="stance-btn" data-action="wieldStance" data-wield="carried">{{localize 'PEN.wield.recover'}}</button></td>
+          </tr>
+          {{/each}}
+        </tbody>
+    </table>
+    {{/if}}
+
     <h2>{{localize 'TYPES.Item.gear'}}</h2>
     <table>
         <tbody>

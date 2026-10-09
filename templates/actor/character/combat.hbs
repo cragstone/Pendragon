@@ -41,11 +41,18 @@
             <p><i class="fa-solid fa-hand-fist"></i> {{localize 'PEN.wield.twoHanded'}}: {{primaryHandItem.name}} {{primaryHandItem.system.total}}
             </p>
             <p>{{localize 'PEN.damage'}}: {{primaryHandItem.system.damage}}</p>
+            {{!-- swords and some two-handed weapons also have a parry value --}}
+            {{#if primaryHandItem.system.parry}}
+              <p>{{localize 'PEN.parry'}}: {{primaryHandItem.system.parry}}</p>
+            {{/if}}
           {{else}}
             {{#if primaryHandItem}}
               <p><i class="fa-solid fa-sword"></i> {{localize 'PEN.wield.primaryHand'}}: {{primaryHandItem.name}} {{primaryHandItem.system.total}}
               </p>
               <p>{{localize 'PEN.damage'}}: {{primaryHandItem.system.damage}}</p>
+              {{#if primaryHandItem.system.parry}}
+                <p>{{localize 'PEN.parry'}}: {{primaryHandItem.system.parry}}</p>
+              {{/if}}
             {{/if}}
             {{#if secondaryHandItem}}
               <p><i class="fa-solid fa-shield"></i> {{localize 'PEN.secondaryHand'}}: {{secondaryHandItem.name}}{{#if (eq secondaryHandItem.type 'armour')}} ({{secondaryHandItem.system.ap}}){{/if}}
@@ -53,7 +60,9 @@
             {{/if}}
             {{#if secondaryHandItem}}
               {{#unless (eq secondaryHandItem.type 'armour')}}
-                <p>{{localize 'PEN.damage'}}: {{secondaryHandItem.system.damage}}</p>
+                {{!-- a second weapon cannot deal damage; +2 parry, or +1 with a sword in the
+                     main hand (core rulebook, p160); offhand weapons are not yet equippable --}}
+                <p>{{localize 'PEN.parry'}}: +{{#if (eq primaryHandItem.system.skill 'sword')}}1{{else}}2{{/if}}</p>
               {{/unless}}
             {{/if}}
           {{/if}}

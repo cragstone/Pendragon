@@ -1,3 +1,5 @@
+import { WieldState } from "../models/items/weapon_model.mjs";
+
 export class PENSelectLists {
   //
   //Weapon Types
@@ -30,17 +32,19 @@ export class PENSelectLists {
   }
 
   //wield options; a weapon can always be carried or dropped. Two-handed hafted weapons
-  //may not be used one-handed; lances may, so they can pair with a shield
+  //may not be used one-handed; lances may, so they can pair with a shield.
+  //There is no secondary-hand option: dual wielding (an offhand weapon adding parry,
+  //core rulebook p160) is out of scope for now
   static getWieldTypes(weaponSystem) {
     const options = {
-      carried: game.i18n.localize("PEN.wield.carried"),
-      dropped: game.i18n.localize("PEN.wield.dropped"),
+      [WieldState.CARRIED]: game.i18n.localize("PEN.wield.carried"),
+      [WieldState.DROPPED]: game.i18n.localize("PEN.wield.dropped"),
     };
     if (!weaponSystem?.twoHandedOnly || weaponSystem.skill === "charge") {
-      options.primaryHand = game.i18n.localize("PEN.wield.primaryHand");
+      options[WieldState.PRIMARY_HAND] = game.i18n.localize("PEN.wield.primaryHand");
     }
     if (weaponSystem?.canBeTwoHanded) {
-      options.twoHanded = game.i18n.localize("PEN.wield.twoHanded");
+      options[WieldState.TWO_HANDED] = game.i18n.localize("PEN.wield.twoHanded");
     }
     return options;
   }

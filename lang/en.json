@@ -324,6 +324,7 @@
     "dmgModHint": "Enter a formula such as 1D6 or -1D6-2 that will be added/deducted from any damage roll",
     "dodge": "Dodge",
     "dropHere": "No items added yet",
+    "droppedItem": "{actor} dropped {item}.",
     "dropWpn": "Weapon is dropped or broken",
     "dupActor": "This actor already exists on this sheet",
     "dupItem": "This item already exists on this sheet",
@@ -1135,7 +1136,10 @@
       "dropped": "Dropped",
       "dropHint": "Drop what is in this hand",
       "drawHint": "Wielding takes one from the stack",
+      "pickUp": "Pick Up",
       "primaryHand": "Primary Hand",
+      "recover": "Recover",
+      "stowHint": "Click to return to Carried",
       "twoHanded": "Two-Handed"
     },
     "secondaryHand": "Secondary Hand",

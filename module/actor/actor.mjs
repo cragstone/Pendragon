@@ -2,6 +2,7 @@ import { PENSelectLists } from "../apps/select-lists.mjs";
 import { PendragonStatusEffects } from "../apps/status-effects.mjs";
 import { PENUtilities } from "../apps/utilities.mjs";
 import { PENactorItemDrop } from "./actor-itemDrop.mjs";
+import { WieldState } from "../models/items/weapon_model.mjs";
 
 //Extend the base Actor Class
 export class PendragonActor extends Actor {
@@ -650,15 +651,16 @@ export class PendragonActor extends Actor {
     return null;
   }
 
-  //get the current weapon, if any
+  //the weapon actually in hand (never a shield); the secondary hand never holds a weapon
+  //unless the primary does, so it can never be the current weapon
+  //TODO: non-weapon items in hand should count as improvised weapons and shields as shield
+  //bashes (core rulebook); both are out of scope for now
   currentWeapon() {
-    const currentWeapon = this.getFlag("Pendragon", "currentWeapon");
-    if (currentWeapon) {
-      const item = this.items.get(currentWeapon);
-      //only weapons can be the current weapon
-      return item?.type === "weapon" ? item : null;
-    }
-    return null;
+    //NPCs have no hand tracking, so they still read the legacy flag
+    const held = this.system.equippedHands
+      ? this.getMainWeapon()
+      : this.items.get(this.getFlag("Pendragon", "currentWeapon") ?? "");
+    return held?.type === "weapon" ? held : null;
   }
 
   //the item ID held in each hand is stored in system.equippedHands
@@ -696,7 +698,6 @@ export class PendragonActor extends Actor {
     if (!equipped) {
       if (hands.secondary === shield.id) hands.secondary = "";
       await this.update({ "system.equippedHands.secondary": hands.secondary });
-      await this.syncCurrentWeapon(hands);
       return;
     }
     if (this.isWieldingTwoHanded()) {
@@ -705,18 +706,19 @@ export class PendragonActor extends Actor {
       await shield.update({ "system.equipped": false });
       return;
     }
+    //anything displaced from a hand is dropped
+    const items = [];
     if (hands.secondary && hands.secondary !== shield.id) {
       const displaced = this.items.get(hands.secondary);
       ui.notifications.warn(game.i18n.format("PEN.warn.displacedFromHand", { item: displaced?.name ?? "" }));
-      //anything displaced from a hand is dropped
-      if (displaced?.type === "weapon") {
-        await displaced.update({ "system.wield": "dropped" });
-        await this.#mergeStacks("dropped");
-      }
+      if (displaced?.type === "weapon") items.push({ _id: displaced.id, "system.wield": WieldState.DROPPED });
     }
     hands.secondary = shield.id;
-    await this.update({ "system.equippedHands.secondary": hands.secondary });
-    await this.syncCurrentWeapon(hands);
+    await this.update({
+      "system.equippedHands.secondary": hands.secondary,
+      ...(items.length ? { items } : {}),
+    });
+    if (items.length) await this.#mergeStacks(WieldState.DROPPED);
   }
   getShieldArmourPoints() {
     return this.system.shield ?? 0;
@@ -738,18 +740,18 @@ export class PendragonActor extends Actor {
     const hands = this.system.equippedHands ?? {};
     const inPrimary = hands.primary === item.id;
     const inSecondary = hands.secondary === item.id;
-    if (inPrimary && inSecondary) return "twoHanded";
-    if (inPrimary) return "primaryHand";
-    if (inSecondary) return "secondaryHand";
+    if (inPrimary && inSecondary) return WieldState.TWO_HANDED;
+    if (inPrimary) return WieldState.PRIMARY_HAND;
+    if (inSecondary) return WieldState.SECONDARY_HAND;
     if (item.type !== "weapon") return "";
-    return item.system.wield === "dropped" ? "dropped" : "carried";
+    return item.system.wield === WieldState.DROPPED ? WieldState.DROPPED : WieldState.CARRIED;
   }
   //display label for how an item is currently wielded; carried is the resting state
   //(sheathed or at the side) so it needs no label
   getWieldLabel(item) {
     const state = this.getWieldState(item);
-    if (!state || state === "carried") return "";
-    if (state === "secondaryHand") return game.i18n.localize("PEN.secondaryHand");
+    if (!state || state === WieldState.CARRIED) return "";
+    if (state === WieldState.SECONDARY_HAND) return game.i18n.localize("PEN.secondaryHand");
     const key = `PEN.wield.${state}`;
     const label = game.i18n.localize(key);
     return label === key ? "" : label;
@@ -766,24 +768,12 @@ export class PendragonActor extends Actor {
     return gripped ? Math.max(2, damageMod) : 0;
   }
 
-  //a weapon displaced from a hand is dropped; a shield is unequipped
-  async displaceItem(item) {
-    if (!item) return;
-    ui.notifications.warn(game.i18n.format("PEN.warn.displacedFromHand", { item: item.name }));
-    if (item.type === "weapon") {
-      await item.update({ "system.wield": "dropped" });
-      await this.#mergeStacks("dropped");
-    } else if (item.type === "armour") {
-      await item.update({ "system.equipped": false });
-    }
-  }
-
   //set the wield state of a weapon: carried, dropped, primaryHand or twoHanded
   //anything displaced from a hand is dropped (picking it up again takes a combat action)
   async setWield(weapon, wield) {
     if (!this.system.equippedHands || weapon?.type !== "weapon") return false;
     //a stack can't go in a hand; a hand state draws a single unit out of it instead
-    const inHand = wield === "primaryHand" || wield === "twoHanded";
+    const inHand = wield === WieldState.PRIMARY_HAND || wield === WieldState.TWO_HANDED;
     if (inHand && (weapon.system.quantity ?? 1) > 1) {
       const unit = await this.#drawUnit(weapon);
       if (!unit) return false;
@@ -803,7 +793,8 @@ export class PendragonActor extends Actor {
     return unit ?? null;
   }
 
-  //the hand-assignment core; weapons passed here always have quantity 1
+  //the hand-assignment core; weapons passed here always have quantity 1.
+  //all changes move in one update so the actor cannot be left half-updated
   async #applyWield(weapon, wield) {
     const hands = {
       primary: this.system.equippedHands?.primary ?? "",
@@ -817,13 +808,13 @@ export class PendragonActor extends Actor {
     const displace = (id) => {
       if (id && id !== weapon.id && !displaced.includes(id)) displaced.push(id);
     };
-    if (wield === "primaryHand") {
+    if (wield === WieldState.PRIMARY_HAND) {
       displace(hands.primary);
       //a two-handed occupant holds both hands, so taking the primary must free the secondary too
       //(a shield in the secondary hand is left alone)
       if (hands.primary && hands.primary === hands.secondary) hands.secondary = "";
       hands.primary = weapon.id;
-    } else if (wield === "twoHanded") {
+    } else if (wield === WieldState.TWO_HANDED) {
       displace(hands.primary);
       displace(hands.secondary);
       hands.primary = weapon.id;
@@ -833,15 +824,26 @@ export class PendragonActor extends Actor {
         if (itm.type === "armour" && itm.system.equipped && !itm.system.type) displace(itm.id);
       }
     }
-    await weapon.update({ "system.wield": wield });
+    const items = [{ _id: weapon.id, "system.wield": wield }];
+    let droppedWeapon = false;
+    for (const id of displaced) {
+      const itm = this.items.get(id);
+      if (!itm) continue;
+      ui.notifications.warn(game.i18n.format("PEN.warn.displacedFromHand", { item: itm.name }));
+      if (itm.type === "weapon") {
+        items.push({ _id: id, "system.wield": WieldState.DROPPED });
+        droppedWeapon = true;
+      } else if (itm.type === "armour") {
+        items.push({ _id: id, "system.equipped": false });
+      }
+    }
     await this.update({
       "system.equippedHands.primary": hands.primary,
       "system.equippedHands.secondary": hands.secondary,
+      items,
     });
-    for (const id of displaced) await this.displaceItem(this.items.get(id));
-    //keep the currentWeapon flag in sync with what is actually in hand
-    await this.syncCurrentWeapon(hands);
-    if (wield === "carried" || wield === "dropped") await this.#mergeStacks(wield);
+    if (droppedWeapon) await this.#mergeStacks(WieldState.DROPPED);
+    if (wield === WieldState.CARRIED || wield === WieldState.DROPPED) await this.#mergeStacks(wield);
     return true;
   }
 
@@ -864,15 +866,6 @@ export class PendragonActor extends Actor {
         "Item",
         absorbed.map((i) => i.id),
       );
-    }
-  }
-
-  //the currentWeapon flag mirrors the weapon actually in hand (never a shield)
-  async syncCurrentWeapon(hands = this.system.equippedHands ?? {}) {
-    const main = this.items.get(hands.primary) ?? this.items.get(hands.secondary);
-    const mainId = main?.type === "weapon" ? main.id : null;
-    if (mainId !== (this.currentWeapon()?.id ?? null)) {
-      await this.setFlag("Pendragon", "currentWeapon", mainId);
     }
   }
 

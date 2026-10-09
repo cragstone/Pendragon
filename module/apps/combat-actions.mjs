@@ -3,6 +3,7 @@ import { ChatCardState, ChatCardTemplate } from "./chat.mjs";
 import { CardType, RollType, PENCheck, RollResult } from "./checks.mjs";
 import { PENactorDetails } from "./actorDetails.mjs";
 import { PendragonStatusEffects } from "./status-effects.mjs";
+import { WieldState } from "../models/items/weapon_model.mjs";
 
 const { api, fields } = foundry.applications;
 
@@ -276,7 +277,7 @@ export class CombatAction {
     // a two-handed spear grip adds its grip damage to the borrowed formula
     const defender = await PENactorDetails._getParticipant(config.particId, config.particType);
     const spear = defender?.items.get(config.itemId);
-    if (damageFormula && defender?.getWieldState(spear) === "twoHanded") {
+    if (damageFormula && defender?.getWieldState(spear) === WieldState.TWO_HANDED) {
       damageFormula = `${damageFormula}+${defender.getAdditionalDamage(spear)}D6`;
     }
     return damageFormula || null;

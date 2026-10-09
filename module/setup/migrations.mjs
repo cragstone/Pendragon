@@ -1,3 +1,5 @@
+import { WieldState } from "../models/items/weapon_model.mjs";
+
 /**
  * Perform a system migration for the entire World, applying migrations for Actors, Items, and Compendium packs.
  * @param {object} [options={}]
@@ -108,8 +110,8 @@ export async function equippedHandsUpdate() {
   console.log("Migration to 14.19 completed");
 }
 
-//populate equippedHands from the equipped shield and currentWeapon flag, and give every
-//weapon a wield state matching the hands it can be found in
+//populate equippedHands from the equipped shield and currentWeapon flag, then retire the
+//flag (the hands are authoritative from now on)
 function equippedHandsUpdateData(actor) {
   const hands = { primary: "", secondary: "" };
   const items = [];
@@ -117,8 +119,10 @@ function equippedHandsUpdateData(actor) {
   if (shield) {
     hands.secondary = shield.id;
   }
-  const weapon = actor.currentWeapon();
-  if (weapon) {
+  //read the legacy flag directly; currentWeapon() is now derived from the hands
+  const flaggedId = actor.getFlag("Pendragon", "currentWeapon");
+  const weapon = flaggedId ? actor.items.get(flaggedId) : null;
+  if (weapon?.type === "weapon") {
     hands.primary = weapon.id;
     if (weapon.system.twoHandedOnly) {
       //lances may be wielded one-handed beside a shield; other two-handers take both hands
@@ -139,12 +143,14 @@ function equippedHandsUpdateData(actor) {
     if (item.type !== "weapon") continue;
     const inPrimary = hands.primary === item.id;
     const inSecondary = hands.secondary === item.id;
-    let wield = "carried";
-    if (inPrimary && inSecondary) wield = "twoHanded";
-    else if (inPrimary || inSecondary) wield = "primaryHand";
+    let wield = WieldState.CARRIED;
+    if (inPrimary && inSecondary) wield = WieldState.TWO_HANDED;
+    else if (inPrimary || inSecondary) wield = WieldState.PRIMARY_HAND;
     if (wield !== item.system.wield) items.push({ _id: item.id, "system.wield": wield });
   }
   if (items.length) updateData.items = items;
+  //clear the retired flag (setting a flag to null removes it)
+  if (flaggedId) updateData["flags.Pendragon.currentWeapon"] = null;
   return updateData;
 }
 

@@ -9,6 +9,7 @@ import { PendragonActorSheet } from "./actor-sheet.mjs";
 import { WoundTrackerDialog } from "./actor-wound-tracker.mjs";
 import { CardType, PENCheck, RollType } from "../../apps/checks.mjs";
 import { CombatAction } from "../../apps/combat-actions.mjs";
+import { WieldState } from "../../models/items/weapon_model.mjs";
 
 const { api, ux } = foundry.applications;
 
@@ -46,7 +47,8 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
       addItem: this.#onCreateItem,
       editItem: this.#onEditItem,
       toggleEquip: this._onToggleEquip,
-      dropHand: this._onDropHand,
+      dropHeldItem: this._dropHeldItem,
+      wieldStance: this._onWieldStance,
       switchHorse: this._onSwitchHorse,
       goToEquipment: this._onGoToEquipment,
       switchSheet: this._onSwitchSheet,
@@ -192,6 +194,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     const squires = [];
     const armours = [];
     const weapons = [];
+    const droppedWeapons = [];
     const families = [];
     const ideals = [];
     const household = [];
@@ -238,8 +241,23 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
       } else if (i.type === "weapon") {
         i.mountedLabel = game.i18n.localize("PEN." + i.system.mounted);
         i.wieldState = this.actor.getWieldState(i);
-        i.wieldType = PENSelectLists.getWieldTypes(i.system);
-        i.wieldLabel = this.actor.getWieldLabel(i);
+        i.wielded = i.wieldState !== WieldState.CARRIED;
+        //dropped weapons are listed separately, not with the carried ones
+        if (i.wieldState === WieldState.DROPPED) {
+          //inherently two-handed weapons pick up into both hands (a lance may go one-handed)
+          i.pickUpStance =
+            i.system.twoHandedOnly && i.system.skill !== "charge" ? WieldState.TWO_HANDED : WieldState.PRIMARY_HAND;
+          droppedWeapons.push(i);
+          continue;
+        }
+        //one stance button per grip the weapon allows
+        i.stances = Object.keys(PENSelectLists.getWieldTypes(i.system))
+          .filter((key) => key !== WieldState.CARRIED && key !== WieldState.DROPPED)
+          .map((key) => ({
+            key,
+            label: game.i18n.localize(`PEN.wield.${key}`),
+            active: i.wieldState === key,
+          }));
         weapons.push(i);
       } else if (i.type === "family") {
         i.system.typeName = game.i18n.localize("PEN." + i.system.relation);
@@ -278,6 +296,9 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     // Sort Weapons by melee/missile and name
     weapons.sort((a, b) => a.system.melee - b.system.melee || a.name.localeCompare(b.name));
 
+    // Sort Dropped weapons by name
+    droppedWeapons.sort((a, b) => a.name.localeCompare(b.name));
+
     // Sort Ideals
     ideals.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -305,6 +326,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     context.horses = horses;
     context.armours = armours;
     context.weapons = weapons;
+    context.droppedWeapons = droppedWeapons;
     context.ideals = ideals;
     context.household = household;
     context.followers = followers;
@@ -513,16 +535,6 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
   }
 
   /* -------------------------------------------- */
-  // Activate event listeners using the prepared sheet HTML
-  _onRender(context, _options) {
-    super._onRender(context, _options);
-    //a select needs a change listener (actions fire on click, before the value changes)
-    this.element.querySelectorAll(".wield-select").forEach((n) =>
-      n.addEventListener("change", (event) => {
-        PendragonCharacterSheetv2._onWieldChange.call(this, event, event.currentTarget);
-      }),
-    );
-  }
 
   async _prepareCombatTab(context) {
     context.tab = context.tabs.combat;
@@ -723,28 +735,35 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     if (!result || result === "switch") return;
     await this.actor.setFlag("Pendragon", "currentHorse", result);
   }
-  //wield/carry/drop a weapon from the character sheet's weapon list
-  static async _onWieldChange(event, target) {
+  //choosing the stance a weapon is already in returns it to carried
+  static async _onWieldStance(event, target) {
+    const { wield } = target.closest("[data-wield]")?.dataset ?? {};
     const { itemid } = target.closest("[data-itemid]")?.dataset ?? {};
     const weapon = this.actor.items.get(itemid);
-    if (weapon?.type !== "weapon") return;
-    await this.actor.setWield(weapon, target.value);
+    if (weapon?.type !== "weapon" || !wield) return;
+    const next = this.actor.getWieldState(weapon) === wield ? WieldState.CARRIED : wield;
+    await this.actor.setWield(weapon, next);
   }
   static async _onGoToEquipment(event, target) {
     //ApplicationV2 tab API: changeTab(tab, group, options)
     this.changeTab("equipment", "primary");
   }
   //drop whatever is in the given hand, freeing it (dropping a weapon is always allowed)
-  static async _onDropHand(event, target) {
+  static async _dropHeldItem(event, target) {
     const { hand } = target.closest("[data-hand]")?.dataset ?? {};
     const item = this.actor.getItemInHand(hand);
     if (!item) return;
     if (item.type === "weapon") {
-      await this.actor.setWield(item, "dropped");
+      await this.actor.setWield(item, WieldState.DROPPED);
     } else if (item.type === "armour") {
       await this.actor.setShieldHand(item, false);
       await item.update({ "system.equipped": false });
     }
+    await ChatMessage.create({
+      user: game.user.id,
+      content: game.i18n.format("PEN.droppedItem", { actor: this.actor.name, item: item.name }),
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+    });
   }
   static async _declareCombatAction(event, target) {
     const { combatAction } = target.closest("[data-combat-action]")?.dataset ?? {};

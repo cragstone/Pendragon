@@ -321,6 +321,7 @@
     "dmgModHint": "Entrez une formule telle que 1D6 ou -1D6-2 qui sera ajoutée/déduite à tout jet de dommage",
     "dodge": "Esquive",
     "dropHere": "Aucun objet ajouté pour le moment",
+    "droppedItem": "{actor} a lâché {item}.",
     "dropWpn": "L'arme est lâchée ou brisée",
     "dupActor": "Cet acteur existe déjà sur cette feuille",
     "dupItem": "Cet objet existe déjà sur cette feuille",
@@ -1134,7 +1135,10 @@
       "dropped": "Lâchée",
       "dropHint": "Lâcher ce qui est en main",
       "drawHint": "Manier en retire une de la pile",
+      "pickUp": "Reprendre en main",
       "primaryHand": "Main principale",
+      "recover": "Remiser",
+      "stowHint": "Clic pour remiser",
       "twoHanded": "Deux mains"
     },
     "secondaryHand": "Main secondaire",
