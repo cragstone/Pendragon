@@ -2267,7 +2267,7 @@ export class PENCharCreateV2 {
       modifier = Number(formula);
     } else {
       stat = formula.match(/str|dex|con|siz|app/gi)?.[0] ?? "none";
-      let operators = formula.match(/[+\-*/][0-9]/g);
+      let operators = formula.match(/[+\-*/]\d+/g);
       if (operators) {
         for (let operator of operators) {
           let op = operator.charAt(0);
