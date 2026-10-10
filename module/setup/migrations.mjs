@@ -10,18 +10,6 @@ export async function migrateWorld({ bypassVersionCheck = false } = {}) {
   const targetVersion = game.system.version;
   console.log(`Migrate from ${currentVersion} to ${targetVersion}`);
 
-  //Migrate if current system is less that Version 12.1.21
-  if (foundry.utils.isNewerVersion("12.1.21", currentVersion ?? "0")) {
-    const actors = game.actors.map((a) => a);
-    for (const actor of actors) {
-      const updateData = migrateActor(actor);
-      if (!foundry.utils.isEmpty(updateData)) {
-        console.log(`Migrating Actor document ${actor.name}`);
-        await actor.update(updateData);
-      }
-    }
-  }
-
   //Migrate if current system is less that Version 13.1.36
   if (foundry.utils.isNewerVersion("13.1.36", currentVersion ?? "0")) {
     await migrateItems_13136();
@@ -76,36 +64,6 @@ export async function migrateWorld({ bypassVersionCheck = false } = {}) {
 
   await game.settings.set("Pendragon", "systemMigrationVersion", targetVersion);
   return;
-}
-
-//------------------------------------------------------------------------------------------
-//Update for version 12.1.21
-export async function migrateActor_12121(actor) {
-  const updateData = {};
-
-  // migrate Owned items
-  const items = actor.items.reduce((arr, i) => {
-    // Migrate the Owned Item
-    const itemData = i instanceof CONFIG.Item.documentClass ? i.toObject() : i;
-    const itemUpdate = migrateItemData_12121(i, itemData);
-    if (!foundry.utils.isEmpty(itemUpdate)) {
-      arr.push({ ...itemUpdate, _id: itemData._id });
-    }
-    return arr;
-  }, []);
-
-  if (items.length > 0) updateData.items = items;
-  return updateData;
-}
-
-export async function migrateItemData_12121(item, itemData) {
-  const updateData = {};
-  if (itemData.type === "history" && itemData.name === "History") {
-    if (itemData.system.description) {
-      updateData["name"] = itemData.system.description.replace(/(<([^>]+)>)/gi, "");
-    }
-  }
-  return updateData;
 }
 
 //------------------------------------------------------------------------------------------
