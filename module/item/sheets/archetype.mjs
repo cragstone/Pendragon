@@ -253,7 +253,6 @@ export class PendragonArchetypeSheet extends PendragonItemSheet {
           window: { title: game.i18n.localize("PEN.startingFormula") },
           content: `<div><input class="centre" type="text" name="inpvalue"/></div>`,
         });
-        let start = "0";
         if (!inpVal) continue;
         let start = "0";
         if (inpVal.inpvalue != "") start = inpVal.inpvalue;
