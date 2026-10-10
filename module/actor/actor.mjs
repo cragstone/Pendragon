@@ -316,7 +316,7 @@ export class PendragonActor extends Actor {
       systemData.hp.knockdown = systemData.stats.siz.total;
     }
 
-    systemData.damage = Math.round((systemData.stats.str.total + systemData.stats.siz.total) / 6);
+    //systemData.damage = Math.round((systemData.stats.str.total + systemData.stats.siz.total) / 6) + system.damEffects;
     systemData.horseDam = "";
     systemData.horseChgDam = "";
     //systemData.healRate = Math.round(systemData.stats.con.total / 5);
@@ -1086,8 +1086,8 @@ export class PendragonActor extends Actor {
           return itm.pid;
         });
       for (let item of actor.items) {
-        if ([gPIDs].includes(item.flags?.Pendragon?.pidFlag?.id)) {
-          score = score + item.total;
+        if ([...gPIDs].includes(item.flags?.Pendragon?.pidFlag?.id)) {
+          score = score + item.system.total;
         }
       }
       requirements.push({
