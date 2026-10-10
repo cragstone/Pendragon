@@ -1,6 +1,16 @@
 const { HTMLField, SchemaField, NumberField, StringField, FilePathField, ArrayField, BooleanField, DataField } =
   foundry.data.fields;
 
+//wield states; primaryHand/twoHanded mirror system.equippedHands
+//secondaryHand is derived and never stored on an item
+export const WieldState = {
+  CARRIED: "carried",
+  DROPPED: "dropped",
+  PRIMARY_HAND: "primaryHand",
+  TWO_HANDED: "twoHanded",
+  SECONDARY_HAND: "secondaryHand",
+};
+
 export class WeaponData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const requiredInteger = { required: true, nullable: false, integer: true };
@@ -17,6 +27,8 @@ export class WeaponData extends foundry.abstract.TypeDataModel {
       disadvantage: new StringField({ required: true, blank: true, initial: "" }),
       range: new StringField({ required: true, blank: true, initial: "" }),
       rate: new StringField({ required: true, blank: true, initial: "1" }),
+      //wield state of this weapon; see WieldState
+      wield: new StringField({ required: true, blank: true, initial: WieldState.CARRIED }),
       melee: new BooleanField({ initial: true }),
       improv: new BooleanField({ initial: false }),
       special: new BooleanField({ initial: false }),
@@ -40,5 +52,13 @@ export class WeaponData extends foundry.abstract.TypeDataModel {
   }
   get canCharge() {
     return this.usableMounted && this.damageChar != "b" && this.skill != "brawling";
+  }
+  //spear can optionally be wielded two-handed; twoHand (Two-Handed Hafted) and charge (lances) are inherently two-handed
+  // TODO: sword can be wielded in 2 hands with *no* damage bonus and a GM-optional rule to avoid drops on fumbles, but that's not in scope for now.
+  get canBeTwoHanded() {
+    return ["spear", "twoHand", "charge"].includes(this.skill);
+  }
+  get twoHandedOnly() {
+    return ["twoHand", "charge"].includes(this.skill);
   }
 }

@@ -3,6 +3,7 @@ import { ChatCardState, ChatCardTemplate } from "./chat.mjs";
 import { CardType, RollType, PENCheck, RollResult } from "./checks.mjs";
 import { PENactorDetails } from "./actorDetails.mjs";
 import { PendragonStatusEffects } from "./status-effects.mjs";
+import { WieldState } from "../models/items/weapon_model.mjs";
 
 const { api, fields } = foundry.applications;
 
@@ -169,7 +170,7 @@ export class CombatAction {
         currentWeapon.damage = horseDamage;
       }
       if (weapon && weapon.system.damageChar != "h") {
-        const weaponDamageDice = actor.system.damage + Number(weapon.system.damageMod) + 1;
+        const weaponDamageDice = actor.system.damage + actor.getAdditionalDamage(weapon) + 1;
         const dmgDice = Math.min(weaponDamageDice, Number.parseInt(horseDamage));
         const dmgModifier = Number(weapon.system.damageBonus) + Number(actor.system.damageMod);
         currentWeapon.damage = `${dmgDice}D6`;
@@ -257,8 +258,6 @@ export class CombatAction {
 
   // adjust damage formulas that depend on the opposing action
   // e.g. set spear strikes the charger using the opponent's (or the mount's) damage
-  // TODO: a two-handed grip adds +2D6 to this damage, but the system does not
-  // track which hand weapons are wielded in; roll the +2D6 manually for now
   static async adjustDamage(config, opponent) {
     if (config.action == CombatAction.SET_SPEAR && opponent.action == CombatAction.CHARGE) {
       config.itemDamage = await this.setSpearDamage(config, opponent);
@@ -274,6 +273,12 @@ export class CombatAction {
       if (weapon) {
         damageFormula = attacker.type === "character" ? weapon.system.damage : weapon.system.dmgForm;
       }
+    }
+    // a two-handed spear grip adds its grip damage to the borrowed formula
+    const defender = await PENactorDetails._getParticipant(config.particId, config.particType);
+    const spear = defender?.items.get(config.itemId);
+    if (damageFormula && defender?.getWieldState(spear) === WieldState.TWO_HANDED) {
+      damageFormula = `${damageFormula}+${defender.getAdditionalDamage(spear)}D6`;
     }
     return damageFormula || null;
   }

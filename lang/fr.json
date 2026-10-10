@@ -321,6 +321,7 @@
     "dmgModHint": "Entrez une formule telle que 1D6 ou -1D6-2 qui sera ajoutée/déduite à tout jet de dommage",
     "dodge": "Esquive",
     "dropHere": "Aucun objet ajouté pour le moment",
+    "droppedItem": "{actor} a lâché {item}.",
     "dropWpn": "L'arme est lâchée ou brisée",
     "dupActor": "Cet acteur existe déjà sur cette feuille",
     "dupItem": "Cet objet existe déjà sur cette feuille",
@@ -501,6 +502,7 @@
     },
     "heir": "Héritier",
     "heirStatus": "Le personnage est-il l'héritier de la famille ?",
+    "held": "En main",
     "heraldry": "Héraldique",
     "heroicEvent": "Évènement héroïque",
     "history": "Historique",
@@ -1126,6 +1128,20 @@
       "zigzagFumble": "Aucun modificateur à la Compétence de l’adversaire ; le personnage trébuche et perd toute sa Vitesse de Mouvement ce tour."
     },
     "walk": "Marche",
+    "wield": {
+      "label": "Maniement",
+      "notWielded": "Non maniée",
+      "carried": "Portée",
+      "dropped": "Lâchée",
+      "dropHint": "Lâcher ce qui est en main",
+      "drawHint": "Manier en retire une de la pile",
+      "pickUp": "Reprendre en main",
+      "primaryHand": "Main principale",
+      "recover": "Remiser",
+      "stowHint": "Clic pour remiser",
+      "twoHanded": "Deux mains"
+    },
+    "secondaryHand": "Main secondaire",
     "warn": {
       "currentWeaponCannotCharge": "Vous ne pouvez pas utiliser cette arme lors d’une charge montée.",
       "mountedOnlyAction": "Vous devez être à cheval pour faire cette action.",
@@ -1134,7 +1150,10 @@
       "unmountedOnlyAction": "Vous devez être à pied pour faire cette action.",
       "unmountedOnlyWeapon": "Vous ne pouvez pas utiliser cette arme à cheval.",
       "mustBeOnFoot": "Vous devez être debout et à pied pour faire cette action.",
-      "needSpear": "Vous devez avoir une lance comme arme actuelle pour faire cette action."
+      "needSpear": "Vous devez avoir une lance comme arme actuelle pour faire cette action.",
+      "twoHandedOccupiesBoth": "Une arme à deux mains occupe les deux mains ; déséquipez-la d’abord.",
+      "handOccupied": "Votre {hand} est déjà occupée.",
+      "displacedFromHand": "{item} est lâchée."
     },
     "warTrained": "Entraîné au combat",
     "weak": "Faible",
