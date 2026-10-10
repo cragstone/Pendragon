@@ -1855,6 +1855,7 @@ export class PENCharCreateV2 {
     //Knight Specific Action
     if (idealPID === "i.ideal.knight") {
       let lord = await this.inpValue(game.i18n.localize("PEN.lordsGlory"));
+      if (!lord) return false;
       lord = Number(lord.age);
       let glory = 1000 + Math.min(Math.round(lord / 100), 1000);
 
