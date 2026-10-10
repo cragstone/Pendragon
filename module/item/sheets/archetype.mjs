@@ -254,6 +254,8 @@ export class PendragonArchetypeSheet extends PendragonItemSheet {
           content: `<div><input class="centre" type="text" name="inpvalue"/></div>`,
         });
         let start = "0";
+        if (!inpVal) continue;
+        let start = "0";
         if (inpVal.inpvalue != "") start = inpVal.inpvalue;
         //Add item to collection
         collection.push({
