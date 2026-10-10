@@ -303,6 +303,12 @@ export class PendragonActor extends Actor {
     //Loop through all items to see if they have impact
     systemData.totalWounds = 0;
     let glory = 0;
+    //During an individual Winter Phase (run after the year has advanced) only Glory up to the previous year counts for Prestige
+    const winterYear =
+      systemData.status?.winter && !game.settings.get("Pendragon", "winter")
+        ? game.time.components.year - 1
+        : Infinity;
+    let winterGlory = 0;
     let armour = 0;
     let shield = 0;
     for (let i of actorData.items) {
@@ -311,6 +317,9 @@ export class PendragonActor extends Actor {
         systemData.totalWounds = systemData.totalWounds + Math.max(i.system.value, 0);
       } else if (i.type === "history") {
         glory = Number(glory) + Number(i.system.glory);
+        if (Number(i.system.year) <= winterYear) {
+          winterGlory = Number(winterGlory) + Number(i.system.glory);
+        }
       } else if (i.type === "armour" && i.system.equipped) {
         //If armour is equipped
         if (i.system.type) {
@@ -333,6 +342,7 @@ export class PendragonActor extends Actor {
     //If Manual Glory used, add to Glory total
     if (game.settings.get("Pendragon", "manualGlory")) {
       glory = glory + systemData.manualGlory;
+      winterGlory = winterGlory + systemData.manualGlory;
     }
     if (glory < 3000) {
       systemData.reputation = game.i18n.localize("PEN.unproven");
@@ -353,7 +363,8 @@ export class PendragonActor extends Actor {
     }
 
     systemData.glory = glory;
-    systemData.gloryPrestige = Math.floor(glory / 1000) - systemData.prestige;
+    systemData.winterGlory = winterGlory;
+    systemData.gloryPrestige = Math.floor(winterGlory / 1000) - systemData.prestige;
     systemData.armour = armour;
     systemData.shield = shield;
   }
