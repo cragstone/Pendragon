@@ -22,7 +22,8 @@ export class PendragonFamilySheet extends PendragonItemSheet {
       viewItem: this.#viewItem,
     },
     dragDrop: [{ dropSelector: ".droppable" }],
-
+  };
+    
   static PARTS = {
     header: {
       template: "systems/Pendragon/templates/item/header.hbs",
