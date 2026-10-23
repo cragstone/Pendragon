@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Unreleased
+- New CCI option: Region Hover (JamesB)
+- Dual layer scenes (Map) allowing some assets to be shown/hidden as you zoom in/out (JamesB)
+- Map Notes on scene where set to Map can pop up with a preview for GM and players who can see a different entry (JamnesB)
+- Item images no longer transform the colours unless they are from the default systems/Pendragon/assets/Icons folder
+
 ## 14.24
 - Followers now show the correct drop down list of types (Squire, Family, Retainer) rather than Career Paths
 
