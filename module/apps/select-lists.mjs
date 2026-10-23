@@ -279,4 +279,15 @@ export class PENSelectLists {
     };
     return options;
   }
+
+  //Career Special Promotions
+  static careerSpecials() {
+    let options = {
+      none: "",
+      swordProspects: game.i18n.localize("PEN.career.swordProspects"),
+      maidenOfLake: game.i18n.localize("PEN.career.maidenOfLake"),
+      maidInWaiting: game.i18n.localize("PEN.career.maidInWaiting"),
+    };
+    return options;
+  }
 }
