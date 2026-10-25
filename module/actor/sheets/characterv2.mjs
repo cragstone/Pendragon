@@ -46,6 +46,7 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
       removeEffect: this.#onDeleteActiveEffect,
       addItem: this.#onCreateItem,
       editItem: this.#onEditItem,
+      deleteItem: this.#onDeleteItem,
       toggleEquip: this._onToggleEquip,
       dropHeldItem: this._dropHeldItem,
       wieldStance: this._onWieldStance,
@@ -707,27 +708,38 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
     cls.createDialog({}, { parent: this.document });
   }
   static async #onEditActiveEffect(event, target) {
-    //const { effectId } = target.closest("[data-effect-id]")?.dataset ?? {};
     const { effectUuid } = target.closest("[data-effect-uuid]")?.dataset ?? {};
-    //const effect = this.actor.effects.get(effectId);
     const effect = await fromUuid(effectUuid);
     effect.sheet.render(true);
   }
+
   static async #onDeleteActiveEffect(event, target) {
-    //const { effectId } = target.closest("[data-effect-id]")?.dataset ?? {};
     const { effectUuid } = target.closest("[data-effect-uuid]")?.dataset ?? {};
-    //const effect = this.actor.effects.get(effectId);
     const effect = await fromUuid(effectUuid);
     effect.delete();
   }
+
   static #onCreateItem(event, target) {
     const { itemType } = target.closest("[data-item-type]")?.dataset ?? {};
     Item.implementation.createDialog({ type: itemType }, { parent: this.document });
   }
+
   static async #onEditItem(event, target) {
     const { itemid } = target.closest("[data-itemid]")?.dataset ?? {};
     const item = this.actor.items.get(itemid);
     item.sheet.render(true);
+  }
+
+  static async #onDeleteItem(event, target) {
+    const { itemid } = target.closest("[data-itemid]")?.dataset ?? {};
+    const item = this.actor.items.get(itemid);
+    const proceed = await foundry.applications.api.DialogV2.prompt({
+      window: { title: "Delete Item" },
+      content: "<p>Do you really want to delete this item?</p>",
+    });
+    if (proceed) {
+      item.delete();
+    }
   }
   static async _onSwitchHorse(event, target) {
     const horses = this.actor.items.filter((itm) => itm.type === "horse");
