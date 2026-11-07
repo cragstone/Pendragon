@@ -480,6 +480,14 @@
     & h3 {
       font-size: 1.2em;
     }
+    & h3:has(.inline-control) {
+      display: grid;
+      grid-template-columns: 24px 24px auto 24px 24px;
+      gap: 0.5em;
+      span {
+        grid-column-start: 3;
+      }
+    }
     & .active {
       text-align: center;
     }

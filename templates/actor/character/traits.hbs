@@ -17,22 +17,35 @@
       </ol>
     </div>
     <div>
-      <h2>{{localize 'PEN.ideals'}}</h2>
+      <h2>{{localize 'PEN.ideals'}}<button class="inline-control icon fa-regular fa-square-plus" data-item-type="ideal" data-action="addItem"></button></h2>
       {{#each ideals as |ideal key|}}
-          <details class="ideal" open>
-              <summary>{{ideal.name}}</summary>
+          <details class="ideal" data-itemid="{{ideal._id}}" open>
+              <summary>{{ideal.name}}<span>
+              </span></summary>
               {{#if ideal.system.activeIdeal}}
-              <h3 class="active">Active</h3>
+              <h3 class="active">
+                <span>{{ localize "PEN.active"}}</span>
+                <button class="inline-control icon fa-regular fa-pen-to-square" data-action="editItem"></button>
+                <button class="inline-control icon fa-regular fa-trash" data-action="deleteItem"></button>
+              </h3>
               {{else}}
-              <h3 class="inactive">Inactive</h3>
+              <h3 class="inactive">
+                <span>{{ localize "PEN.inactive"}}</span>
+                <button class="inline-control icon fa-regular fa-pen-to-square" data-action="editItem"></button>
+                <button class="inline-control icon fa-regular fa-trash" data-action="deleteItem"></button>
+              </h3>
               {{/if}}
               <div>{{{ideal.description}}}</div>
+              {{#if ideal.system.activeIdeal}}
+              <h3>{{ localize "PEN.benefits"}}</h3>
+              {{else}}
               <h3>Requirements</h3>
               <ul>
               {{#each ideal.requirements as |require|}}
                 <li data-requirement-active="{{require.active}}">{{require.name}} {{require.score}}</li>
               {{/each}}
               </ul>
+              {{/if}}
           </details>
       {{/each}}
     </div>
