@@ -2619,9 +2619,9 @@ export class PENWinter {
   }
 
   //Family Random Event (Noble's Handbook)
-  //1D20 against the Family Record.
-  //Results on a blank line are ignored
-  //Then roll on Random Family Events table - will need to resolve outcome manually
+  //1D20 against the Family Record. A blank line means no event this year
+  //Otherwise roll on the Random Family Events table - the outcome is resolved by hand
+  //"Second Event!" rolls for another family member and event, and rerolls the event for the current member
   static async familyRandomEvents(actor) {
     if (!actor.system.status.familyrandomevents) {
       return;
@@ -2632,47 +2632,77 @@ export class PENWinter {
       ui.notifications.warn("PEN.noRandomEventTable", { localize: true });
       return;
     }
+    //Second Event is matched on the result name, not the roll, so custom and translated tables work.
+    //The names are in CONFIG.PENDRAGON.familyRandomEventSecond, so modules can add their own
+    const secondEventNames = new Set(
+      (CONFIG.PENDRAGON.familyRandomEventSecond ?? []).map((n) => game.i18n.localize(n).trim().toLowerCase()),
+    );
+    const isSecondEvent = (result) => secondEventNames.has((result?.name ?? "").trim().toLowerCase());
     const family = PENWinter.familyRecord(actor, year);
-    let msgString = "<h5>" + game.i18n.localize("PEN.familyRandomEvents") + " (" + year + ")</h5>";
-    let result = await PENUtilities.simpleDiceRoll("1D20");
-    let member = family[result - 1];
-    //Ignore rolls if greater than list of relevant family members
-    if (!member) {
-      msgString += `<div>` + game.i18n.localize("PEN.noFamilyEvent") + `</div>`;
-    } else {
-      let rollResults = await PENUtilities.tableDiceRoll(table);
-      let title = rollResults.results[0]?.name ?? null;
-      let description = rollResults.results[0]?.description ?? null;
-      if (!title) {
-        msgString += `<div>` + game.i18n.localize("PEN.familyInvalidResult") + `</div>`;
-      } else {
-        msgString += "<div>" + member.name + ": " + title + " (" + game.i18n.localize("PEN.seeHistory") + ")</div>";
-        //If description exists add it to a History item
-        if (description) {
-          //Add a History Item to show the spend
-          const itemData = {
-            name: member.name + " (" + title + ")",
-            type: "history",
-            system: {
-              description: description,
-              year: year,
-              glory: 0,
-            },
-          };
-          let newHist = await Item.create(itemData, { parent: actor });
-          let key = await game.system.api.pid.guessId(newHist);
-          await newHist.update({
-            "flags.Pendragon.pidFlag.id": key,
-            "flags.Pendragon.pidFlag.lang": game.i18n.lang,
-            "flags.Pendragon.pidFlag.priority": 0,
-          });
-        }
+    const lines = [];
+    const histories = [];
+    //Family members still to get an event. Each Second Event adds one more roll on the Record
+    let memberRolls = 1;
+    //Second Events chain on 1 in 20, so cap the extra family members they add. this is EXTREMELY unlikely to be hit
+    let secondEvents = 0;
+    while (memberRolls > 0) {
+      memberRolls--;
+      const member = family[(await PENUtilities.simpleDiceRoll("1D20")) - 1];
+      //Ignore rolls past the end of the Family Record
+      if (!member) continue;
+      const name = foundry.utils.escapeHTML(member.name);
+      let result = null;
+      //A world table with only Second Event left to draw never gives anything else, so limit the rerolls.
+      //Running out leaves no result, which is reported as invalid
+      for (let attempt = 0; attempt < 20; attempt++) {
+        const rollResults = await PENUtilities.tableDiceRoll(table);
+        result = rollResults.results[0];
+        if (!isSecondEvent(result)) break;
+        const secondName = result?.name;
+        result = null;
+        if (secondEvents >= 10) continue;
+        secondEvents++;
+        memberRolls++;
+        lines.push(name + ": " + foundry.utils.escapeHTML(secondName ?? ""));
       }
+      if (!result?.name && !result?.description) {
+        lines.push(name + ": " + game.i18n.localize("PEN.familyInvalidResult"));
+        continue;
+      }
+      //A result with only a description still counts, under a general title
+      const title = result.name || game.i18n.localize("PEN.familyRandomEvents");
+      //The details go in a History item, as most events need a decision from the player
+      if (!result.description) {
+        lines.push(name + ": " + foundry.utils.escapeHTML(title));
+        continue;
+      }
+      lines.push(name + ": " + foundry.utils.escapeHTML(title) + " (" + game.i18n.localize("PEN.seeHistory") + ")");
+      histories.push({
+        name: member.name + " (" + title + ")",
+        type: "history",
+        system: {
+          description: result.description,
+          year: year,
+          glory: 0,
+        },
+      });
     }
+    if (lines.length === 0) lines.push(game.i18n.localize("PEN.noFamilyEvent"));
+    const msgString =
+      "<h5>" +
+      game.i18n.localize("PEN.familyRandomEvents") +
+      " (" +
+      year +
+      ")</h5>" +
+      lines.map((line) => "<div>" + line + "</div>").join("");
     await ChatMessage.create({
       content: msgString,
       speaker: ChatMessage.getSpeaker({ actor }),
     });
-    //await actor.update({ "system.status.familyrandomevents": false });
+    if (histories.length > 0) {
+      const created = await actor.createEmbeddedDocuments("Item", histories);
+      await actor.updateEmbeddedDocuments("Item", game.system.api.pid.guessIdUpdates(created));
+    }
+    await actor.update({ "system.status.familyrandomevents": false });
   }
 }
