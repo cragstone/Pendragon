@@ -1,8 +1,6 @@
 import { PENUtilities } from "./utilities.mjs";
 import { PENRandomName } from "./random-name.mjs";
 
-//TODO: Figure in where to add marriage year testing and insert
-
 export class PENRandomCareer {
   //Career Tables
   static DEFAULT_TABLES = {

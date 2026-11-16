@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## 14.26
 
 ### Careers (MrPrimate/Dangermouse)
 
@@ -8,6 +8,14 @@
 - Can be dropped on to Family members or rolled randomly
 - Rolling Random Careers works for Piblings (Aunts/Uncles) and Siblings (Brothers/Sisters)
 - There is an extra step at the end of Character Creation to roll for Careers
+- https://github.com/cragstone/Pendragon/wiki/Career
+-
+
+### Family (Mr Primate)
+
+- Family members now record Year of Marriage, Spouse and Parents.
+- Careers are shown on a separate tab in the Family item
+- https://github.com/cragstone/Pendragon/wiki/Family
 
 ### WinterPhase (MrPrimate/Dangermouse)
 
@@ -22,6 +30,8 @@
 
 - PID Flag code updated to v14. Objects in world and compendia are treated equally - so highest priority irrespective of where they are(JamesB & Mr Primate)
 - Some font changes
+- Additional French translation thanks to Tontione
+- Updated Wiki entries for Character Creation for the Family/Career Changes and moved WinterPhase to the wiki for system instructions.
 
 ## 14.25
 

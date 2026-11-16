@@ -73,7 +73,7 @@ flags: {}
 _stats:
   duplicateSource: null
   exportSource: null
-  coreVersion: '14.365'
+  coreVersion: '14.370'
   systemId: Pendragon
   systemVersion: '14.6'
   createdTime: 1786091009634
@@ -113,6 +113,16 @@ levels:
       levels: []
     sort: 0
     flags: {}
+    _stats:
+      coreVersion: '14.370'
+      systemId: Pendragon
+      systemVersion: '14.6'
+      createdTime: null
+      modifiedTime: null
+      lastModifiedBy: null
+      compendiumSource: null
+      duplicateSource: null
+      exportSource: null
     _key: '!scenes.levels!lj6Clvg2O6aOcjzJ.defaultLevel0000'
 shiftX: 0
 shiftY: 0
@@ -121,5 +131,5 @@ transition:
   type: null
   duration: 1500
   activeOnly: false
-templates: []
 _key: '!scenes!lj6Clvg2O6aOcjzJ'
+templates: []
