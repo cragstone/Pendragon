@@ -11,6 +11,9 @@ export class PendragonGearSheet extends PendragonItemSheet {
       width: 560,
       height: 500,
     },
+    actions: {
+      itemToggle: this._onItemToggle,
+    },
   };
 
   static PARTS = {
@@ -80,5 +83,20 @@ export class PendragonGearSheet extends PendragonItemSheet {
       default:
     }
     return context;
+  }
+
+  //---------------------------ACTIONS--------------------------------
+
+  /**
+   *Toggle something on the item
+   */
+  static async _onItemToggle(event, target) {
+    event.preventDefault();
+    const prop = target.closest("[data-property]")?.dataset.property;
+    if (!["equipped"].includes(prop)) {
+      return;
+    }
+    let checkProp = { [`system.${prop}`]: !this.item.system[prop] };
+    this.item.update(checkProp);
   }
 }

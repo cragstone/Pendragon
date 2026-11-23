@@ -15,4 +15,15 @@
     <div class="stat-name centre bold">/</div>
     <div class="stat-name-input"><input class="centre" name="system.denarii" type="number" value="{{item.system.denarii}}"/></div>
   </div>
+  {{#if hasOwner}}
+    <br>
+    <div class="money-grid">
+      <div class="stat-name left bold">{{localize 'PEN.equipped'}}</div>
+      <div class="pad-icon">
+        <a class="item-control large-icon" data-action="itemToggle" data-property = "equipped" data-tooltip="{{localize 'PEN.dblClickToggle'}}">
+          <i class="{{#if item.system.equipped}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+        </a>
+      </div>
+    </div>
+  {{/if}}
 </section>

@@ -1,12 +1,12 @@
 <section class="tab attributes {{tab.cssClass}}" data-group="primary" data-tab="attributes">
   <div class="item-trait-grid">
     <div class="stat-name left bold">{{localize 'PEN.melee'}}</div>
-    <div class="centre pad-icon"><a class="item-control {{#if isGM}}item-toggle{{/if}} large-icon" data-property = "melee" data-tooltip="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if item.system.melee}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+    <div class="centre pad-icon"><a class="item-control large-icon" {{#if isGM}}data-action="itemToggle"{{/if}} data-property = "melee" data-tooltip="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if item.system.melee}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
     <div class="stat-name left bold">{{localize 'PEN.improvised'}}</div>
-    <div class="centre pad-icon"><a class="item-control {{#if isGM}}item-toggle{{/if}} large-icon" data-property = "improv" data-tooltip="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if item.system.improv}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+    <div class="centre pad-icon"><a class="item-control large-icon" {{#if isGM}}data-action="itemToggle"{{/if}} data-property = "improv" data-tooltip="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if item.system.improv}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
     {{#if npcOwner}}
       <div class="stat-name left bold">{{localize 'PEN.special'}}</div>
-      <div class="centre pad-icon"><a class="item-control {{#if isGM}}item-toggle{{/if}} large-icon" data-property = "special" data-tooltip="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if item.system.special}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
+      <div class="centre pad-icon"><a class="item-control large-icon" {{#if isGM}}data-action="itemToggle"{{/if}} data-property = "special" data-tooltip="{{localize 'PEN.dblClickToggle'}}"><i class="{{#if item.system.special}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i></a></div>
     {{/if}}
 
   </div>
@@ -124,6 +124,12 @@
         <div class="item-trait-grid">
           <div class="stat-name left bold">{{localize 'PEN.quantity'}}</div>
           <div class="stat-name-input centre"><input name="system.quantity" type="number" value="{{item.system.quantity}}"/></div>
+          <div class="stat-name left bold">{{localize 'PEN.carried'}}</div>
+          <div class="centre">
+            <a class="item-control large-icon" data-action="itemToggle" data-property = "equipped" data-tooltip="{{localize 'PEN.dblClickToggle'}}">
+              <i class="{{#if item.system.equipped}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+            </a>
+          </div>
         </div>
       {{/if}}
   </div>

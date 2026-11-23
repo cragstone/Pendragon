@@ -9,7 +9,10 @@ export class PendragonWeaponSheet extends PendragonItemSheet {
   static DEFAULT_OPTIONS = {
     position: {
       width: 560,
-      height: 800,
+      height: 820,
+    },
+    actions: {
+      itemToggle: this._onItemToggle,
     },
   };
 
@@ -100,24 +103,19 @@ export class PendragonWeaponSheet extends PendragonItemSheet {
   _onRender(context, _options) {
     // Everything below here is only needed if the sheet is editable
     if (!context.editable) return;
-
-    // pure Javascript, no jQuery
-    this.element
-      .querySelectorAll(".item-toggle")
-      .forEach((n) => n.addEventListener("click", this.#onItemToggle.bind(this)));
   }
 
-  /* -------------------------------------------- */
-  //Handle toggle states
-  async #onItemToggle(event) {
+  //-----------------------ACTIONS------------------
+  /**
+   *Toggle something on the item
+   */
+  static async _onItemToggle(event, target) {
     event.preventDefault();
-    const prop = event.currentTarget.closest(".item-toggle").dataset.property;
-    let checkProp = {};
-    if (["melee", "improv", "special"].includes(prop)) {
-      checkProp = { [`system.${prop}`]: !this.item.system[prop] };
-    } else {
+    const prop = target.closest("[data-property]")?.dataset.property;
+    if (!["melee", "improv", "special", "equipped"].includes(prop)) {
       return;
     }
-    await this.item.update(checkProp);
+    let checkProp = { [`system.${prop}`]: !this.item.system[prop] };
+    this.item.update(checkProp);
   }
 }

@@ -101,7 +101,9 @@
         <div class="stat-name bold greyBack weapon-item centre">{{ localize "PEN.value" }}</div>
         <div class="stat-name bold greyBack weapon-item centre">{{ localize "PEN.damage" }}</div>
         <div class="stat-name bold greyBack weapon-item centre" data-tooltip="{{ localize 'PEN.rngPryHint' }}">{{ localize "PEN.rngPry" }}</div>
+        <div class="stat-name bold greyBack weapon-item centre" data-tooltip="{{ localize 'PEN.carried' }}">{{ localize "PEN.carriedAbbr" }}</div>
         <div class="weapon-item greyBack" data-tooltip="{{localize 'PEN.advDisHint'}}"></div>
+
       </div>
 
           {{#each weapons as |weapon key|}}
@@ -119,6 +121,11 @@
               {{else}}
                 <div class="weapon-item stat-name centre">{{weapon.system.rangeName}}</div>
               {{/if}}
+              <div class="weapon-item stat-name centre">
+                <a class="item-control item-toggle large-icon" data-itemid ="{{weapon._id}}" data-property="equipped" data-tooltip="{{localize 'PEN.dblClickToggle'}}">
+                  <i class="{{#if weapon.system.equipped}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+                </a>
+              </div>
               <div class="pad3-icon weapon-item centre item" data-itemid ="{{weapon._id}}">
                 <a class="item-control fade large-icon" data-action="viewDoc"><i data-tooltip="{{localize 'PEN.view'}}" class="fa-solid fa-eye"></i></a>
                 {{#unless ../system.lock}}

@@ -44,6 +44,7 @@ export class WeaponData extends foundry.abstract.TypeDataModel {
       libra: new NumberField({ ...requiredInteger, min: 0, initial: 0 }),
       denarii: new NumberField({ ...requiredInteger, min: 0, initial: 0 }),
       yearAvailable: new NumberField({ ...requiredInteger, initial: 0 }),
+      equipped: new BooleanField({ initial: true }), //Is the weapon carried
     };
   }
 

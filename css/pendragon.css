@@ -403,8 +403,8 @@
 
 .Pendragon .weapon-grid {
   display: grid;
-  width: 501px;
-  grid-template-columns: 150px 100px 50px 90px 50px 60px;
+  width: 531px;
+  grid-template-columns: 150px 100px 50px 90px 50px 60px 30px;
   gap: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -447,8 +447,8 @@
 
 .Pendragon .armour-grid {
   display: grid;
-  width: 791px;
-  grid-template-columns: 30px 200px 50px 50px 200px 200px 60px;
+  width: 801px;
+  grid-template-columns: 30px 200px 50px 50px 205px 205px 60px;
   gap: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -458,8 +458,8 @@
 
 .Pendragon .gear-grid {
   display: grid;
-  width: 791px;
-  grid-template-columns: 200px 50px 480px 60px;
+  width: 801px;
+  grid-template-columns: 30px 200px 50px 460px 60px;
   gap: 0px;
   margin-top: 0px;
   margin-bottom: 0px;

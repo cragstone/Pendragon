@@ -83,6 +83,7 @@
 
   <br>
   <div class="gear-grid">
+    <div class="stat-name grid-item bold greyBack centre" data-tooltip="{{localize 'PEN.equipped'}}">{{localize 'PEN.eqpd'}}</div>
     <div class="stat-name grid-item greyBack bold">{{localize 'PEN.equipment'}}</div>
     <div class="stat-name grid-item greyBack bold centre">{{localize 'PEN.quantityShort'}}</div>
     <div class="stat-name grid-item greyBack bold centre">{{localize 'PEN.description'}}</div>
@@ -93,6 +94,11 @@
 
   {{#each gears as |gear key|}}
     <li class="item gear-grid" data-drag='true' data-document-class='Item' data-item-id="{{gear._id}}">
+      <div class="stat-name centre grid-item">
+        <a class="item-control item-toggle large-icon" data-itemid ="{{gear._id}}" data-property="equipped" data-tooltip="{{localize 'PEN.dblClickToggle'}}">
+          <i class="{{#if gear.system.equipped}}fa-regular fa-square-check{{else}}fa-regular fa-square{{/if}}"></i>
+        </a>
+      </div>
       <div class="stat-name grid-item truncate" data-tooltip="{{gear.name}}">{{gear.name}}</div>
       <div class="stat-name centre grid-item">{{gear.system.quantity}}</div>
       <div class="stat-name centre grid-item curtail2" data-tooltip="{{gear.system.cleanDesc}}">{{{gear.system.cleanDesc}}}</div>

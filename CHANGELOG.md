@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 14.27
+
+- Weapons, Armour and Gear have a Carried/Equipped flag. When ticked any Active Effects will be applied, when unticked they won't
+- For Character V1 the Combat/Gear tab has the "Carried/Equipped" flag visible and you can toggle it from the character sheet
+- Can now drop Rolltables, Actors, Scenes etc to the Hotbar (thanks to Tontione)
+
 ## 14.26
 
 ### Careers (MrPrimate/Dangermouse)
