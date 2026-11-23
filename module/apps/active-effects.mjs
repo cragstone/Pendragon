@@ -8,6 +8,12 @@ export class PendragonActiveEffect extends ActiveEffect {
         }
       }
     }
+    if (this.parent instanceof Item && typeof this.parent.system?.equipped !== "undefined") {
+      //If item has "equipped" and it's false then effect is not active
+      if (!this.parent.system.equipped) {
+        return false;
+      }
+    }
     return super.active;
   }
 

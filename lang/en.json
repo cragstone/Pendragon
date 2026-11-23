@@ -1,4 +1,6 @@
 {
+  "PEN.carried": "Carried",
+  "PEN.carriedAbbr": "Cr",
   "PEN.actionNote.disarmCritical": "The opponent loses their grasp on the weapon or object, which flies out of easy reach or lands at the feet of the character.",
   "PEN.actionNote.disarmed": "The opponent loses their grasp on their weapon or object, which drops within reach.",
   "PEN.actionNote.disarmedCritical": "You lose your grasp on your weapon or object, which flies out of easy reach or lands at the feet of your opponent.",
