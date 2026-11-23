@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 14.28
+
+- Create event button on history tab on CharacterV2 now adds a history event
+
 ## 14.27
 
 - Weapons, Armour and Gear have a Carried/Equipped flag. When ticked any Active Effects will be applied, when unticked they won't

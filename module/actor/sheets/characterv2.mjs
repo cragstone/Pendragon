@@ -721,6 +721,10 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
   }
   static #onCreateItem(event, target) {
     const { itemType } = target.closest("[data-item-type]")?.dataset ?? {};
+    if (itemType === "history") {
+      PendragonCharacterSheetv2._onAddHistory(this.actor);
+      return;
+    }
     Item.implementation.createDialog({ type: itemType }, { parent: this.document });
   }
   static async #onEditItem(event, target) {
@@ -799,5 +803,17 @@ export class PendragonCharacterSheetv2 extends PendragonActorSheet {
   static async _onSwitchSheet(event, target) {
     const sheetClass = this.actor.getFlag("core", "sheetClass") ?? "";
     this.actor.setFlag("core", "sheetClass", "Pendragon.PendragonCharacterSheet");
+  }
+
+  static async _onAddHistory(actor) {
+    const itemData = {
+      name: game.i18n.localize("TYPES.Item.history"),
+      type: "history",
+      system: {
+        year: game.time.components.year,
+      },
+    };
+    let newHist = await Item.create(itemData, { parent: actor });
+    newHist.sheet.render(true);
   }
 }
