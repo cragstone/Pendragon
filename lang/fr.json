@@ -1,6 +1,4 @@
 {
-  "PEN.carried": "Porté",
-  "PEN.carriedAbbr": "Po",
   "PEN.actionNote.disarmCritical": "L’adversaire perd son emprise sur l’arme ou l’objet, qui vole hors de portée ou tombe aux pieds du personnage.",
   "PEN.actionNote.disarmed": "L’adversaire perd son emprise sur son arme ou son objet, qui tombe à portée de main.",
   "PEN.actionNote.disarmedCritical": "Vous perdez l’emprise sur votre arme ou votre objet, qui vole hors de portée ou tombe aux pieds de votre adversaire.",
@@ -176,6 +174,8 @@
   "PEN.career.promotionRequirements": "Conditions pour la promotion",
   "PEN.career.rank": "Niveau {rank}",
   "PEN.career.swordProspects": "Voie de l'épée",
+  "PEN.carried": "Porté",
+  "PEN.carriedAbbr": "Po",
   "PEN.changeClass": "Changer la classe du personnage",
   "PEN.changeClassHint": "Cela ne changera que le nom et ajoutera des éléments de classe, cela ne réinitialisera pas les passions. Voulez-vous continuer ?",
   "PEN.changeHorse": "Changer de cheval",
@@ -494,6 +494,7 @@
   "PEN.encounters": "Rencontres",
   "PEN.encounterSwitchFeast": "Changer en Festin",
   "PEN.encounterSwitchSkirmish": "Changer en Escarmouche",
+  "PEN.enterYear": "Entrez l'année",
   "PEN.Entities.Archetype": "Archétype",
   "PEN.Entities.Armour": "Armure",
   "PEN.Entities.Character": "Personnage",

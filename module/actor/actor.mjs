@@ -133,11 +133,6 @@ export class PendragonActor extends Actor {
         i.system.reqMsg = testActive.reqMsg;
         if (i.system.activeIdeal) {
           systemData.passglory.ideals = systemData.passglory.ideals + i.system.glory;
-          //Removed in favour of Active Effects
-          //systemData.armour = systemData.armour + i.system.armour;
-          //systemData.move = systemData.move + i.system.move;
-          //systemData.hp.max = systemData.hp.max + i.system.hp;
-          //systemData.healRate = systemData.healRate + i.system.hr;
         }
       }
     }
@@ -183,12 +178,16 @@ export class PendragonActor extends Actor {
 
           damageDice = Math.min(Number(damageDice) + this.getAdditionalDamage(i), Number(i.system.damageMax));
           // make this mildly nicer
-          damageFormula = `${damageDice}D6`;
-          if (damageFlatMod > 0) {
-            damageFormula = `${damageDice}D6+${damageFlatMod}`;
-          }
-          if (damageFlatMod < 0) {
-            damageFormula = `${damageDice}D6${damageFlatMod}`;
+          if (damageDice === 0) {
+            damageFormula = `${damageFlatMod}`;
+          } else {
+            damageFormula = `${damageDice}D6`;
+            if (damageFlatMod > 0) {
+              damageFormula = `${damageDice}D6+${damageFlatMod}`;
+            }
+            if (damageFlatMod < 0) {
+              damageFormula = `${damageDice}D6${damageFlatMod}`;
+            }
           }
         }
         i.system.damage = damageFormula;
